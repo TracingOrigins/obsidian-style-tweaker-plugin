@@ -13,7 +13,10 @@
   font-display: swap;
 }
 
-:root {
+/* 默认变量统一定义在 body（而非 :root）：Obsidian 主题变量如 --color-accent /
+   --text-muted 定义在 body 上，:root(html) 无法引用子元素 body 上的变量，
+   会导致这些变量失效。JS 侧（EditorBlockquoteService）同样只往 body 写入。 */
+body {
   --style-tweaker-blockquote-color: var(--color-accent);
   --style-tweaker-blockquote-border-color: var(--color-accent);
   /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */

@@ -3,9 +3,12 @@
 // ------------------------------------------------------------
 // 所有「颜色选项」设置项（下拉选择）统一使用本文件提供的：
 //   - getAccentColorOptions 下拉选项（default + 14 个 accent 色），label 走 i18n
-//   - resolveAccentCss      把色名解析为「深色系 / 浅色系」两段 CSS
 //   - resolveAccentValue    把色名解析为单个 hex（不区分深浅，固定色用）
 //   - accentToHex           色名 → 指定深浅色 hex
+//
+// 说明：随深浅主题切换的「两段 CSS」注入已统一改为运行时 setAccentVar 按当前
+// 文档 body 主题解析单值并写入 body（见 doc-css-vars.ts），不再生成 :root 规则，
+// 故旧的 resolveAccentCss 已删除。
 //
 // 语义约定：
 //   - 值 "default"（或空串）代表「不指定」，由调用方回退到主题色 / 默认值。
@@ -66,54 +69,8 @@ export function resolveAccentValue(
 ): string {
   const name = (value ?? "").trim();
   if (!name || name === "default") return fallback;
-  // 固定色用深色系（Mocha）色值作为统一表示；如需深浅区分请用 resolveAccentCss。
+  // 固定色用深色系（Mocha）色值作为统一表示；如需深浅区分请用 setAccentVar。
   return MOCHA_ACCENTS[name] ?? LATTE_ACCENTS[name] ?? fallback;
-}
-
-/**
- * 把颜色字段值解析为「深色 / 浅色」两段 CSS（用于随主题切换的强调色场景）。
- *
- * 返回示例（value="lavender"）：
- *   body.theme-dark { --var: #B4BEFE; }
- *   body.theme-light { --var: #7287FD; }
- *
- * value 为 default / 空 / 未知时，返回单值声明：
- *   :root { --var: <fallback>; }
- *
- * @param value      设置项值（色名或 default/空）
- * @param variable   CSS 变量名（如 "--style-tweaker-active-line-color"）
- * @param fallback   未指定色时的回退值（如 "var(--color-accent)"、hex 或空串）
- */
-export function resolveAccentCss(
-  value: string | undefined,
-  variable: string,
-  fallback: string,
-): string {
-  const name = (value ?? "").trim();
-  if (!name || name === "default") {
-    return `:root {
-  ${variable}: ${fallback};
-}`;
-  }
-  const darkHex = MOCHA_ACCENTS[name] ?? null;
-  const lightHex = LATTE_ACCENTS[name] ?? null;
-  const darkBlock = darkHex
-    ? `body.theme-dark {
-  ${variable}: ${darkHex};
-}`
-    : "";
-  const lightBlock = lightHex
-    ? `body.theme-light {
-  ${variable}: ${lightHex};
-}`
-    : "";
-  // 色名在两张表中都无匹配时（理论上不会发生），回退 fallback
-  if (!darkBlock && !lightBlock) {
-    return `:root {
-  ${variable}: ${fallback};
-}`;
-  }
-  return `${darkBlock}\n${lightBlock}`;
 }
 
 // ============================================================

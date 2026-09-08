@@ -33,22 +33,22 @@ export function buildBlockquoteItem(plugin: SettingTabPlugin): SettingDefinition
         },
       },
       {
-        name: t("editor.blockquote.textColor"),
-        desc: t("editor.blockquote.textColor.desc"),
-        visible: () => plugin.settings.blockquoteCustom,
-        control: {
-          type: "dropdown",
-          key: "blockquoteTextColor",
-          options: getAccentColorOptions(),
-        },
-      },
-      {
         name: t("editor.blockquote.borderColor"),
         desc: t("editor.blockquote.borderColor.desc"),
         visible: () => plugin.settings.blockquoteCustom,
         control: {
           type: "dropdown",
           key: "blockquoteBorderColor",
+          options: getAccentColorOptions(),
+        },
+      },
+      {
+        name: t("editor.blockquote.textColor"),
+        desc: t("editor.blockquote.textColor.desc"),
+        visible: () => plugin.settings.blockquoteCustom,
+        control: {
+          type: "dropdown",
+          key: "blockquoteTextColor",
           options: getAccentColorOptions(),
         },
       },

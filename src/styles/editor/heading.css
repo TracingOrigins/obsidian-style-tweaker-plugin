@@ -87,17 +87,17 @@ body.style-tweaker-heading-hover {
    同时作用于阅读视图（.markdown-preview-view h1..h6）与源码编辑（.cm-header-x）。
    ------------------------------------------------------------ */
 body.style-tweaker-heading-custom {
-  .markdown-preview-view h1 { color: var(--style-tweaker-heading-h1); font-weight: 600; }
-  .markdown-preview-view h2 { color: var(--style-tweaker-heading-h2); font-weight: 600; }
-  .markdown-preview-view h3 { color: var(--style-tweaker-heading-h3); font-weight: 600; }
-  .markdown-preview-view h4 { color: var(--style-tweaker-heading-h4); font-weight: 600; }
-  .markdown-preview-view h5 { color: var(--style-tweaker-heading-h5); font-weight: 600; }
-  .markdown-preview-view h6 { color: var(--style-tweaker-heading-h6); font-weight: 600; }
+  .markdown-preview-view h1 { color: var(--style-tweaker-heading-h1, var(--color-accent)); font-weight: 600; }
+  .markdown-preview-view h2 { color: var(--style-tweaker-heading-h2, var(--color-accent)); font-weight: 600; }
+  .markdown-preview-view h3 { color: var(--style-tweaker-heading-h3, var(--color-accent)); font-weight: 600; }
+  .markdown-preview-view h4 { color: var(--style-tweaker-heading-h4, var(--color-accent)); font-weight: 600; }
+  .markdown-preview-view h5 { color: var(--style-tweaker-heading-h5, var(--color-accent)); font-weight: 600; }
+  .markdown-preview-view h6 { color: var(--style-tweaker-heading-h6, var(--color-accent)); font-weight: 600; }
 
-  .cm-header-1 { color: var(--style-tweaker-heading-h1); }
-  .cm-header-2 { color: var(--style-tweaker-heading-h2); }
-  .cm-header-3 { color: var(--style-tweaker-heading-h3); }
-  .cm-header-4 { color: var(--style-tweaker-heading-h4); }
-  .cm-header-5 { color: var(--style-tweaker-heading-h5); }
-  .cm-header-6 { color: var(--style-tweaker-heading-h6); }
+  .cm-header-1 { color: var(--style-tweaker-heading-h1, var(--color-accent)); }
+  .cm-header-2 { color: var(--style-tweaker-heading-h2, var(--color-accent)); }
+  .cm-header-3 { color: var(--style-tweaker-heading-h3, var(--color-accent)); }
+  .cm-header-4 { color: var(--style-tweaker-heading-h4, var(--color-accent)); }
+  .cm-header-5 { color: var(--style-tweaker-heading-h5, var(--color-accent)); }
+  .cm-header-6 { color: var(--style-tweaker-heading-h6, var(--color-accent)); }
 }

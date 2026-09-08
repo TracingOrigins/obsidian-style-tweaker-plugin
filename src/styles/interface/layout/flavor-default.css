@@ -1,0 +1,65 @@
+/* ============================================================
+ * 默认 flavor 变量（静态，由 scripts/gen-flavor-css.ts 生成，勿手改）
+ * ------------------------------------------------------------
+ * 让完整 --style-tweaker-* 变量（27 个 RGB 三元组）在默认/纯色背景下始终存在，
+ * 从而 border/cards 布局（引用 var(--style-tweaker-*)）不依赖纯色背景也能工作。
+ * 深色默认 mocha、浅色默认 latte；纯色模式由 BackgroundService 覆盖（其内联
+ * setCssProps / 纯色门控 gating 特异性更高）。
+ * ============================================================ */
+body.theme-dark {
+  --style-tweaker-rosewater: 245 224 220;
+  --style-tweaker-flamingo: 242 205 205;
+  --style-tweaker-pink: 245 194 231;
+  --style-tweaker-mauve: 203 166 247;
+  --style-tweaker-red: 243 139 168;
+  --style-tweaker-maroon: 235 160 172;
+  --style-tweaker-peach: 250 179 135;
+  --style-tweaker-yellow: 249 226 175;
+  --style-tweaker-green: 166 227 161;
+  --style-tweaker-teal: 148 226 213;
+  --style-tweaker-sky: 137 220 235;
+  --style-tweaker-sapphire: 116 199 236;
+  --style-tweaker-blue: 135 176 249;
+  --style-tweaker-lavender: 180 190 254;
+  --style-tweaker-text: 198 208 245;
+  --style-tweaker-subtext1: 179 188 223;
+  --style-tweaker-subtext0: 161 168 201;
+  --style-tweaker-overlay2: 142 149 179;
+  --style-tweaker-overlay1: 123 129 157;
+  --style-tweaker-overlay0: 105 109 134;
+  --style-tweaker-surface2: 86 89 112;
+  --style-tweaker-surface1: 67 70 90;
+  --style-tweaker-surface0: 49 50 68;
+  --style-tweaker-base: 30 30 46;
+  --style-tweaker-mantle: 24 24 37;
+  --style-tweaker-crust: 17 17 27;
+}
+
+body.theme-light {
+  --style-tweaker-rosewater: 222 149 132;
+  --style-tweaker-flamingo: 221 120 120;
+  --style-tweaker-pink: 236 131 208;
+  --style-tweaker-mauve: 136 57 239;
+  --style-tweaker-red: 210 15 57;
+  --style-tweaker-maroon: 230 69 83;
+  --style-tweaker-peach: 254 100 11;
+  --style-tweaker-yellow: 228 147 32;
+  --style-tweaker-green: 64 160 43;
+  --style-tweaker-teal: 23 146 153;
+  --style-tweaker-sky: 4 165 229;
+  --style-tweaker-sapphire: 32 159 181;
+  --style-tweaker-blue: 42 110 245;
+  --style-tweaker-lavender: 114 135 253;
+  --style-tweaker-text: 76 79 105;
+  --style-tweaker-subtext1: 92 95 119;
+  --style-tweaker-subtext0: 108 111 133;
+  --style-tweaker-overlay2: 124 127 147;
+  --style-tweaker-overlay1: 140 143 161;
+  --style-tweaker-overlay0: 156 160 176;
+  --style-tweaker-surface2: 172 176 190;
+  --style-tweaker-surface1: 188 192 204;
+  --style-tweaker-surface0: 204 208 218;
+  --style-tweaker-base: 239 241 245;
+  --style-tweaker-mantle: 230 233 239;
+  --style-tweaker-crust: 220 224 232;
+}

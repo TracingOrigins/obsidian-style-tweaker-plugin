@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 块引用样式服务
@@ -11,12 +11,11 @@ import { resolveAccentCss } from "../../utils/color-palette";
 //      quotation-mark（引号）。
 //   2. 自定义颜色（blockquoteCustom）：开启后文字颜色与边框颜色选项生效。
 //
-// 设计要点：与编辑器其他样式服务同构，独立门控类、逐窗口注入 CSS
-// 变量（--style-tweaker-blockquote-color / --blockquote-border-color）；
-// 仅低频事件驱动（onLayoutReady / layout-change / window-open），无轮询，避免卡死。
+// 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body
+// （--style-tweaker-blockquote-color / --blockquote-border-color），规则本体在静态
+// blockquote.css；不创建 <style> 元素。颜色随深浅主题：当前文档按 body 主题解析 hex，
+// 主题切换经 css-change 重 apply 刷新。
 // ============================================================
-
-const STYLE_ID = "style-tweaker-blockquote";
 
 // 样式门控类前缀（default 不挂任何类，即 Obsidian 原生 blockquote）
 const BLOCKQUOTE_STYLE_CLASS_PREFIX = "style-tweaker-blockquote-";
@@ -32,22 +31,20 @@ export class EditorBlockquoteService extends BaseService {
     super(plugin, getSettings);
   }
 
+  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+  protected registerExtraListeners(): void {
+    this.plugin.registerEvent(
+      this.app.workspace.on("css-change", () => this.apply()),
+    );
+  }
+
   protected applyToDocument(doc: Document): void {
-    if (!doc?.head) return;
+    if (!doc?.body) return;
     const s = this.getSettings();
 
-    const tokens = this.buildTokensCss(s);
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = tokens;
+    setAccentVar(doc, s.blockquoteTextColor, BLOCKQUOTE_COLOR_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.blockquoteBorderColor, BLOCKQUOTE_BORDER_VAR, "var(--color-accent)");
 
-    if (!doc.body) return;
     // 清除上一轮样式门控类，再挂当前样式类（default 不挂）
     for (const cls of ["accent-fill", "quotation-mark"]) {
       doc.body.classList.remove(BLOCKQUOTE_STYLE_CLASS_PREFIX + cls);
@@ -60,15 +57,9 @@ export class EditorBlockquoteService extends BaseService {
     doc.body.classList.toggle(BLOCKQUOTE_CUSTOM_CLASS, s.blockquoteCustom);
   }
 
-  private buildTokensCss(s: StyleTweakerSettings): string {
-    return [
-      resolveAccentCss(s.blockquoteTextColor, BLOCKQUOTE_COLOR_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.blockquoteBorderColor, BLOCKQUOTE_BORDER_VAR, "var(--color-accent)"),
-    ].join("\n");
-  }
-
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    removeDocVar(doc, BLOCKQUOTE_COLOR_VAR);
+    removeDocVar(doc, BLOCKQUOTE_BORDER_VAR);
     if (doc.body) {
       for (const cls of ["accent-fill", "quotation-mark"]) {
         doc.body.classList.remove(BLOCKQUOTE_STYLE_CLASS_PREFIX + cls);

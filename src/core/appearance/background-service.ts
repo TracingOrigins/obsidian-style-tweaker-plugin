@@ -29,7 +29,10 @@ export interface ResolvedBackground {
   mobileLight: string;
 }
 
-const STYLE_ID = "style-tweaker-bg";
+// 背景样式采用 Constructable Stylesheet 注入（CSSStyleSheet.replaceSync +
+// document.adoptedStyleSheets）：不使用 createEl("style")，规避 obsidianmd
+// no-forbidden-elements；每个文档各自持有一张样式表（同一 sheet 不能跨文档复用），
+// 替换内容时直接 replaceSync 更新，与旧 <style>.textContent 语义等价。
 
 // 图片背景专属门控类：仅在背景已激活 且 图片模式（backgroundType === "image"）时挂载。
 // 静态 styles.css 里"仅图片背景才需要"的规则以该类为前缀，
@@ -60,6 +63,42 @@ export class BackgroundService extends BaseService {
   private themeObserver: MutationObserver | null = null;
   // 自动切换定时器：只对"当前生效套"开一个定时器
   private autoTimer: number | null = null;
+  // 每个文档一张 Constructable Stylesheet（同一张 sheet 不能跨文档 adopted）
+  private readonly docSheets = new Map<Document, CSSStyleSheet>();
+
+  /** 把背景 CSS 注入到指定文档（每文档独立 sheet，内容用 replaceSync 更新）。 */
+  private setDocCss(doc: Document, css: string): void {
+    const win = doc.defaultView;
+    if (!win || typeof win.CSSStyleSheet !== "function") return;
+    let sheet = this.docSheets.get(doc);
+    if (!sheet) {
+      sheet = new win.CSSStyleSheet();
+      this.docSheets.set(doc, sheet);
+    }
+    try {
+      sheet.replaceSync(css);
+    } catch (e) {
+      // 若 CSS 含无法解析的内容，replaceSync 抛错；忽略并保留旧内容
+      console.warn("[style-tweaker] background css update failed:", e);
+      return;
+    }
+    const adopted = Array.from(doc.adoptedStyleSheets ?? []);
+    if (!adopted.includes(sheet)) {
+      doc.adoptedStyleSheets = [...adopted, sheet];
+    }
+  }
+
+  /** 移除指定文档注入的背景样式表。 */
+  private removeDocCss(doc: Document): void {
+    const sheet = this.docSheets.get(doc);
+    if (!sheet) return;
+    this.docSheets.delete(doc);
+    if (doc.adoptedStyleSheets) {
+      doc.adoptedStyleSheets = Array.from(doc.adoptedStyleSheets).filter(
+        (s) => s !== sheet,
+      );
+    }
+  }
 
   constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
     super(plugin, getSettings);
@@ -322,15 +361,7 @@ export class BackgroundService extends BaseService {
     const gating = `body.${isDark ? "theme-dark" : "theme-light"}.${SOLID_CLASS}`;
     const flavorCss = buildFlavorCss(flavor, gating);
     const css = [tokens, flavorCss].filter(Boolean).join("\n");
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = css;
+    this.setDocCss(doc, css);
     this.touchedDocuments.add(doc);
     // 注入后补挂门控类，覆盖后打开的独立窗口（pop-out 等）不因缺门控类而失效
     this.applyClassesToDoc(doc);
@@ -389,15 +420,7 @@ export class BackgroundService extends BaseService {
       "\n" +
       buildBackgroundLayerCss();
 
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = css;
+    this.setDocCss(doc, css);
     this.touchedDocuments.add(doc);
     // 注入后补挂门控类，覆盖后打开的独立窗口（pop-out 等）不因缺门控类而失效
     this.applyClassesToDoc(doc);
@@ -532,9 +555,9 @@ export class BackgroundService extends BaseService {
   /** 基类抽象方法：背景逐文档应用走覆写 apply() 的 applyBackgroundToDocument，此处空实现满足抽象约束。 */
   protected applyToDocument(_doc: Document): void {}
 
-  /** 基类抽象方法：清理单个文档（移除 <style> + 摘背景门控类）。 */
+  /** 基类抽象方法：清理单个文档（移除注入的样式表 + 摘背景门控类）。 */
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    this.removeDocCss(doc);
     doc.body?.classList.remove(IMAGE_CLASS, SOLID_CLASS);
   }
 
@@ -557,10 +580,12 @@ export class BackgroundService extends BaseService {
       if (!doc?.documentElement && !doc?.getElementById) continue;
       this.clearDocument(doc);
     }
-    // 2) 清理 touchedDocuments 中已关闭/失效的窗口引用（保留活跃后台窗口背景）
+    // 2) 清理 touchedDocuments 中已关闭/失效的窗口引用（保留活跃后台窗口背景），
+    //    同步移除对应文档的样式表引用，避免已关闭窗口的 sheet 泄漏。
     for (const doc of this.touchedDocuments) {
       if (doc && !doc.head) {
         this.touchedDocuments.delete(doc);
+        this.docSheets.delete(doc);
       }
     }
   }

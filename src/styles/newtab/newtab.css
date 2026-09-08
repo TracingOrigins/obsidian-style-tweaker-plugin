@@ -59,6 +59,19 @@
   flex-direction: column;
 }
 
+/* 显隐：logo 来源 / 标题来源为「无」时隐藏对应块（配合 JS 的 is-hidden 类，
+   替代直接改 element.style.display，规避 no-static-styles-assignment lint）。 */
+.style-tweaker-new-tab-logo.is-hidden,
+.style-tweaker-new-tab-title h1.is-hidden {
+  display: none;
+}
+
+/* 矢量徽标 / 自定义 SVG 内容撑满其尺寸容器（替代 JS 里 style.width/height = "100%"） */
+.style-tweaker-new-tab-logo .style-tweaker-logo-fill-svg {
+  width: 100%;
+  height: 100%;
+}
+
 /* 徽标位置：right/bottom 时徽标排到标题之后 */
 .style-tweaker-new-tab-wordmark-container.logo-after .style-tweaker-new-tab-logo {
   order: 2;
@@ -95,6 +108,24 @@
 /* 粒子覆盖画布 */
 .style-tweaker-new-tab-particle-canvas {
   z-index: 1;
+  /* 初始透明 + 淡入过渡：由引擎 addClass("is-visible") 切到不透明。
+     初始/过渡放 CSS，替代 JS 内联 opacity/transition，规避 style 字面量赋值。 */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.style-tweaker-new-tab-particle-canvas.is-visible {
+  opacity: 1;
+}
+
+/* 引擎给粒子基准容器补相对定位（若容器自身无内联定位时使用） */
+.style-tweaker-particle-relative {
+  position: relative;
+}
+
+/* 粒子已激活时隐藏被采样的原始徽标/标题元素（引擎加类，替代 inline visibility） */
+.style-tweaker-particle-captured {
+  visibility: hidden !important;
 }
 
 /* 徽标/标题原始元素被粒子替换后隐藏。

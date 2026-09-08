@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 页面内标题样式服务
@@ -16,17 +16,16 @@ import { resolveAccentCss } from "../../utils/color-palette";
 //   .style-tweaker-inline-title-underline-short  —— 文字宽度下划线
 //   .style-tweaker-inline-title-underline-<style> —— 整行下划线线型（仅 long 时挂载）
 //
-// 设计要点：与编辑器背景 / 所在行高亮同构，独立门控类、逐窗口注入覆盖规则，
-// 不影响其他外观；监听主题切换以重绘。颜色默认主题强调色（--color-accent），
-// 不透明度无需（标题始终可见）。下划线颜色跟随标题色（默认 --color-accent）。
+// 设计要点：与编辑器背景 / 所在行高亮同构，独立门控类 + CSS 变量以内联方式写入 body
+// （--style-tweaker-inline-title-color），规则本体在静态 inline-title.css；
+// 不创建 <style> 元素。颜色默认主题强调色（--color-accent），仅当「允许自定义标题颜色」
+// 开启时写入变量。下划线颜色跟随标题色。
 // ============================================================
-
-const STYLE_ID = "style-tweaker-inline-title";
 
 const INLINE_TITLE_CLASS = "style-tweaker-inline-title";
 const INLINE_TITLE_CENTER_CLASS = "style-tweaker-inline-title-center";
 const INLINE_TITLE_RIGHT_CLASS = "style-tweaker-inline-title-right";
-// 页面内标题颜色 CSS 变量（深浅两段由 resolveAccentCss 注入）
+// 页面内标题颜色 CSS 变量（未开启自定义/未指定时 CSS 回退 --color-accent）
 const INLINE_TITLE_COLOR_VAR = "--style-tweaker-inline-title-color";
 const INLINE_TITLE_UL_LONG_CLASS = "style-tweaker-inline-title-underline-long";
 const INLINE_TITLE_UL_SHORT_CLASS = "style-tweaker-inline-title-underline-short";
@@ -39,20 +38,24 @@ export class EditorInlineTitleService extends BaseService {
     super(plugin, getSettings);
   }
 
+  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+  protected registerExtraListeners(): void {
+    this.plugin.registerEvent(
+      this.app.workspace.on("css-change", () => this.apply()),
+    );
+  }
+
   protected applyToDocument(doc: Document): void {
-    if (!doc?.head) return;
+    if (!doc?.body) return;
     const s = this.getSettings();
 
-    const tokens = this.buildTokensCss(s);
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
+    // 仅当「允许自定义标题颜色」开启时才写入颜色变量；未开启/未指定时
+    // CSS 用 var(--color-accent) 回退（与静态默认一致）。
+    if (s.inlineTitleColorEnabled === true) {
+      setAccentVar(doc, s.inlineTitleColor, INLINE_TITLE_COLOR_VAR, "var(--color-accent)");
+    } else {
+      removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
     }
-    styleEl.textContent = tokens;
 
     if (!doc.body) return;
     const on = s.inlineTitleEnabled;
@@ -78,28 +81,8 @@ export class EditorInlineTitleService extends BaseService {
     }
   }
 
-  private buildTokensCss(s: StyleTweakerSettings): string {
-    // 仅当「允许自定义标题颜色」开启时才注入；default/未指定时变量回退主题色。
-    const enabled = s.inlineTitleColorEnabled === true;
-    if (!enabled) return "";
-    const colorToken = resolveAccentCss(
-      s.inlineTitleColor,
-      INLINE_TITLE_COLOR_VAR,
-      "var(--color-accent)",
-    );
-    // 覆盖 .inline-title 的 color；下划线颜色需带上 underline-long 类以提高特异性，
-    // 才能压过 CSS 默认规则。短下划线颜色随标题 color，覆盖 color 即可。
-    const rules = `body.style-tweaker-inline-title .inline-title {
-  color: var(${INLINE_TITLE_COLOR_VAR}) !important;
-}
-body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long .inline-title {
-  border-bottom-color: var(${INLINE_TITLE_COLOR_VAR}) !important;
-}`;
-    return `${colorToken}\n${rules}`;
-  }
-
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
     doc.body?.classList.remove(
       INLINE_TITLE_CLASS,
       INLINE_TITLE_CENTER_CLASS,
