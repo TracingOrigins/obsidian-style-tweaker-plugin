@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 章节标题样式服务
@@ -12,13 +12,11 @@ import { resolveAccentCss } from "../../utils/color-palette";
 //   2. 自定义章节标题颜色（headingCustomColors）：开启后，H1–H6 各自
 //      颜色选项生效；颜色为空则回退主题强调色 --text-accent。
 //
-// 设计要点：与编辑器其他样式服务同构，独立门控类、逐窗口注入 CSS
-// 变量（--style-tweaker-heading-h1..h6），不影响其他外观。
-// 仅低频事件驱动（onLayoutReady / layout-change / window-open），无轮询，
-// 避免启动阶段高频变动导致 apply() 疯狂调用而卡死。
+// 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body
+// （--style-tweaker-heading-h1..h6），规则本体在静态 heading.css；不创建 <style> 元素。
+// 颜色随深浅主题：当前文档按 body 主题解析 hex，主题切换经 css-change 重 apply 刷新。
+// 仅低频事件驱动（onLayoutReady / layout-change / window-open），无轮询。
 // ============================================================
-
-const STYLE_ID = "style-tweaker-heading";
 
 // 门控类
 const HEADING_HOVER_CLASS = "style-tweaker-heading-hover";
@@ -32,27 +30,17 @@ export class EditorHeadingService extends BaseService {
     super(plugin, getSettings);
   }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.head) return;
-    const s = this.getSettings();
-
-    const tokens = this.buildTokensCss(s);
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = tokens;
-
-    if (!doc.body) return;
-    doc.body.classList.toggle(HEADING_HOVER_CLASS, s.headingHover);
-    doc.body.classList.toggle(HEADING_CUSTOM_CLASS, s.headingCustomColors);
+  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+  protected registerExtraListeners(): void {
+    this.plugin.registerEvent(
+      this.app.workspace.on("css-change", () => this.apply()),
+    );
   }
 
-  private buildTokensCss(s: StyleTweakerSettings): string {
+  protected applyToDocument(doc: Document): void {
+    if (!doc?.body) return;
+    const s = this.getSettings();
+
     const colorKeys: (keyof StyleTweakerSettings)[] = [
       "headingH1",
       "headingH2",
@@ -61,20 +49,24 @@ export class EditorHeadingService extends BaseService {
       "headingH5",
       "headingH6",
     ];
-    return colorKeys
-      .map(
-        (key, i) =>
-          resolveAccentCss(
-            s[key] as string,
-            `${HEADING_COLOR_PREFIX}${i + 1}`,
-            "var(--color-accent)",
-          ),
-      )
-      .join("\n");
+    colorKeys.forEach((key, i) => {
+      // default/空值回退主题强调色（--color-accent）
+      setAccentVar(
+        doc,
+        s[key] as string,
+        `${HEADING_COLOR_PREFIX}${i + 1}`,
+        "var(--color-accent)",
+      );
+    });
+
+    doc.body?.classList.toggle(HEADING_HOVER_CLASS, s.headingHover);
+    doc.body?.classList.toggle(HEADING_CUSTOM_CLASS, s.headingCustomColors);
   }
 
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    for (let i = 1; i <= 6; i++) {
+      removeDocVar(doc, `${HEADING_COLOR_PREFIX}${i}`);
+    }
     doc.body?.classList.remove(HEADING_HOVER_CLASS, HEADING_CUSTOM_CLASS);
   }
 }

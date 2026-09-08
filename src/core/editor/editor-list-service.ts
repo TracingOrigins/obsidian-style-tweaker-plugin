@@ -12,9 +12,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
-
-const STYLE_ID = "style-tweaker-list-task";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // 门控类（挂在 body 上，每个具体颜色独立控制，
 // 避免"只要开了某一颜色就触发其它列表/任务颜色显示主题色"的交叉影响）
@@ -45,6 +43,13 @@ export class EditorListService extends BaseService {
 		super(plugin, getSettings);
 	}
 
+	/** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+	protected registerExtraListeners(): void {
+		this.plugin.registerEvent(
+			this.app.workspace.on("css-change", () => this.apply()),
+		);
+	}
+
 	// 列表/任务颜色门控：开关开启即挂载对应门控类。
 	// 开关开启后，各颜色变量 default 时解析为主题强调色（var(--color-accent)），
 	// 非 default 时解析为选中的颜色；开关关闭时无门控类，列表/任务保持 Obsidian 原生色。
@@ -57,19 +62,20 @@ export class EditorListService extends BaseService {
 	}
 
 	protected applyToDocument(doc: Document): void {
-		if (!doc?.head) return;
+		if (!doc?.body) return;
 		const s = this.getSettings();
 
-		const tokens = this.buildTokensCss(s);
-		let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-		if (!styleEl) {
-			const win = doc.defaultView;
-			if (!win) return;
-			styleEl = win.createEl("style");
-			styleEl.id = STYLE_ID;
-			doc.head.appendChild(styleEl);
-		}
-		styleEl.textContent = tokens;
+		// 各自定义色；default/空值按原语义回退主题强调色或同级基础色
+		setAccentVar(doc, s.listUlIndentColor, LIST_UL_COLOR_VAR, "var(--color-accent)");
+		setAccentVar(doc, s.listOlIndentColor, LIST_OL_COLOR_VAR, "var(--color-accent)");
+		setAccentVar(doc, s.listBulletColor, LIST_BULLET_COLOR_VAR, "var(--color-accent)");
+		setAccentVar(doc, s.listNumberColor, LIST_NUMBER_COLOR_VAR, "var(--color-accent)");
+		// 当前行缩进线颜色：未单独选择时继承基础缩进线变量
+		setAccentVar(doc, s.listUlActiveIndentColor, LIST_UL_ACTIVE_COLOR_VAR, "var(--style-tweaker-list-ul-indent-color)");
+		setAccentVar(doc, s.listOlActiveIndentColor, LIST_OL_ACTIVE_COLOR_VAR, "var(--style-tweaker-list-ol-indent-color)");
+		setAccentVar(doc, s.taskIndentColor, TASK_INDENT_COLOR_VAR, "var(--color-accent)");
+		setAccentVar(doc, s.taskActiveIndentColor, TASK_ACTIVE_COLOR_VAR, "var(--style-tweaker-task-indent-color)");
+		setAccentVar(doc, s.taskCheckboxColor, TASK_CHECKBOX_COLOR_VAR, "var(--color-accent)");
 
 		if (!doc.body) return;
 		doc.body.classList.toggle(UL_INDENT_CLASS, this.listColorActive(s));
@@ -84,22 +90,16 @@ export class EditorListService extends BaseService {
 		doc.body.classList.toggle(TASK_NO_STRIKE_CLASS, s.taskRemoveStrikethrough);
 	}
 
-	private buildTokensCss(s: StyleTweakerSettings): string {
-		return [
-			resolveAccentCss(s.listUlIndentColor, LIST_UL_COLOR_VAR, "var(--color-accent)"),
-			resolveAccentCss(s.listOlIndentColor, LIST_OL_COLOR_VAR, "var(--color-accent)"),
-			resolveAccentCss(s.listBulletColor, LIST_BULLET_COLOR_VAR, "var(--color-accent)"),
-			resolveAccentCss(s.listNumberColor, LIST_NUMBER_COLOR_VAR, "var(--color-accent)"),
-			resolveAccentCss(s.listUlActiveIndentColor, LIST_UL_ACTIVE_COLOR_VAR, "var(--style-tweaker-list-ul-indent-color)"),
-			resolveAccentCss(s.listOlActiveIndentColor, LIST_OL_ACTIVE_COLOR_VAR, "var(--style-tweaker-list-ol-indent-color)"),
-			resolveAccentCss(s.taskIndentColor, TASK_INDENT_COLOR_VAR, "var(--color-accent)"),
-			resolveAccentCss(s.taskActiveIndentColor, TASK_ACTIVE_COLOR_VAR, "var(--style-tweaker-task-indent-color)"),
-			resolveAccentCss(s.taskCheckboxColor, TASK_CHECKBOX_COLOR_VAR, "var(--color-accent)"),
-		].join("\n");
-	}
-
 	protected clearDocument(doc: Document): void {
-		this.removeStyle(doc, STYLE_ID);
+		removeDocVar(doc, LIST_UL_COLOR_VAR);
+		removeDocVar(doc, LIST_OL_COLOR_VAR);
+		removeDocVar(doc, LIST_BULLET_COLOR_VAR);
+		removeDocVar(doc, LIST_NUMBER_COLOR_VAR);
+		removeDocVar(doc, LIST_UL_ACTIVE_COLOR_VAR);
+		removeDocVar(doc, LIST_OL_ACTIVE_COLOR_VAR);
+		removeDocVar(doc, TASK_INDENT_COLOR_VAR);
+		removeDocVar(doc, TASK_ACTIVE_COLOR_VAR);
+		removeDocVar(doc, TASK_CHECKBOX_COLOR_VAR);
 		doc.body?.classList.remove(
 			UL_INDENT_CLASS,
 			OL_INDENT_CLASS,

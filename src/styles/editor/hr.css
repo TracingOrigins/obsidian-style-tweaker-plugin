@@ -2,9 +2,9 @@
    分隔线（Horizontal rule / ---）样式
    ============================================================ */
 
-/* 分隔线变量（由 EditorHrService 注入到 :root）。
+/* 分隔线变量（由 EditorHrService 注入到 body，这里放 body 兜底默认值）。
    --style-tweaker-hr-center-icon 值已含引号，可直接用于 content。 */
-:root {
+body {
   --style-tweaker-hr-center-icon: "⚡️";
   --style-tweaker-hr-icon-rotate: 0deg;
 }

@@ -527,12 +527,12 @@ export class NewTabService implements StyleService {
     logoHolder.empty();
     logoHolder.style.margin = `${s.newTabLogoMargin}px`;
     const size = `calc(${s.newTabTitleFontSize}px * ${s.newTabLogoScale})`;
-    // 来源：无 → 隐藏、不占位
+    // 来源：无 → 隐藏、不占位（用 CSS 类切换，避免直接改 inline style）
     if (s.newTabLogoType === "none") {
-      logoHolder.style.display = "none";
+      logoHolder.addClass("is-hidden");
       return;
     }
-    logoHolder.style.display = "";
+    logoHolder.removeClass("is-hidden");
     // 来源：默认 → Obsidian 默认徽标
     if (s.newTabLogoType === "default") {
       const holder = logoHolder.createDiv();
@@ -554,8 +554,8 @@ export class NewTabService implements StyleService {
       const icon = getIcon(s.newTabLogoBuiltin.trim() || "feather");
       if (icon) {
         const svg = icon.cloneNode(true) as SVGElement;
-        svg.style.width = "100%";
-        svg.style.height = "100%";
+        // 撑满 holder 尺寸：CSS 类控制 100% 尺寸，避免直接写 inline style
+        svg.addClass("style-tweaker-logo-fill-svg");
         svg.setAttribute("width", size);
         svg.setAttribute("height", size);
         // 开启自定义内置图标颜色时应用颜色；默认（未开启）跟随默认继承色。
@@ -580,8 +580,7 @@ export class NewTabService implements StyleService {
           this.uniqueifySvg(s.newTabLogoSvg.trim(), instance.svgUid),
         );
         if (svg) {
-          svg.style.width = "100%";
-          svg.style.height = "100%";
+          svg.addClass("style-tweaker-logo-fill-svg");
           svg.setAttribute("width", size);
           svg.setAttribute("height", size);
           holder.appendChild(svg);
@@ -651,15 +650,15 @@ export class NewTabService implements StyleService {
     const { titleH1 } = instance;
     const text = this.resolveTitleText(s);
     titleH1.textContent = text;
-    // 来源：无 → 隐藏、不占位
+    // 来源：无 → 隐藏、不占位（用 CSS 类切换，避免直接改 inline style）
     if (s.newTabTitleType === "none") {
-      titleH1.style.display = "none";
+      titleH1.addClass("is-hidden");
       return;
     }
-    titleH1.style.display = "";
+    titleH1.removeClass("is-hidden");
     titleH1.style.fontSize = `${s.newTabTitleFontSize}px`;
     titleH1.style.fontFamily = FONT_VAR[s.newTabTitleFont] ?? "var(--interface-font)";
-    titleH1.style.fontWeight = "600";
+    // 字重固定 600 已由静态 css（.style-tweaker-new-tab-title h1）承载，此处不再设置
     if (s.newTabTitleCustomColor) {
       // 开关开启：选中的具体色用对应 hex；选"默认"用 Obsidian 主题强调色
       const color = resolveAccentValue(s.newTabTitleColor, "");

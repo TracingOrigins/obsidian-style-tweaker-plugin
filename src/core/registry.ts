@@ -8,7 +8,6 @@ import { StyleTweakerSettings } from "../types/settings";
 import type { StyleService } from "../types/service";
 import { BackgroundService } from "./appearance/background-service";
 import { ThemeColorService } from "./appearance/theme-color-service";
-import { ThemeFlavorService } from "./appearance/theme-flavor-service";
 import { TabBarService } from "./interface/tabbar-service";
 import { SidebarMobileService } from "./interface/sidebar-mobile-service";
 import { SidebarDesktopService, SidebarVaultNameService } from "./interface/sidebar-desktop-service";
@@ -50,8 +49,8 @@ export class StyleServiceRegistry {
       this.backgroundService,
       // 主题色服务：按深浅色选中的 accent 覆盖全局强调色变量（深色系 / 浅色系）。
       new ThemeColorService(this.plugin, this.getSettings),
-      // 主题风味服务：始终注入默认 flavor 变量（深=mocha / 浅=latte），供 border/cards 布局使用。
-      new ThemeFlavorService(this.plugin, this.getSettings),
+      // 默认 flavor 变量（深=mocha / 浅=latte）为静态样式（flavor-default.css），
+      // 供 border/cards 布局使用，无需运行时服务；纯色模式由 BackgroundService 覆盖。
       // 标签导航（活动标签高亮 / 活动标签指示线）：纯门控类，与背景解耦。
       new TabBarService(this.plugin, this.getSettings),
       // 整体布局（边框 / 卡片）：纯门控类，default 不挂任何类。

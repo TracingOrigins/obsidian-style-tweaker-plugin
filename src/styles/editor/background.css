@@ -7,7 +7,7 @@
  *   .style-tweaker-editor-bg-dotted      —— 点阵图案
  *   .style-tweaker-editor-bg-fixed       —— 不跟随滚动（图案固定）
  *
- * 图案颜色 / 滚动方式由 JS 注入的 CSS 变量控制，这里在 :root 提供兜底默认值；
+ * 图案颜色 / 滚动方式由 JS 注入的 CSS 变量控制，这里在 body 提供兜底默认值；
  * 图案透明度（按深浅色）与各类型间距均在 CSS 中写死，不随 JS/设置变化：
  *   --style-tweaker-editor-bg-color       统一图案颜色（网格/点阵、深/浅共用，默认 #c7c7c7）
  *   --style-tweaker-editor-bg-attach      背景附着方式（local=跟随滚动 / scroll=固定）
@@ -31,11 +31,12 @@
  *     避免白色方块遮挡（background: inherit !important）。
  * ============================================================ */
 
-:root {
+body {
   /* 兜底默认值（JS 会注入统一颜色/附着方式覆盖此处）。
      颜色为统一图案颜色；透明度与各类型间距在此写死：
        网格单层 20px、网格双层细格 15px（粗格 = 细格×5=75px）、
-       点阵单点 22px、点阵交错 30px（偏移 = 半格=15px），均为默认值。 */
+       点阵单点 22px、点阵交错 30px（偏移 = 半格=15px），均为默认值。
+     统一定义在 body（而非 :root），与 JS 注入目标保持一致。 */
   --style-tweaker-editor-bg-color: #c7c7c7;
   --style-tweaker-editor-bg-attach: local;
   /* 浅色主题默认不透明度：网格 25% / 点阵 50% */

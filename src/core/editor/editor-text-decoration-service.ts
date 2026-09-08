@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 文本装饰样式服务
@@ -12,13 +12,12 @@ import { resolveAccentCss } from "../../utils/color-palette";
 //   3. 高亮（highlight）背景颜色（以 color-mix 28% 透明度着色）
 // 颜色为空则回退主题强调色 --text-accent。
 //
-// 设计要点：与编辑器其他样式服务同构，独立门控类、逐窗口注入 CSS
-// 变量（--style-tweaker-text-bold / strikethrough / highlight），不影响
-// 其他外观；仅低频事件驱动（onLayoutReady / layout-change / window-open），
-// 无轮询，避免启动阶段高频变动导致 apply() 疯狂调用而卡死。
+// 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body
+// （--style-tweaker-text-bold / italic / underline / strikethrough / highlight），
+// 规则本体在静态 text-decoration.css；不创建 <style> 元素。
+// 颜色随深浅主题：当前文档按 body 主题解析 hex，主题切换经 css-change 重 apply 刷新。
+// 仅低频事件驱动（onLayoutReady / layout-change / window-open），无轮询。
 // ============================================================
-
-const STYLE_ID = "style-tweaker-text-decoration";
 
 // 门控类：仅 textDecorationCustom 开启时挂到各窗口文档
 const TEXT_DECORATION_CLASS = "style-tweaker-text-decoration-custom";
@@ -36,38 +35,35 @@ export class EditorTextDecorationService extends BaseService {
     super(plugin, getSettings);
   }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.head) return;
-    const s = this.getSettings();
-
-    const tokens = this.buildTokensCss(s);
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = tokens;
-
-    if (!doc.body) return;
-    doc.body.classList.toggle(TEXT_DECORATION_CLASS, s.textDecorationCustom);
+  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+  protected registerExtraListeners(): void {
+    this.plugin.registerEvent(
+      this.app.workspace.on("css-change", () => this.apply()),
+    );
   }
 
-  private buildTokensCss(s: StyleTweakerSettings): string {
-    return [
-      resolveAccentCss(s.textBoldColor, TEXT_BOLD_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.textItalicColor, TEXT_ITALIC_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.textItalicBoldColor, TEXT_ITALIC_BOLD_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.textUnderlineColor, TEXT_UNDERLINE_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.textStrikethroughColor, TEXT_STRIKETHROUGH_VAR, "var(--color-accent)"),
-      resolveAccentCss(s.textHighlightColor, TEXT_HIGHLIGHT_VAR, "var(--color-accent)"),
-    ].join("\n");
+  protected applyToDocument(doc: Document): void {
+    if (!doc?.body) return;
+    const s = this.getSettings();
+
+    // 各装饰色；default/空值回退主题强调色（--color-accent）
+    setAccentVar(doc, s.textBoldColor, TEXT_BOLD_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.textItalicColor, TEXT_ITALIC_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.textItalicBoldColor, TEXT_ITALIC_BOLD_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.textUnderlineColor, TEXT_UNDERLINE_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.textStrikethroughColor, TEXT_STRIKETHROUGH_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.textHighlightColor, TEXT_HIGHLIGHT_VAR, "var(--color-accent)");
+
+    doc.body?.classList.toggle(TEXT_DECORATION_CLASS, s.textDecorationCustom);
   }
 
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    removeDocVar(doc, TEXT_BOLD_VAR);
+    removeDocVar(doc, TEXT_ITALIC_VAR);
+    removeDocVar(doc, TEXT_ITALIC_BOLD_VAR);
+    removeDocVar(doc, TEXT_UNDERLINE_VAR);
+    removeDocVar(doc, TEXT_STRIKETHROUGH_VAR);
+    removeDocVar(doc, TEXT_HIGHLIGHT_VAR);
     doc.body?.classList.remove(TEXT_DECORATION_CLASS);
   }
 }

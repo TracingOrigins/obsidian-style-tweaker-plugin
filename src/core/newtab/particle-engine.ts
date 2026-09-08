@@ -162,8 +162,7 @@ export class ParticleEngine {
   private buildToken = 0;
   private destroyed = false;
   private mouse = { x: -9999, y: -9999 };
-  private hiddenElements: { element: HTMLElement; previousVisibility: string }[] = [];
-  private originalContainerPosition: string | null = null;
+  private hiddenElements: { element: HTMLElement }[] = [];
   private resizeObserver: ResizeObserver | null = null;
   private resizeTimer: number | null = null;
   private rebuildTimestamps: number[] = [];
@@ -840,36 +839,38 @@ export class ParticleEngine {
     st.height = `${this.cssHeight}px`;
     st.display = "block";
     st.pointerEvents = "none";
-    st.opacity = "0";
-    st.transition = "opacity 0.4s ease";
+    // 初始透明 + 淡入过渡由静态 css（.style-tweaker-new-tab-particle-canvas）承载，
+    // 这里不再写内联 opacity，确保 addClass("is-visible") 能生效。
 
     const context = canvas.getContext("2d");
     if (!context) return;
     context.setTransform(this.scale, 0, 0, this.scale, 0, 0);
 
-    this.originalContainerPosition = this.container.style.position;
-    if (!this.container.style.position) {
-      this.container.style.position = "relative";
-    }
+    // 保证粒子画布（absolute 居中）的定位上下文为相对定位：
+    // 用 CSS 类控制（避免直接写内联 position 字面量），容器自身已有定位时类亦无害。
+    this.container.addClass("style-tweaker-particle-relative");
     this.container.appendChild(canvas);
     this.canvas = canvas;
     this.renderContext = context;
+    // 淡入：切到 CSS 类 is-visible（过渡由静态 css 的 transition 提供），
+    // 避免直接写内联 opacity 字面量。
     this.docWin.requestAnimationFrame(() => {
-      if (this.canvas === canvas) canvas.style.opacity = "1";
+      if (this.canvas === canvas) canvas.addClass("is-visible");
     });
   }
 
   private hideCapturedElements(elements: HTMLElement[]): void {
     this.hiddenElements = elements.map((element) => {
-      const previousVisibility = element.style.visibility;
-      element.style.visibility = "hidden";
-      return { element, previousVisibility };
+      // 用 CSS 类控制隐藏（visibility:hidden），避免直接写内联样式字面量；
+      // 恢复时移除该类，回到原始可见性。
+      element.addClass("style-tweaker-particle-captured");
+      return { element };
     });
   }
 
   private restoreCapturedElements(): void {
-    for (const { element, previousVisibility } of this.hiddenElements) {
-      element.style.visibility = previousVisibility;
+    for (const { element } of this.hiddenElements) {
+      element.removeClass("style-tweaker-particle-captured");
     }
     this.hiddenElements = [];
   }
@@ -901,13 +902,11 @@ export class ParticleEngine {
       this.renderContext = null;
     }
     this.restoreCapturedElements();
-    // 清除引擎在外层 root 动态撑开的对称 padding
+    // 还原容器相对定位类（installCanvas 中添加）
+    this.container.removeClass("style-tweaker-particle-relative");
+    // 清除引擎在外层 root 动态撑开的对称 padding（用 removeProperty，避免字面量赋值）
     const root = this.container.parentElement;
-    if (root) root.style.padding = "";
-    if (this.originalContainerPosition !== null) {
-      this.container.style.position = this.originalContainerPosition;
-      this.originalContainerPosition = null;
-    }
+    if (root) root.style.removeProperty("padding");
     this.particles = [];
   }
 

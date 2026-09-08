@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { resolveAccentCss } from "../../utils/color-palette";
+import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 所在行高亮服务
@@ -14,20 +14,17 @@ import { resolveAccentCss } from "../../utils/color-palette";
 //
 // 设计要点：
 //   - 与「编辑器背景」(EditorBackgroundService) 完全解耦，独立门控类，互不牵连。
-//   - 采用 JS 逐窗口注入 <style>，与 EditorBackgroundService 同构：覆盖独立设置窗口等
-//     pop-out 场景；监听 body 的 theme-dark / theme-light 类变化以重绘。
-//   - CSS 规则本体放在静态 styles.css（src/styles/editor/active-line.css），以门控类
-//     .style-tweaker-active-line 为前缀；本服务只注入 token 变量并挂摘门控类。
+//   - 采用门控类 + CSS 变量以内联方式写入 body，规则本体在静态
+//     src/styles/editor/active-line.css，不创建 <style> 元素。
+//   - 颜色随深浅主题：当前文档按 body 主题解析 hex，主题切换经 css-change 重 apply 刷新。
 // ============================================================
-
-const STYLE_ID = "style-tweaker-active-line";
 
 // 门控类：仅在 activeLineMode !== "none" 时挂到各窗口文档
 const ACTIVE_LINE_CLASS = "style-tweaker-active-line";
 const ACTIVE_LINE_BG_CLASS = "style-tweaker-active-line-bg";
 const ACTIVE_LINE_BORDER_CLASS = "style-tweaker-active-line-border";
 
-// 所在行高亮统一使用的 CSS 变量名（值由 JS 在运行时注入到 :root）
+// 所在行高亮统一使用的 CSS 变量名（值由 JS 在运行时注入到 body）
 const ACTIVE_LINE_COLOR_VAR = "--style-tweaker-active-line-color";
 const ACTIVE_LINE_FOCUSED_VAR = "--style-tweaker-active-line-focused";
 const ACTIVE_LINE_UNFOCUSED_VAR = "--style-tweaker-active-line-unfocused";
@@ -37,22 +34,27 @@ export class EditorActiveLineService extends BaseService {
     super(plugin, getSettings);
   }
 
+  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+  protected registerExtraListeners(): void {
+    this.plugin.registerEvent(
+      this.app.workspace.on("css-change", () => this.apply()),
+    );
+  }
+
   protected applyToDocument(doc: Document): void {
-    if (!doc?.head) return;
+    if (!doc?.body) return;
     const s = this.getSettings();
 
-    const tokens = this.buildTokensCss(s);
-    let styleEl = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
-    if (!styleEl) {
-      const win = doc.defaultView;
-      if (!win) return;
-      styleEl = win.createEl("style");
-      styleEl.id = STYLE_ID;
-      doc.head.appendChild(styleEl);
-    }
-    styleEl.textContent = tokens;
+    // 高亮色；default/空值回退主题强调色（--color-accent）
+    setAccentVar(doc, s.activeLineColor, ACTIVE_LINE_COLOR_VAR, "var(--color-accent)");
+    // 聚焦/失焦背景强度（百分比）
+    const focused = Math.min(100, Math.max(0, s.activeLineFocused ?? 12));
+    const unfocused = Math.min(100, Math.max(0, s.activeLineUnfocused ?? 6));
+    doc.body.setCssProps({
+      [ACTIVE_LINE_FOCUSED_VAR]: `${focused}%`,
+      [ACTIVE_LINE_UNFOCUSED_VAR]: `${unfocused}%`,
+    });
 
-    if (!doc.body) return;
     const on = s.activeLineMode !== "none";
     const withBorder = s.activeLineMode === "bg-border" || s.activeLineMode === "border";
     const withBg = s.activeLineMode === "bg" || s.activeLineMode === "bg-border";
@@ -61,20 +63,10 @@ export class EditorActiveLineService extends BaseService {
     doc.body.classList.toggle(ACTIVE_LINE_BORDER_CLASS, on && withBorder);
   }
 
-  private buildTokensCss(s: StyleTweakerSettings): string {
-    const focused = `${Math.min(100, Math.max(0, s.activeLineFocused ?? 12))}%`;
-    const unfocused = `${Math.min(100, Math.max(0, s.activeLineUnfocused ?? 6))}%`;
-    return [
-      resolveAccentCss(s.activeLineColor, ACTIVE_LINE_COLOR_VAR, "var(--color-accent)"),
-      `:root {
-  ${ACTIVE_LINE_FOCUSED_VAR}: ${focused};
-  ${ACTIVE_LINE_UNFOCUSED_VAR}: ${unfocused};
-}`,
-    ].join("\n");
-  }
-
   protected clearDocument(doc: Document): void {
-    this.removeStyle(doc, STYLE_ID);
+    removeDocVar(doc, ACTIVE_LINE_COLOR_VAR);
+    doc.body?.style.removeProperty(ACTIVE_LINE_FOCUSED_VAR);
+    doc.body?.style.removeProperty(ACTIVE_LINE_UNFOCUSED_VAR);
     doc.body?.classList.remove(
       ACTIVE_LINE_CLASS,
       ACTIVE_LINE_BG_CLASS,

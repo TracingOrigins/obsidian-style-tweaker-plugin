@@ -6,8 +6,8 @@
  *   .style-tweaker-active-line-bg         —— 背景高亮（mode = bg / bg-border）
  *   .style-tweaker-active-line-border     —— 左侧竖边框（mode = border / bg-border）
  *
- * CSS 变量（由 JS 注入到 :root，含 :root 兜底默认值）：
- *   --style-tweaker-active-line-color      高亮颜色（默认主题色 --text-accent）
+ * CSS 变量（由 JS 注入到 body，含 body 兜底默认值）：
+ *   --style-tweaker-active-line-color      高亮颜色（默认主题色 --color-accent）
  *   --style-tweaker-active-line-focused    聚焦时背景强度（默认 12%）
  *   --style-tweaker-active-line-unfocused  失焦时背景强度（默认 6%）
  *
@@ -16,9 +16,12 @@
  *   bg-border  —— 背景高亮 + 左侧竖边框
  *   border     —— 仅左侧竖边框
  * 失焦时强度较低、聚焦时较高；仅边框模式聚焦为全色、失焦为淡化色。
+ *
+ * 默认变量统一定义在 body（而非 :root）：Obsidian 主题变量如 --color-accent
+ * 定义在 body 上，:root(html) 无法引用子元素 body 上的变量，会导致变量失效。
  * ============================================================ */
 
-:root {
+body {
   --style-tweaker-active-line-color: var(--color-accent);
   --style-tweaker-active-line-focused: 12%;
   --style-tweaker-active-line-unfocused: 6%;

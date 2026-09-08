@@ -11,12 +11,13 @@
  *       solid / dashed / double（须叠加 long 才生效；宽度固定：实/虚 2px、双线 4px）
  *
  * 默认直接使用 Obsidian 的 --color-accent（跟随用户设置的 Accent color）。
- * 用户设置自定义颜色时，由 JS 注入覆盖规则（见 editor-inline-title-service.ts）。
+ * 用户设置自定义颜色时，由 EditorInlineTitleService 注入
+ * --style-tweaker-inline-title-color（body），此处引用并回退 accent。
  * ============================================================ */
 
-/* 标题颜色：默认跟随 Obsidian 强调色 */
+/* 标题颜色：默认跟随 Obsidian 强调色；自定义开启时用所选色 */
 body.style-tweaker-inline-title .inline-title {
-  color: var(--color-accent) !important;
+  color: var(--style-tweaker-inline-title-color, var(--color-accent)) !important;
 }
 
 /* 居中 */
@@ -31,12 +32,12 @@ body.style-tweaker-inline-title.style-tweaker-inline-title-right
   text-align: right;
 }
 
-/* 长下划线：占满标题行宽度，默认实线 2px */
+/* 长下划线：占满标题行宽度，默认实线 2px（颜色随标题色/自定义色） */
 body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long
   .inline-title {
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: var(--color-accent) !important;
+  border-bottom-color: var(--style-tweaker-inline-title-color, var(--color-accent)) !important;
 }
 
 /* 长下划线线型：虚线固定 2px（覆盖默认实线） */

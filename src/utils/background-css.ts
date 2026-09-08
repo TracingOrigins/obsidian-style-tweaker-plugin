@@ -12,14 +12,13 @@
  *
  * 注入策略：
  *   - 图片 URL（`--style-tweaker-bg-image`）与图片不透明度
- *     （`--style-tweaker-bg-opacity`）声明在 `:root`，取值为**当前文档实际
- *     解析/选中的那张图**（图片 URL 需运行时 getResourcePath 解析，无法静态写死，
- *     且每个文档可能不同，故不按主题分两段）。
+ *     （`--style-tweaker-bg-opacity`）、玻璃模糊半径（`--style-tweaker-glass-blur`）
+ *     与主题无关，声明在 `body`（统一约定：所有由 JS 注入的变量都挂 body），
+ *     取值为**当前文档实际解析/选中的那张图**（图片 URL 需运行时 getResourcePath
+ *     解析，无法静态写死，且每个文档可能不同，故不按主题分两段）。
  *   - 遮罩色（`--style-tweaker-mask-color`）、纯色
  *     （`--style-tweaker-solid`）、表面色（`--style-tweaker-surface`）按
  *     `body.theme-dark` / `body.theme-light` 各定义一套，使变量随主题自动切换。
- *   - 玻璃模糊半径（`--style-tweaker-glass-blur`）与主题无关，声明在 `:root`。
- *     仅图片模式使用（设置项仅在图片模式显示），纯色模式固定为 0px。
  *
  * @param imageUrl  当前文档解析后的背景图 URL（可直接用于 url()），空串则 none
  * @param opacity   背景图不透明度 0~1（来自设置项百分比 / 100）
@@ -39,8 +38,8 @@ export function buildTokensCss(opts: {
   const maskAlpha = Math.max(0, Math.min(1, 1 - opacity)).toFixed(3);
   const blur = `${Math.max(0, Math.round(glassBlur ?? 0))}px`;
   return `/* Style Tweaker 全局 token（--style-tweaker-*） */
-/* 图片相关 token：按当前文档实际解析结果注入（:root 单值，不随主题分两段） */
-:root {
+/* 与主题无关的 token：按当前文档实际解析结果注入（body 单值，不随主题分两段） */
+body {
   --style-tweaker-bg-image: ${url};
   --style-tweaker-bg-opacity: ${maskAlpha};
   --style-tweaker-glass-blur: ${blur};
