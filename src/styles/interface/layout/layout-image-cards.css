@@ -74,7 +74,6 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
         margin: 0 !important;
         padding-left: 6px !important;
         padding-right: 12px !important;
-        margin: 0px !important;
         border-bottom: var(--st-layout-border) !important;
     }
 
@@ -120,7 +119,6 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 中央内容区域 下边框 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-container {
-        border-bottom: var(--st-layout-border) !important;
         border-bottom: none !important;
     }
 
