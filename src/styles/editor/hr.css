@@ -1,0 +1,108 @@
+/* ============================================================
+   分隔线（Horizontal rule / ---）样式
+   ============================================================ */
+
+/* 分隔线变量（由 EditorHrService 注入到 :root）。
+   --style-tweaker-hr-center-icon 值已含引号，可直接用于 content。 */
+:root {
+  --style-tweaker-hr-center-icon: "⚡️";
+  --style-tweaker-hr-icon-rotate: 0deg;
+}
+
+/* ── 带图标 ── */
+body.style-tweaker-hr-icon {
+  .markdown-rendered hr {
+    overflow: initial;
+    margin-block: 2.5em;
+    border: none;
+    height: 0;
+    min-height: 0.7em;
+    border-bottom: 2px solid;
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--interactive-accent) 30%,
+      var(--interactive-accent) 46%,
+      transparent 46%,
+      transparent 54%,
+      var(--interactive-accent) 54%,
+      var(--interactive-accent) 70%,
+      transparent 100%
+    );
+  }
+
+  .markdown-rendered hr::after {
+    content: var(--style-tweaker-hr-center-icon);
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    font-size: 1em;
+    transform: translate(-50%, -0.35em) rotate(var(--style-tweaker-hr-icon-rotate));
+    transform-origin: 50% 50%;
+    padding: 0.3rem;
+    color: var(--interactive-accent);
+  }
+
+  .cm-s-obsidian hr {
+    border-image: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--interactive-accent) 30%,
+      var(--interactive-accent) 46%,
+      transparent 46%,
+      transparent 54%,
+      var(--interactive-accent) 54%,
+      var(--interactive-accent) 70%,
+      transparent 100%
+    ) 1;
+    border-width: 2px;
+  }
+
+  .markdown-source-view.mod-cm6 .hr::after {
+    content: var(--style-tweaker-hr-center-icon);
+    display: inline-block;
+    position: absolute;
+    font-size: 1em;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(var(--style-tweaker-hr-icon-rotate));
+    transform-origin: 50% 50%;
+    padding: 0.5rem;
+    color: var(--interactive-accent);
+  }
+}
+
+/* ── 无图标渐变 ── */
+body.style-tweaker-hr-no-icon {
+  .cm-s-obsidian hr {
+    border-image: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--interactive-accent) 20%,
+      var(--interactive-accent) 40%,
+      var(--interactive-accent) 60%,
+      var(--interactive-accent) 80%,
+      transparent 100%
+    ) 1;
+    border-width: 2px;
+  }
+
+  .markdown-rendered hr {
+    margin-block: 2.5em;
+    border: none;
+    height: 0;
+    border-bottom: 2px solid;
+    border-width: 2px;
+    border-image: linear-gradient(
+      to right,
+      transparent 0%,
+      var(--interactive-accent) 20%,
+      var(--interactive-accent) 40%,
+      var(--interactive-accent) 60%,
+      var(--interactive-accent) 80%,
+      transparent 100%
+    ) 1;
+  }
+}

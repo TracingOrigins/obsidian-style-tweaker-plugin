@@ -1,0 +1,16 @@
+/* 清除活动标签指示线（box-shadow）。仅在开启图片背景时生效。 */
+body:not(.is-mobile).style-tweaker-bg-image-active .workspace-split.mod-root .workspace-tab-header-container .workspace-tab-header.is-active::before,
+body:not(.is-mobile).style-tweaker-bg-image-active .workspace-split.mod-root .workspace-tab-header-container .workspace-tab-header.is-active::after {
+  box-shadow: none !important;
+}
+
+/* 活动标签图标/标题与侧栏开合按钮用强调色高亮。由设置项「活动图标高亮」控制。 */
+body:not(.is-mobile).style-tweaker-active-icon-highlight .mod-left-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+body:not(.is-mobile).style-tweaker-active-icon-highlight .mod-right-split .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+body:not(.is-mobile).style-tweaker-active-icon-highlight .workspace.is-left-sidedock-open .sidebar-toggle-button.mod-left .clickable-icon,
+body:not(.is-mobile).style-tweaker-active-icon-highlight .workspace.is-right-sidedock-open .sidebar-toggle-button.mod-right .clickable-icon,
+body:not(.is-mobile).style-tweaker-active-icon-highlight.is-focused .mod-active .workspace-tab-header.is-active .workspace-tab-header-inner-icon,
+body:not(.is-mobile).style-tweaker-active-icon-highlight.is-focused .mod-active .workspace-tab-header.is-active .workspace-tab-header-inner-title,
+body:not(.is-mobile).style-tweaker-active-icon-highlight .workspace-tab-header.is-active .workspace-tab-header-inner-title {
+	color: var(--color-accent) !important;
+}

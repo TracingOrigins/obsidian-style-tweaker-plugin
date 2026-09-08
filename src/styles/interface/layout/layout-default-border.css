@@ -1,0 +1,295 @@
+/* 整体布局 —— 边框布局（默认背景）
+ *
+ * 门控类：
+ *   body.style-tweaker-layout-border → 边框布局
+ *   由 LayoutService 依据设置 layoutMode 挂载。default 不挂任何类，本文件整组失效。
+ *
+ * 与纯色/图片背景版本不同，本文件仅在「默认背景」下生效（既非纯色也非图片），
+ * 且全部使用 Obsidian 原生颜色变量（--background-primary / --background-secondary /
+ * --tab-outline-color 等），不使用 --style-tweaker-* flavor 色。
+ */
+/* ============================================================
+   边框布局（border layout，默认背景）
+   ============================================================ */
+body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-tweaker-bg-image-active):not(.is-mobile) {
+	--border-border-style: 1px solid var(--tab-outline-color);
+	/* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+	--st-layout-bottom-padding: 20px;
+
+	.horizontal-main-container {
+		background-color: var(--background-secondary);
+		--titlebar-background: var(--background-secondary);
+		--ribbon-background: var(--background-secondary);
+		--ribbon-background-collapsed: var(--background-secondary);
+	}
+
+	/* 工作区 内边距*/
+	.workspace {
+		padding: 0 20px var(--st-layout-bottom-padding) 0 !important;
+	}
+
+	.workspace:has(.workspace-window) {
+		padding: 0 20px var(--st-layout-bottom-padding) 20px !important;
+	}
+
+	.workspace {
+		& .workspace-tab-container {
+			border-bottom: var(--border-border-style);
+		}
+
+		/* // LEFT SIDE rules when the left sidedock is closed */
+		&:not(.is-left-sidedock-open) {
+			> .workspace-split.mod-vertical.mod-root {
+				.workspace-tabs.mod-top-left-space {
+					.workspace-tab-container {
+						border-top-left-radius: 24px;
+						border-left: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-middle-left-space {
+					.workspace-tab-container {
+						border-left: var(--border-border-style)
+					}
+					.workspace-tab-header-container {
+						border-left: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-bottom-left-space {
+					.workspace-tab-container {
+						border-bottom-left-radius: 24px;
+						border-left: var(--border-border-style)
+					}
+					.workspace-tab-header-container {
+						border-left: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-bottom-left-space.mod-top-left-space {
+					.workspace-tab-header-container {
+						border-left: none !important;
+					}
+				}
+			}
+		}
+
+		/* // RIGHT SIDE rules when the right sidedock is closed */
+		&:not(.is-right-sidedock-open) {
+			> .workspace-split.mod-vertical.mod-root {
+				.workspace-tabs.mod-top-right-space {
+					.workspace-tab-container {
+						border-top-right-radius: 24px;
+						border-right: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-middle-right-space {
+					.workspace-tab-container {
+						border-right: var(--border-border-style)
+					}
+					.workspace-tab-header-container {
+						border-right: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-bottom-right-space {
+					.workspace-tab-container {
+						border-bottom-right-radius: 24px;
+						border-right: var(--border-border-style)
+					}
+					.workspace-tab-header-container {
+						border-right: var(--border-border-style)
+					}
+				}
+
+				.workspace-tabs.mod-bottom-right-space.mod-top-right-space {
+					.workspace-tab-header-container {
+					border-right: none !important;
+					}
+				}
+			}
+		}
+
+		.workspace-split.mod-left-split {
+			background-color: var(--background-secondary);
+			padding-left: calc(var(--anp-border-padding, 20px) - 20px);
+
+			.workspace-tabs {
+				background-color: var(--background-secondary);
+
+				.workspace-tab-container {
+					.workspace-leaf {
+						background-color: var(--background-primary);
+					}
+
+					border-left: var(--border-border-style);
+				}
+
+				&:not(.mod-top) {
+					.workspace-tab-header-container {
+						border-left: var(--border-border-style);
+					}
+				}
+
+				&:last-child {
+					.workspace-tab-container {
+						border-bottom: var(--border-border-style);
+					}
+				}
+
+				&.mod-top-left-space {
+					.workspace-tab-container {
+						border-top: var(--border-border-style);
+						border-left: var(--border-border-style);
+					}
+				}
+			}
+
+			.workspace-sidedock-vault-profile {
+				border-top: none;
+				background-color: var(--background-primary);
+				border-left: var(--border-border-style);
+				border-bottom: var(--border-border-style);
+			}
+		}
+
+		.workspace-split.mod-right-split {
+			background-color: var(--background-secondary);
+
+			.workspace-tabs {
+				background-color: var(--background-secondary);
+
+				.workspace-tab-container {
+					.workspace-leaf {
+						background-color: var(--background-primary);
+					}
+
+					border-right: var(--border-border-style);
+				}
+
+				&:not(.mod-top) {
+					.workspace-tab-header-container {
+						border-right: var(--border-border-style);
+					}
+				}
+
+				&:last-child {
+					.workspace-tab-container {
+						border-bottom: var(--border-border-style);
+					}
+				}
+
+				&.mod-top-right-space {
+					.workspace-tab-container {
+						border-top: var(--border-border-style);
+						border-right: var(--border-border-style);
+					}
+				}
+			}
+		}
+
+		.workspace-split:not(.mod-right-split):not(.mod-left-split) {
+			> .workspace-split {
+				padding-bottom: 0;
+			}
+
+			background-color: var(--background-secondary);
+
+			.workspace-tabs {
+				background-color: var(--background-secondary);
+
+				&:last-child {
+					.workspace-tab-container {
+						border-bottom: var(--border-border-style);
+					}
+				}
+
+				&.mod-top {
+					.workspace-tab-container {
+						border-top: var(--border-border-style);
+					}
+				}
+			}
+		}
+
+		.workspace-tabs:not(.mod-top) {
+			.workspace-tab-header-container {
+				background-color: var(--background-primary);
+			}
+		}
+
+		.workspace-tabs.mod-top {
+			.workspace-tab-header-container {
+				background-color: var(--background-secondary) !important;
+				border-bottom: none;
+			}
+		}
+	}
+
+	.workspace-split {
+		--divider-vertical-height: calc(100% + -1 * var(--header-height));
+	}
+
+	.workspace-ribbon.side-dock-ribbon:before {
+		border-bottom: 1px solid var(--background-secondary);
+		background-color: var(--background-secondary);
+	}
+
+	.workspace-ribbon.side-dock-ribbon,
+	.workspace-ribbon.side-dock-ribbon.is-focused {
+		border-right-color: var(--background-secondary);
+	}
+}
+
+/* Apply margins & border radius if on PC (not mobile) */
+body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-tweaker-bg-image-active):not(.is-mobile) {
+
+	.workspace:not(.is-left-sidedock-open) .mod-root .workspace-tabs .workspace-tab-header-container {
+		padding-left: 24px;
+	}
+
+	.workspace {
+
+		.workspace-split.mod-left-split {
+			.workspace-tabs {
+				&.mod-top-left-space {
+					.workspace-tab-container {
+						border-top-left-radius: 24px;
+					}
+				}
+			}
+
+			.workspace-sidedock-vault-profile {
+				border-bottom-left-radius: 24px;
+			}
+		}
+
+		.workspace-split.mod-left-split:not(:has(.workspace-sidedock-vault-profile)) {
+			.workspace-tabs:last-child {
+				.workspace-tab-container {
+					border-bottom-left-radius: 24px;
+				}
+			}
+		}
+
+
+		.workspace-split.mod-right-split {
+			.workspace-tabs {
+				&.mod-top-right-space {
+					.workspace-tab-container {
+						border-top-right-radius: 24px;
+					}
+				}
+			}
+		}
+
+		.workspace-split.mod-right-split {
+			.workspace-tabs:last-child {
+				.workspace-tab-container {
+					border-bottom-right-radius: 24px;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,33 @@
+# vscode
+.vscode 
+
+# Intellij
+*.iml
+.idea
+
+# AI assistant local data
+.codebuddy
+
+# npm
+node_modules
+
+# Build output directory
+# Contains compiled plugin files (main.js, styles.css, manifest.json).
+# These files should be uploaded to GitHub releases, not committed to the repository.
+dist
+
+# Exclude sourcemaps
+*.map
+
+# obsidian
+data.json
+
+# Exclude macOS Finder (System Explorer) View States
+.DS_Store
+
+# other
+*.zip
+.env
+
+# references
+references

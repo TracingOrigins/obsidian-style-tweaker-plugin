@@ -1,0 +1,145 @@
+/* ===== Recent Files 文件类型图标 =====
+   给 recent-files 每个文件标题前加按扩展名区分的图标（mask + background-color）。
+   recent-files 的文件项没有 file-explorer 那种 [data-path]，类型信息在行元素外层
+   .recent-files-file 的 aria-label="…路径含扩展名" 上，故用 [aria-label$=".ext"] 命中。
+
+   图标挂在标题文字 .nav-file-title-content 的 ::before 上，inline 占位（推挤文字），
+   background-color: currentColor —— 图标与所在标题文字严格同色：
+     - 未开彩色化：跟随 Obsidian 标题文字色
+     - 开彩色化 title：跟随 palette 标题色；开 background：文字为白，图标同为白
+   门控类：style-tweaker-rf-file-icons（由 rfAddFileIcon 开关控制）。 */
+
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file
+  .nav-file-title-content {
+  /* 便于伪元素图标与文字纵向对齐 */
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 通用文件图标（含 md 等未单列类型），随后被下方具体类型覆盖 mask */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file
+  .nav-file-title-content::before {
+  content: "";
+  flex-shrink: 0;
+  display: inline-block;
+  width: var(--size-4-4);
+  height: var(--size-4-4);
+  margin-right: var(--size-4-2);
+  background-color: currentColor;
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>');
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+/* PDF */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".pdf"]
+  .nav-file-title-content::before {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 16H8V8h4a4 4 0 1 1 0 8zm-2-6v4h2a2 2 0 1 0 0-4h-2zm5-6H5v16h14V8h-4V4zM3 2.992C3 2.444 3.447 2 3.999 2H16l5 5v13.993A1 1 0 0 1 20.007 22H3.993A1 1 0 0 1 3 21.008V2.992z"/></svg>');
+}
+
+/* 图片 */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".jpg"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".png"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".svg"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".gif"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".jpeg"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".bmp"]
+  .nav-file-title-content::before {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg     viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='3121' %3E%3Cpath d='M266.42944 804.352l123.3408-136.82688a37.93408 37.93408 0 0 1 53.39136-2.90304l81.6896 72.83712a37.92384 37.92384 0 0 0 56.43776-6.76864l99.92704-145.04448a37.91872 37.91872 0 0 1 58.15808-5.12l86.33856 87.31136 66.64704 72.65792-13.9264 60.18048-67.30752 25.46176-529.20832 11.5712z' fill='%23F4CA1C' p-id='3122'%3E%3C/path%3E%3Cpath d='M814.76096 148.48H209.23904A153.26208 153.26208 0 0 0 56.32 301.74208v415.40096A153.26208 153.26208 0 0 0 209.23904 870.4h605.52192A153.26208 153.26208 0 0 0 967.68 717.13792V301.74208A153.26208 153.26208 0 0 0 814.76096 148.48z m83.456 568.65792a83.62496 83.62496 0 0 1-83.456 83.62496H209.23904a83.62496 83.62496 0 0 1-83.456-83.62496V301.74208a83.62496 83.62496 0 0 1 83.456-83.63008h605.52192a83.62496 83.62496 0 0 1 83.456 83.61984v415.40096z m-137.728-298.55744a72.42752 72.42752 0 0 0-111.4112 9.87648l-99.712 145.46432a2.8672 2.8672 0 0 1-2.14528 1.29536 2.81088 2.81088 0 0 1-2.38592-0.75264L463.28832 501.41696a72.52992 72.52992 0 0 0-102.272 5.59104l-123.0848 137.216a34.77504 34.77504 0 1 0 51.67104 46.55616l123.0848-137.216a3.03104 3.03104 0 0 1 4.28544-0.2304l81.51552 73.04192a72.41728 72.41728 0 0 0 108.1088-13.02528l99.71712-145.4592a3.03104 3.03104 0 0 1 4.66432-0.41472l86.15936 87.552a34.78016 34.78016 0 1 0 49.47456-48.896z m-316.2368-33.32608a47.00672 47.00672 0 1 0-46.90432-47.00672 46.95552 46.95552 0 0 0 46.90432 47.00672z' fill='%23adb5bd' p-id='3123'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* 视频 */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".mp4"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".webm"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".ogv"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".mov"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".mkv"]
+  .nav-file-title-content::before {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg t='1667450951795'  viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2272' %3E%3Cpath d='M867 219.7H233.6l28.6-40.6c0.3-0.4 0.5-0.7 0.7-1.1 2-3.2 5.5-5.1 9.3-5.1h128c3.9 0 7.4 2 9.4 5.2 8.6 13.8 26.7 18 40.5 9.5 13.8-8.6 18-26.7 9.5-40.5-12.8-20.7-35-33-59.4-33h-128c-23.7 0-45.5 11.8-58.5 31.6l-52 74h-5.6c-50.7 0-91.9 41.2-91.9 91.9V819c0 50.7 41.2 91.9 91.9 91.9H867c50.7 0 91.9-41.2 91.9-91.9V311.6c0.1-50.7-41.2-91.9-91.9-91.9zM900.1 819c0 18.3-14.9 33.1-33.1 33.1H156.1c-18.3 0-33.1-14.9-33.1-33.1V311.6c0-18.3 14.9-33.1 33.1-33.1H867c18.3 0 33.1 14.9 33.1 33.1V819z' fill='%23adb5bd' p-id='2273'%3E%3C/path%3E%3Cpath d='M800.1 304.5h-60.6c-16.2 0-29.4 13.2-29.4 29.4s13.2 29.4 29.4 29.4h60.6c16.2 0 29.4-13.2 29.4-29.4s-13.2-29.4-29.4-29.4z' fill='%23adb5bd' p-id='2274'%3E%3C/path%3E%3Cpath d='M544 730.9c79.5-18.1 129.5-97.5 111.4-177-4.3-18.8-12.2-36-22.7-51.2 2 34.8-23.8 89.4-70.8 136.4-45.5 45.5-99.9 69.1-134.4 69.4 32.9 22.5 74.6 31.9 116.5 22.4z' fill='%23FFD524' p-id='2275'%3E%3C/path%3E%3Cpath d='M511.3 379.9c-1.5 0-3 0-4.5 0.1-16.2 0.4-29.1 13.8-28.8 30 0.4 16.2 13.9 29.3 30 28.8 50.7-1 97 24.1 124.6 63.9 10.5 15.2 18.4 32.4 22.7 51.2 18.1 79.5-31.9 159-111.4 177-41.8 9.5-83.5 0.1-116.4-22.5-29.6-20.3-52.1-51.3-60.6-89-8.5-37.2-2.4-75.8 17.2-108.5 8.3-13.9 3.8-32-10.2-40.3-14-8.3-32-3.8-40.3 10.2-27.3 45.8-35.8 99.7-24 151.7 12.2 53.8 44.7 99.7 91.4 129.1 33.4 21 71.2 31.8 109.7 31.8 15.4 0 30.9-1.7 46.2-5.2 53.8-12.2 99.7-44.7 129.1-91.4 29.4-46.7 38.9-102.1 26.6-156-21.2-93.9-105.5-160.9-201.3-160.9z' fill='%23adb5bd' p-id='2276'%3E%3C/path%3E%3Cpath d='M416.8 465.9c5.3 0 10.8-1.5 15.6-4.5l4.5-2.7c14.1-8.1 18.8-26.1 10.7-40.2s-26.1-18.9-40.2-10.7c-2.1 1.2-4.2 2.5-6.3 3.8-13.7 8.6-17.9 26.8-9.2 40.5 5.6 8.9 15.2 13.8 24.9 13.8z' fill='%23adb5bd' p-id='2277'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* 音频 */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".mp3"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".wav"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".m4a"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".ogg"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".3gp"]
+  .nav-file-title-content::before,
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".flac"]
+  .nav-file-title-content::before {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg t='1667450617533'  viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2116' %3E%3Cpath d='M512 900.8c214.4 0 388.9-174.4 388.9-388.9 0-54-11.1-105.4-31-152.1 10.1 106.6-34.1 271.1-172 382.9-143.8 116.6-375.7 80.7-477 26.6 71.2 80.6 175.3 131.5 291.1 131.5z' fill='%23FFD524' p-id='2117'%3E%3C/path%3E%3Cpath d='M512 64.2c-26.1 0-52.2 2.3-77.7 6.7-16 2.8-26.7 18.1-23.9 34.1 2.8 16 18.1 26.7 34.1 23.9 22.2-3.9 44.9-5.9 67.6-5.9 160.5 0 298.5 97.7 357.8 236.7 20 46.8 31 98.2 31 152.1 0 214.4-174.4 388.9-388.9 388.9-115.8 0-219.9-50.9-291.2-131.5-60.7-68.6-97.7-158.7-97.7-257.4 0-124.2 57.2-238 157.1-312.3 13-9.7 15.8-28.2 6.1-41.2-9.7-13-28.2-15.8-41.2-6.1C131.8 236.7 64.2 371.1 64.2 512c0 246.9 200.9 447.8 447.8 447.8S959.7 758.9 959.7 512 758.9 64.2 512 64.2z' fill='%23adb5bd' p-id='2118'%3E%3C/path%3E%3Cpath d='M343.2 158.6c4 0 8-0.8 11.9-2.5 3.4-1.5 6.8-3 10.3-4.4 15-6.2 22.3-23.4 16.1-38.4-6.2-15-23.3-22.3-38.4-16.1-3.9 1.6-7.8 3.3-11.7 5-14.9 6.6-21.6 24-15 38.8 4.7 11 15.5 17.6 26.8 17.6zM394.6 787.4c66.2 0 120.9-50.5 127.4-115.1 0.4-2 0.7-4 0.7-6.1V313.6H663c-8 21.5-27.6 49.4-75.9 63.8-15.6 4.6-24.5 21-19.8 36.6 3.8 12.8 15.5 21.1 28.2 21.1 2.8 0 5.6-0.4 8.4-1.2C705.3 403.8 728.9 322 727.2 283c-0.7-15.8-13.6-28.2-29.4-28.2H493.3c-16.3 0-29.4 13.2-29.4 29.4v375.2c0 38.2-31.1 69.2-69.2 69.2s-69.2-31.1-69.2-69.2c0-38.2 31.1-69.2 69.2-69.2 16.3 0 29.4-13.2 29.4-29.4s-13.2-29.4-29.4-29.4c-70.6 0-128.1 57.5-128.1 128.1s57.4 127.9 128 127.9z' fill='%23adb5bd'  p-id='2119'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Canvas */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".canvas"]
+  .nav-file-title-content::before {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23adb5bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='svg-icon lucide-layout-dashboard'%3E%3Crect x='3' y='3' width='7' height='9'%3E%3C/rect%3E%3Crect x='14' y='3' width='7' height='5'%3E%3C/rect%3E%3Crect x='14' y='12' width='7' height='9'%3E%3C/rect%3E%3Crect x='3' y='16' width='7' height='5'%3E%3C/rect%3E%3C/svg%3E");
+}
+
+/* Excalidraw */
+body.style-tweaker-rf-file-icons
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".excalidraw.md"]
+  .nav-file-title-content::before {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.404 2.998c-.757-.754-2.077-.751-2.828.005l-1.784 1.791L11.586 7H7a.998.998 0 0 0-.939.658l-4 11c-.133.365-.042.774.232 1.049l2 2a.997.997 0 0 0 1.049.232l11-4A.998.998 0 0 0 17 17v-4.586l2.207-2.207v-.001h.001L21 8.409c.378-.378.586-.881.585-1.415 0-.535-.209-1.038-.588-1.415l-2.593-2.581zm-3.111 8.295A.996.996 0 0 0 15 12v4.3l-9.249 3.363 4.671-4.671c.026.001.052.008.078.008A1.5 1.5 0 1 0 9 13.5c0 .026.007.052.008.078l-4.671 4.671L7.7 9H12c.266 0 .52-.105.707-.293L14.5 6.914 17.086 9.5l-1.793 1.793zm3.206-3.208-2.586-2.586 1.079-1.084 2.593 2.581-1.086 1.089z"></path></svg>');
+}

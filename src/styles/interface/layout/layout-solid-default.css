@@ -1,0 +1,24 @@
+/* ============================================================
+   纯色背景 + 默认布局
+   ------------------------------------------------------------
+   门控类：body:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards)
+           .style-tweaker-bg-solid-active:not(.is-mobile)
+   仅当「纯色背景激活 且 未启用边框/卡片布局（默认布局）」时生效。
+   LayoutService 对 default 布局不挂任何布局门控类，故通过 :not() 排除
+   border/cards，避免与 layout-solid-border.css / layout-solid-cards.css 冲突。
+
+   设计：参照 AnuPpuccin 默认布局，保持 Obsidian 原生方形结构（不加圆角、
+   不加内边距），仅统一工作区背景为纯色。
+   纯色背景由 background-service 注入（--background-primary 等已为纯色）。
+   ============================================================ */
+body:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards).style-tweaker-bg-solid-active:not(.is-mobile) {
+	/* 与 solid 系列一致的卡片背景变量（默认布局下保持纯色协调，供其它规则引用） */
+	--card-background-color: var(--background-primary);
+	--card-foreground-color: var(--background-primary);
+
+	/* 工作区与主容器统一为纯色背景 */
+	.workspace,
+	.horizontal-main-container {
+		background-color: var(--background-primary);
+	}
+}

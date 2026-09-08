@@ -1,0 +1,151 @@
+/* 整体布局 —— 卡片布局（默认背景）
+ *
+ * 门控类：
+ *   body.style-tweaker-layout-cards → 卡片布局
+ *   由 LayoutService 依据设置 layoutMode 挂载。default 不挂任何类，本文件整组失效。
+ *
+ * 与纯色/图片背景版本不同，本文件仅在「默认背景」下生效（既非纯色也非图片），
+ * 且全部使用 Obsidian 原生颜色变量（--background-primary / --background-secondary /
+ * --background-modifier-border / --tab-outline-color 等），不使用 --style-tweaker-*
+ * flavor 色。
+ */
+
+/* ============================================================
+   卡片布局（cards layout，默认背景）
+   ============================================================ */
+body.style-tweaker-layout-cards:not(.style-tweaker-bg-solid-active):not(.style-tweaker-bg-image-active):not(.is-mobile) {
+	--divider-color: transparent;
+	--tab-outline-color: var(--background-modifier-border);
+	--divider-color-hover: var(--background-modifier-border);
+	--divider-width: 4px;
+	--divider-width-hover: 4px;
+	--tab-container-background: var(--background-secondary);
+	--file-header-border: var(--border-width) dashed var(--background-modifier-border);
+	--ribbon-padding: 0;
+	/* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+	--st-layout-bottom-padding: 16px;
+
+	.sidebar-toggle-button,
+	.workspace-tabs.mod-top {
+		--tab-container-background: var(--background-secondary);
+	}
+
+	.workspace-tabs.mod-top:has(.obsidian-banner-wrapper) {
+		--file-header-border: none;
+	}
+
+	&.is-focused {
+		&,
+		.sidebar-toggle-button,
+		.workspace-tabs.mod-top {
+			--tab-container-background: var(--background-secondary);
+		}
+	}
+
+	.mod-left-split .workspace-tabs .workspace-leaf,
+	.mod-right-split .workspace-tabs .workspace-leaf,
+	.mod-left-split,
+	.mod-vertical .workspace-tab-container,
+	.mod-vertical,
+	.workspace-split.mod-vertical,
+	.workspace-fake-target-overlay:not(.is-in-sidebar) .workspace-tabs .workspace-leaf,
+	.mod-root .workspace-tabs .workspace-leaf,
+	.workspace-ribbon.side-dock-ribbon,
+	.workspace-ribbon.side-dock-ribbon:before {
+		background-color: var(--tab-container-background);
+	}
+
+	/* 工作区 内边距*/
+	.workspace {
+		padding: 0 16px var(--st-layout-bottom-padding) 0 !important;
+	}
+
+	.workspace:has(.workspace-window) {
+		padding: 0 16px var(--st-layout-bottom-padding) 16px !important;
+	}
+
+	.workspace,
+	.workspace-split.mod-vertical.mod-root,
+	.workspace-split.mod-horizontal,
+	.workspace-split.mod-vertical {
+		gap: 16px;
+	}
+
+	/* 把工作区根容器背景设为卡片底色，确保功能区 margin 间隔、分割区域颜色一致 */
+	.workspace,
+	.horizontal-main-container,
+	.mod-vertical .workspace-tabs {
+		background-color: var(--tab-container-background);
+	}
+
+	/* 功能区（actions）卡片化 */
+	.workspace-ribbon.side-dock-ribbon {
+		margin-top: calc(var(--header-height) - 1px);
+		border: none;
+	}
+
+	.side-dock-actions {
+		padding: var(--size-4-2) var(--size-4-1) var(--size-4-3);
+		border-radius: 0px 24px 24px 0px;
+		margin-top: 2px;
+		border-width: 1px 1px 0px 1px;
+		border-style: solid;
+		border-color: var(--tab-outline-color);
+		background-color: var(--background-primary);
+	}
+
+	.workspace-tab-header-container,
+	.workspace-ribbon.side-dock-ribbon:before {
+		border-bottom: none;
+	}
+
+	.mod-vertical {
+		.workspace-tabs:not(.mod-stacked) {
+			.workspace-tab-header-container {
+				padding-left: 24px;
+
+				.workspace-tab-header-container-inner {
+					margin: 6px -5px calc(var(--tab-outline-width) * -1);
+					z-index: 1;
+				}
+			}
+		}
+	}
+
+	.mod-left-split,
+	.mod-right-split {
+		.workspace-tab-container {
+			background-color: var(--tab-container-background);
+		}
+	}
+
+	/* 卡片外框统一画在最外层 .workspace-tab-container（与图片背景卡片版一致），
+	   内层 .workspace-leaf-content 只提供背景、不画边框，避免同一轮廓出现双线重合。 */
+	.workspace-split .workspace-tabs.mod-stacked .workspace-tab-container,
+	.workspace-split .workspace-tabs:not(.mod-stacked) .workspace-tab-container {
+		border-radius: 24px;
+		border: 1px solid var(--tab-outline-color);
+	}
+
+	/* 中央主区域内容背景：边框已由外层 tab-container 承担，leaf-content 不再画边框 */
+	.workspace-split .workspace-tabs:not(.mod-stacked) .workspace-leaf-content {
+		border-radius: 24px;
+		background-color: var(--background-primary);
+	}
+
+	.workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+		border-radius: 24px;
+		background-color: var(--background-primary);
+		border: 1px solid var(--tab-outline-color);
+	}
+
+	.workspace-split.mod-horizontal > * {
+		width: unset;
+	}
+
+	.workspace-drop-overlay:before {
+		width: calc(100% - 6px - var(--anp-card-layout-padding, 0) * 2);
+		height: calc(100% - 6px - var(--anp-card-layout-padding, 0) * 2);
+		margin: auto;
+	}
+}

@@ -1,0 +1,86 @@
+/* ============================================================
+ * 桌面端侧栏布局
+ * 门控类（由 background-variable-service.ts 按设置项挂载，与背景无关）：
+ *   .style-tweaker-custom-vault-name  —— 侧栏库名替换为自定义名称
+ *   .style-tweaker-show-vault-name    —— 文件列表顶部显示库名称
+ * 库名统一取自 JS 注入的 CSS 变量 --style-tweaker-vault-name：
+ *   customVaultName 非空时用自定义值，否则用真实库名（app.vault.getName()）。
+ *   该变量以带引号字符串形式注入（content: var() 语法要求），但设置输入框中
+ *   存储的是纯文本、不带引号（见 settings.ts 的 text 控制）。
+ * 「恢复传统侧栏布局」由 src/core/legacy-sidebar-service.ts 以 JS 实现（在左侧 ribbon
+ *   重建原生 vault/help/settings 按钮，并隐藏侧栏 vault-profile），不在此 CSS 中处理。
+ * ============================================================ */
+
+/* 1) 文件列表顶部显示库名称（仅桌面端，与 .is-mobile 互斥）。
+ * 库名固定渲染在 nav-header 内容（nav-buttons-container / search-input-container）
+ * 之后、作为 nav-header 底部新增的一行：
+ *   - 给 nav-header 在底部预留一行高度（padding-bottom），不会覆盖也不依赖
+ *     nav-header 内其它子节点的排列；
+ *   - 库名（::after，即 nav-header 内容的最后一个子项）绝对定位于这行内；
+ *   - 开启「居中显示库名称」仅把这一行的对齐改为居中（见 1b），
+ *     位置始终在 nav-header 的整个内容之后，不忽上忽下。 */
+body:not(.is-mobile).style-tweaker-show-vault-name
+  .workspace-leaf-content[data-type="file-explorer"]
+  .nav-header {
+  position: relative;
+  box-sizing: border-box;
+  /* 预留库名行高度（32px），确保库名行占位、不覆盖按钮行 */
+  padding-bottom: 32px;
+}
+
+body:not(.is-mobile).style-tweaker-show-vault-name
+  .workspace-leaf-content[data-type="file-explorer"]
+  .nav-header::after {
+  content: var(--style-tweaker-vault-name);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  /* 默认左对齐，并与 Obsidian 侧栏水平留白近似（不依赖按钮行内部布局） */
+  justify-content: flex-start;
+  padding: 0 12px;
+  text-align: left;
+  /* 字号 / 字体 / 颜色均取自 JS 注入的 body CSS 变量，便于设置面板调整 */
+  font-size: var(--style-tweaker-vault-name-font-size, 16px);
+  font-family: var(--style-tweaker-vault-name-font-family, var(--interface-font));
+  font-weight: var(--font-semibold);
+  color: var(--style-tweaker-vault-name-color-light, var(--color-accent));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal;
+  pointer-events: none;
+}
+
+/* 深色主题下库名颜色用深色变量（default 时回退 --color-accent，两变量都未注入） */
+body:not(.is-mobile).theme-dark.style-tweaker-show-vault-name
+  .workspace-leaf-content[data-type="file-explorer"]
+  .nav-header::after {
+  color: var(--style-tweaker-vault-name-color-dark, var(--color-accent));
+}
+
+/* 1b) 库名称水平居中：仅改变库名这一行的对齐，位置仍固定在 nav-header 内容之后 */
+body:not(.is-mobile).style-tweaker-show-vault-name.style-tweaker-center-vault-name
+  .workspace-leaf-content[data-type="file-explorer"]
+  .nav-header::after {
+  justify-content: center;
+  text-align: center;
+}
+
+/* 2) 侧栏库名替换为自定义名称
+ * Obsidian 原生库名在 .workspace-drawer-vault-name。隐藏其原生文本，
+ * 用 ::before 注入自定义/真实库名（来自 --style-tweaker-vault-name）。 */
+body:not(.is-mobile).style-tweaker-custom-vault-name
+  .workspace-drawer-vault-name {
+  font-size: 0; /* 隐藏原生文本（含子节点文字），::before 重新设置字号 */
+}
+
+body:not(.is-mobile).style-tweaker-custom-vault-name
+  .workspace-drawer-vault-name::before {
+  content: var(--style-tweaker-vault-name);
+  font-size: var(--font-ui-medium);
+  font-weight: var(--font-semibold);
+}

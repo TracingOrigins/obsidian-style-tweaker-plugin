@@ -1,0 +1,90 @@
+/* ============================================================
+   编辑器嵌入样式
+   纯 CSS（esbuild 不支持 SCSS 预编译）
+   ============================================================ */
+
+/* 图片居中 */
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-preview-view
+  img:not([class*="emoji"]),
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-rendered
+  img:not([class*="emoji"]) {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-preview-view
+  .image-embed
+  img:not([class*="emoji"]),
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-rendered
+  .image-embed
+  img:not([class*="emoji"]) {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-source-view.mod-cm6
+  img:not([class*="emoji"]) {
+  display: block;
+  margin: auto !important;
+}
+
+body.style-tweaker-embed-image-center
+  .workspace-leaf-content[data-type="markdown"]
+  .markdown-source-view.mod-cm6
+  .cm-content
+  .image-embed
+  img:not([class*="emoji"]) {
+  display: block;
+  margin: auto !important;
+  max-width: 100%;
+}
+
+/* 无缝嵌入 */
+body.style-tweaker-embed-markdown-seamless .markdown-embed {
+  border-inline-start: unset;
+  padding: unset;
+}
+
+body.style-tweaker-embed-markdown-seamless .embed-title {
+  display: none;
+}
+
+body.style-tweaker-embed-markdown-seamless .markdown-embed-link {
+  display: none;
+}
+
+body.style-tweaker-embed-markdown-seamless .markdown-embed .markdown-preview-view {
+  overflow-y: unset;
+}
+
+body.style-tweaker-embed-markdown-seamless .inline-embed .markdown-embed-content {
+  overflow: unset;
+}
+
+/* 图片边框 */
+body.style-tweaker-embed-image-border .markdown-preview-view img:not([class*="emoji"]),
+body.style-tweaker-embed-image-border .markdown-source-view.mod-cm6 img:not([class*="emoji"]) {
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  filter: drop-shadow(0px 0px 3px rgba(128, 128, 128, 0.3));
+}
+
+/* 图片圆角（4-16px，值由 EditorEmbedService 注入
+   --style-tweaker-embed-image-radius） */
+body.style-tweaker-embed-image-custom-radius .markdown-preview-view img:not([class*="emoji"]),
+body.style-tweaker-embed-image-custom-radius .markdown-source-view.mod-cm6 img:not([class*="emoji"]),
+body.style-tweaker-embed-image-custom-radius .markdown-rendered img:not([class*="emoji"]) {
+  border-radius: var(--style-tweaker-embed-image-radius, 8px);
+}

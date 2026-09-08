@@ -1,0 +1,190 @@
+/* ============================================================
+   编辑器表格样式
+   纯 CSS（esbuild 不支持 SCSS 预编译，已展开变量）
+   ============================================================ */
+
+/* 基础表格样式仅在 tableStyle 非 default（one/two/three）时生效，
+   default 时不挂载门控类，表格保持 Obsidian 原生样式。 */
+body.style-tweaker-table-style-active {
+  --table-border-color: var(--background-modifier-border);
+  --table-header-color: var(--text-normal);
+}
+
+body.style-tweaker-table-style-active.theme-dark {
+  --table-background-color: color-mix(in srgb, var(--background-primary) 98%, var(--background-secondary));
+  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 20%, transparent);
+  --table-border-color: var(--background-modifier-border);
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
+  --table-header-color: var(--text-normal);
+}
+
+body.style-tweaker-table-style-active.theme-light {
+  --table-background-color: color-mix(in srgb, var(--background-primary) 97%, var(--background-secondary));
+  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 40%, transparent);
+  --table-border-color: var(--background-modifier-border);
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+  --table-header-color: var(--text-normal);
+}
+
+/* 去除默认边框（右侧/底侧） */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table,
+body.style-tweaker-table-style-active .markdown-source-view table {
+  border-collapse: collapse;
+}
+
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) :is(th, td),
+body.style-tweaker-table-style-active .markdown-source-view :is(th, td) {
+  padding: 4px 10px;
+  border: none;
+}
+
+/* 偶数行背景色 */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(even),
+body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:nth-child(even) {
+  background-color: var(--table-background-color-odd);
+}
+
+/* 奇数行背景色 */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr,
+body.style-tweaker-table-style-active .markdown-source-view table tbody > tr {
+  background-color: var(--table-background-color);
+}
+
+/* 表头 */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) th,
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) thead tr > th:nth-child(2n + 2) {
+  background-color: var(--table-thead-background-color);
+  font-family: var(--font-family-strong);
+}
+
+/* table cell hover */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) td:hover,
+body.style-tweaker-table-style-active .markdown-rendered tbody tr > td:nth-child(2n + 2):hover {
+  background-color: var(--table-hover-color);
+}
+
+/* table row hover — 所有行悬浮高亮 */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:hover,
+body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:hover,
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(even):hover,
+body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:nth-child(even):hover {
+  background-color: var(--table-hover-raw-color) !important;
+}
+
+/* thead hover */
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) th:hover,
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) thead tr > th:nth-child(2n + 2):hover {
+  background-color: var(--table-hover-thead-color);
+}
+
+body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table,
+body.style-tweaker-table-style-active .markdown-source-view table {
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Style I — 透明背景，无交替底色 */
+body.style-tweaker-table-style-one.theme-light {
+  --table-background-color: transparent;
+  --table-background-color-odd: transparent;
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+}
+
+body.style-tweaker-table-style-one.theme-dark {
+  --table-background-color: transparent;
+  --table-background-color-odd: transparent;
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
+}
+
+/* Style II — 表头底边线，偶数行与 Default 一致 */
+body.style-tweaker-table-style-two.theme-light {
+  --table-background-color: color-mix(in srgb, var(--background-primary) 97%, var(--background-secondary));
+  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 40%, transparent);
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
+}
+
+body.style-tweaker-table-style-two.theme-dark {
+  --table-background-color: color-mix(in srgb, var(--background-primary) 98%, var(--background-secondary));
+  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 20%, transparent);
+  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
+  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
+  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
+  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
+}
+
+body.style-tweaker-table-style-two :is(.markdown-preview-view, .markdown-rendered) th {
+  border: none;
+  border-bottom: 2px solid;
+}
+
+body.style-tweaker-table-style-two :is(.markdown-preview-view, .markdown-rendered) td {
+  border: none;
+}
+
+/* Style III — 偶数列底色 */
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) th,
+body.style-tweaker-table-style-three .markdown-source-view th,
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) th:hover,
+body.style-tweaker-table-style-three .markdown-source-view th:hover,
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) td:hover,
+body.style-tweaker-table-style-three .markdown-source-view td:hover,
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr,
+body.style-tweaker-table-style-three .markdown-source-view table tbody > tr {
+  background-color: transparent;
+}
+
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:hover,
+body.style-tweaker-table-style-three .markdown-source-view table tbody > tr:hover {
+  background-color: transparent !important;
+}
+
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) td:nth-child(even),
+body.style-tweaker-table-style-three .markdown-source-view td:nth-child(even) {
+  background-color: var(--table-background-color-odd);
+}
+
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) td:nth-child(even):hover,
+body.style-tweaker-table-style-three .markdown-source-view td:nth-child(even):hover {
+  background-color: var(--table-hover-color);
+}
+
+body.style-tweaker-table-show-border :is(.markdown-preview-view, .markdown-rendered) :is(th, td) {
+  border: 1px solid var(--table-border-color);
+}
+
+body.style-tweaker-table-full-width .markdown-rendered table,
+body.style-tweaker-table-full-width .markdown-source-view.mod-cm6 table {
+  width: 100%;
+}
+
+body.style-tweaker-table-line-numbers table {
+  counter-reset: rowNumber;
+}
+
+body.style-tweaker-table-line-numbers tr td:first-child::before {
+  counter-increment: rowNumber;
+  content: counter(rowNumber);
+  height: 100%;
+  margin-inline-end: 20px;
+  color: var(--text-faint);
+}
+
+body.style-tweaker-table-line-numbers tr th:first-child::before {
+  content: "";
+  height: 100%;
+  margin-inline-end: 28px;
+}

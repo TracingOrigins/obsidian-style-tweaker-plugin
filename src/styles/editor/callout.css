@@ -1,0 +1,150 @@
+/* ============================================================
+   编辑器标注样式
+   纯 CSS（esbuild 不支持 SCSS 预编译，已展开 mixin）
+   ============================================================ */
+
+/* 基础标注样式：仅在选择了某种标注风格（非 default）时生效，
+   default 时保持 Obsidian 原生标注外观。 */
+body[class*="style-tweaker-callout-style-"] .callout {
+  --callout-blend-mode: normal;
+}
+
+body[class*="style-tweaker-callout-style-"] .callout-content > p,
+body[class*="style-tweaker-callout-style-"] .callout-content > ul,
+body[class*="style-tweaker-callout-style-"] .callout-content > ol {
+  margin-top: 0;
+}
+
+body[class*="style-tweaker-callout-style-"] .callout-content > p:last-child,
+body[class*="style-tweaker-callout-style-"] .callout-content > ul:last-child,
+body[class*="style-tweaker-callout-style-"] .callout-content > ol:last-child {
+  margin-bottom: 0;
+}
+
+/* 自定义圆角（4-16px，值由 EditorCalloutService 注入 --style-tweaker-callout-radius） */
+body.style-tweaker-callout-custom-radius .callout {
+  --callout-radius: var(--style-tweaker-callout-radius, 8px);
+  border-radius: var(--callout-radius);
+}
+
+/* 通用 helper：标题色调背景 + 右侧折叠按钮 */
+body[class*="style-tweaker-callout-style-"] .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-padding: 0;
+  --callout-title-padding: 0;
+  --callout-content-padding: 0;
+}
+
+body[class*="style-tweaker-callout-style-"] .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  padding: var(--size-4-3);
+}
+
+body[class*="style-tweaker-callout-style-"] .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  padding: var(--size-4-3);
+}
+
+body[class*="style-tweaker-callout-style-"] .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]).is-collapsible .callout-title-inner {
+  flex-grow: 1;
+}
+
+body[class*="style-tweaker-callout-style-"] .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) .callout-fold {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  padding-right: 0;
+}
+
+/* accent-bar */
+body.style-tweaker-callout-style-accent-bar .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+  border-inline-start: 4px solid color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-accent-bar .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+/* sleek */
+body.style-tweaker-callout-style-sleek .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+}
+
+body.style-tweaker-callout-style-sleek .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-sleek .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  border-top: 1px dashed color-mix(in srgb, var(--callout-color) 35%, transparent);
+}
+
+/* split */
+body.style-tweaker-callout-style-split .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+  background-color: transparent;
+}
+
+body.style-tweaker-callout-style-split .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-split .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  background-color: var(--background-secondary);
+}
+
+/* outline */
+body.style-tweaker-callout-style-outline .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 1px;
+  --callout-border-opacity: 0.35;
+  background-color: transparent;
+  border: var(--callout-border-width) solid color-mix(in srgb, var(--callout-color) calc(var(--callout-border-opacity) * 100%), transparent);
+}
+
+body.style-tweaker-callout-style-outline .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  background-color: color-mix(in srgb, var(--callout-color) 5%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-outline .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  background-color: transparent;
+}
+
+/* minimal */
+body.style-tweaker-callout-style-minimal .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+  background-color: color-mix(in srgb, var(--callout-color) 5%, transparent);
+  border-inline-start: 4px solid color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-minimal .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  color: color-mix(in srgb, var(--callout-color) 90%, transparent);
+  background-color: transparent;
+}
+
+body.style-tweaker-callout-style-minimal .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  background-color: transparent;
+}
+
+body.style-tweaker-callout-style-minimal .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]).is-collapsible .callout-title-inner {
+  flex-grow: 0;
+}
+
+body.style-tweaker-callout-style-minimal .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) .callout-fold {
+  margin-inline-start: 0;
+}
+
+/* soft */
+body.style-tweaker-callout-style-soft .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+  background-color: color-mix(in srgb, var(--callout-color) 8%, transparent);
+}
+
+body.style-tweaker-callout-style-soft .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  color: color-mix(in srgb, var(--callout-color) 90%, transparent);
+  background-color: transparent;
+}
+
+body.style-tweaker-callout-style-soft .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  background-color: transparent;
+}

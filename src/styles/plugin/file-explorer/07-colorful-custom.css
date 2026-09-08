@@ -1,0 +1,97 @@
+/* =======style-tweaker-fe-colorful-palette-custom（自定义配色，自动派生彩虹）=============
+   基色来自用户设置 --style-tweaker-fe-colorful-custom-color（可在设置中修改，不写死）。
+   通过 :nth-child(12n+K) 为每个顶层文件夹分配递增的 --hue 旋转角，
+   渲染时用 filter: hue-rotate(var(--hue)) 把基色自动派生出 12 色彩虹循环。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+1) { --hue: 0deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) { --hue: 30deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) { --hue: 60deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) { --hue: 90deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) { --hue: 120deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) { --hue: 150deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) { --hue: 180deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) { --hue: 210deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) { --hue: 240deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) { --hue: 270deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) { --hue: 300deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) { --hue: 330deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) { --hue: 0deg; }
+
+/* 自定义配色：colorful / colorful-background 模式 —— 基色 + hue-rotate 自动派生彩虹背景 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder {
+  background-color: var(--style-tweaker-fe-colorful-custom-color) !important;
+  color: var(--style-tweaker-fe-colorful-folder-text, inherit) !important;
+  filter: hue-rotate(var(--hue, 0deg)) !important;
+  border-radius: var(--radius-s) !important;
+}
+
+/* 仅"彩色背景"类型：圆点用标题文字色(currentColor)，避免与同色背景重叠不可见；
+   其他类型（彩色标题/彩色边框/彩色色块）的圆点仍使用彩虹色（--style-tweaker-fe-colorful-tab-color）。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-folder-note-dot
+  .workspace-leaf-content[data-type="file-explorer"]
+  .nav-folder-title:after {
+  color: currentColor;
+}
+
+/* 图标颜色与圆点/标题文字保持一致（最稳健方案：直接继承 currentColor）
+   关键思路：标题文字的 color 在各模式下已正确着色（彩虹色或标题色，且经 hue-rotate 旋转）。
+   让图标用 currentColor 直接继承该"已渲染"的颜色，即可 100% 与标题对应，
+   彻底规避 --style-tweaker-fe-colorful-tab-color 周期错位、filter 叠加、自定义基色不一致等问题。
+   1) 折叠箭头：.nav-folder-collapse-indicator（::before 三角 / svg）→ color: currentColor 继承父级 color
+   2) 文件图标：feAddFileIcon 的 .nav-file-title-content::before
+      → background-color: currentColor 继承 .nav-file-title 的 color（= 该文件所属文件夹的标题色）
+   注：currentColor 取的是元素继承到的 color 的最终值（已含父级 filter: hue-rotate 的结果），
+   因此图标与标题在任意模式（含自定义配色、按列表位置）下天然同色。 */
+/* 1) 折叠箭头。
+   Obsidian 真实 DOM 中折叠箭头的容器 class 是 .collapse-icon（带 .tree-item-icon 前缀），
+   内部为 <svg class="svg-icon">，而非旧版的 .nav-folder-collapse-indicator。
+   由 file-explorer-service 在彩色文件夹开启时给这些 svg 加 .style-tweaker-fe-colorful-collapse。
+   用 currentColor 直接继承 .nav-folder-title 的文字色，使折叠按钮颜色与文件夹名称严格一致
+   （避免各模式用 --tab-color 彩虹色而标题用 folder-text/变暗色造成不一致）。
+   用门控类（而非纯 CSS 选择器）可确保仅在彩色文件夹开启时生效，且不误伤其他 .collapse-icon。 */
+body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .style-tweaker-fe-colorful-collapse {
+  color: currentColor !important;
+}
+/* 折叠按钮容器本身：强制继承父级 .nav-folder-title 的文字色（覆盖 Obsidian 默认给 .collapse-icon 的灰色），
+   使默认折叠箭头与替换的文件夹图标（background-color: currentColor）都严格跟随标题颜色。 */
+body.style-tweaker-fe-colorful-folders .nav-files-container .nav-folder-title .collapse-icon {
+  color: inherit;
+}
+/* 2) 文件图标
+   彩色文件夹开启时，让文件图标颜色 = 文件名称颜色（继承 .nav-file-title 的 color，
+   即所属文件夹的标题色 / folder-text）。用 currentColor 直接继承"已渲染"的文字色，
+   确保与文件名严格同色。 */
+body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .nav-files-container .nav-file-title[data-path]::before {
+  background-color: currentColor !important;
+}
+
+/* 3) 文件树缩进线颜色 = 文件夹标题颜色，且统一 50% 透明（参考 AnuPpuccin：border-color: rgba(var(--rainbow-folder-color), 0.5)）。
+   不管任何模式，缩进线颜色都与对应模式下的文件夹标题文字颜色保持一致，并都套 0.5 透明度：
+   - title/block 及其他：标题色 = --style-tweaker-fe-colorful-tab-color
+   - background：标题色 = --style-tweaker-fe-colorful-folder-text
+   - border：标题色 = 变暗/变亮的 tab-color（浅色主题 black 20%，深色主题 white 38%） */
+body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .nav-folder-children {
+  border-left: 1px solid color-mix(in srgb, var(--style-tweaker-fe-colorful-tab-color, var(--text-muted)) 50%, transparent) !important;
+}
+
+/* background 模式：标题文字用 folder-text（在彩色背景上可读的对比色），缩进线跟随标题文字色 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .nav-folder-children {
+  border-left-color: color-mix(in srgb, var(--style-tweaker-fe-colorful-folder-text, var(--text-muted)) 50%, transparent) !important;
+}
+
+/* border 模式：标题文字变暗/变亮（浅色主题 black 20%），缩进线跟随标题文字色 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
+  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), black 20%) 50%, transparent) !important;
+}
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
+  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), white 38%) 50%, transparent) !important;
+}
+
+/* 自定义配色：colorful-title 模式 —— 标题文字用基色 + 按文件夹序派生色相（彩虹）
+   用 --style-tweaker-fe-colorful-tab-color（自定义下=用户基色）+ --hue(:nth-child 派生) 经 hue-rotate 得到每个文件夹不同的颜色，
+   并加 !important 压过原版 colorful-title 段（color: var(--style-tweaker-fe-colorful-tab-color); filter: brightness）避免全成一个色。 */
+/* title 自定义模式：把 --style-tweaker-fe-colorful-tab-color 覆盖为基色，使文件夹图标(::before)与标题文字共用同一基色，
+   再统一经 .nav-folder-title 的 hue-rotate(--hue) 旋转，避免图标用预设 --style-tweaker-fe-colorful-folder-K 而标题用基色旋转造成不一致。 */

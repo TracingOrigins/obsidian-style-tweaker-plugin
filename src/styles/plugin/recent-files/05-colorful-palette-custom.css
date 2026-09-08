@@ -1,0 +1,94 @@
+/* 配色方案：自定义
+  自定义配色不再使用固定调色板，而是把 --style-tweaker-rf-colorful-folder-X 全部指向用户基色 --style-tweaker-rf-colorful-custom-color。
+  各文件夹的实际彩虹色由 .nav-folder 上的 --hue（:nth-child(12n+K) 派生）经 filter: hue-rotate 自动生成，
+  因此用户修改基色后所有模式（标题/边框/色块/背景）都会整体偏移并自动派生彩虹。
+
+  基色按深浅主题各一套（由设置中「深色模式/浅色模式」分组配置）：
+  - 深色主题用 --style-tweaker-rf-colorful-custom-color-dark
+  - 浅色主题用 --style-tweaker-rf-colorful-custom-color-light
+  --style-tweaker-rf-colorful-custom-color 作为统一入口，按 .theme-dark/.theme-light 取对应值。 */
+body.theme-dark.style-tweaker-rf-colorful-enabled {
+  --style-tweaker-rf-colorful-custom-color: var(--style-tweaker-rf-colorful-custom-color-dark, #ef8c3a);
+}
+body.theme-light.style-tweaker-rf-colorful-enabled {
+  --style-tweaker-rf-colorful-custom-color: var(--style-tweaker-rf-colorful-custom-color-light, #ef8c3a);
+}
+
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom {
+  --style-tweaker-rf-colorful-folder-0: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-1: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-2: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-3: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-4: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-5: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-6: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-7: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-8: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-9: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-A: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-B: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-C: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-D: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-E: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-F: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-G: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-H: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-I: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-J: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-K: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-L: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-M: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-N: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-O: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-P: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-Q: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-R: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-S: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-T: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-U: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-V: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-W: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-X: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-Y: var(--style-tweaker-rf-colorful-custom-color);
+  --style-tweaker-rf-colorful-folder-Z: var(--style-tweaker-rf-colorful-custom-color);
+}
+
+
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-six {
+  --style-tweaker-rf-colorful-folder-0: #fc5c65;
+  --style-tweaker-rf-colorful-folder-1: #fd9644;
+  --style-tweaker-rf-colorful-folder-2: #fed330;
+  --style-tweaker-rf-colorful-folder-3: #26de81;
+  --style-tweaker-rf-colorful-folder-4: #2bcbba;
+  --style-tweaker-rf-colorful-folder-5: #45aaf2;
+  --style-tweaker-rf-colorful-folder-6: #4b7bec;
+  --style-tweaker-rf-colorful-folder-7: #a55eea;
+  --style-tweaker-rf-colorful-folder-8: #d1d8e0;
+  --style-tweaker-rf-colorful-folder-9: #778ca3;
+  --style-tweaker-rf-colorful-folder-A: #eb3b5a;
+  --style-tweaker-rf-colorful-folder-B: #fa8231;
+  --style-tweaker-rf-colorful-folder-C: #f7b731;
+  --style-tweaker-rf-colorful-folder-D: #20bf6b;
+  --style-tweaker-rf-colorful-folder-E: #0fb9b1;
+  --style-tweaker-rf-colorful-folder-F: #2d98da;
+  --style-tweaker-rf-colorful-folder-G: #3867d6;
+  --style-tweaker-rf-colorful-folder-H: #8854d0;
+  --style-tweaker-rf-colorful-folder-I: #a5b1c2;
+  --style-tweaker-rf-colorful-folder-J: #4b6584;
+  --style-tweaker-rf-colorful-folder-K: #fc5c65;
+  --style-tweaker-rf-colorful-folder-L: #fd9644;
+  --style-tweaker-rf-colorful-folder-M: #fed330;
+  --style-tweaker-rf-colorful-folder-N: #26de81;
+  --style-tweaker-rf-colorful-folder-O: #2bcbba;
+  --style-tweaker-rf-colorful-folder-P: #45aaf2;
+  --style-tweaker-rf-colorful-folder-Q: #4b7bec;
+  --style-tweaker-rf-colorful-folder-R: #a55eea;
+  --style-tweaker-rf-colorful-folder-S: #d1d8e0;
+  --style-tweaker-rf-colorful-folder-T: #778ca3;
+  --style-tweaker-rf-colorful-folder-U: #eb3b5a;
+  --style-tweaker-rf-colorful-folder-V: #fa8231;
+  --style-tweaker-rf-colorful-folder-W: #f7b731;
+  --style-tweaker-rf-colorful-folder-X: #20bf6b;
+  --style-tweaker-rf-colorful-folder-Y: #0fb9b1;
+  --style-tweaker-rf-colorful-folder-Z: #2d98da;
+}

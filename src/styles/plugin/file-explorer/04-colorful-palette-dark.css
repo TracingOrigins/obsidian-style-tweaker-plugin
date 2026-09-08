@@ -1,0 +1,209 @@
+/* 配色方案一：高透明度 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-one.theme-dark {
+  --style-tweaker-fe-colorful-folder-0: #ff40403d;
+  --style-tweaker-fe-colorful-folder-1: #f31f7448;
+  --style-tweaker-fe-colorful-folder-2: #be25ff49;
+  --style-tweaker-fe-colorful-folder-3: #7337ff67;
+  --style-tweaker-fe-colorful-folder-4: #2f4bff65;
+  --style-tweaker-fe-colorful-folder-5: #1372d188;
+  --style-tweaker-fe-colorful-folder-6: #0289d17e;
+  --style-tweaker-fe-colorful-folder-7: #0096a77e;
+  --style-tweaker-fe-colorful-folder-8: #00796b94;
+  --style-tweaker-fe-colorful-folder-9: #388e3c80;
+  --style-tweaker-fe-colorful-folder-A: #689f3883;
+  --style-tweaker-fe-colorful-folder-B: #afb42b81;
+  --style-tweaker-fe-colorful-folder-C: #f9ab255d;
+  --style-tweaker-fe-colorful-folder-D: #ff910063;
+  --style-tweaker-fe-colorful-folder-E: #ef6c0067;
+  --style-tweaker-fe-colorful-folder-F: #d8421559;
+  --style-tweaker-fe-colorful-folder-G: #1e5f74ca;
+  --style-tweaker-fe-colorful-folder-H: #c53571b9;
+  --style-tweaker-fe-colorful-folder-I: #4b5d67d0;
+  --style-tweaker-fe-colorful-folder-J: #295d6d7a;
+  --style-tweaker-fe-colorful-folder-K: #5734d691;
+  --style-tweaker-fe-colorful-folder-L: #4c4c6dda;
+  --style-tweaker-fe-colorful-folder-M: #ad62aab9;
+  --style-tweaker-fe-colorful-folder-N: #c490e4a1;
+  --style-tweaker-fe-colorful-folder-O: #b42a3d8e;
+  --style-tweaker-fe-colorful-folder-P: #af173880;
+  --style-tweaker-fe-colorful-folder-Q: #4c25a0b2;
+  --style-tweaker-fe-colorful-folder-R: #5f84dbc4;
+  --style-tweaker-fe-colorful-folder-S: #c06c84ce;
+  --style-tweaker-fe-colorful-folder-T: #684656d5;
+  --style-tweaker-fe-colorful-folder-U: #797d8581;
+  --style-tweaker-fe-colorful-folder-V: #556e53e3;
+  --style-tweaker-fe-colorful-folder-W: #2f5241b2;
+  --style-tweaker-fe-colorful-folder-X: #834c69ed;
+  --style-tweaker-fe-colorful-folder-Y: #df85c885;
+  --style-tweaker-fe-colorful-folder-Z: #362222ea;
+}
+
+
+/* 配色方案二：低透明度 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-two.theme-dark {
+  --style-tweaker-fe-colorful-folder-0: #823131d7;
+  --style-tweaker-fe-colorful-folder-1: #96174ad7;
+  --style-tweaker-fe-colorful-folder-2: #731a9ad7;
+  --style-tweaker-fe-colorful-folder-3: #543796d7;
+  --style-tweaker-fe-colorful-folder-4: #2b3ba2d7;
+  --style-tweaker-fe-colorful-folder-5: #185898d7;
+  --style-tweaker-fe-colorful-folder-6: #1e6b95d7;
+  --style-tweaker-fe-colorful-folder-7: #187782d7;
+  --style-tweaker-fe-colorful-folder-8: #0d6a5fd7;
+  --style-tweaker-fe-colorful-folder-9: #1f7624d7;
+  --style-tweaker-fe-colorful-folder-A: #2f6007ef;
+  --style-tweaker-fe-colorful-folder-B: #6c7e12ef;
+  --style-tweaker-fe-colorful-folder-C: #7b7e0def;
+  --style-tweaker-fe-colorful-folder-D: #7f6c0cef;
+  --style-tweaker-fe-colorful-folder-E: #7d550cef;
+  --style-tweaker-fe-colorful-folder-F: #76350aef;
+  --style-tweaker-fe-colorful-folder-G: #671c14ef;
+  --style-tweaker-fe-colorful-folder-H: #710d0def;
+  --style-tweaker-fe-colorful-folder-I: #7a0d36ef;
+  --style-tweaker-fe-colorful-folder-J: #710b52ef;
+  --style-tweaker-fe-colorful-folder-K: #710e7aef;
+  --style-tweaker-fe-colorful-folder-L: #621287ef;
+  --style-tweaker-fe-colorful-folder-M: #470f7bef;
+  --style-tweaker-fe-colorful-folder-N: #381182ef;
+  --style-tweaker-fe-colorful-folder-O: #1c1089ef;
+  --style-tweaker-fe-colorful-folder-P: #192698ef;
+  --style-tweaker-fe-colorful-folder-Q: #1737a2ef;
+  --style-tweaker-fe-colorful-folder-R: #0e4295ef;
+  --style-tweaker-fe-colorful-folder-S: #0f5495ef;
+  --style-tweaker-fe-colorful-folder-T: #0f5f8eef;
+  --style-tweaker-fe-colorful-folder-U: #0d687eef;
+  --style-tweaker-fe-colorful-folder-V: #0a7373ef;
+  --style-tweaker-fe-colorful-folder-W: #0d6e5def;
+  --style-tweaker-fe-colorful-folder-X: #0b6542ef;
+  --style-tweaker-fe-colorful-folder-Y: #0a642def;
+  --style-tweaker-fe-colorful-folder-Z: #105b09ef;
+}
+
+
+/* 配色方案三 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-three.theme-dark {
+  --style-tweaker-fe-colorful-folder-0: #002044d7;
+  --style-tweaker-fe-colorful-folder-1: #042b58d7;
+  --style-tweaker-fe-colorful-folder-2: #032d5dd7;
+  --style-tweaker-fe-colorful-folder-3: #032f60d7;
+  --style-tweaker-fe-colorful-folder-4: #04356ed7;
+  --style-tweaker-fe-colorful-folder-5: #053c7ad7;
+  --style-tweaker-fe-colorful-folder-6: #0f4a8ed7;
+  --style-tweaker-fe-colorful-folder-7: #18559ad7;
+  --style-tweaker-fe-colorful-folder-8: #1e5fa9d7;
+  --style-tweaker-fe-colorful-folder-9: #296bb6d7;
+  --style-tweaker-fe-colorful-folder-A: #003404ef;
+  --style-tweaker-fe-colorful-folder-B: #014406ef;
+  --style-tweaker-fe-colorful-folder-C: #004c06ef;
+  --style-tweaker-fe-colorful-folder-D: #005607ef;
+  --style-tweaker-fe-colorful-folder-E: #005d08ef;
+  --style-tweaker-fe-colorful-folder-F: #006c09ef;
+  --style-tweaker-fe-colorful-folder-G: #007a06ef;
+  --style-tweaker-fe-colorful-folder-H: #4e3200ef;
+  --style-tweaker-fe-colorful-folder-I: #5d3c00ef;
+  --style-tweaker-fe-colorful-folder-J: #6c4600ef;
+  --style-tweaker-fe-colorful-folder-K: #784e00ef;
+  --style-tweaker-fe-colorful-folder-L: #8c5b00ef;
+  --style-tweaker-fe-colorful-folder-M: #915e00ef;
+  --style-tweaker-fe-colorful-folder-N: #a06800ef;
+  --style-tweaker-fe-colorful-folder-O: #5d0000ef;
+  --style-tweaker-fe-colorful-folder-P: #640000ef;
+  --style-tweaker-fe-colorful-folder-Q: #780000ef;
+  --style-tweaker-fe-colorful-folder-R: #870000ef;
+  --style-tweaker-fe-colorful-folder-S: #930000ef;
+  --style-tweaker-fe-colorful-folder-T: #a20000ef;
+  --style-tweaker-fe-colorful-folder-U: #0a0f58ef;
+  --style-tweaker-fe-colorful-folder-V: #050b64ef;
+  --style-tweaker-fe-colorful-folder-W: #091075ef;
+  --style-tweaker-fe-colorful-folder-X: #131a82ef;
+  --style-tweaker-fe-colorful-folder-Y: #1f2791ef;
+  --style-tweaker-fe-colorful-folder-Z: #2a3296ef;
+}
+
+
+/* 配色方案四 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-four.theme-dark {
+  --style-tweaker-fe-colorful-folder-0: #002f65d7;
+  --style-tweaker-fe-colorful-folder-1: #003675d7;
+  --style-tweaker-fe-colorful-folder-2: #003d82d7;
+  --style-tweaker-fe-colorful-folder-3: #004696d7;
+  --style-tweaker-fe-colorful-folder-4: #0053b1d7;
+  --style-tweaker-fe-colorful-folder-5: #0657b5d7;
+  --style-tweaker-fe-colorful-folder-6: #0b66ced7;
+  --style-tweaker-fe-colorful-folder-7: #156cd0d7;
+  --style-tweaker-fe-colorful-folder-8: #2278dad7;
+  --style-tweaker-fe-colorful-folder-9: #2879d6d7;
+  --style-tweaker-fe-colorful-folder-A: #001e5fef;
+  --style-tweaker-fe-colorful-folder-B: #002473ef;
+  --style-tweaker-fe-colorful-folder-C: #002d90ef;
+  --style-tweaker-fe-colorful-folder-D: #0135a5ef;
+  --style-tweaker-fe-colorful-folder-E: #073bb6ef;
+  --style-tweaker-fe-colorful-folder-F: #0d46c2ef;
+  --style-tweaker-fe-colorful-folder-G: #1253d6ef;
+  --style-tweaker-fe-colorful-folder-H: #002351ef;
+  --style-tweaker-fe-colorful-folder-I: #00306eef;
+  --style-tweaker-fe-colorful-folder-J: #05336fef;
+  --style-tweaker-fe-colorful-folder-K: #093c7eef;
+  --style-tweaker-fe-colorful-folder-L: #0f4489ef;
+  --style-tweaker-fe-colorful-folder-M: #19529def;
+  --style-tweaker-fe-colorful-folder-N: #2965b3ef;
+  --style-tweaker-fe-colorful-folder-O: #003156ef;
+  --style-tweaker-fe-colorful-folder-P: #003f6fef;
+  --style-tweaker-fe-colorful-folder-Q: #004b84ef;
+  --style-tweaker-fe-colorful-folder-R: #005190ef;
+  --style-tweaker-fe-colorful-folder-S: #07599bef;
+  --style-tweaker-fe-colorful-folder-T: #1c6db0ef;
+  --style-tweaker-fe-colorful-folder-U: #003d5aef;
+  --style-tweaker-fe-colorful-folder-V: #004d71ef;
+  --style-tweaker-fe-colorful-folder-W: #005c87ef;
+  --style-tweaker-fe-colorful-folder-X: #066996ef;
+  --style-tweaker-fe-colorful-folder-Y: #1379a9ef;
+  --style-tweaker-fe-colorful-folder-Z: #1b89bbef;
+}
+
+
+/* 配色方案五 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-five.theme-dark {
+  --style-tweaker-fe-colorful-folder-0: #7b7b05d7;
+  --style-tweaker-fe-colorful-folder-1: #2d7a04d7;
+  --style-tweaker-fe-colorful-folder-2: #097a4bd7;
+  --style-tweaker-fe-colorful-folder-3: #09756fd7;
+  --style-tweaker-fe-colorful-folder-4: #0a6b7ad7;
+  --style-tweaker-fe-colorful-folder-5: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-6: #0b426fd7;
+  --style-tweaker-fe-colorful-folder-7: #0d226ed7;
+  --style-tweaker-fe-colorful-folder-8: #350e6cd7;
+  --style-tweaker-fe-colorful-folder-9: #5b0254d7;
+  --style-tweaker-fe-colorful-folder-A: #350e6cd7;
+  --style-tweaker-fe-colorful-folder-B: #0d226ed7;
+  --style-tweaker-fe-colorful-folder-C: #0b426fd7;
+  --style-tweaker-fe-colorful-folder-D: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-E: #09756fd7;
+  --style-tweaker-fe-colorful-folder-F: #097a4bd7;
+  --style-tweaker-fe-colorful-folder-G: #2d7a04d7;
+  --style-tweaker-fe-colorful-folder-H: #7b7b05d7;
+  --style-tweaker-fe-colorful-folder-I: #2d7a04d7;
+  --style-tweaker-fe-colorful-folder-J: #097a4bd7;
+  --style-tweaker-fe-colorful-folder-K: #09756fd7;
+  --style-tweaker-fe-colorful-folder-L: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-M: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-N: #0b426fd7;
+  --style-tweaker-fe-colorful-folder-O: #0d226ed7;
+  --style-tweaker-fe-colorful-folder-P: #350e6cd7;
+  --style-tweaker-fe-colorful-folder-Q: #5b0254d7;
+  --style-tweaker-fe-colorful-folder-R: #350e6cd7;
+  --style-tweaker-fe-colorful-folder-S: #0d226ed7;
+  --style-tweaker-fe-colorful-folder-T: #0b426fd7;
+  --style-tweaker-fe-colorful-folder-U: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-V: #0b556ed7;
+  --style-tweaker-fe-colorful-folder-W: #09756fd7;
+  --style-tweaker-fe-colorful-folder-X: #097a4bd7;
+  --style-tweaker-fe-colorful-folder-Y: #2d7a04d7;
+  --style-tweaker-fe-colorful-folder-Z: #7b7b05d7;
+}
+
+
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.theme-light {
+  --style-tweaker-fe-colorful-folder-text: #222222;
+}
+

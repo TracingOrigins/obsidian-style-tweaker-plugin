@@ -1,0 +1,220 @@
+/* ============================================================
+ * 编辑器背景（网格 / 点阵图案）
+ * ------------------------------------------------------------
+ * 门控类（由 EditorBackgroundService 挂载到 body）：
+ *   .style-tweaker-editor-bg             —— 总开关（type !== none 时）
+ *   .style-tweaker-editor-bg-grid        —— 网格图案
+ *   .style-tweaker-editor-bg-dotted      —— 点阵图案
+ *   .style-tweaker-editor-bg-fixed       —— 不跟随滚动（图案固定）
+ *
+ * 图案颜色 / 滚动方式由 JS 注入的 CSS 变量控制，这里在 :root 提供兜底默认值；
+ * 图案透明度（按深浅色）与各类型间距均在 CSS 中写死，不随 JS/设置变化：
+ *   --style-tweaker-editor-bg-color       统一图案颜色（网格/点阵、深/浅共用，默认 #c7c7c7）
+ *   --style-tweaker-editor-bg-attach      背景附着方式（local=跟随滚动 / scroll=固定）
+ *
+ * 各类型间距固定为默认值：
+ *   - 网格单层：单格 20px
+ *   - 网格双层：细格 15px、粗格 = 细格×5 = 75px
+ *   - 点阵单点：点距 22px
+ *   - 点阵交错：点距 30px、偏移 = 半格 = 15px
+ *
+ * 透明度默认值：
+ *   - 网格(grid-1/grid-2)：浅色 alpha 25% / 深色 alpha 12%
+ *   - 点阵(dotted-1/dotted-2)：浅色 alpha 50% / 深色 alpha 12%
+ *
+ * 实现说明（避免卡死）：
+ *   - 背景直接绘制在 .cm-scroller / .markdown-preview-view 自身的 background 上，
+ *     不额外创建铺满巨型滚动内容区的伪元素，不给每行内容加 position/z-index。
+ *   - 不透明度通过 color-mix 烘焙进图案颜色，避免用 opacity 影响正文子元素。
+ *   - 线宽 / 点径：grid-1/grid-2 线宽 1px、点阵点径 10%。
+ *   - 代码块 / 嵌入块（.cm-embed-block / .markdown-embed 内的预览）透出同一图案，
+ *     避免白色方块遮挡（background: inherit !important）。
+ * ============================================================ */
+
+:root {
+  /* 兜底默认值（JS 会注入统一颜色/附着方式覆盖此处）。
+     颜色为统一图案颜色；透明度与各类型间距在此写死：
+       网格单层 20px、网格双层细格 15px（粗格 = 细格×5=75px）、
+       点阵单点 22px、点阵交错 30px（偏移 = 半格=15px），均为默认值。 */
+  --style-tweaker-editor-bg-color: #c7c7c7;
+  --style-tweaker-editor-bg-attach: local;
+  /* 浅色主题默认不透明度：网格 25% / 点阵 50% */
+  --style-tweaker-editor-bg-grid-alpha: 25%;
+  --style-tweaker-editor-bg-dotted-alpha: 50%;
+}
+
+/* 深色主题：图案透明度写死为默认值（网格 12% / 点阵 12%）。
+   深浅差异在此由主题类切换，JS 无需感知主题。 */
+body.style-tweaker-editor-bg.theme-dark {
+  --style-tweaker-editor-bg-grid-alpha: 12%;
+  --style-tweaker-editor-bg-dotted-alpha: 12%;
+}
+
+/* —— 嵌入块 / 标注透出编辑器背景，避免遮挡 —— */
+body.style-tweaker-editor-bg
+  .cm-s-obsidian
+  .cm-embed-block,
+body.style-tweaker-editor-bg
+  .markdown-embed
+  :is(.markdown-preview-view, .markdown-rendered) {
+  background: inherit !important;
+}
+
+/* —— 网格图案 1（单层细网格。单格固定 20px，线宽 1px） —— */
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-1
+  .cm-editor
+  .cm-scroller,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-1
+  .markdown-preview-view,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-1
+  .markdown-reading-view
+  .markdown-rendered {
+  background-color: transparent;
+  background-image: linear-gradient(
+      90deg,
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    ),
+    linear-gradient(
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    );
+  background-size: 20px 20px;
+  background-attachment: var(--style-tweaker-editor-bg-attach);
+}
+
+/* —— 网格图案 2（双层网格：细格固定 15px、粗格 = 细格×5 = 75px，均为 1px 线宽） —— */
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-2
+  .cm-editor
+  .cm-scroller,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-2
+  .markdown-preview-view,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-grid-2
+  .markdown-reading-view
+  .markdown-rendered {
+  background-color: transparent;
+  background-image: linear-gradient(
+      90deg,
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-grid-alpha),
+          transparent
+        )
+        1px,
+      transparent 0
+    );
+  background-size: 75px 75px,
+    75px 75px,
+    15px 15px,
+    15px 15px;
+  background-attachment: var(--style-tweaker-editor-bg-attach);
+}
+
+/* —— 点阵图案 1（单点：点距固定 22px、位置 8px 8px、点径 10%） —— */
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-1
+  .cm-editor
+  .cm-scroller,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-1
+  .markdown-preview-view,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-1
+  .markdown-reading-view
+  .markdown-rendered {
+  background-color: transparent;
+  background-image: radial-gradient(
+    color-mix(
+        in srgb,
+        var(--style-tweaker-editor-bg-color)
+          var(--style-tweaker-editor-bg-dotted-alpha),
+        transparent
+      )
+      10%,
+    transparent 0
+  );
+  background-size: 22px 22px;
+  background-position: 8px 8px;
+  background-attachment: var(--style-tweaker-editor-bg-attach);
+}
+
+/* —— 点阵图案 2（交错双点：点距固定 30px、点径 10%、第二层偏移半格 = 15px 形成错落） —— */
+/* 用两层 radial-gradient 合并：第二层偏移半格，形成错落排布。
+   通过 background-position 分离两层，避免依赖 ::after 定位。 */
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-2
+  .cm-editor
+  .cm-scroller,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-2
+  .markdown-preview-view,
+body.style-tweaker-editor-bg.style-tweaker-editor-bg-dotted-2
+  .markdown-reading-view
+  .markdown-rendered {
+  background-color: transparent;
+  background-image: radial-gradient(
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-dotted-alpha),
+          transparent
+        )
+        10%,
+      transparent 0
+    ),
+    radial-gradient(
+      color-mix(
+          in srgb,
+          var(--style-tweaker-editor-bg-color)
+            var(--style-tweaker-editor-bg-dotted-alpha),
+          transparent
+        )
+        10%,
+      transparent 0
+    );
+  background-size: 30px 30px;
+  background-position: 0 0,
+    15px 15px;
+  background-attachment: var(--style-tweaker-editor-bg-attach);
+}

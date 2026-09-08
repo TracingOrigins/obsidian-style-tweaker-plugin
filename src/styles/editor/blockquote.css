@@ -1,0 +1,117 @@
+/* ============================================================
+   块引用（Blockquote / > quote）样式
+   ============================================================ */
+
+
+/* 引号样式用 boxicons（图标字体，内联自带，用户无需安装） */
+@font-face {
+  font-family: boxicons;
+  src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAUQAAwAAAAACcgAAATCAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYGYABcEQgKizCJEgsWAAE2AiQDIAQgBYJKB20bvAfIjsK22bOwIjmQDyeRhxX00NzbvN1Nmu62nLQHQCDL9ufY3SlWLCy602dZsQLOD3n6L92cdrLTQfkrT6MySDfJpw9OaT98nP5JmH4/V2cmpe/6WhKztuSGJ/ESuA4hvX1EJEJolEji6JTI0tpue1NL4JWIHgIq4OgbhCi/3NpClyACc5XyAoCL6n70EWwlhmpONTB1FlpfjQVO/p/gZZEPIDSpXtxo4LaSYhHSHYt+SxUJhpheH+5uX9ye3VV/Gfy/gOQ3Fu8zRRlHGQfpRqmPgCzFCBUF1Uh/SQrUgH4DZhk6yeGXoC8cBhsxFq7pb0yj9ZTXp1KXLMmRQUixqcS8vOSggBJukKH1ydDZR4IPYZr5Euhg83gIFk9pP/Clx0I87acK8hy24z0qvcx2nb/0Cdoa+Ii0XgVzgN6r+iK0nkGLXR2X+z/gex7bxsateRzxFtwXn/LeVSySZJFoZH5I+4HvqJZKR+o4Dur6t87I2TrM6j9XdbrRcY44fLSlI+3ubuzuV5Hdvmmca2jI1uvoSDsmADmD6IHuGenUM5hVdZIFkpwkXs2bzaqVg5ig21xnZ9bUpK4udbC3keseVkdfg/zQ+QTxrilf2khRYnFlXQ3oFA9wOU5xw2nnctiCmtR0SRXZXYGyoKwnVewY+LjeTGHwbDzaORny7Ubx7umQd2bik2Sobg3K+RPl9l33+SOXNRX7Rzyyh3xsi93O6bABkL+k7Qg6sJdNW4lpYOrJSeqY8Y5wNiV/TaCTQbNh4pWu3ptEMLym787heHiFV1iqrfSZGuEmx6pMFUnBWUPZprrSuqbVv4VrsZIKU9XLvSABx5PYHh7sJLorocDdi5VC+fTknXoQAxapG1EZ7VJcvB7ywPCse5ZoWiXhxg3VDtXKzdUSo1yu6AlFbyjzB3Pl5lRYKqpMFQC6zlNVwVQBoO3DfBetL/3fZHyLEH875zoW9LUhTUVOcYUwA6fRgIBbTtKvA2yR+LMPYlIc5SLq732uzjZsbz84PdW809uR351YPvDkeGS/e1mcsIKQurCaoLCpnHWQjeFEVjhOEDgAvBQ5jVYIczAa5Qa864uU+J0mG9FJzq7mz8ye7ie0vQGl5woLR5VRhY1FYIfw4VmMLCL8P4DJY4JBvrso7cAWqDglK65rDHcKgpDsOnEZo+/qSKSJPI5BruiogT4dVdX60tQ816e755+W0fkD9Kn+1ymZhUg7aIxqABL9F1JVtE7bwhtlS+iC/gaPfES5EmhGRPcKfzdjw4z8RBxP5HiAThQ/8i1/7/VOSbevCeoAeBVmJ+lNFB8tT6ATuAU6O9hvowFoaKlY+maXjJ1P0vq4gXpOO6ynCtbAAgG8fQ61ZUvrtSoegKYKJ8usGcpIYLktWu4idUSgenkMV3u60AWLXDmihnGgNlQxb7mF5Q7UEQ2sWR6D18uFQ3uIogdmMPf3es536ZyNhdVX/kVvRrnAOOLfKX4a7IGgiBTiIMgklwgSSCKfdGLIgU0COeSSUjGpxRhGMIoFieY8tDhIAtqr9WPII4H4zj0Uo8XiwfKhEM12YYFBf70HGYwsVk6RYpUpiQ8eK85KthbJP5FiReyeEPPGMJafL53oZ03CnHJ0G2cA")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --style-tweaker-blockquote-color: var(--color-accent);
+  --style-tweaker-blockquote-border-color: var(--color-accent);
+  /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */
+  --style-tweaker-blockquote-background: color-mix(
+    in srgb,
+    var(--text-muted) 12%,
+    transparent
+  );
+}
+
+body.style-tweaker-blockquote-custom {
+  --blockquote-color: var(--style-tweaker-blockquote-color, var(--color-accent));
+  --blockquote-border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+}
+
+/* 开启自定义颜色时，块引用应用自定义颜色；未开启则保持 Obsidian 原生颜色 */
+body.style-tweaker-blockquote-custom :is(.markdown-preview-view, .markdown-rendered) blockquote {
+  color: var(--blockquote-color, var(--color-accent));
+  border-left-color: var(--blockquote-border-color, var(--color-accent));
+}
+
+body.style-tweaker-blockquote-custom .cm-s-obsidian span.cm-quote {
+  color: var(--blockquote-color, var(--color-accent));
+}
+
+/* 色带填充 */
+body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote {
+  padding: 0.5em 0.5em 0.5em 0.6em;
+  border-right-width: 0;
+  border-left: solid;
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-left-width: 5px;
+  border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  background-color: var(--style-tweaker-blockquote-background);
+  border-radius: var(--radius-s);
+  margin-inline-start: 2.5%;
+  margin-inline-end: 2.5%;
+  color: var(--blockquote-color, var(--color-accent));
+}
+
+body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote p {
+  margin-left: 1px;
+  margin-right: 0;
+}
+
+/* 引号样式（用 Unicode 引号字符，避免依赖外部字体导致引号乱码/不显示） */
+body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote::before,
+body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
+  border-left: none;
+}
+
+body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote {
+  color: var(--blockquote-color, var(--text-normal));
+  background: transparent;
+  padding-left: 35px;
+  padding-right: 10px;
+  margin-inline-start: 1%;
+  margin-inline-end: 1%;
+  border-left-width: 0;
+  border: none;
+}
+
+body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote p {
+  position: relative;
+  margin-left: 0.7em;
+  margin-right: 0;
+}
+
+body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote p:first-of-type::before {
+  content: "\ee81";
+  font-size: 2em;
+  font-family: boxicons;
+  color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  position: absolute;
+  top: -0.4em;
+  left: -1.2em;
+}
+
+body.style-tweaker-blockquote-quotation-mark
+  .markdown-source-view.mod-cm6.is-live-preview
+  .HyperMD-quote:not(.cm-active) > .cm-formatting.cm-formatting-quote.cm-quote::before {
+  content: "\ee81";
+  font-size: 1.5em;
+  font-family: boxicons;
+  color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  position: absolute;
+  margin-left: -0.8em;
+}
+
+body.style-tweaker-blockquote-quotation-mark
+  .markdown-source-view.mod-cm6.is-live-preview
+  .HyperMD-quote + .HyperMD-quote > .cm-formatting.cm-formatting-quote.cm-quote::before {
+  display: none;
+}
+
+body.style-tweaker-blockquote-quotation-mark
+  .markdown-source-view.mod-cm6.is-live-preview
+  .cm-content div.HyperMD-quote .cm-blockquote-border {
+  border: none;
+}

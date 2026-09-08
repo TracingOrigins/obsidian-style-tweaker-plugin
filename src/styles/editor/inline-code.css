@@ -1,0 +1,69 @@
+/* ============================================================
+   内联代码（Inline code）样式
+   ============================================================ */
+
+/* 内联代码强调色派生变量。
+   - 未开启自定义：使用主题强调色（与 Obsidian 默认一致）。
+   - 开启自定义（.style-tweaker-inline-code-custom）：使用 EditorInlineCodeService
+     注入的 --style-tweaker-inline-code-color（用户所选颜色，空值已在 JS 端回退为 --text-accent）。
+   注意：注入变量名是 --style-tweaker-inline-code-color，此处仅做"是否启用"的开关，
+   不要把同名变量无条件钉死，否则会覆盖注入值导致颜色修改无效。 */
+:root {
+  --style-tweaker-inline-code-accent: var(--color-accent);
+}
+
+body.style-tweaker-inline-code-custom {
+  --style-tweaker-inline-code-accent: var(--style-tweaker-inline-code-color, var(--color-accent));
+}
+
+/* 目标选择器：阅读视图与编辑视图中的内联代码（排除代码块内的 code）。
+   仅在开启内联代码自定义（inlineCodeStyle / inlineCodeCustom）时生效，
+   默认时内联代码保持 Obsidian 原生样式（--code-normal 文字 + --code-background 背景）。 */
+body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom)
+  :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view)
+  :not(pre)
+  > code,
+body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom)
+  .cm-s-obsidian
+  span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(
+    .obsidian-search-match-highlight
+  ) {
+  color: var(--style-tweaker-inline-code-accent);
+  background-color: color-mix(
+    in srgb,
+    var(--style-tweaker-inline-code-accent) 8%,
+    transparent
+  );
+}
+
+/* 内联代码增强样式
+   门控类 .style-tweaker-inline-code-style 由 EditorInlineCodeService 注入。 */
+body.style-tweaker-inline-code-style {
+  --style-tweaker-inline-code-box-accent: var(
+    --style-tweaker-inline-code-accent
+  );
+
+  :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view)
+    :not(pre)
+    > code,
+  .cm-s-obsidian
+    span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(
+      .obsidian-search-match-highlight
+    ) {
+    font-family: var(--font-text, var(--font-text-theme));
+    font-size: 0.9375rem;
+    border-radius: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    white-space: nowrap;
+    color: var(--style-tweaker-inline-code-accent);
+    border: 1px solid
+      color-mix(in srgb, var(--style-tweaker-inline-code-box-accent) 30%, transparent);
+    box-shadow: 0 3px
+      color-mix(in srgb, var(--style-tweaker-inline-code-box-accent) 30%, transparent);
+    background-color: color-mix(
+      in srgb,
+      var(--style-tweaker-inline-code-box-accent) 10%,
+      transparent
+    );
+  }
+}

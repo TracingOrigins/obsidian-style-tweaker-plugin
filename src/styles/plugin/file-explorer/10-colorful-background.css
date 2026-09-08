@@ -1,0 +1,77 @@
+/* 设置文件探索器容器外边距 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container {
+  margin: 0 5px;
+}
+
+/* 文件夹标题（含所有层级的嵌套文件夹）：background 模式统一走 folder-text 文字色，
+   否则只有第一层被着色、嵌套文件夹仍用 Obsidian 默认的淡色导航文字造成不一致。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .nav-folder-title {
+ color: var(--style-tweaker-fe-colorful-folder-text);
+}
+
+/* 圆角边框 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder.is-collapsed>.nav-folder-title {
+  border-radius: 5px;
+}
+
+/* 普通子文件夹内容（从每个顶层文件夹展开的部分）
+   参考其他模式：不覆盖缩进线位置/文件名位置/图标位置的布局，
+   使用 Obsidian 原生缩进与缩进线，保持与 title/border/block 模式一致的对齐。
+   仅保留彩色卡片所需的圆角与底部留白。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder>.nav-folder-children {
+  padding-bottom: 5px;
+}
+
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-file-title-content {
+color: var(--style-tweaker-fe-colorful-folder-text);
+}
+
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.is-mobile .nav-folder-title {
+  margin-bottom: 0;
+}
+
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.is-mobile .nav-files-container>div>.tree-item.nav-folder>.nav-folder-children {
+  padding-bottom: 5px;
+}
+
+/* 选中文件不添加额外高亮/下划线样式，使用 Obsidian 默认选中样式，
+   避免与文件图标（.nav-file-title::before）冲突或视觉杂乱。 */
+
+/* 把每个文件夹的 --style-tweaker-fe-colorful-tab-color（由首字母映射到 --style-tweaker-fe-colorful-folder-0..Z）作为背景色。
+   仅作用于第一层文件夹的标题 .nav-files-container>div>.tree-item.nav-folder>.nav-folder-title，
+   不作用于其下的 .nav-folder-children（子文件夹/子文件），避免子内容被染色。
+   注意：排除 .style-tweaker-fe-colorful-palette-custom —— 自定义配色由单色规则渲染，避免被 --style-tweaker-fe-colorful-tab-color 回退色覆盖。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background:not(.style-tweaker-fe-colorful-palette-custom) .nav-files-container>div>.tree-item.nav-folder {
+  background-color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-folder-0));
+  color: var(--style-tweaker-fe-colorful-folder-text, inherit);
+  border-radius: var(--radius-s);
+}
+
+/* 把每个文件夹的 --style-tweaker-fe-colorful-tab-color（映射自 --style-tweaker-fe-colorful-folder-0..Z）作为标题背景色。
+   这是真正绘制彩色文件夹的核心规则；没有它，--style-tweaker-fe-colorful-tab-color 变量虽已定义却永远不会被使用。
+   仅作用于第一层文件夹的标题 .nav-files-container>div>.tree-item.nav-folder>.nav-folder-title，
+   不作用于其下的 .nav-folder-children。
+   !important 用于覆盖 Obsidian 自身的 .nav-folder-title 背景。
+   注意：排除 .style-tweaker-fe-colorful-palette-custom，使自定义配色单色不被覆盖。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background:not(.style-tweaker-fe-colorful-palette-custom) .nav-files-container>div>.tree-item.nav-folder {
+  background-color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-folder-0, #823131d7)) !important;
+  color: var(--style-tweaker-fe-colorful-folder-text, inherit) !important;
+  border-radius: var(--radius-s) !important;
+}
+
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] {
+  background-color: var(--background-secondary-alt);
+}
+
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder.mod-root>.nav-folder-title {
+  background-color: initial;
+}
+
+/* 彩色背景模式：折叠箭头用 currentColor 继承标题/文件夹图标的颜色（与二者严格一致）。
+   覆盖 file-explorer-08 通用规则里箭头用 var(--style-tweaker-fe-colorful-tab-color)（彩虹色）——背景模式下
+   标题文字/文件夹图标都用 currentColor 继承 .nav-folder-title 的 color（= folder-text），
+   箭头改用 currentColor 即可与图标、标题同色。选择器含 mode-background 且文件加载在后，特异性更高。 */
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .style-tweaker-fe-colorful-collapse {
+  color: currentColor !important;
+}
+

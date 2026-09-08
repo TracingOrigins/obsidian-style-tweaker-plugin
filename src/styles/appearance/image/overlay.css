@@ -1,0 +1,314 @@
+/* 工作区：图片背景激活时的原生 UI 容器透明化 + 玻璃浮层
+ *
+ * 壁纸承载：图片模式下壁纸由 background-css.ts 注入的 body::before（图片层）+ body::after
+ * （遮罩层）双伪元素承载，根层最底，桌面/移动端共用。各 UI 容器只需 background:transparent
+ * 即透出壁纸。门控类由 background-service.ts 挂载于 html/body。
+ *
+ * 门控类：整组以 .style-tweaker-bg-image-active（仅图片模式挂载）为前缀，纯色模式不挂载
+ * 该类，整组自然失效。纯色模式样式后续将完全重写，不在本文件处理。
+ *
+ * 玻璃模糊策略：
+ *   - 桌面端（含独立窗口、浮层）：容器完全透明，backdrop-filter 直接模糊背后的壁纸（真玻璃）。
+ *   - 移动端框架容器（设置页、社区插件窗口、navbar/tabbar）：透明背景 + backdrop-filter，模糊半径
+ *     减半（*0.5）、饱和度 1.15、阴影减轻，避免磨砂过度。注：移动端设置页/社区插件窗口为内嵌主文档、
+ *     非独立窗口，框架默认不透明，故采用玻璃方案。
+ *
+ * 组织约定：所有「仅移动端」规则统一收在文件末尾单一 body.style-tweaker-bg-image-active.is-mobile
+ * 根块内，桌面端规则集中在文件上方，避免同类 is-mobile 前缀重复出现。
+ */
+
+/* ============ 仅图片模式：titlebar 清理 + 分隔线 ============ */
+/* 主窗口与独立窗口的 .titlebar 壁纸由 background-css.ts 统一承载，此处只清遗留模糊效果。 */
+body.style-tweaker-bg-image-active:has(.workspace) {
+  > .titlebar,
+  > .titlebar .titlebar-inner {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* ============ 仅图片模式：桌面端容器整组完全透明，透出壁纸（等效界面不透明度 = 0） ============ */
+.style-tweaker-bg-image-active {
+  .titlebar-button-container,
+  .titlebar-button-container.mod-left,
+  .titlebar-button-container.mod-right,
+  .titlebar-button-container .titlebar-button,
+  .titlebar-button,
+  .workspace-ribbon.side-dock-ribbon,
+  .workspace-ribbon.side-dock-ribbon::before,
+  .workspace-tab-header-container,
+  .workspace-tab-header-container-inner,
+  .workspace-tabs,
+  .workspace-split,
+  .workspace-leaf,
+  .workspace-sidedock,
+  .workspace-sidedock-vault-profile,
+  .workspace-drawer,
+  .workspace-drawer-header,
+  .workspace-drawer-ribbon,
+  .vertical-tabs-container,
+  .vertical-tab-header,
+  .vertical-tab-content,
+  .vertical-tab-content-container,
+  .workspace-tab-container,
+  .workspace-tab-container-after,
+  .workspace-tab-container-before {
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* ============ 仅图片模式：桌面端磨砂玻璃浮层（弹出层 / 右键菜单 / 状态栏 / popover / tooltip） ============ */
+/* 玻璃模糊仅与图片背景关联（设置项仅在图片模式显示），纯色模式不挂载 IMAGE_CLASS，整组失效。
+   模糊半径来自 token --style-tweaker-glass-blur（用户滑块 0~30px，0 时 blur(0px) 自动关断）。
+   注：右键菜单 .menu 的玻璃效果实际渲染可能受 Obsidian 菜单位置/文档影响而失效，
+   此规则保留原 backdrop-filter 方案，未做破坏性改动。 */
+/* 注：第三方插件弹窗（.modal）的玻璃效果已在 modal.css 按「独立窗口/内嵌」分形态处理，
+   独立窗口形态纯透明透壁纸、不加玻璃；此处仅处理系统浮层（命令面板/建议/菜单/状态栏等）。 */
+.style-tweaker-bg-image-active {
+  .modal-container .prompt,
+  /* .community-item, */
+  .suggestion-container,
+  .suggestion-container.mod-search-suggestion,
+  .suggestion-container.mod-search-suggestion .suggestion,
+  .menu,
+  .status-bar,
+  .popover,
+  .tooltip {
+    background-color: transparent !important;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    /* 原生 .tooltip 文字色写死为浅色（--text-on-accent），透明玻璃下浅色主题看不清；
+       改用跟随主题的正常文字色，深/浅色均清晰。 */
+    color: var(--text-normal) !important;
+  }
+
+  /* 全局搜索视图（.search-result-container）的匹配块：玻璃表面 + 圆角。
+     .search-result-container 是独立搜索视图（非 suggestion 弹层），默认不透明，
+     加玻璃后透出壁纸且保持可读。与系统浮层同款玻璃（模糊减半 + 饱和度 1.15）。 */
+  .search-result-container .search-result-file-matches {
+    background-color: transparent !important;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    border-radius: var(--radius-m) !important;
+  }
+
+  /* tooltip 箭头：开启壁纸时直接隐藏所有方向的箭头。箭头独立于气泡之外、直接压壁纸，
+     无法与气泡共用同一玻璃背板，隐藏后气泡自身玻璃即可，视觉更干净。 */
+  .tooltip .tooltip-arrow {
+    display: none !important;
+  }
+
+  /* 浮层内部容器（prompt-inner / menu-item）也透明，让玻璃模糊透到内容背后。 */
+  .modal-container .prompt .prompt-inner,
+  .menu .menu-item {
+    background-color: transparent !important;
+  }
+}
+
+/* ============ 仅图片模式：其它控件透明细节补丁（桌面 / 移动通用） ============ */
+
+/* 命令面板/快速切换输入框在 hover/focus 时完全透明，透出壁纸。 */
+.style-tweaker-bg-image-active {
+  input.prompt-input:hover,
+  input.prompt-input:focus,
+  input.prompt-input:focus-visible {
+    background-color: transparent !important;
+  }
+
+  /* 活动标签（.is-active）及带活动菜单态（.has-active-menu）背景透明，
+     使活动标签的高亮不再遮挡壁纸。 */
+  .workspace-tab-header.is-active,
+  .workspace-tab-header.has-active-menu {
+    background: transparent !important;
+  }
+}
+
+/* 搜索输入框、设置面板搜索框容器：透明化补丁。 */
+.style-tweaker-bg-image-active {
+  .search-input-container input {
+    background: transparent !important;
+  }
+
+  .setting-group .setting-group-search {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    border-bottom: none !important;
+    background: transparent !important;
+  }
+}
+
+/* ============ 仅图片模式 + 移动端：移动端专属 UI 玻璃 / 透明（单一根块） ============ */
+/* 移动端规则全部集中于此：body.style-tweaker-bg-image-active.is-mobile 为唯一根选择器。
+   - 框架容器（设置页 / 社区插件窗口）为内嵌主文档、非独立窗口，默认不透明，
+     采用玻璃模糊（透明背景 + backdrop-filter + 轻阴影），半径复用 --style-tweaker-glass-blur
+     但减半（*0.5）、饱和度 1.15，避免磨砂过度。
+   - navbar / tabbar / tab-switcher / mod-raised 等移动端专属结构各自透明或玻璃化，透出壁纸。 */
+body.style-tweaker-bg-image-active.is-mobile {
+  /* 移动端 navbar / tabbar：透明，透出 body::before 的整屏壁纸（壁纸由
+     buildBackgroundLayerCss 以 body::before 图片层 + body::after 遮罩层双伪元素承载，
+     z-index:-1，桌面/移动端共用）。不干预 z-index，抽屉打开时由 background-css.ts 把 navbar 降到
+     -1 层，重叠区自然显示抽屉。 */
+  .mobile-navbar,
+  .mobile-navbar.mod-raised,
+  .mobile-tabbar {
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* 移动端带 mod-raised 的元素透明，透出壁纸/玻璃。 */
+  .mod-raised {
+    background: transparent !important;
+  }
+
+  /* 移动端标签切换器（.mobile-tab-switcher）：与 .modal-container .prompt 同款玻璃模糊。
+     自身携带壁纸背景作为 backdrop-filter 模糊源——移动端 tab-switcher 常有 transform 滑入动画、
+     创建独立层叠上下文，若仅靠透明透出根层 body::before，模糊会被 context 隔断而无效；
+     故给它自身挂壁纸，保证玻璃效果生效。背景与 body::before 同为 cover/center，视觉一致。 */
+  .mobile-tab-switcher {
+    background-color: transparent !important;
+    background-image: var(--style-tweaker-bg-image) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* 内部滚动容器：原生不透明背景会盖住 .mobile-tab-switcher 的壁纸，需透明透出。 */
+  .mobile-tab-switcher .mobile-tab-switcher-scroll {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  /* 标签切换器内的选项预览及其空状态、关闭按钮：原生不透明背景盖住壁纸，需透明透出。 */
+  .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview,
+  .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview .mobile-tab-preview-empty,
+  .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview .close-button {
+    background-color: transparent !important;
+  }
+
+  /* ============ 移动端框架容器玻璃：设置页 / 社区插件窗口 ============ */
+
+  /* 外层玻璃：设置页 + 社区插件窗口（两容器同款）。 */
+  .modal.mod-settings,
+  .mod-community-modal {
+    /* background-color: transparent !important; */
+    background-image: none !important;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* 设置页内部容器透明，透出 .modal.mod-settings 的玻璃模糊（而非各自不透明背景）。 */
+  .modal.mod-settings .vertical-tab-header-group-items,
+  .modal.mod-settings .setting-search-result-group,
+  .modal.mod-settings .setting-items {
+    background-color: transparent !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+  }
+
+  .modal.mod-settings .search-input-container {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+  }
+  
+  .search-input-container input:focus {
+    box-shadow: none !important;
+  }
+  
+  /* 设置窗口右侧设置分组中设置项的上边框 */
+  .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+  }
+
+  .modal.mod-settings .vertical-tab-nav-item-chevron,
+  .modal.mod-settings .vertical-tab-nav-item-title,
+  .modal.mod-settings .setting-search-result-tab-text {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+  }
+
+  /* 社区插件窗口内部容器透明，透出玻璃模糊（边框沿用主题强调色，与设置页呼应）。 */
+  .modal.mod-community-modal {
+    background-color: transparent !important;
+    border: 1px solid var(--color-accent) !important;
+  }
+
+  /* 社区插件窗口变量覆盖：让内部项/弹窗背景随玻璃透明，不残留原生不透明底色。
+     深色主题额外让设置项容器背景透明。 */
+  &.theme-dark .mod-community-modal {
+    --setting-items-background: transparent;
+  }
+
+  .mod-community-modal {
+    --modal-background: transparent;
+  }
+
+  .mod-community-modal .community-item {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+  }
+
+  /* 设置页 modal 边框 + 圆角（与社区插件窗口的 accent 边框风格一致）。 */
+  .modal.mod-settings {
+    border: 1px solid var(--color-accent) !important;
+    border-bottom: none !important;
+  }
+
+  /* 移动端弹窗（设置页 / 社区插件窗口）头部底部分隔线透明，避免遮挡玻璃。 */
+  .modal.mod-settings .modal-header:after,
+  .modal.mod-community-modal .modal-header:after {
+    background-color: transparent;
+  }
+
+  /* 移动端工具栏（.mobile-toolbar）透明，透出壁纸/玻璃。 */
+  .mobile-toolbar,
+  .mobile-toolbar-spacer {
+    background-color: transparent;
+  }
+
+  /* 移动端右键菜单（.menu）边框：与上方命令面板（.prompt）的 accent 边框风格统一，
+     在玻璃模糊基础上勾勒轮廓，使浮层边界更清晰。 */
+  .menu {
+    border: 1px solid var(--color-accent) !important;
+    border-bottom: none !important;
+  }
+  
+  /* 移动端新标签页按钮透明 */
+  .empty-state .empty-state-action {
+    background-color: transparent !important;
+  }
+
+  /* 移动端标签页预览容器边框 */
+  .mobile-tab:not(.is-active) .mobile-tab-preview-empty {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+  }
+
+  /* 移动端提示框 */
+  .modal-container .prompt {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    border-bottom: none !important;
+  }
+
+  /* 移动端提示框输入框边框 */
+  .modal-container .prompt .prompt-input[type=text] {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+  }
+
+  /* 移动端标签页预览容器边框 */
+  .modal.mod-sidebar-layout .modal-content .vertical-tab-header {
+    padding-top: 0;
+  }
+
+  .modal.mod-settings .modal-header,
+  .modal.mod-community-modal .modal-header {
+    position: relative;
+  }
+
+  .modal.mod-sidebar-layout .modal-content .vertical-tab-content {
+    padding-top: 0;
+  }
+}

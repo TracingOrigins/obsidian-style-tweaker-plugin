@@ -1,0 +1,72 @@
+/* 背景：图片壁纸层骨架（仅图片模式）
+ *
+ * 门控类：整组以 .style-tweaker-bg-image-active 为前缀（仅图片模式挂载），
+ * 纯色模式（solid）不挂载该类，本组规则整组失效。只有背景图片需要核心容器
+ * 透明化以透出壁纸；纯色模式由 solid.css 自行处理，不依赖本文件。
+ * 本文件是静态 CSS，由 esbuild 构建时合并进 dist/styles.css。
+ */
+
+/* .workspace 定位与隔离，确保承载壁纸（body::before 壁纸层）时
+   子内容能正确叠放。仅在图片背景激活（.style-tweaker-bg-image-active）时生效。 */
+.style-tweaker-bg-image-active {
+  .workspace {
+    position: relative;
+    isolation: isolate;
+    background-color: transparent !important;
+
+    /* 保底：核心承载层强制透明，确保壁纸（body::before）透出。
+       这一组能防止不透明内容盖住壁纸。仅在图片模式激活时生效。
+       注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用 !important
+       的 background-image:none 把「编辑器背景」服务的网格/点阵图案一并清除。
+       编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor-bg.css
+       在其自身元素上绘制，二者可共存。 */
+    .workspace-split,
+    .workspace-split.mod-root,
+    .workspace-split.mod-left-split,
+    .workspace-split.mod-right-split,
+    .workspace-leaf,
+    .workspace-leaf-content,
+    .workspace-tabs,
+    .view-header,
+    .view-content {
+      background: none !important;
+      background-color: transparent !important;
+      background-image: none !important;
+    }
+
+    /* 编辑器区仅强制底色透明以透出壁纸，但保留 background-image，
+       以免清除「编辑器背景」服务绘制的网格/点阵图案。 */
+    .markdown-source-view,
+    .markdown-preview-view,
+    .markdown-rendered,
+    .cm-editor,
+    .cm-scroller,
+    .cm-gutters {
+      background-color: transparent !important;
+    }
+  }
+}
+
+/* 堆叠标签（stacked tabs）：多层 .workspace-leaf 空间重叠摆放，原生靠每层叶子自身的
+   不透明背景互相遮挡、只露出层叠边缘。上方把叶子全部透明后，激活层会“透出”下层
+   标签页的内容（含叶子顶部标题条 .view-header 与标签头 .workspace-tab-header 区）。
+   这里给堆叠标签每层的叶子、内容区、标题条与标签头统一补一层与 body::before 对齐的
+   壁纸背景（background-attachment: fixed 使图像相对视口固定，与根层壁纸逐像素一致），
+   并叠加同款遮罩色，使顶层叶子/标题条/标签头既能遮挡下层内容、视觉上仍是同一张壁纸。 */
+body.style-tweaker-bg-image-active {
+  .workspace-tabs.mod-stacked .workspace-leaf,
+  .workspace-tabs.mod-stacked .workspace-leaf-content,
+  .workspace-tabs.mod-stacked .view-header,
+  .workspace-tabs.mod-stacked .workspace-tab-header {
+    --style-tweaker-stacked-mask: linear-gradient(
+      color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent),
+      color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent)
+    );
+    background-color: transparent !important;
+    background-image: var(--style-tweaker-stacked-mask), var(--style-tweaker-bg-image) !important;
+    background-size: auto, cover !important;
+    background-position: 0 0, center !important;
+    background-repeat: repeat, no-repeat !important;
+    background-attachment: scroll, fixed !important;
+  }
+}

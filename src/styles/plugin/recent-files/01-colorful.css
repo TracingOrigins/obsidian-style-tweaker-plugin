@@ -1,0 +1,197 @@
+/* ===== Recent Files 彩色化主渲染（title / background）=====
+   recent-files 是平铺文件列表（无文件夹层级），每个列表项即一个文件行。
+   结构（recent-files 插件）：
+     .workspace-leaf-content[data-type="recent-files"]
+       .nav-folder.mod-root > .nav-folder-children
+         > .tree-item.nav-file.recent-files-file
+             > .tree-item-self.nav-file-title.recent-files-title
+                 .tree-item-inner.nav-file-title-content  (标题文字)
+                 .nav-file-tag                            (扩展名徽标)
+                 .recent-files-file-delete                (删除按钮)
+
+   门控类（由 RecentFilesService 挂到 body，独立于 file-explorer）：
+     style-tweaker-rf-colorful-enabled                   总开关
+     style-tweaker-rf-colorful-mode-{title|background}  彩色化类型
+     style-tweaker-rf-colorful-palette-{one..six|custom} 配色
+   palette 色值变量 --style-tweaker-rf-colorful-folder-{0..Z} 由
+   rf-colorful-palette-*.css 在对应 palette + theme 门控下定义。 */
+
+/* ===== 1) 顶层文件行：默认回退色 + 按列表位置 nth-child 分配彩虹 ===== */
+/* recent-files 渲染时标题会用 --style-tweaker-rf-colorful-tab-color，先给默认避免未覆盖位置变蓝 */
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file {
+  --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-0);
+}
+
+/* 12 色一组循环（对应 folder-0..9、A、B） */
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+1) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-0); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+2) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-1); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+3) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-2); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+4) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-3); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+5) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-4); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+6) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-5); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+7) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-6); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+8) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-7); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+9) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-8); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+10) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-9); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+11) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-A); }
+body.style-tweaker-rf-colorful-enabled[class*="style-tweaker-rf-colorful-mode-"]
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+12) { --style-tweaker-rf-colorful-tab-color: var(--style-tweaker-rf-colorful-folder-B); }
+
+/* ===== 1b) 自定义配色(custom)的 hue 派生 =====
+   custom palette 把所有 folder 色都指向同一自定义基色（单色），
+   需按列表位置 :nth-child(12n+K) 为每行分配 --rf-hue 旋转角，
+   渲染时以 filter: hue-rotate(var(--rf-hue)) 派生 12 色循环。
+   白色文字不受 hue-rotate 影响（中性色不变），故 background 反白文字安全。 */
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+1) { --rf-hue: 0deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+2) { --rf-hue: 30deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+3) { --rf-hue: 60deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+4) { --rf-hue: 90deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+5) { --rf-hue: 120deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+6) { --rf-hue: 150deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+7) { --rf-hue: 180deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+8) { --rf-hue: 210deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+9) { --rf-hue: 240deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+10) { --rf-hue: 270deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+11) { --rf-hue: 300deg; }
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file:nth-child(12n+12) { --rf-hue: 330deg; }
+
+/* ===== 2) title 模式：仅给标题文字（+文件图标）着色 ===== */
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-title
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file
+  .tree-item-inner.nav-file-title-content {
+  color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0)) !important;
+}
+
+/* 深色主题下的固定配色亮度校正（同 file-explorer title 处理）：folder 色在深色下较暗，
+   提亮到可读。six 配色为亮色，跳过。 */
+body.theme-dark.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-title:not(.style-tweaker-rf-colorful-palette-six)
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file
+  .tree-item-inner.nav-file-title-content {
+  filter: brightness(1.2) hue-rotate(var(--rf-hue, 0deg));
+}
+body.theme-light.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-title:not(.style-tweaker-rf-colorful-palette-six)
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file
+  .tree-item-inner.nav-file-title-content {
+  filter: brightness(0.95) hue-rotate(var(--rf-hue, 0deg));
+}
+
+/* ===== 3) background 模式：给整个文件行加圆角彩色背景块 ===== */
+/* 行内文字/图标对比色随主题：
+   - 深色主题背景块偏深，用白色文字（--style-tweaker-rf-colorful-folder-text 默认 #fff）；
+   - 浅色主题背景块是浅色，改用 Obsidian 默认文字色（--text-normal，浅色下即深色），
+     避免白色文字在浅色背景上不可见。 */
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background.theme-dark {
+  --style-tweaker-rf-colorful-folder-text: #ffffff;
+}
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background.theme-light {
+  --style-tweaker-rf-colorful-folder-text: var(--text-normal);
+}
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file {
+  background-color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0)) !important;
+  border-radius: var(--radius-m);
+  margin: 2px 4px;
+  color: var(--style-tweaker-rf-colorful-folder-text, #fff) !important;
+}
+/* custom 配色下背景为单色基色，需按行 hue-rotate 派生彩虹；白色文字不受影响 */
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background.style-tweaker-rf-colorful-palette-custom
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file {
+  filter: hue-rotate(var(--rf-hue, 0deg));
+}
+/* 行内标题文字、图标（currentColor）都跟随为文件夹对比色以保证可读 */
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file
+  .tree-item-inner.nav-file-title-content,
+body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background
+  .workspace-leaf-content[data-type="recent-files"]
+  .nav-folder-children
+  > .tree-item.nav-file.recent-files-file
+  .recent-files-title::before {
+  color: var(--style-tweaker-rf-colorful-folder-text, #fff) !important;
+}

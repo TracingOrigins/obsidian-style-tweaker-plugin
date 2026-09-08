@@ -1,0 +1,101 @@
+/* ============================================================
+   代码块（Code block）样式
+   ============================================================ */
+
+pre {
+  position: relative;
+}
+
+/* 显示语言标签
+   门控类 .style-tweaker-code-block-show-lang 由 EditorCodeBlockService 注入。 */
+body.style-tweaker-code-block-show-lang pre::before {
+  color: var(--text-faint);
+  opacity: 0.7;
+  font-family: var(--font-text, var(--font-text-theme));
+  font-weight: normal;
+  position: absolute;
+  right: 48px;
+  top: 0.5em;
+}
+
+body.style-tweaker-code-block-show-lang pre[class~="language-c"]::before { content: "C"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-py"]::before { content: "PYTHON"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-python"]::before { content: "PYTHON"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-nginx"]::before { content: "NGINX"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-css"]::before { content: "CSS"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-javascript"]::before { content: "JS"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-js"]::before { content: "JS"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-php"]::before { content: "PHP"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-shell"]::before { content: "SHELL"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-bash"]::before { content: "SHELL"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-flow"]::before { content: "FLOW"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-sequence"]::before { content: "SEQUENCE"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-sql"]::before { content: "SQL"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-yaml"]::before { content: "YAML"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-ini"]::before { content: "INI"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-xml"]::before { content: "XML"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-git"]::before { content: "GIT"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-cs"]::before { content: "C#"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-cpp"]::before { content: "C++"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-java"]::before { content: "JAVA"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-html"]::before { content: "HTML"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-txt"]::before { content: "TXT"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-r"]::before { content: "R"; }
+body.style-tweaker-code-block-show-lang pre[class~="language-matlab"]::before { content: "MATLAB"; }
+
+/* 显示行号（编辑模式）
+   门控类 .style-tweaker-code-block-line-numbers 由 EditorCodeBlockService 注入。 */
+body.style-tweaker-code-block-line-numbers {
+  .HyperMD-codeblock.HyperMD-codeblock-bg.cm-line span.live-preview-codeblock-line-nums {
+    display: none;
+  }
+
+  .markdown-source-view.mod-cm6 .HyperMD-codeblock-begin {
+    counter-reset: line-numbers;
+  }
+
+  .markdown-source-view.mod-cm6
+    .HyperMD-codeblock.cm-line:not(.HyperMD-codeblock-begin, .HyperMD-codeblock-end) {
+    padding-left: 3em;
+    position: relative;
+  }
+
+  .markdown-source-view.mod-cm6
+    .HyperMD-codeblock.cm-line:not(.HyperMD-codeblock-begin, .HyperMD-codeblock-end)::after {
+    align-items: flex-start;
+    background-color: var(--code-background, var(--background-primary));
+    border-right: 1px solid var(--scrollbar-thumb-bg, var(--background-modifier-border));
+    bottom: -2px;
+    color: var(--text-faint);
+    content: counter(line-numbers);
+    counter-increment: line-numbers;
+    display: flex;
+    font-size: 0.8em;
+    height: 100%;
+    justify-content: flex-end;
+    left: 0;
+    padding-right: 0.5em;
+    pointer-events: none;
+    position: absolute;
+    text-align: right;
+    text-indent: 0;
+    width: 2em;
+    z-index: 1;
+  }
+
+  .markdown-source-view.mod-cm6
+    .HyperMD-codeblock.cm-line.cm-active:not(.HyperMD-codeblock-begin, .HyperMD-codeblock-end)::after {
+    color: var(--color-accent, var(--interactive-accent));
+  }
+
+  .markdown-source-view.mod-cm6 .HyperMD-codeblock .cm-foldPlaceholder::before {
+    display: none;
+  }
+}
+
+/* 自定义代码块圆角（4-16px，值由 EditorCodeBlockService 注入
+   --style-tweaker-code-block-radius）。仅阅读模式生效，
+   不改动源码/实时预览模式的圆角。 */
+body.style-tweaker-code-block-custom-radius .markdown-rendered pre {
+  border-radius: var(--style-tweaker-code-block-radius, 8px);
+}

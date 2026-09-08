@@ -1,0 +1,186 @@
+/* ============================================================
+   新标签页：徽标 + 标题 + 粒子特效
+   ============================================================ */
+
+/* 注入 new-tab 的 view-content：改为 flex column 纵向排布，
+   用 gap 分隔上方的徽标/标题与下方的 empty-state，整体垂直居中。 */
+.view-content.style-tweaker-new-tab-view-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* 粒子画布宽度 = 容器宽 × zoom（默认 ~1.9），会横向溢出视图；
+     裁掉横向溢出，避免空标签页被粒子画布撑出横向滚动条 / 被拉宽。
+     仅隐藏 x 方向，纵向滚动保持 Obsidian 默认行为。 */
+  overflow-x: hidden;
+  /* gap: 6vh; */
+  /* padding: 0 0 12vh 0;  */
+}
+
+/* empty-state 回到文档流，参与纵向排布与 gap（不再绝对定位占满） */
+.view-content.style-tweaker-new-tab-view-content .empty-state {
+  position: static;
+  height: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* 徽标 + 标题根容器：全宽、居中。
+   粒子引擎以 wordmark 容器为定位与鼠标坐标基准，canvas 覆盖徽标/标题区域。
+   粒子开启时，引擎会动态在本容器上撑开上下对称 padding，使画布向上/向下溢出的
+   部分都落在容器内、empty-state 被推后且不被覆盖；此处不再额外加固定间距。 */
+.style-tweaker-new-tab {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* 徽标 + 标题容器：全宽、水平排列、居中。
+   粒子引擎监听该容器实现光标斥力：width 100% 保证横向全宽都能触发扰动；
+   padding 上下留白，让徽标/标题上下的区域也能触发扰动（但不占满高度、不压下方 empty-state）。 */
+.style-tweaker-new-tab-wordmark-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* padding: 5vh 0; */
+  /* 父级 new-tab 是 pointer-events:none（点击穿透到 empty-state），
+     此处需显式允许接收鼠标事件，粒子引擎才能实现光标斥力。 */
+  pointer-events: auto;
+}
+
+/* 徽标位置：top/bottom 垂直堆叠 */
+.style-tweaker-new-tab-wordmark-container.logo-col {
+  flex-direction: column;
+}
+
+/* 徽标位置：right/bottom 时徽标排到标题之后 */
+.style-tweaker-new-tab-wordmark-container.logo-after .style-tweaker-new-tab-logo {
+  order: 2;
+}
+
+/* 徽标容器 */
+.style-tweaker-new-tab-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.style-tweaker-new-tab-logo svg,
+.style-tweaker-new-tab-logo img {
+  display: block;
+  object-fit: contain;
+}
+
+/* 默认徽标：继承主题强调色以适配深浅色 */
+.style-tweaker-new-tab-logo svg {
+  color: var(--text-normal);
+}
+
+/* 标题 */
+.style-tweaker-new-tab-title h1 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 粒子覆盖画布 */
+.style-tweaker-new-tab-particle-canvas {
+  z-index: 1;
+}
+
+/* 徽标/标题原始元素被粒子替换后隐藏。
+   引擎会动态设置 visibility:hidden；此处再用 :has() 依据粒子画布是否存在做双保险，
+   即使重载/时序导致徽标元素被重建，只要画布在，原始徽标与标题就不会透出。 */
+.style-tweaker-new-tab-wordmark-container:has(.style-tweaker-new-tab-particle-canvas)
+  .style-tweaker-new-tab-logo,
+.style-tweaker-new-tab-wordmark-container:has(.style-tweaker-new-tab-particle-canvas)
+  .style-tweaker-new-tab-title {
+  visibility: hidden;
+}
+
+/* ============================================================
+   设置面板：矢量图标徽标控件（logo-code）
+   ============================================================ */
+.style-tweaker-logo-code {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* 左侧矢量图标预览 */
+.style-tweaker-logo-preview {
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background-color: var(--background-secondary);
+  overflow: hidden;
+}
+
+.style-tweaker-logo-preview svg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* 图标代码输入框 */
+.style-tweaker-logo-code-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* 搜索按钮 */
+.style-tweaker-logo-code .clickable-icon {
+  flex: 0 0 auto;
+}
+
+/* ============================================================
+   Lucide 图标搜索弹窗（SuggestModal 模式）
+   ============================================================ */
+.style-tweaker-logo-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+}
+
+.style-tweaker-logo-suggestion .style-tweaker-logo-suggestion-icon {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.style-tweaker-logo-suggestion .style-tweaker-logo-suggestion-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.style-tweaker-logo-suggestion .style-tweaker-logo-suggestion-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--font-ui-medium);
+}
+
+.style-tweaker-logo-suggestion.is-selected .style-tweaker-logo-suggestion-name {
+  color: var(--text-normal);
+}

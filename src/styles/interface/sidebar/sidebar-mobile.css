@@ -1,0 +1,57 @@
+/* 移动端抽屉内容区块置顶（由 sidebar-mobile-service.ts 注入到 body）
+ *
+ * 门控类：
+ *   - style-tweaker-mobile-drawer-header-top  将库信息与状态栏上移置顶
+ *   - style-tweaker-mobile-drawer-tabs-top    将标签控制区上移置顶
+ *   - style-tweaker-mobile-drawer-nav-top     将导航按钮上移置顶
+ * 全部以 body.is-mobile 限定，仅移动端生效；桌面端不受影响。
+ */
+
+/* 库信息和状态栏上移 */
+body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-header {
+  order: 0;
+  padding-bottom: var(--size-4-3);
+  padding-top: 0;
+}
+
+/* 标签选项卡上移 */
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-tab-options {
+  order: 0;
+}
+
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-tab-options-list {
+  padding-top: var(--touch-size-l);
+  padding-bottom: var(--size-4-2);
+  bottom: unset;
+  top: 0;
+}
+
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-active-tab-content .view-content {
+  padding-top: var(--size-4-2) !important;
+  padding-bottom: var(--size-4-8) !important;
+}
+
+/* 导航栏上移 */
+body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer .nav-buttons-container {
+  position: unset;
+  top: 0;
+}
+
+/* 上下边距微调 */
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-header,
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-header {
+  padding-top: 0;
+}
+
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-inner,
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-inner {
+  padding-bottom: 0;
+}
+
+body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-active-tab-content .view-content,
+body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-active-tab-content .view-content {
+  padding-top: 0 !important;
+  padding-bottom: var(--size-4-8) !important;
+}

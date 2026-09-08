@@ -1,0 +1,115 @@
+/* 图片背景：桌面端边框 / 分隔线整理（仅图片模式）
+ *
+ * 门控：整组嵌套在 body.style-tweaker-bg-image-active:not(.is-mobile) 下，
+ * 仅桌面端图片背景激活时生效，移动端不挂载该分支。
+ * 职责：把壁纸模式下 Obsidian 原生的分隔线/边框统一替换为 --st-layout-border-color
+ * 或 accent 混合色，让界面分割在壁纸上清晰可见。
+ */
+
+body.style-tweaker-bg-image-active:not(.is-mobile) {
+  /* ============ 中央内容区域 ============ */
+
+  /* 标签栏中标签之间的分隔线颜色 */
+  .workspace .mod-root .workspace-tab-header-inner::after {
+    background-color: color-mix(in srgb, var(--color-accent) 30%, var(--background-secondary)) !important;
+  }
+
+  /* 当前活动标签的右侧分隔线透明（默认不显示） */
+  .workspace-tab-header-container .workspace-tab-header.is-active .workspace-tab-header-inner::after {
+    opacity: 0;
+  }
+
+  /* 活动标签的上一个标签的右侧分隔线透明（避免残留右侧线） */
+  .workspace-tab-header-container .workspace-tab-header:has(+ .is-active) .workspace-tab-header-inner::after {
+    opacity: 0;
+  }
+
+  /* 隐藏 Obsidian 原生活动标签的顶部/底部装饰 */
+  .workspace-tab-header.is-active::before,
+  .workspace-tab-header.is-active::after {
+    display: none;
+  }
+
+  /* ============ 功能区 ============ */
+
+  /* 功能区上方的左侧栏切换按钮背景清理 */
+  .workspace-ribbon.side-dock-ribbon::before {
+    background-color: transparent !important;
+    border-bottom: none !important;
+  }
+
+  /* 功能区边框透明 */
+  .workspace-ribbon {
+    border-color: transparent !important;
+  }
+
+  /* ============ 侧边栏 ============ */
+
+  /* 左右侧分割线的调整手柄颜色 */
+  .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
+  .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
+    border-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 仓库信息栏上边框 */
+  .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+    border-top: var(--tab-outline-width) solid var(--st-layout-border-color) !important;
+  }
+
+  /* ============ prompt 弹窗 ============ */
+
+  /* prompt 输入框下边框 */
+  input.prompt-input {
+    border-color: var(--st-layout-border-color) !important;
+  }
+
+  /* ============ 设置窗口 / 社区插件市场窗口 ============ */
+
+  /* 独立窗口标题栏下划线 */
+  .is-popout-modal.is-frameless .titlebar {
+    border-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 设置窗口左侧垂直标签栏右边框 */
+  .modal.mod-settings .vertical-tab-header {
+    border-inline-end-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 设置窗口右侧设置分组中设置项的上边框 */
+  .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+  }
+
+  /* 社区插件市场窗口 搜索结果框上边线 */
+  .community-modal-search-results-wrapper {
+    border-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 社区插件市场窗口 详情页左边框 */
+  .community-modal-details {
+    border-inline-start-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 社区插件市场窗口 插件卡片边框 */
+  .community-item {
+    background-color: transparent !important;
+    border-color: var(--st-layout-border-color) !important;
+  }
+
+  /* 社区插件市场窗口 当前选中卡片左边框 */
+  .community-item.is-selected {
+    border-left: 3px solid var(--st-layout-border-color) !important;
+  }
+
+  /* ============ 通用 ============ */
+
+  /* 所有搜索框边线（含 hover/focus 态） */
+  .search-input-container input,
+  .search-input-container input:hover,
+  .search-input-container input:focus,
+  .search-input-container input:focus-visible {
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    box-shadow: none;
+    background-color: transparent;
+  }
+}

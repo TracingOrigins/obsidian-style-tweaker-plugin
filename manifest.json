@@ -1,0 +1,11 @@
+{
+	"id": "style-tweaker",
+	"name": "Style Tweaker",
+	"version": "1.0.0",
+	"minAppVersion": "1.14.1",
+	"description": "Customize the app's appearance with fine-grained style tweaks.",
+	"author": "Kevin",
+	"authorUrl": "https://github.com/TracingOrigins",
+	"fundingUrl": "https://support.tracingorigins.top",
+	"isDesktopOnly": false
+}

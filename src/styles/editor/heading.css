@@ -1,0 +1,103 @@
+/* ============================================================
+   章节标题（Headings）样式
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. 标题悬浮级别标识
+   门控类 .style-tweaker-heading-hover 由 EditorHeadingService 注入。
+   悬停 H1–H6 时，在左侧显示 "H1"…"H6" 级别徽标。
+   ------------------------------------------------------------ */
+body.style-tweaker-heading-hover {
+  :is(.markdown-preview-view, .markdown-rendered) :is(h1, h2, h3, h4, h5, h6) {
+    position: relative;
+  }
+
+  :is(.markdown-preview-view, .markdown-rendered) h1:hover::before {
+    content: "H1";
+    position: absolute;
+    font-size: 0.7rem;
+    width: auto;
+    margin-left: -24px;
+    top: 25px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+  :is(.markdown-preview-view, .markdown-rendered) h2:hover::before {
+    content: "H2";
+    position: absolute;
+    font-size: 0.7rem;
+    width: auto;
+    margin-left: -25px;
+    top: 23px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+  :is(.markdown-preview-view, .markdown-rendered) h3:hover::before {
+    content: "H3";
+    position: absolute;
+    font-size: 0.65rem;
+    width: auto;
+    margin-left: -25px;
+    top: 22px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+  :is(.markdown-preview-view, .markdown-rendered) h4:hover::before {
+    content: "H4";
+    position: absolute;
+    font-size: 0.6rem;
+    width: auto;
+    margin-left: -25px;
+    top: 22px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+  :is(.markdown-preview-view, .markdown-rendered) h5:hover::before {
+    content: "H5";
+    position: absolute;
+    font-size: 0.6rem;
+    width: auto;
+    margin-left: -25px;
+    top: 22px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+  :is(.markdown-preview-view, .markdown-rendered) h6:hover::before {
+    content: "H6";
+    position: absolute;
+    font-size: 0.6rem;
+    width: auto;
+    margin-left: -25px;
+    top: 22px;
+    border: 2px solid;
+    padding: 0 2px;
+    border-radius: 3px;
+  }
+}
+
+/* ------------------------------------------------------------
+   2. 自定义章节标题颜色
+   门控类 .style-tweaker-heading-custom 由 EditorHeadingService 注入。
+   颜色变量：--style-tweaker-heading-h1..h6（空值已在 JS 端回退 --text-accent）。
+   同时作用于阅读视图（.markdown-preview-view h1..h6）与源码编辑（.cm-header-x）。
+   ------------------------------------------------------------ */
+body.style-tweaker-heading-custom {
+  .markdown-preview-view h1 { color: var(--style-tweaker-heading-h1); font-weight: 600; }
+  .markdown-preview-view h2 { color: var(--style-tweaker-heading-h2); font-weight: 600; }
+  .markdown-preview-view h3 { color: var(--style-tweaker-heading-h3); font-weight: 600; }
+  .markdown-preview-view h4 { color: var(--style-tweaker-heading-h4); font-weight: 600; }
+  .markdown-preview-view h5 { color: var(--style-tweaker-heading-h5); font-weight: 600; }
+  .markdown-preview-view h6 { color: var(--style-tweaker-heading-h6); font-weight: 600; }
+
+  .cm-header-1 { color: var(--style-tweaker-heading-h1); }
+  .cm-header-2 { color: var(--style-tweaker-heading-h2); }
+  .cm-header-3 { color: var(--style-tweaker-heading-h3); }
+  .cm-header-4 { color: var(--style-tweaker-heading-h4); }
+  .cm-header-5 { color: var(--style-tweaker-heading-h5); }
+  .cm-header-6 { color: var(--style-tweaker-heading-h6); }
+}

@@ -1,0 +1,60 @@
+/* ============================================================
+ * 页面内标题样式（.inline-title，文档 H1）
+ * ------------------------------------------------------------
+ * 门控类（由 EditorInlineTitleService 挂载到 body）：
+ *   .style-tweaker-inline-title                  —— 总开关
+ *   .style-tweaker-inline-title-center           —— 标题居中
+ *   .style-tweaker-inline-title-right            —— 标题右对齐
+ *   .style-tweaker-inline-title-underline-long   —— 长下划线（占满标题行宽，宽度固定 2px）
+ *   .style-tweaker-inline-title-underline-short  —— 短下划线（仅文字宽度）
+ *   .style-tweaker-inline-title-underline-<style> —— 长下划线的线型
+ *       solid / dashed / double（须叠加 long 才生效；宽度固定：实/虚 2px、双线 4px）
+ *
+ * 默认直接使用 Obsidian 的 --color-accent（跟随用户设置的 Accent color）。
+ * 用户设置自定义颜色时，由 JS 注入覆盖规则（见 editor-inline-title-service.ts）。
+ * ============================================================ */
+
+/* 标题颜色：默认跟随 Obsidian 强调色 */
+body.style-tweaker-inline-title .inline-title {
+  color: var(--color-accent) !important;
+}
+
+/* 居中 */
+body.style-tweaker-inline-title.style-tweaker-inline-title-center
+  .inline-title {
+  text-align: center;
+}
+
+/* 右对齐 */
+body.style-tweaker-inline-title.style-tweaker-inline-title-right
+  .inline-title {
+  text-align: right;
+}
+
+/* 长下划线：占满标题行宽度，默认实线 2px */
+body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long
+  .inline-title {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-accent) !important;
+}
+
+/* 长下划线线型：虚线固定 2px（覆盖默认实线） */
+body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long.style-tweaker-inline-title-underline-dashed
+  .inline-title {
+  border-bottom-width: 2px;
+  border-bottom-style: dashed;
+}
+
+/* 长下划线线型：双线固定 4px（双线太细无法显示，故加宽） */
+body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long.style-tweaker-inline-title-underline-double
+  .inline-title {
+  border-bottom-width: 4px;
+  border-bottom-style: double;
+}
+
+/* 短下划线：仅文字宽度（用 text-decoration；颜色随标题色） */
+body.style-tweaker-inline-title.style-tweaker-inline-title-underline-short
+  .inline-title {
+  text-decoration: underline;
+}

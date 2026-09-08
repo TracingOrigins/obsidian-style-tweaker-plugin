@@ -1,0 +1,128 @@
+/* ---------- 去除第一层文件夹前图标 ----------
+   隐藏第一层文件夹标题前的折叠按钮（.collapse-icon），以及被替换为该图标的文件夹图标。
+   只作用于第一层文件夹标题，不隐藏子文件夹的折叠按钮。 */
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-files-container
+	> div
+	> .tree-item.nav-folder
+	> .tree-item-self.nav-folder-title
+	.collapse-icon,
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-files-container
+	> div
+	> .tree-item.nav-folder
+	> .tree-item-self.nav-folder-title
+	.collapse-icon
+	svg {
+	display: none;
+}
+
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-folder.mod-root
+	> .nav-folder-children
+	> .nav-folder
+	> .nav-folder-title
+	.collapse-icon,
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-folder.mod-root
+	> .nav-folder-children
+	> .nav-folder
+	> .nav-folder-title
+	.collapse-icon
+	svg {
+	display: none;
+}
+
+/* 隐藏第一层折叠按钮后，标题内容向前移动到原折叠按钮所在位置。
+   说明：Obsidian 用内联 padding-inline-start: 24px 预留折叠按钮空间（折叠按钮绝对定位在其中），
+   隐藏折叠按钮后该 padding 仍在、标题不会前移。因此给标题内容元素加负 margin，
+   让其左移到 padding 起点（即原折叠按钮位置），实现"隐藏的折叠按钮不占位"。 */
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-files-container
+	> div
+	> .tree-item.nav-folder
+	> .tree-item-self.nav-folder-title
+	.nav-folder-title-content,
+body.style-tweaker-fe-remove-first-folder-icon
+	.nav-folder.mod-root
+	> .nav-folder-children
+	> .nav-folder
+	> .nav-folder-title
+	.nav-folder-title-content {
+	margin-inline-start: calc(-1 * var(--size-4-4));
+}
+
+/* ---------- 文件夹后添加圆点 ---------- */
+body.style-tweaker-fe-folder-note-dot
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title,
+body.style-tweaker-fe-folder-note-dot
+	.workspace-leaf-content[data-type="file-explorer"]
+	.tree-item-self.is-clickable.nav-folder-title {
+	display: flex;
+	align-items: center;
+}
+
+body.style-tweaker-fe-folder-note-dot
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title
+	.nav-folder-title-content {
+	flex: 1 1 auto;
+	width: 100%;
+}
+
+body.style-tweaker-fe-folder-note-dot
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title:after {
+	color: var(--style-tweaker-fe-colorful-tab-color, var(--color-accent));
+	content: "⬤";
+	flex: 0 0 auto;
+	margin-left: auto;
+	top: 0;
+	right: 0.3rem;
+	font-size: 0.45em;
+	opacity: 0.7;
+	/* 垂直居中：父级 .tree-item-self 默认 align-items: baseline，伪元素按基线对齐会偏上，
+	   改用 flex 自身居中；再因 "⬤" 字符的视觉中心高于其布局中心，需向下微调补偿。 */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	line-height: 1;
+	transform: translateY(0.18em);
+}
+
+/* ---------- 文件夹后显示笔记数量（与圆点互斥） ---------- */
+body.style-tweaker-fe-folder-note-count
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title,
+body.style-tweaker-fe-folder-note-count
+	.workspace-leaf-content[data-type="file-explorer"]
+	.tree-item-self.is-clickable.nav-folder-title {
+	display: flex;
+	align-items: center;
+}
+
+body.style-tweaker-fe-folder-note-count
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title
+	.nav-folder-title-content {
+	flex: 1 1 auto;
+	width: 100%;
+}
+
+body.style-tweaker-fe-folder-note-count
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-folder-title[data-count]::after {
+	content: attr(data-count);
+	flex: 0 0 auto;
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	line-height: 1;
+	font-size: calc(100% * 0.8);
+	color: currentColor;
+	opacity: 0.7;
+}

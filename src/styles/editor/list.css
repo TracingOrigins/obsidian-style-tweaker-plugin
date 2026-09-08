@@ -1,0 +1,180 @@
+/* ============================================================
+  列表 / 任务样式
+  ------------------------------------------------------------
+  有序、无序、任务三类各自独立控制，未设置对应颜色时不改变 Obsidian 原生样式。
+  门控类（挂在 body 上，每个具体颜色独立控制，避免交叉影响）：
+   - 无序缩进辅助线   → body.style-tweaker-list-ul-indent-custom
+   - 有序缩进辅助线   → body.style-tweaker-list-ol-indent-custom
+   - 无序项目符号     → body.style-tweaker-list-bullet-custom
+   - 有序数字         → body.style-tweaker-list-number-custom
+   - 任务缩进辅助线   → body.style-tweaker-task-indent-custom
+   - 任务复选框       → body.style-tweaker-task-checkbox-custom
+   - 已完成任务移除删除线 → body.style-tweaker-task-remove-strikethrough
+  未挂载对应门控类时，该列表样式回退 Obsidian 原生（不显示主题强调色）。
+
+  源码/预览模式如何区分有序/无序缩进线（cm-indent 自身无法区分）：
+   - 无序行：所在 cm-line 含 cm-formatting-list-ul 且不含 cm-formatting-task
+   - 有序行：所在 cm-line 含 cm-formatting-list-ol 且不含 cm-formatting-task
+   - 待办行：所在 cm-line 含 cm-formatting-task（缩进线保持原生，由 task 门控另行处理）
+  ============================================================ */
+
+/* === 源代码模式：仅开启对应列表/任务自定义颜色时生效，未开启时保持 Obsidian 原生 === */
+/* 无序列表缩进辅助线（ul-indent 门控）：行含 cm-formatting-list-ul 且不含任务复选框 */
+body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ul):not(:has(.cm-formatting-task)) .cm-indent::before {
+  border-color: var(--style-tweaker-list-ul-indent-color, var(--color-accent));
+}
+
+/* 无序列表当前行缩进辅助线（ul-active-indent 门控，仅源码/预览） */
+body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ul):not(:has(.cm-formatting-task)) .cm-active-indent::before {
+  border-color: var(--style-tweaker-list-ul-active-indent-color, var(--style-tweaker-list-ul-indent-color, var(--color-accent)));
+}
+
+/* 有序列表缩进辅助线（ol-indent 门控）：行含 cm-formatting-list-ol 且不含任务复选框 */
+body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ol):not(:has(.cm-formatting-task)) .cm-indent::before {
+  border-color: var(--style-tweaker-list-ol-indent-color, var(--color-accent));
+}
+
+/* 有序列表当前行缩进辅助线（ol-active-indent 门控，仅源码/预览） */
+body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ol):not(:has(.cm-formatting-task)) .cm-active-indent::before {
+  border-color: var(--style-tweaker-list-ol-active-indent-color, var(--style-tweaker-list-ol-indent-color, var(--color-accent)));
+}
+
+/* 任务列表缩进辅助线（task-indent 门控）：行含 cm-formatting-task */
+body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-task) .cm-indent::before {
+  border-color: var(--style-tweaker-task-indent-color, var(--color-accent));
+}
+
+/* 任务列表当前行缩进辅助线（task-active-indent 门控，仅源码/预览） */
+body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-task) .cm-active-indent::before {
+  border-color: var(--style-tweaker-task-active-indent-color, var(--style-tweaker-task-indent-color, var(--color-accent)));
+}
+
+/* 无序列表符号（bullet 门控）：排除含任务复选框的行 */
+body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6 .cm-line:not(:has(.cm-formatting-task)) .cm-formatting-list-ul {
+  color: var(--style-tweaker-list-bullet-color, var(--color-accent));
+}
+
+/* 有序列表数字（number 门控）：排除含任务复选框的行 */
+body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6 .cm-line:not(:has(.cm-formatting-task)) .cm-formatting-list-ol {
+  color: var(--style-tweaker-list-number-color, var(--color-accent));
+}
+
+/* 任务文本（checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .cm-s-obsidian span.cm-formatting-task {
+  color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* 任务复选框边框（未完成，data-task 为空；checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6 .task-list-label .task-list-item-checkbox[data-task=""] {
+  border-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* 任务复选框填充（已完成，data-task 为 x/X；checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6 .task-list-label .task-list-item-checkbox[data-task="x"],
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6 .task-list-label .task-list-item-checkbox[data-task="X"] {
+  background-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* === 实时预览模式：仅开启对应列表/任务自定义颜色时生效 ===
+   实时预览渲染后列表项不再含 cm-formatting-list-ul/ol 与 cm-formatting-task，
+   改用实时预览特有的类区分：无序=含 .list-bullet、有序=含 .list-number、任务=含 .task-list-label */
+/* 无序列表缩进辅助线（ul-indent 门控）：行含 .list-bullet 且非任务行 */
+body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-bullet):not(:has(.task-list-label)) .cm-indent::before {
+  border-color: var(--style-tweaker-list-ul-indent-color, var(--color-accent));
+}
+
+/* 无序列表当前行缩进辅助线（ul-active-indent 门控，仅源码/预览） */
+body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-bullet):not(:has(.task-list-label)) .cm-active-indent::before {
+  border-color: var(--style-tweaker-list-ul-active-indent-color, var(--style-tweaker-list-ul-indent-color, var(--color-accent)));
+}
+
+/* 有序列表缩进辅助线（ol-indent 门控）：行含 .list-number 且非任务行 */
+body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-number):not(:has(.task-list-label)) .cm-indent::before {
+  border-color: var(--style-tweaker-list-ol-indent-color, var(--color-accent));
+}
+
+/* 有序列表当前行缩进辅助线（ol-active-indent 门控，仅源码/预览） */
+body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-number):not(:has(.task-list-label)) .cm-active-indent::before {
+  border-color: var(--style-tweaker-list-ol-active-indent-color, var(--style-tweaker-list-ol-indent-color, var(--color-accent)));
+}
+
+/* 任务列表缩进辅助线（task-indent 门控）：行含 .task-list-label */
+body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.task-list-label) .cm-indent::before {
+  border-color: var(--style-tweaker-task-indent-color, var(--color-accent));
+}
+
+/* 任务列表当前行缩进辅助线（task-active-indent 门控，仅源码/预览） */
+body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.task-list-label) .cm-active-indent::before {
+  border-color: var(--style-tweaker-task-active-indent-color, var(--style-tweaker-task-indent-color, var(--color-accent)));
+}
+
+/* 无序列表符号（bullet 门控）：排除任务行 */
+body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(:has(.task-list-label)) .list-bullet:after {
+  background-color: var(--style-tweaker-list-bullet-color, var(--color-accent));
+}
+
+/* 有序列表数字（number 门控）：排除任务行 */
+body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(:has(.task-list-label)) .list-number {
+  color: var(--style-tweaker-list-number-color, var(--color-accent));
+}
+
+/* 任务复选框边框（未完成，data-task 为空；checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6.is-live-preview .task-list-label .task-list-item-checkbox {
+  border-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* 任务复选框填充（已完成，data-task 为 x/X；checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6.is-live-preview .task-list-label .task-list-item-checkbox[data-task="x"],
+body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6.is-live-preview .task-list-label .task-list-item-checkbox[data-task="X"] {
+  background-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* === 阅读模式：可自定义 === */
+/* 无序列表缩进辅助线（ul-indent 门控；排除任务项，任务缩进线由 task 门控或原生控制） */
+body.style-tweaker-list-ul-indent-custom .markdown-rendered.show-indentation-guide li:not(.task-list-item) > ul::before {
+  border-color: var(--style-tweaker-list-ul-indent-color, var(--color-accent));
+}
+
+/* 有序列表缩进辅助线（ol-indent 门控；排除任务项） */
+body.style-tweaker-list-ol-indent-custom .markdown-rendered.show-indentation-guide li:not(.task-list-item) > ol::before {
+  border-color: var(--style-tweaker-list-ol-indent-color, var(--color-accent));
+}
+
+/* 无序列表符号（bullet 门控） */
+body.style-tweaker-list-bullet-custom .markdown-rendered .list-bullet:after {
+  background-color: var(--style-tweaker-list-bullet-color, var(--color-accent));
+}
+
+/* 有序列表数字（number 门控）与无序列表符号（bullet 门控）的 marker 着色。
+   排除任务列表项（li.task-list-item），避免影响任务序号/符号 */
+body.style-tweaker-list-number-custom .markdown-rendered ol > li:not(.task-list-item)::marker {
+  color: var(--style-tweaker-list-number-color, var(--color-accent));
+}
+body.style-tweaker-list-bullet-custom .markdown-rendered ul > li:not(.task-list-item)::marker {
+  color: var(--style-tweaker-list-bullet-color, var(--color-accent));
+}
+
+/* 任务列表缩进辅助线（task-indent 门控） */
+body.style-tweaker-task-indent-custom .markdown-rendered.show-indentation-guide li.task-list-item > ul::before,
+body.style-tweaker-task-indent-custom .markdown-rendered.show-indentation-guide li.task-list-item > ol::before {
+  border-color: var(--style-tweaker-task-indent-color, var(--color-accent));
+}
+
+/* 任务复选框边框（未完成，checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-rendered ul > li.task-list-item > p > .task-list-item-checkbox,
+body.style-tweaker-task-checkbox-custom .markdown-rendered ul > li.task-list-item > .task-list-item-checkbox {
+  border-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* 任务复选框填充（已完成，checkbox 门控） */
+body.style-tweaker-task-checkbox-custom .markdown-rendered ul > li.task-list-item.is-checked > p > .task-list-item-checkbox,
+body.style-tweaker-task-checkbox-custom .markdown-rendered ul > li.task-list-item.is-checked > .task-list-item-checkbox {
+  background-color: var(--style-tweaker-task-checkbox-color, var(--color-accent));
+}
+
+/* 已完成任务移除删除线（所有视图） */
+body.style-tweaker-task-remove-strikethrough .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="x"],
+body.style-tweaker-task-remove-strikethrough .markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="X"],
+body.style-tweaker-task-remove-strikethrough .markdown-rendered ul > li.task-list-item.is-checked {
+  text-decoration: none;
+}

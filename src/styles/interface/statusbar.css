@@ -1,0 +1,71 @@
+/* ============================================================
+  状态栏样式
+  ------------------------------------------------------------
+  门控类（挂在 body 上）：
+   - 悬浮 → body.style-tweaker-statusbar-floating
+   - 固定 → body.style-tweaker-statusbar-fixed
+  默认（default）不挂任何类，保持 Obsidian 原生状态栏。
+  ============================================================ */
+
+/* 悬浮状态栏：脱离底部栏，悬浮在右下角，悬停展开 */
+body.style-tweaker-statusbar-floating:not(.is-mobile) .status-bar {
+  position: absolute;
+  border-radius: var(--radius-m, 8px);
+  border: 1px solid var(--background-modifier-border);
+  transform: translateX(calc(100% + 5px));
+  transition: transform 300ms 150ms;
+  bottom: 5px;
+  right: 5px;
+  box-shadow: 0 3px 4px 0px rgba(0, 0, 0, 5%);
+}
+
+/* 悬浮状态栏的悬停热区（让鼠标靠近时能触发展开） */
+body.style-tweaker-statusbar-floating:not(.is-mobile) .status-bar::before {
+  width: 100%;
+  min-height: 100%;
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-100%);
+}
+
+/* 悬浮状态栏：鼠标移入时展开 */
+body.style-tweaker-statusbar-floating:not(.is-mobile) .status-bar:hover {
+  transform: none;
+  transition: transform 300ms 150ms;
+}
+
+/* 固定状态栏：工作区底部不留内边距，让状态栏贴合底部边缘。
+   边框/卡片布局：通过覆盖各布局在 body 上定义的 --st-layout-bottom-padding
+   变量实现（布局定义未加 !important，这里用 !important 覆盖）。 */
+body.style-tweaker-statusbar-fixed {
+  --st-layout-bottom-padding: 0 !important;
+}
+
+/* 默认布局兜底：无布局门控时，.workspace 不使用该变量，直接设置底部内边距为 0。
+   边框/卡片布局下本规则特异性低于布局 padding，由上方变量覆盖接管。 */
+body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards) .workspace {
+  padding-bottom: 0 !important;
+}
+
+body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards).style-tweaker-bg-image-active .status-bar {
+  border-top: 1px solid var(--st-layout-border-color);
+}
+
+body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards):not(.style-tweaker-bg-image-active) .status-bar {
+  border-top: 1px solid var(--status-bar-border-color);
+}
+
+body.style-tweaker-statusbar-fixed.style-tweaker-bg-solid-active.style-tweaker-layout-border .status-bar,
+body.style-tweaker-statusbar-fixed.style-tweaker-bg-solid-active.style-tweaker-layout-cards .status-bar {
+  background-color: rgb(var(--style-tweaker-crust));
+}
+
+/* 固定状态栏：贴合底部、无圆角 */
+body.style-tweaker-statusbar-fixed .status-bar {
+  position: relative;
+  border-radius: 0;
+  border: none;
+  box-shadow: none !important;
+}
