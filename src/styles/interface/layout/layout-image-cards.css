@@ -2,8 +2,13 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 边框/背景的强调色混合变量（与 layout-image-border.css 命名一致） */
     --st-layout-border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
     --st-layout-border: 1px solid var(--st-layout-border-color);
-    /* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+    /* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
     --st-layout-bottom-padding: 20px;
+
+    /* 固定状态栏：工作区底部不留内边距 */
+    &.style-tweaker-statusbar-fixed {
+        --st-layout-bottom-padding: 0;
+    }
 
     /* ------------------------工作区------------------------ */
 

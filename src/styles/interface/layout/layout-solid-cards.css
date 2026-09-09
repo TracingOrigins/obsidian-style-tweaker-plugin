@@ -24,8 +24,13 @@ body.style-tweaker-layout-cards.style-tweaker-bg-solid-active:not(.is-mobile) {
 	--tab-container-background: var(--card-background-color);
 	--file-header-border: var(--border-width) dashed var(--background-modifier-border);
 	--ribbon-padding: 0;
-	/* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+	/* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
 	--st-layout-bottom-padding: 16px;
+
+	/* 固定状态栏：工作区底部不留内边距 */
+	&.style-tweaker-statusbar-fixed {
+		--st-layout-bottom-padding: 0;
+	}
 
 	.sidebar-toggle-button,
 	.workspace-tabs.mod-top {

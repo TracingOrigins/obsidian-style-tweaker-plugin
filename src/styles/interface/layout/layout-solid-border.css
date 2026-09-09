@@ -16,8 +16,13 @@ body.style-tweaker-layout-border.style-tweaker-bg-solid-active:not(.is-mobile) {
 	--card-background-color: rgb(var(--style-tweaker-crust));
 	--card-foreground-color: var(--background-primary);
 	--border-border-style: 1px solid var(--tab-outline-color);
-	/* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+	/* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
 	--st-layout-bottom-padding: 20px;
+
+	/* 固定状态栏：工作区底部不留内边距 */
+	&.style-tweaker-statusbar-fixed {
+		--st-layout-bottom-padding: 0;
+	}
 
 	.horizontal-main-container {
 		background-color: var(--card-background-color);
