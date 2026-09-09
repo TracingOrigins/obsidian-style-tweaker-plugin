@@ -1,4 +1,4 @@
 /* 标题栏 聚焦样式 */
 body.is-focused .titlebar .titlebar-inner {
-  color: var(--color-accent) !important;
+  color: var(--color-accent);
 }

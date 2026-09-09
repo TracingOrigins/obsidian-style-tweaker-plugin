@@ -13,30 +13,30 @@
 /* 抽屉根容器：透明 + 玻璃模糊（与 overlay.css 移动端框架玻璃同参数）。 */
 body.style-tweaker-bg-image-active.is-mobile {
   .workspace-drawer {
-    background-color: transparent !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: transparent;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* 抽屉底部 tab 选择条：每个 tab 标题用半透明色块叠底，区分选中/未选中。 */
   .workspace-drawer-tab-select .workspace-tab-header-inner {
-    background-color: color-mix(in srgb, var(--interactive-normal) 50%, transparent) !important;
+    background-color: color-mix(in srgb, var(--interactive-normal) 50%, transparent);
   }
 
   /* 抽屉内部容器透明，透出根容器的玻璃模糊。 */
   .workspace-drawer-inner,
   .workspace-drawer-active-tab-container,
   .workspace-drawer .nav-buttons-container {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   /* 抽屉内 tab 选项列表：半透明色块 + 玻璃，浮在抽屉内容之上。 */
   .workspace-drawer-tab-options-list {
-    background-color: color-mix(in srgb, var(--interactive-normal) 75%, transparent) !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: color-mix(in srgb, var(--interactive-normal) 75%, transparent);
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* 浮动导航（is-floating-nav）形态：隐藏叶子内容区与导航按钮容器的装饰渐变层，避免遮挡玻璃/壁纸。 */

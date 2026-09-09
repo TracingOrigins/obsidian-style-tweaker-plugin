@@ -25,11 +25,11 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 
 	/* 工作区 内边距*/
 	.workspace {
-		padding: 0 20px var(--st-layout-bottom-padding) 0 !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
 	.workspace:has(.workspace-window) {
-		padding: 0 20px var(--st-layout-bottom-padding) 20px !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
 	.workspace {
@@ -68,7 +68,7 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 
 				.workspace-tabs.mod-bottom-left-space.mod-top-left-space {
 					.workspace-tab-header-container {
-						border-left: none !important;
+						border-left: none;
 					}
 				}
 			}
@@ -105,7 +105,7 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 
 				.workspace-tabs.mod-bottom-right-space.mod-top-right-space {
 					.workspace-tab-header-container {
-					border-right: none !important;
+					border-right: none;
 					}
 				}
 			}
@@ -221,7 +221,7 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 
 		.workspace-tabs.mod-top {
 			.workspace-tab-header-container {
-				background-color: var(--background-secondary) !important;
+				background-color: var(--background-secondary);
 				border-bottom: none;
 			}
 		}

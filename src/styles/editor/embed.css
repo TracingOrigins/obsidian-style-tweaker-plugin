@@ -38,7 +38,7 @@ body.style-tweaker-embed-image-center
   .markdown-source-view.mod-cm6
   img:not([class*="emoji"]) {
   display: block;
-  margin: auto !important;
+  margin: auto;
 }
 
 body.style-tweaker-embed-image-center
@@ -48,7 +48,7 @@ body.style-tweaker-embed-image-center
   .image-embed
   img:not([class*="emoji"]) {
   display: block;
-  margin: auto !important;
+  margin: auto;
   max-width: 100%;
 }
 

@@ -11,7 +11,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
 
   /* 标签栏中标签之间的分隔线颜色 */
   .workspace .mod-root .workspace-tab-header-inner::after {
-    background-color: color-mix(in srgb, var(--color-accent) 30%, var(--background-secondary)) !important;
+    background-color: color-mix(in srgb, var(--color-accent) 30%, var(--background-secondary));
   }
 
   /* 当前活动标签的右侧分隔线透明（默认不显示） */
@@ -34,13 +34,13 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
 
   /* 功能区上方的左侧栏切换按钮背景清理 */
   .workspace-ribbon.side-dock-ribbon::before {
-    background-color: transparent !important;
-    border-bottom: none !important;
+    background-color: transparent;
+    border-bottom: none;
   }
 
   /* 功能区边框透明 */
   .workspace-ribbon {
-    border-color: transparent !important;
+    border-color: transparent;
   }
 
   /* ============ 侧边栏 ============ */
@@ -48,57 +48,57 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
   /* 左右侧分割线的调整手柄颜色 */
   .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
   .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* 仓库信息栏上边框 */
   .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
-    border-top: var(--tab-outline-width) solid var(--st-layout-border-color) !important;
+    border-top: var(--tab-outline-width) solid var(--st-layout-border-color);
   }
 
   /* ============ prompt 弹窗 ============ */
 
   /* prompt 输入框下边框 */
   input.prompt-input {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* ============ 设置窗口 / 社区插件市场窗口 ============ */
 
   /* 独立窗口标题栏下划线 */
   .is-popout-modal.is-frameless .titlebar {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* 设置窗口左侧垂直标签栏右边框 */
   .modal.mod-settings .vertical-tab-header {
-    border-inline-end-color: var(--st-layout-border-color) !important;
+    border-inline-end-color: var(--st-layout-border-color);
   }
 
   /* 设置窗口右侧设置分组中设置项的上边框 */
   .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
-    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
 
   /* 社区插件市场窗口 搜索结果框上边线 */
   .community-modal-search-results-wrapper {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* 社区插件市场窗口 详情页左边框 */
   .community-modal-details {
-    border-inline-start-color: var(--st-layout-border-color) !important;
+    border-inline-start-color: var(--st-layout-border-color);
   }
 
   /* 社区插件市场窗口 插件卡片边框 */
   .community-item {
-    background-color: transparent !important;
-    border-color: var(--st-layout-border-color) !important;
+    background-color: transparent;
+    border-color: var(--st-layout-border-color);
   }
 
   /* 社区插件市场窗口 当前选中卡片左边框 */
   .community-item.is-selected {
-    border-left: 3px solid var(--st-layout-border-color) !important;
+    border-left: 3px solid var(--st-layout-border-color);
   }
 
   /* ============ 通用 ============ */
@@ -108,7 +108,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
   .search-input-container input:hover,
   .search-input-container input:focus,
   .search-input-container input:focus-visible {
-    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
     box-shadow: none;
     background-color: transparent;
   }

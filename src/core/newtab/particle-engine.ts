@@ -849,6 +849,9 @@ export class ParticleEngine {
     // 保证粒子画布（absolute 居中）的定位上下文为相对定位：
     // 用 CSS 类控制（避免直接写内联 position 字面量），容器自身已有定位时类亦无害。
     this.container.addClass("style-tweaker-particle-relative");
+    // 画布存在期间在容器上保留活性类（替代 :has() 判断），静态 CSS 据此隐藏原始徽标/标题，
+    // 即使徽标元素被重建，只要画布还在就不会透出。
+    this.container.addClass("style-tweaker-particle-active");
     this.container.appendChild(canvas);
     this.canvas = canvas;
     this.renderContext = context;
@@ -902,8 +905,9 @@ export class ParticleEngine {
       this.renderContext = null;
     }
     this.restoreCapturedElements();
-    // 还原容器相对定位类（installCanvas 中添加）
+    // 还原容器相对定位类与画布活性类（installCanvas 中添加）
     this.container.removeClass("style-tweaker-particle-relative");
+    this.container.removeClass("style-tweaker-particle-active");
     // 清除引擎在外层 root 动态撑开的对称 padding（用 removeProperty，避免字面量赋值）
     const root = this.container.parentElement;
     if (root) root.style.removeProperty("padding");

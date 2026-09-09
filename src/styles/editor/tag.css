@@ -43,55 +43,55 @@ body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-ch
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+1) + span.cm-hashtag,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+1) + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+1) + span.cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(var(--accent-h), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15) !important;
+  --tag-background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+2),
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+2) + span.cm-hashtag,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+2) + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+2) + span.cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.15) !important;
+  --tag-background: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.15);
 }
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+3),
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+3) + span.cm-hashtag,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+3) + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+3) + span.cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.15) !important;
+  --tag-background: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.15);
 }
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+4),
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+4) + span.cm-hashtag,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+4) + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n+4) + span.cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.15) !important;
+  --tag-background: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.15);
 }
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n),
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n) + span.cm-hashtag,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n) + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-rainbow .cm-s-obsidian span.cm-hashtag-begin:nth-child(5n) + span.cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.15) !important;
+  --tag-background: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.15);
 }
 
 /* 自定义标签颜色 */
 body.style-tweaker-tag-color-custom .tag:not(.token) {
-  --tag-background: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 10%, transparent) !important;
-  --tag-color: var(--style-tweaker-tag-bg-color) !important;
-  --tag-border-color: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 15%, transparent) !important;
+  --tag-background: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 10%, transparent);
+  --tag-color: var(--style-tweaker-tag-bg-color);
+  --tag-border-color: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 15%, transparent);
 }
 body.style-tweaker-tag-color-custom .cm-s-obsidian span.cm-hashtag,
 body.style-tweaker-tag-color-custom .cm-s-obsidian span.cm-hashtag-begin,
 body.style-tweaker-tag-color-custom .cm-s-obsidian span.cm-hashtag-end,
 body.style-tweaker-tag-color-custom .cm-s-obsidian span.cm-hashtag-begin + .cm-hashtag.cm-meta,
 body.style-tweaker-tag-color-custom .cm-s-obsidian span.cm-hashtag-begin + .cm-hashtag.cm-meta + span.cm-hashtag.cm-hashtag-end {
-  --tag-background: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 10%, transparent) !important;
-  --tag-color: var(--style-tweaker-tag-bg-color) !important;
-  --tag-border-color: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 15%, transparent) !important;
+  --tag-background: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 10%, transparent);
+  --tag-color: var(--style-tweaker-tag-bg-color);
+  --tag-border-color: color-mix(in srgb, var(--style-tweaker-tag-bg-color) 15%, transparent);
 }

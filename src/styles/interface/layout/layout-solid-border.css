@@ -28,11 +28,11 @@ body.style-tweaker-layout-border.style-tweaker-bg-solid-active:not(.is-mobile) {
 
 	/* 工作区 内边距*/
 	.workspace {
-		padding: 0 20px var(--st-layout-bottom-padding) 0 !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
 	.workspace:has(.workspace-window) {
-		padding: 0 20px var(--st-layout-bottom-padding) 20px !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
 	.workspace {
@@ -71,7 +71,7 @@ body.style-tweaker-layout-border.style-tweaker-bg-solid-active:not(.is-mobile) {
 
 				.workspace-tabs.mod-bottom-left-space.mod-top-left-space {
 					.workspace-tab-header-container {
-						border-left: none !important;
+						border-left: none;
 					}
 				}
 			}
@@ -108,7 +108,7 @@ body.style-tweaker-layout-border.style-tweaker-bg-solid-active:not(.is-mobile) {
 
 				.workspace-tabs.mod-bottom-right-space.mod-top-right-space {
 					.workspace-tab-header-container {
-					border-right: none !important;
+					border-right: none;
 					}
 				}
 			}
@@ -224,7 +224,7 @@ body.style-tweaker-layout-border.style-tweaker-bg-solid-active:not(.is-mobile) {
 
 		.workspace-tabs.mod-top {
 			.workspace-tab-header-container {
-				background-color: var(--card-background-color) !important;
+				background-color: var(--card-background-color);
 				border-bottom: none;
 			}
 		}

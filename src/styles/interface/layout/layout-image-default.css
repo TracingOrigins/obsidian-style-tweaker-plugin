@@ -8,13 +8,13 @@
 
   /* 主窗口 标题栏的下边框 */
   /* &:has(.workspace)>.titlebar {
-    border-bottom: var(--st-layout-border) !important;
+    border-bottom: var(--st-layout-border);
   } */
 
   /* 侧边栏 标题栏容器边框 */
   .workspace-split.mod-left-split .workspace-tab-header-container,
   .workspace-split.mod-right-split .workspace-tab-header-container {
-    border-bottom: var(--st-layout-border) !important;
+    border-bottom: var(--st-layout-border);
   }
 
   /* ------------------------中央内容区域------------------------ */
@@ -22,12 +22,12 @@
   /* 中央内容区域 标签栏的下边框 */
   .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-header-container,
   .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-    border-bottom: none !important;
+    border-bottom: none;
   }
 
   /* 中央内容区域 标签页的上边框*/
   .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-container {
-    border-top: var(--st-layout-border) !important;
+    border-top: var(--st-layout-border);
   }
 
   /* 中央内容区域 标签栏的边距 */
@@ -42,56 +42,56 @@
       width: 18px;
       height: 100%;
       background: transparent;
-      border-bottom: var(--st-layout-border) !important; /* 只显示下边框，颜色可调 */
+      border-bottom: var(--st-layout-border); /* 只显示下边框，颜色可调 */
       box-sizing: border-box;
   }
 
   /* 中央内容区域 标签栏的标签区域的内边距和外边距 */
   .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
       padding: 0 5px 0 5px;
-      margin-bottom: 0!important;
+      margin-bottom: 0;
   }
 
   /* 中央内容区域 非活动标签的边框高亮 */
   .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
       box-shadow: unset;
       border-radius: 6px 6px 0 0;
-      border-bottom: var(--st-layout-border) !important;
+      border-bottom: var(--st-layout-border);
   }
 
   /* 中央内容区域 活动标签的边框高亮 */
   .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
       box-shadow: unset;
-      border: var(--st-layout-border) !important;
-      border-bottom: none !important;
+      border: var(--st-layout-border);
+      border-bottom: none;
       border-radius: 6px 6px 0 0;
   }
 
   /* 中央内容区域 标签栏的新建标签页按钮 */
   .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
-      margin: 0 !important;
-      padding-left: 6px !important;
-      padding-right: 12px !important;
-      border-bottom: var(--st-layout-border) !important;
+      margin: 0;
+      padding-left: 6px;
+      padding-right: 12px;
+      border-bottom: var(--st-layout-border);
   }
 
   /* 中央内容区域 标签栏的空白部分的下边框 */
   .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-spacer{
-      border-bottom: var(--st-layout-border) !important;
+      border-bottom: var(--st-layout-border);
   }
 
   
   /* 中央内容区域 标签栏的更多标签页按钮 */
   .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
-      padding-right: 12px !important;
-      margin-right: -8px !important;
-      border-bottom: var(--st-layout-border) !important;
+      padding-right: 12px;
+      margin-right: -8px;
+      border-bottom: var(--st-layout-border);
   }
 
   .workspace:not(.is-right-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
-      padding-right: 42px !important;
-      margin-right: -38px !important;
-      border-bottom: var(--st-layout-border) !important;
+      padding-right: 42px;
+      margin-right: -38px;
+      border-bottom: var(--st-layout-border);
   }
 
   /* 中央内容区域 标签栏的右侧边栏切换按钮 */
@@ -103,7 +103,7 @@
   .workspace-split.mod-horizontal > * > .workspace-leaf-resize-handle,
   .workspace-split.mod-vertical > * > .workspace-leaf-resize-handle,
   .workspace-split.mod-primary-split > .workspace-leaf-resize-handle {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* ------------------------侧边栏------------------------ */
@@ -111,24 +111,24 @@
   /* 侧边栏 左右侧分割线、右侧分割线的调整手柄 */
   .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
   .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
   /* 侧边栏 仓库信息栏的上边框 */
   .workspace-split.mod-left-split .workspace-sidedock-vault-profile{
-    border-top: var(--tab-outline-width) solid var(--st-layout-border-color) !important;
+    border-top: var(--tab-outline-width) solid var(--st-layout-border-color);
   }
 
   /* ------------------------功能区------------------------ */
   
   /* 功能区 上方的左侧栏切换按钮*/
   .workspace-ribbon.side-dock-ribbon:before {
-    border-bottom: var(--st-layout-border) !important;
+    border-bottom: var(--st-layout-border);
   }
 
   /* 功能区 边框颜色 */
   .workspace-ribbon {
-    border-color: var(--st-layout-border-color) !important;
+    border-color: var(--st-layout-border-color);
   }
 
 }

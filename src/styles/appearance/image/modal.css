@@ -12,7 +12,7 @@
   /* 设置窗口 设置分组内的条目背景色和边框。 */
   .setting-group .setting-items {
     background-color: transparent;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
   }
 
   /* 设置窗口 子设置页的标题栏（.setting-page-titlebar）背景色和边框。 */
@@ -23,7 +23,7 @@
 
   /* 设置页激活的左侧导航项用强调色高亮，便于区分 */
   .modal.mod-settings .vertical-tab-nav-item.is-active {
-    color: var(--color-accent) !important;
+    color: var(--color-accent);
   }
 
   /* 弹框内控件（按钮/输入框/下拉/开关）整体降透明度，弱化原生控件在壁纸上的存在感。 */
@@ -44,23 +44,23 @@
 
   /* 下拉选项原生底色透明，透出弹框玻璃。 */
   select.dropdown option {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   select.dropdown option:checked {
-    color: var(--color-accent) !important;
+    color: var(--color-accent);
   }
 
   /* 设置页分组筛选按钮（激活态）：透明底 + accent 描边。 */
   .setting-group-filter.is-active {
-    background-color: transparent !important;
-    border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
-    color: var(--text-muted) !important;
+    background-color: transparent;
+    border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+    color: var(--text-muted);
   }
 
   .setting-group-filter.is-active:hover {
-    background-color: transparent !important;
-    color: var(--text-normal) !important;
+    background-color: transparent;
+    color: var(--text-normal);
   }
 
   .setting-item-heading,
@@ -81,22 +81,22 @@ body.style-tweaker-bg-image-active:not(:has(.workspace)) {
   .modal.mod-settings {
     position: relative;
     isolation: isolate;
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   /* 设置窗口遮罩层：透明，避免压暗/挡住独立窗口壁纸。 */
   .modal-bg {
-    background-color: transparent !important;
-    background-image: none !important;
+    background-color: transparent;
+    background-image: none;
   }
 
   /* 其他弹框（非设置窗口）：纯透明透壁纸，不强加玻璃，避免第三方插件弹窗异常。 */
   .modal:not(.mod-settings) {
     position: relative;
     isolation: isolate;
-    background-color: transparent !important;
-    background-image: none !important;
-    box-shadow: none !important;
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
   }
 }
 
@@ -104,25 +104,25 @@ body.style-tweaker-bg-image-active:not(:has(.workspace)) {
 body.style-tweaker-bg-image-active:has(.workspace) {
   /* 设置页：全透明会透出主窗口内容无法阅读，改玻璃表面。 */
   .modal.mod-settings {
-    background-color: transparent !important;
-    background-image: none !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: transparent;
+    background-image: none;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* 遮罩层：保留半透明压暗，避免主窗口内容干扰设置页阅读。 */
   .modal-bg {
-    background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent) !important;
+    background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
   }
 
   /* 其他弹框：同款玻璃表面。 */
   .modal:not(.mod-settings) {
-    background-color: transparent !important;
-    background-image: none !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: transparent;
+    background-image: none;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 }
 
@@ -130,6 +130,6 @@ body.style-tweaker-bg-image-active:has(.workspace) {
 body.style-tweaker-bg-image-active.is-popout-modal.is-frameless {
   /* 设置窗口标题栏底部边框高亮 */
   .titlebar {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
   }
 }
