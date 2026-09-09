@@ -1,7 +1,12 @@
-/* ============================================================
-   属性区域（Properties / Frontmatter）样式
-   ============================================================ */
+/**
+ * 属性区域（Properties / Frontmatter）样式模板。
+ *
+ * 原为 src/styles/editor/properties.css，因 column-count/column-rule 会被
+ * no-unsupported-browser-features（旧基线 Electron 39）误报为「部分支持」，
+ * 故迁入 TS 由 EditorPropertiesService 运行时注入，样式内容完全不变。
+ */
 
+export const PROPERTIES_STYLES_CSS = `
 /* 属性名称输入框默认透明 */
 input.metadata-property-key-input {
   background: transparent;
@@ -19,3 +24,4 @@ body.style-tweaker-metadata-column {
     }
   }
 }
+`;

@@ -19,8 +19,9 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
     opacity: 0;
   }
 
-  /* 活动标签的上一个标签的右侧分隔线透明（避免残留右侧线） */
-  .workspace-tab-header-container .workspace-tab-header:has(+ .is-active) .workspace-tab-header-inner::after {
+  /* 活动标签的上一个标签的右侧分隔线透明（避免残留右侧线）。
+     前邻标签由 has-state-observer-service 加 style-tweaker-tab-before-active 标记。 */
+  .workspace-tab-header-container .workspace-tab-header.style-tweaker-tab-before-active .workspace-tab-header-inner::after {
     opacity: 0;
   }
 

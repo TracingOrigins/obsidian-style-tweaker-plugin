@@ -39,19 +39,19 @@ body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer .nav-button
 
 /* 上下边距微调 */
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-header,
-body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-header {
+body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-header {
   padding-top: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-inner,
-body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-inner {
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-inner {
   padding-bottom: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
-body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-active-tab-content .view-content {
+body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-active-tab-content .view-content {
   padding-top: 0;
   padding-bottom: var(--size-4-8);
 }

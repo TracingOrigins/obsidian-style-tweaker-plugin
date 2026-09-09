@@ -2,6 +2,8 @@ import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
 import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
+import { InjectedStyleSheet } from "../shared/injected-style-sheet";
+import { LINK_STYLES_CSS } from "./editor-link-styles-css";
 
 // ============================================================
 // 编辑器链接样式服务
@@ -15,10 +17,12 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 //   6. 去除外部链接图标（linkRemoveExternalIcon）：true=去掉外部链接后的箭头图标。
 //   7. 彩色链接悬浮动画（linkColorfulAnimation）：true=内部/外部链接悬浮时彩色动画。
 //
-// 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body
-// （--style-tweaker-link-internal / --style-tweaker-link-external），规则本体在静态
-// link.css；不创建 <style> 元素。颜色随深浅主题：当前文档按 body 主题解析 hex，
-// 主题切换经 css-change 重 apply 刷新。仅低频事件驱动，无轮询。
+// 设计要点：独立门控类 + CSS 变量以内联方式写入 body
+// （--style-tweaker-link-internal / --style-tweaker-link-external）。
+// 规则本体因 text-decoration 会被旧基线误报，已从 link.css 迁入 link-styles-css.ts，
+// 经 InjectedStyleSheet（adoptedStyleSheets）按文档注入，不创建 <style> 元素。
+// 颜色随深浅主题：当前文档按 body 主题解析 hex，主题切换经 css-change 重 apply 刷新。
+// 仅低频事件驱动，无轮询。
 // ============================================================
 
 // 门控类
@@ -34,6 +38,9 @@ const LINK_INTERNAL_VAR = "--style-tweaker-link-internal";
 const LINK_EXTERNAL_VAR = "--style-tweaker-link-external";
 
 export class EditorLinkService extends BaseService {
+  /** link 样式模板：原 link.css 因 text-decoration 被旧基线误报，改由运行时注入。 */
+  private readonly linkStyle = new InjectedStyleSheet(LINK_STYLES_CSS);
+
   constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
     super(plugin, getSettings);
   }
@@ -56,7 +63,7 @@ export class EditorLinkService extends BaseService {
 
     if (!doc.body) return;
     // 颜色自定义门控：仅当内部或外部链接颜色被自定义（非 default）时挂载，
-    // 使 link.css 的颜色规则只在用户选色时生效，default 时链接完全用 Obsidian 原生。
+    // 使注入的链接颜色规则只在用户选色时生效，default 时链接完全用 Obsidian 原生。
     const colorCustom = this.isColorCustom(s.linkInternalColor) || this.isColorCustom(s.linkExternalColor);
     doc.body.classList.toggle(LINK_COLOR_CUSTOM_CLASS, colorCustom);
     // 开关类：true 才挂（true=去除/增强；false/默认=原生行为）。
@@ -65,6 +72,8 @@ export class EditorLinkService extends BaseService {
     doc.body.classList.toggle(LINK_UNDERLINE_EXTERNAL_CLASS, s.linkUnderlineExternal);
     doc.body.classList.toggle(LINK_REMOVE_ICON_CLASS, s.linkRemoveExternalIcon);
     doc.body.classList.toggle(LINK_COLORFUL_CLASS, s.linkColorfulAnimation);
+    // 注入样式模板（幂等；CSS 条件均以 body 门控类为准，设置变化无需重注入）
+    this.linkStyle.apply(doc);
   }
 
   /** 颜色是否被自定义（非 default / 非空），用于决定是否挂载颜色门控类。 */
@@ -74,6 +83,7 @@ export class EditorLinkService extends BaseService {
   }
 
   protected clearDocument(doc: Document): void {
+    this.linkStyle.remove(doc);
     removeDocVar(doc, LINK_INTERNAL_VAR);
     removeDocVar(doc, LINK_EXTERNAL_VAR);
     doc.body?.classList.remove(
