@@ -4,8 +4,13 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
     --st-layout-border-soft: color-mix(in srgb, var(--color-accent) 20%, var(--background-secondary));
     /* 1px 实线边框值（2px 顶部分隔线不在此列，见具体规则） */
     --st-layout-border: 1px solid var(--st-layout-border-color);
-    /* 工作区底部内边距（状态栏 fixed 时由 status-bar 覆盖为 0） */
+    /* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
     --st-layout-bottom-padding: 20px;
+
+    /* 固定状态栏：工作区底部不留内边距 */
+    &.style-tweaker-statusbar-fixed {
+        --st-layout-bottom-padding: 0;
+    }
 
     /* ------------------------工作区------------------------ */
 
