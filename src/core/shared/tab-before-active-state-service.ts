@@ -44,14 +44,14 @@ export class TabBeforeActiveStateService extends DomStateServiceBase {
   protected onMutations(doc: Document, records: MutationRecord[]): void {
     let sawTab = false;
     for (const record of records) {
-      const target = record.target instanceof Element ? record.target : null;
+      const target = record.target.instanceOf(Element) ? record.target : null;
       if (inTabArea(target)) {
         sawTab = true;
         break;
       }
       if (record.type === "childList") {
         for (const node of Array.from(record.addedNodes)) {
-          if (node instanceof Element && inTabArea(node)) {
+          if (node.instanceOf(Element) && inTabArea(node)) {
             sawTab = true;
             break;
           }

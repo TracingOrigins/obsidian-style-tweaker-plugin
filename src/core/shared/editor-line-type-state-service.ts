@@ -54,10 +54,10 @@ export class EditorLineTypeStateService extends DomStateServiceBase {
       if (line) lines.add(line);
     };
     for (const record of records) {
-      const target = record.target instanceof Element ? record.target : null;
+      const target = record.target.instanceOf(Element) ? record.target : null;
       if (record.type === "childList") {
         for (const node of Array.from(record.addedNodes)) {
-          if (node instanceof Element) visit(node);
+          if (node.instanceOf(Element)) visit(node);
         }
       }
       if (target) visit(target);

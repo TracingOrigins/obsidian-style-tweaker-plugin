@@ -40,14 +40,14 @@ export class MobileDrawerNavStateService extends DomStateServiceBase {
   protected onMutations(doc: Document, records: MutationRecord[]): void {
     let sawDrawer = false;
     for (const record of records) {
-      const target = record.target instanceof Element ? record.target : null;
+      const target = record.target.instanceOf(Element) ? record.target : null;
       if (inDrawerArea(target)) {
         sawDrawer = true;
         break;
       }
       if (record.type === "childList") {
         for (const node of Array.from(record.addedNodes)) {
-          if (node instanceof Element && inDrawerArea(node)) {
+          if (node.instanceOf(Element) && inDrawerArea(node)) {
             sawDrawer = true;
             break;
           }
