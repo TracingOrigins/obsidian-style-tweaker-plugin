@@ -27,7 +27,7 @@
     .workspace-leaf,
     .workspace-leaf-content,
     .workspace-tabs,
-    .view-header,
+    .workspace-leaf .view-header,
     .view-content {
       background: none;
       background-color: transparent;

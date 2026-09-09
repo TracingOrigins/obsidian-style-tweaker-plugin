@@ -76,7 +76,7 @@
 }
 
 /* ============ 独立窗口形态（body 无 .workspace）：纯透明透壁纸 ============ */
-body.style-tweaker-bg-image-active:not(:has(.workspace)) {
+body.style-tweaker-bg-image-active:not(.style-tweaker-has-workspace) {
   /* 设置页自身：透明透出该独立窗口的 body::before 壁纸。 */
   .modal.mod-settings {
     position: relative;
@@ -101,7 +101,7 @@ body.style-tweaker-bg-image-active:not(:has(.workspace)) {
 }
 
 /* ============ 主窗口内嵌形态（body 有 .workspace）：玻璃表面保证可读 ============ */
-body.style-tweaker-bg-image-active:has(.workspace) {
+body.style-tweaker-bg-image-active.style-tweaker-has-workspace {
   /* 设置页：全透明会透出主窗口内容无法阅读，改玻璃表面。 */
   .modal.mod-settings {
     background-color: transparent;

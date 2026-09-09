@@ -28,7 +28,7 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
-	.workspace:has(.workspace-window) {
+	&.is-popout-window .workspace {
 		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
@@ -265,7 +265,7 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
 			}
 		}
 
-		.workspace-split.mod-left-split:not(:has(.workspace-sidedock-vault-profile)) {
+		.workspace-split.mod-left-split.style-tweaker-vault-profile-moved {
 			.workspace-tabs:last-child {
 				.workspace-tab-container {
 					border-bottom-left-radius: 24px;

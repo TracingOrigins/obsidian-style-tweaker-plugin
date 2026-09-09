@@ -19,7 +19,7 @@
 
 /* ============ 仅图片模式：titlebar 清理 + 分隔线 ============ */
 /* 主窗口与独立窗口的 .titlebar 壁纸由 background-css.ts 统一承载，此处只清遗留模糊效果。 */
-body.style-tweaker-bg-image-active:has(.workspace) {
+body.style-tweaker-bg-image-active.style-tweaker-has-workspace {
   > .titlebar,
   > .titlebar .titlebar-inner {
     backdrop-filter: none;

@@ -32,10 +32,6 @@ body.style-tweaker-layout-cards.style-tweaker-bg-solid-active:not(.is-mobile) {
 		--tab-container-background: var(--card-background-color);
 	}
 
-	.workspace-tabs.mod-top:has(.obsidian-banner-wrapper) {
-		--file-header-border: none;
-	}
-
 	&.is-focused {
 		&,
 		.sidebar-toggle-button,
@@ -62,7 +58,7 @@ body.style-tweaker-layout-cards.style-tweaker-bg-solid-active:not(.is-mobile) {
 		padding: 0 16px var(--st-layout-bottom-padding) 0;
 	}
 
-	.workspace:has(.workspace-window) {
+	&.is-popout-window .workspace {
 		padding: 0 16px var(--st-layout-bottom-padding) 16px;
 	}
 
