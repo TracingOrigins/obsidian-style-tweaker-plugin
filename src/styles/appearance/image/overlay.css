@@ -309,6 +309,7 @@ body.style-tweaker-bg-image-active.is-mobile {
   }
 
   .modal.mod-sidebar-layout .modal-content .vertical-tab-content {
+    background-color: transparent;
     padding-top: 0;
   }
 }

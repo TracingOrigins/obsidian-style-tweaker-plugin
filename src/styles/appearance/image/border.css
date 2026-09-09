@@ -52,8 +52,9 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
     border-color: var(--st-layout-border-color);
   }
 
-  /* 仓库信息栏上边框 */
+  /* 仓库信息栏 */
   .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+    background-color: transparent;
     border-top: var(--tab-outline-width) solid var(--st-layout-border-color);
   }
 
