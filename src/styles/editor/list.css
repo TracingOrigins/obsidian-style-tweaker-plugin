@@ -20,42 +20,42 @@
 
 /* === 源代码模式：仅开启对应列表/任务自定义颜色时生效，未开启时保持 Obsidian 原生 === */
 /* 无序列表缩进辅助线（ul-indent 门控）：行含 cm-formatting-list-ul 且不含任务复选框 */
-body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ul):not(:has(.cm-formatting-task)) .cm-indent::before {
+body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-ul:not(.style-tweaker-line-task) .cm-indent::before {
   border-color: var(--style-tweaker-list-ul-indent-color, var(--color-accent));
 }
 
 /* 无序列表当前行缩进辅助线（ul-active-indent 门控，仅源码/预览） */
-body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ul):not(:has(.cm-formatting-task)) .cm-active-indent::before {
+body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-ul:not(.style-tweaker-line-task) .cm-active-indent::before {
   border-color: var(--style-tweaker-list-ul-active-indent-color, var(--style-tweaker-list-ul-indent-color, var(--color-accent)));
 }
 
 /* 有序列表缩进辅助线（ol-indent 门控）：行含 cm-formatting-list-ol 且不含任务复选框 */
-body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ol):not(:has(.cm-formatting-task)) .cm-indent::before {
+body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-ol:not(.style-tweaker-line-task) .cm-indent::before {
   border-color: var(--style-tweaker-list-ol-indent-color, var(--color-accent));
 }
 
 /* 有序列表当前行缩进辅助线（ol-active-indent 门控，仅源码/预览） */
-body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-list-ol):not(:has(.cm-formatting-task)) .cm-active-indent::before {
+body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-ol:not(.style-tweaker-line-task) .cm-active-indent::before {
   border-color: var(--style-tweaker-list-ol-active-indent-color, var(--style-tweaker-list-ol-indent-color, var(--color-accent)));
 }
 
 /* 任务列表缩进辅助线（task-indent 门控）：行含 cm-formatting-task */
-body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-task) .cm-indent::before {
+body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-task .cm-indent::before {
   border-color: var(--style-tweaker-task-indent-color, var(--color-accent));
 }
 
 /* 任务列表当前行缩进辅助线（task-active-indent 门控，仅源码/预览） */
-body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6 .cm-line:has(.cm-formatting-task) .cm-active-indent::before {
+body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6 .cm-line.style-tweaker-line-task .cm-active-indent::before {
   border-color: var(--style-tweaker-task-active-indent-color, var(--style-tweaker-task-indent-color, var(--color-accent)));
 }
 
 /* 无序列表符号（bullet 门控）：排除含任务复选框的行 */
-body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6 .cm-line:not(:has(.cm-formatting-task)) .cm-formatting-list-ul {
+body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6 .cm-line:not(.style-tweaker-line-task) .cm-formatting-list-ul {
   color: var(--style-tweaker-list-bullet-color, var(--color-accent));
 }
 
 /* 有序列表数字（number 门控）：排除含任务复选框的行 */
-body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6 .cm-line:not(:has(.cm-formatting-task)) .cm-formatting-list-ol {
+body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6 .cm-line:not(.style-tweaker-line-task) .cm-formatting-list-ol {
   color: var(--style-tweaker-list-number-color, var(--color-accent));
 }
 
@@ -79,42 +79,42 @@ body.style-tweaker-task-checkbox-custom .markdown-source-view.mod-cm6 .task-list
    实时预览渲染后列表项不再含 cm-formatting-list-ul/ol 与 cm-formatting-task，
    改用实时预览特有的类区分：无序=含 .list-bullet、有序=含 .list-number、任务=含 .task-list-label */
 /* 无序列表缩进辅助线（ul-indent 门控）：行含 .list-bullet 且非任务行 */
-body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-bullet):not(:has(.task-list-label)) .cm-indent::before {
+body.style-tweaker-list-ul-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-ul:not(.style-tweaker-line-task) .cm-indent::before {
   border-color: var(--style-tweaker-list-ul-indent-color, var(--color-accent));
 }
 
 /* 无序列表当前行缩进辅助线（ul-active-indent 门控，仅源码/预览） */
-body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-bullet):not(:has(.task-list-label)) .cm-active-indent::before {
+body.style-tweaker-list-ul-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-ul:not(.style-tweaker-line-task) .cm-active-indent::before {
   border-color: var(--style-tweaker-list-ul-active-indent-color, var(--style-tweaker-list-ul-indent-color, var(--color-accent)));
 }
 
 /* 有序列表缩进辅助线（ol-indent 门控）：行含 .list-number 且非任务行 */
-body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-number):not(:has(.task-list-label)) .cm-indent::before {
+body.style-tweaker-list-ol-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-ol:not(.style-tweaker-line-task) .cm-indent::before {
   border-color: var(--style-tweaker-list-ol-indent-color, var(--color-accent));
 }
 
 /* 有序列表当前行缩进辅助线（ol-active-indent 门控，仅源码/预览） */
-body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.list-number):not(:has(.task-list-label)) .cm-active-indent::before {
+body.style-tweaker-list-ol-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-ol:not(.style-tweaker-line-task) .cm-active-indent::before {
   border-color: var(--style-tweaker-list-ol-active-indent-color, var(--style-tweaker-list-ol-indent-color, var(--color-accent)));
 }
 
 /* 任务列表缩进辅助线（task-indent 门控）：行含 .task-list-label */
-body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.task-list-label) .cm-indent::before {
+body.style-tweaker-task-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-task .cm-indent::before {
   border-color: var(--style-tweaker-task-indent-color, var(--color-accent));
 }
 
 /* 任务列表当前行缩进辅助线（task-active-indent 门控，仅源码/预览） */
-body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.task-list-label) .cm-active-indent::before {
+body.style-tweaker-task-active-indent-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line.style-tweaker-line-task .cm-active-indent::before {
   border-color: var(--style-tweaker-task-active-indent-color, var(--style-tweaker-task-indent-color, var(--color-accent)));
 }
 
 /* 无序列表符号（bullet 门控）：排除任务行 */
-body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(:has(.task-list-label)) .list-bullet:after {
+body.style-tweaker-list-bullet-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.style-tweaker-line-task) .list-bullet:after {
   background-color: var(--style-tweaker-list-bullet-color, var(--color-accent));
 }
 
 /* 有序列表数字（number 门控）：排除任务行 */
-body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(:has(.task-list-label)) .list-number {
+body.style-tweaker-list-number-custom .markdown-source-view.mod-cm6.is-live-preview .cm-line:not(.style-tweaker-line-task) .list-number {
   color: var(--style-tweaker-list-number-color, var(--color-accent));
 }
 

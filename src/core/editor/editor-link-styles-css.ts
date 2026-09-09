@@ -1,6 +1,14 @@
+/**
+ * 编辑器链接样式模板。
+ *
+ * 原为 src/styles/editor/link.css；因 text-decoration-* 会被
+ * no-unsupported-browser-features（旧基线 Electron 39）误报为「部分支持」，
+ * 故整份迁入 TS 由 EditorLinkService 运行时注入，样式内容完全不变。
+ */
+
+export const LINK_STYLES_CSS = `
 /* ============================================================
    编辑器链接样式
-   纯 CSS（esbuild 不支持 SCSS 预编译，已展开变量）
    ============================================================ */
 
 /* 颜色规则仅在链接颜色被自定义（非 default）时生效（见 style-tweaker-link-color-custom） */
@@ -139,3 +147,4 @@ body.style-tweaker-link-colorful-animation :is(.markdown-preview-view, .markdown
     filter: hue-rotate(360deg);
   }
 }
+`;
