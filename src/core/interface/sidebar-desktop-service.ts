@@ -6,6 +6,10 @@ import { accentToHex } from "../../utils/color-palette";
 // ============================================================
 // 桌面端侧栏：传统布局（legacy）+ 库名显示
 // ============================================================
+// 库信息栏被移出原左栏 split 后，在该 split 上保留的标记类。
+// layout-* CSS 原本用 :not(:has(.workspace-sidedock-vault-profile)) 判断"库信息栏是否在栏内"，
+// 现改为由本服务在移动/还原时切换此 split 类，语义一致且无需 :has()。
+const VAULT_PROFILE_MOVED_CLASS = "style-tweaker-vault-profile-moved";
 // 采用「移动 DOM + 样式」的混合方案：
 //   - 把整个 .workspace-sidedock-vault-profile 节点【移动】到左侧 ribbon 容器底部
 //     （ribbonSettingEl）。移动的是原生节点，其全部原生事件（左键/右键/悬浮）随之保留，
@@ -79,6 +83,7 @@ export class SidebarDesktopService {
   private movedProfile: HTMLElement | null = null;
   private originalParent: HTMLElement | null = null;
   private originalNext: Node | null = null;
+  private movedSplit: HTMLElement | null = null;
   private styleEl: HTMLStyleElement | null = null;
   private retryTimer: number | null = null;
 
@@ -128,6 +133,12 @@ export class SidebarDesktopService {
     // 移动的是原生节点，原生交互 100% 保留；且是 DOM 移动而非 CSS right:100% 绝对定位，无闪烁。
     this.movedProfile = profile;
     profile.classList.add("style-tweaker-legacy-profile");
+    // 记录 profile 原属的左栏 split 并打"库信息栏已移出"标记（layout CSS 据此调整左下角圆角）
+    const sourceSplit = profile.closest<HTMLElement>(".workspace-split.mod-left-split");
+    if (sourceSplit) {
+      sourceSplit.addClass(VAULT_PROFILE_MOVED_CLASS);
+      this.movedSplit = sourceSplit;
+    }
     ribbonEl.appendChild(profile);
 
     // 给切库图标补上 clickable-icon 类：获得 Obsidian 标准图标按钮的 flex 基线与尺寸，
@@ -160,6 +171,11 @@ export class SidebarDesktopService {
     if (this.retryTimer !== null) {
       window.clearTimeout(this.retryTimer);
       this.retryTimer = null;
+    }
+    // 清除左栏 split 上的"库信息栏已移出"标记
+    if (this.movedSplit) {
+      if (this.movedSplit.isConnected) this.movedSplit.removeClass(VAULT_PROFILE_MOVED_CLASS);
+      this.movedSplit = null;
     }
     // 把 profile 精确还原回原始父节点与相邻位置
     if (this.movedProfile && this.movedProfile.isConnected) {

@@ -6,11 +6,6 @@
 
   /* ------------------------主窗口------------------------ */
 
-  /* 主窗口 标题栏的下边框 */
-  /* &:has(.workspace)>.titlebar {
-    border-bottom: var(--st-layout-border);
-  } */
-
   /* 侧边栏 标题栏容器边框 */
   .workspace-split.mod-left-split .workspace-tab-header-container,
   .workspace-split.mod-right-split .workspace-tab-header-container {

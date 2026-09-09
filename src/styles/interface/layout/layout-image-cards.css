@@ -12,7 +12,7 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
-	.workspace:has(.workspace-window) {
+	&.is-popout-window .workspace {
 		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
