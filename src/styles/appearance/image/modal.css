@@ -1,10 +1,14 @@
 /* 设置窗口（.modal.mod-settings）与设置面板相关样式（仅图片模式）
  *
- * 设置页 .modal.mod-settings 存在两种形态，本文件用 body 状态门控分组：
- *   1) 独立设置窗口（pop-out，body 无 .workspace）：自身背景透独立窗口壁纸，纯透明不叠加玻璃。
- *   2) 主窗口内嵌设置页（body 有 .workspace）：全透明会透出主窗口内容，改用玻璃表面。
- * 其余弹框（.modal:not(.mod-settings)）按同样两种形态区分处理。
- * 注：.modal 被 .modal-container 包裹、非 body 直接子级，用后代选择器。
+ * 设置页 .modal.mod-settings 存在两种 DOM 形态，按结构直接区分：
+ *   1) 独立设置窗口：body.is-popout-window > .modal.mod-settings
+ *      （无 .modal-container 包裹，body 直挂），自身背景透独立窗口壁纸，
+ *      纯透明不叠加玻璃。
+ *   2) 内嵌设置页（主窗口/窗格）：位于 body > .modal-container.mod-dim 内，
+ *      全透明会透出背后内容，改用玻璃表面。
+ * 其余弹框（.modal:not(.mod-settings)）按是否位于 modal-container 内区分玻璃/透明。
+ * 采用结构选择器而非 :has()/body 状态类，规避样式引擎宽泛失效与 Obsidian
+ * 复制窗口 body 类导致的状态错位。
  */
 
 /* ============ 通用（不分窗口形态） ============ */
@@ -75,55 +79,49 @@
   }
 }
 
-/* ============ 独立窗口形态（body 无 .workspace）：纯透明透壁纸 ============ */
-body.style-tweaker-bg-image-active:not(.style-tweaker-has-workspace) {
+/* ============ 独立设置窗口（body 直挂 .modal.mod-settings）：纯透明透壁纸 ============ */
+body.style-tweaker-bg-image-active.is-popout-window > .modal.mod-settings.mod-sidebar-layout {
   /* 设置页自身：透明透出该独立窗口的 body::before 壁纸。 */
-  .modal.mod-settings {
-    position: relative;
-    isolation: isolate;
-    background-color: transparent;
-  }
-
-  /* 设置窗口遮罩层：透明，避免压暗/挡住独立窗口壁纸。 */
-  .modal-bg {
-    background-color: transparent;
-    background-image: none;
-  }
-
-  /* 其他弹框（非设置窗口）：纯透明透壁纸，不强加玻璃，避免第三方插件弹窗异常。 */
-  .modal:not(.mod-settings) {
-    position: relative;
-    isolation: isolate;
-    background-color: transparent;
-    background-image: none;
-    box-shadow: none;
-  }
+  position: relative;
+  isolation: isolate;
+  background-color: transparent;
 }
 
-/* ============ 主窗口内嵌形态（body 有 .workspace）：玻璃表面保证可读 ============ */
-body.style-tweaker-bg-image-active.style-tweaker-has-workspace {
-  /* 设置页：全透明会透出主窗口内容无法阅读，改玻璃表面。 */
-  .modal.mod-settings {
-    background-color: transparent;
-    background-image: none;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-  }
+/* 独立（非 modal-container 内嵌）弹框与遮罩：纯透明透壁纸，不强加玻璃，
+   避免第三方插件独立窗口/弹窗异常。 */
+body.style-tweaker-bg-image-active > .modal:not(.mod-settings) {
+  position: relative;
+  isolation: isolate;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+body.style-tweaker-bg-image-active > .modal-bg {
+  background-color: transparent;
+  background-image: none;
+}
 
-  /* 遮罩层：保留半透明压暗，避免主窗口内容干扰设置页阅读。 */
-  .modal-bg {
-    background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
-  }
+/* ============ 内嵌设置页（位于 .modal-container 内）：玻璃表面保证可读 ============ */
+body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal.mod-settings.mod-sidebar-layout {
+  background-color: transparent;
+  background-image: none;
+  backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+  -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
 
-  /* 其他弹框：同款玻璃表面。 */
-  .modal:not(.mod-settings) {
-    background-color: transparent;
-    background-image: none;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-  }
+/* 遮罩层：保留半透明压暗，避免主窗口内容干扰弹框阅读。 */
+body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal-bg {
+  background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
+}
+
+/* 其他弹框（非设置，位于 modal-container 内）：同款玻璃表面。 */
+body.style-tweaker-bg-image-active .modal-container .modal:not(.mod-settings) {
+  background-color: transparent;
+  background-image: none;
+  backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+  -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
 /* ============ 独立设置窗口标题栏（is-popout-modal） ============ */

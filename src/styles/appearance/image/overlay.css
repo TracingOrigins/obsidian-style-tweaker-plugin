@@ -18,13 +18,12 @@
  */
 
 /* ============ 仅图片模式：titlebar 清理 + 分隔线 ============ */
-/* 主窗口与独立窗口的 .titlebar 壁纸由 background-css.ts 统一承载，此处只清遗留模糊效果。 */
-body.style-tweaker-bg-image-active.style-tweaker-has-workspace {
-  > .titlebar,
-  > .titlebar .titlebar-inner {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+/* 各窗口（主窗口、pop-out 窗格、独立设置窗口）的 .titlebar 壁纸均由 background-css.ts
+   统一承载，此处清除原生遗留模糊效果，使标题栏完全透明、直接透出壁纸。 */
+body.style-tweaker-bg-image-active > .titlebar,
+body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 /* ============ 仅图片模式：桌面端容器整组完全透明，透出壁纸（等效界面不透明度 = 0） ============ */
