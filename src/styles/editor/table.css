@@ -74,7 +74,7 @@ body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rend
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:hover,
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(even):hover,
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:nth-child(even):hover {
-  background-color: var(--table-hover-raw-color) !important;
+  background-color: var(--table-hover-raw-color);
 }
 
 /* thead hover */
@@ -149,7 +149,7 @@ body.style-tweaker-table-style-three .markdown-source-view table tbody > tr {
 
 body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:hover,
 body.style-tweaker-table-style-three .markdown-source-view table tbody > tr:hover {
-  background-color: transparent !important;
+  background-color: transparent;
 }
 
 body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) td:nth-child(even),

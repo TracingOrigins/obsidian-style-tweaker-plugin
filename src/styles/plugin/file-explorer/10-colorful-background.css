@@ -50,13 +50,12 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background
 /* 把每个文件夹的 --style-tweaker-fe-colorful-tab-color（映射自 --style-tweaker-fe-colorful-folder-0..Z）作为标题背景色。
    这是真正绘制彩色文件夹的核心规则；没有它，--style-tweaker-fe-colorful-tab-color 变量虽已定义却永远不会被使用。
    仅作用于第一层文件夹的标题 .nav-files-container>div>.tree-item.nav-folder>.nav-folder-title，
-   不作用于其下的 .nav-folder-children。
-   !important 用于覆盖 Obsidian 自身的 .nav-folder-title 背景。
+   不作用于其下的 .nav-folder-children。 用于覆盖 Obsidian 自身的 .nav-folder-title 背景。
    注意：排除 .style-tweaker-fe-colorful-palette-custom，使自定义配色单色不被覆盖。 */
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background:not(.style-tweaker-fe-colorful-palette-custom) .nav-files-container>div>.tree-item.nav-folder {
-  background-color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-folder-0, #823131d7)) !important;
-  color: var(--style-tweaker-fe-colorful-folder-text, inherit) !important;
-  border-radius: var(--radius-s) !important;
+  background-color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-folder-0, #823131d7));
+  color: var(--style-tweaker-fe-colorful-folder-text, inherit);
+  border-radius: var(--radius-s);
 }
 
 body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] {
@@ -72,6 +71,6 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background
    标题文字/文件夹图标都用 currentColor 继承 .nav-folder-title 的 color（= folder-text），
    箭头改用 currentColor 即可与图标、标题同色。选择器含 mode-background 且文件加载在后，特异性更高。 */
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .style-tweaker-fe-colorful-collapse {
-  color: currentColor !important;
+  color: currentColor;
 }
 

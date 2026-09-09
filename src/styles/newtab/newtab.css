@@ -125,15 +125,16 @@
 
 /* 粒子已激活时隐藏被采样的原始徽标/标题元素（引擎加类，替代 inline visibility） */
 .style-tweaker-particle-captured {
-  visibility: hidden !important;
+  visibility: hidden;
 }
 
 /* 徽标/标题原始元素被粒子替换后隐藏。
-   引擎会动态设置 visibility:hidden；此处再用 :has() 依据粒子画布是否存在做双保险，
+   引擎在画布安装期间于容器上保留 .style-tweaker-particle-active（见 particle-engine.ts），
+   此处依据该容器活性类隐藏原始徽标与标题（替代 :has() 判断），
    即使重载/时序导致徽标元素被重建，只要画布在，原始徽标与标题就不会透出。 */
-.style-tweaker-new-tab-wordmark-container:has(.style-tweaker-new-tab-particle-canvas)
+.style-tweaker-new-tab-wordmark-container.style-tweaker-particle-active
   .style-tweaker-new-tab-logo,
-.style-tweaker-new-tab-wordmark-container:has(.style-tweaker-new-tab-particle-canvas)
+.style-tweaker-new-tab-wordmark-container.style-tweaker-particle-active
   .style-tweaker-new-tab-title {
   visibility: hidden;
 }

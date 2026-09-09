@@ -3,8 +3,8 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.styl
 }
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder .nav-folder-title,
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder .nav-file-title {
-  color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-custom-color)) !important;
-  filter: hue-rotate(var(--hue, 0deg)) brightness(0.85) !important;
+  color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-custom-color));
+  filter: hue-rotate(var(--hue, 0deg)) brightness(0.85);
   font-weight: 600;
 }
 

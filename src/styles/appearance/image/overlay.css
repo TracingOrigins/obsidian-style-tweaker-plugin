@@ -22,8 +22,8 @@
 body.style-tweaker-bg-image-active:has(.workspace) {
   > .titlebar,
   > .titlebar .titlebar-inner {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 
@@ -53,10 +53,10 @@ body.style-tweaker-bg-image-active:has(.workspace) {
   .workspace-tab-container,
   .workspace-tab-container-after,
   .workspace-tab-container-before {
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 }
 
@@ -77,35 +77,35 @@ body.style-tweaker-bg-image-active:has(.workspace) {
   .status-bar,
   .popover,
   .tooltip {
-    background-color: transparent !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: transparent;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     /* 原生 .tooltip 文字色写死为浅色（--text-on-accent），透明玻璃下浅色主题看不清；
        改用跟随主题的正常文字色，深/浅色均清晰。 */
-    color: var(--text-normal) !important;
+    color: var(--text-normal);
   }
 
   /* 全局搜索视图（.search-result-container）的匹配块：玻璃表面 + 圆角。
      .search-result-container 是独立搜索视图（非 suggestion 弹层），默认不透明，
      加玻璃后透出壁纸且保持可读。与系统浮层同款玻璃（模糊减半 + 饱和度 1.15）。 */
   .search-result-container .search-result-file-matches {
-    background-color: transparent !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    border-radius: var(--radius-m) !important;
+    background-color: transparent;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    border-radius: var(--radius-m);
   }
 
   /* tooltip 箭头：开启壁纸时直接隐藏所有方向的箭头。箭头独立于气泡之外、直接压壁纸，
      无法与气泡共用同一玻璃背板，隐藏后气泡自身玻璃即可，视觉更干净。 */
   .tooltip .tooltip-arrow {
-    display: none !important;
+    display: none;
   }
 
   /* 浮层内部容器（prompt-inner / menu-item）也透明，让玻璃模糊透到内容背后。 */
   .modal-container .prompt .prompt-inner,
   .menu .menu-item {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 }
 
@@ -116,27 +116,27 @@ body.style-tweaker-bg-image-active:has(.workspace) {
   input.prompt-input:hover,
   input.prompt-input:focus,
   input.prompt-input:focus-visible {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   /* 活动标签（.is-active）及带活动菜单态（.has-active-menu）背景透明，
      使活动标签的高亮不再遮挡壁纸。 */
   .workspace-tab-header.is-active,
   .workspace-tab-header.has-active-menu {
-    background: transparent !important;
+    background: transparent;
   }
 }
 
 /* 搜索输入框、设置面板搜索框容器：透明化补丁。 */
 .style-tweaker-bg-image-active {
   .search-input-container input {
-    background: transparent !important;
+    background: transparent;
   }
 
   .setting-group .setting-group-search {
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
-    border-bottom: none !important;
-    background: transparent !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+    border-bottom: none;
+    background: transparent;
   }
 }
 
@@ -154,15 +154,15 @@ body.style-tweaker-bg-image-active.is-mobile {
   .mobile-navbar,
   .mobile-navbar.mod-raised,
   .mobile-tabbar {
-    background: transparent !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   /* 移动端带 mod-raised 的元素透明，透出壁纸/玻璃。 */
   .mod-raised {
-    background: transparent !important;
+    background: transparent;
   }
 
   /* 移动端标签切换器（.mobile-tab-switcher）：与 .modal-container .prompt 同款玻璃模糊。
@@ -170,27 +170,27 @@ body.style-tweaker-bg-image-active.is-mobile {
      创建独立层叠上下文，若仅靠透明透出根层 body::before，模糊会被 context 隔断而无效；
      故给它自身挂壁纸，保证玻璃效果生效。背景与 body::before 同为 cover/center，视觉一致。 */
   .mobile-tab-switcher {
-    background-color: transparent !important;
-    background-image: var(--style-tweaker-bg-image) !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    background-color: transparent;
+    background-image: var(--style-tweaker-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* 内部滚动容器：原生不透明背景会盖住 .mobile-tab-switcher 的壁纸，需透明透出。 */
   .mobile-tab-switcher .mobile-tab-switcher-scroll {
-    background-color: transparent !important;
-    background-image: none !important;
+    background-color: transparent;
+    background-image: none;
   }
 
   /* 标签切换器内的选项预览及其空状态、关闭按钮：原生不透明背景盖住壁纸，需透明透出。 */
   .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview,
   .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview .mobile-tab-preview-empty,
   .mobile-tab-switcher .mobile-tab-switcher-scroll .mobile-tab-preview .close-button {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   /* ============ 移动端框架容器玻璃：设置页 / 社区插件窗口 ============ */
@@ -198,44 +198,44 @@ body.style-tweaker-bg-image-active.is-mobile {
   /* 外层玻璃：设置页 + 社区插件窗口（两容器同款）。 */
   .modal.mod-settings,
   .mod-community-modal {
-    /* background-color: transparent !important; */
-    background-image: none !important;
-    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+    /* background-color: transparent; */
+    background-image: none;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   }
 
   /* 设置页内部容器透明，透出 .modal.mod-settings 的玻璃模糊（而非各自不透明背景）。 */
   .modal.mod-settings .vertical-tab-header-group-items,
   .modal.mod-settings .setting-search-result-group,
   .modal.mod-settings .setting-items {
-    background-color: transparent !important;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    background-color: transparent;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
   }
 
   .modal.mod-settings .search-input-container {
-    border: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
   
   .search-input-container input:focus {
-    box-shadow: none !important;
+    box-shadow: none;
   }
   
   /* 设置窗口右侧设置分组中设置项的上边框 */
   .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
-    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
 
   .modal.mod-settings .vertical-tab-nav-item-chevron,
   .modal.mod-settings .vertical-tab-nav-item-title,
   .modal.mod-settings .setting-search-result-tab-text {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
 
   /* 社区插件窗口内部容器透明，透出玻璃模糊（边框沿用主题强调色，与设置页呼应）。 */
   .modal.mod-community-modal {
-    background-color: transparent !important;
-    border: 1px solid var(--color-accent) !important;
+    background-color: transparent;
+    border: 1px solid var(--color-accent);
   }
 
   /* 社区插件窗口变量覆盖：让内部项/弹窗背景随玻璃透明，不残留原生不透明底色。
@@ -249,13 +249,13 @@ body.style-tweaker-bg-image-active.is-mobile {
   }
 
   .mod-community-modal .community-item {
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
   }
 
   /* 设置页 modal 边框 + 圆角（与社区插件窗口的 accent 边框风格一致）。 */
   .modal.mod-settings {
-    border: 1px solid var(--color-accent) !important;
-    border-bottom: none !important;
+    border: 1px solid var(--color-accent);
+    border-bottom: none;
   }
 
   /* 移动端弹窗（设置页 / 社区插件窗口）头部底部分隔线透明，避免遮挡玻璃。 */
@@ -273,13 +273,13 @@ body.style-tweaker-bg-image-active.is-mobile {
   /* 移动端右键菜单（.menu）边框：与上方命令面板（.prompt）的 accent 边框风格统一，
      在玻璃模糊基础上勾勒轮廓，使浮层边界更清晰。 */
   .menu {
-    border: 1px solid var(--color-accent) !important;
-    border-bottom: none !important;
+    border: 1px solid var(--color-accent);
+    border-bottom: none;
   }
   
   /* 移动端新标签页按钮透明 */
   .empty-state .empty-state-action {
-    background-color: transparent !important;
+    background-color: transparent;
   }
 
   /* 移动端标签页预览容器边框 */
@@ -289,13 +289,13 @@ body.style-tweaker-bg-image-active.is-mobile {
 
   /* 移动端提示框 */
   .modal-container .prompt {
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary)) !important;
-    border-bottom: none !important;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+    border-bottom: none;
   }
 
   /* 移动端提示框输入框边框 */
   .modal-container .prompt .prompt-input[type=text] {
-    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary)) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
 
   /* 移动端标签页预览容器边框 */

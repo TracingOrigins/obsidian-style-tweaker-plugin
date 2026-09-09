@@ -38,15 +38,15 @@ body.style-tweaker-statusbar-floating:not(.is-mobile) .status-bar:hover {
 
 /* 固定状态栏：工作区底部不留内边距，让状态栏贴合底部边缘。
    边框/卡片布局：通过覆盖各布局在 body 上定义的 --st-layout-bottom-padding
-   变量实现（布局定义未加 !important，这里用 !important 覆盖）。 */
+   变量实现（布局定义未加，这里用 覆盖）。 */
 body.style-tweaker-statusbar-fixed {
-  --st-layout-bottom-padding: 0 !important;
+  --st-layout-bottom-padding: 0;
 }
 
 /* 默认布局兜底：无布局门控时，.workspace 不使用该变量，直接设置底部内边距为 0。
    边框/卡片布局下本规则特异性低于布局 padding，由上方变量覆盖接管。 */
 body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards) .workspace {
-  padding-bottom: 0 !important;
+  padding-bottom: 0;
 }
 
 body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards).style-tweaker-bg-image-active .status-bar {
@@ -67,5 +67,5 @@ body.style-tweaker-statusbar-fixed .status-bar {
   position: relative;
   border-radius: 0;
   border: none;
-  box-shadow: none !important;
+  box-shadow: none;
 }

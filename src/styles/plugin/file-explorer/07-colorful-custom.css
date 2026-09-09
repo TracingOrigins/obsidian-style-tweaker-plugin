@@ -18,10 +18,10 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom 
 
 /* 自定义配色：colorful / colorful-background 模式 —— 基色 + hue-rotate 自动派生彩虹背景 */
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder {
-  background-color: var(--style-tweaker-fe-colorful-custom-color) !important;
-  color: var(--style-tweaker-fe-colorful-folder-text, inherit) !important;
-  filter: hue-rotate(var(--hue, 0deg)) !important;
-  border-radius: var(--radius-s) !important;
+  background-color: var(--style-tweaker-fe-colorful-custom-color);
+  color: var(--style-tweaker-fe-colorful-folder-text, inherit);
+  filter: hue-rotate(var(--hue, 0deg));
+  border-radius: var(--radius-s);
 }
 
 /* 仅"彩色背景"类型：圆点用标题文字色(currentColor)，避免与同色背景重叠不可见；
@@ -49,7 +49,7 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background
    （避免各模式用 --tab-color 彩虹色而标题用 folder-text/变暗色造成不一致）。
    用门控类（而非纯 CSS 选择器）可确保仅在彩色文件夹开启时生效，且不误伤其他 .collapse-icon。 */
 body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .style-tweaker-fe-colorful-collapse {
-  color: currentColor !important;
+  color: currentColor;
 }
 /* 折叠按钮容器本身：强制继承父级 .nav-folder-title 的文字色（覆盖 Obsidian 默认给 .collapse-icon 的灰色），
    使默认折叠箭头与替换的文件夹图标（background-color: currentColor）都严格跟随标题颜色。 */
@@ -61,7 +61,7 @@ body.style-tweaker-fe-colorful-folders .nav-files-container .nav-folder-title .c
    即所属文件夹的标题色 / folder-text）。用 currentColor 直接继承"已渲染"的文字色，
    确保与文件名严格同色。 */
 body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .nav-files-container .nav-file-title[data-path]::before {
-  background-color: currentColor !important;
+  background-color: currentColor;
 }
 
 /* 3) 文件树缩进线颜色 = 文件夹标题颜色，且统一 50% 透明（参考 AnuPpuccin：border-color: rgba(var(--rainbow-folder-color), 0.5)）。
@@ -71,27 +71,27 @@ body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .nav-files-co
    - border：标题色 = 变暗/变亮的 tab-color（浅色主题 black 20%，深色主题 white 38%） */
 body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .tree-item-children,
 body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .nav-folder-children {
-  border-left: 1px solid color-mix(in srgb, var(--style-tweaker-fe-colorful-tab-color, var(--text-muted)) 50%, transparent) !important;
+  border-left: 1px solid color-mix(in srgb, var(--style-tweaker-fe-colorful-tab-color, var(--text-muted)) 50%, transparent);
 }
 
 /* background 模式：标题文字用 folder-text（在彩色背景上可读的对比色），缩进线跟随标题文字色 */
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .tree-item-children,
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .nav-folder-children {
-  border-left-color: color-mix(in srgb, var(--style-tweaker-fe-colorful-folder-text, var(--text-muted)) 50%, transparent) !important;
+  border-left-color: color-mix(in srgb, var(--style-tweaker-fe-colorful-folder-text, var(--text-muted)) 50%, transparent);
 }
 
 /* border 模式：标题文字变暗/变亮（浅色主题 black 20%），缩进线跟随标题文字色 */
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
 body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
-  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), black 20%) 50%, transparent) !important;
+  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), black 20%) 50%, transparent);
 }
 body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
 body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
-  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), white 38%) 50%, transparent) !important;
+  border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), white 38%) 50%, transparent);
 }
 
 /* 自定义配色：colorful-title 模式 —— 标题文字用基色 + 按文件夹序派生色相（彩虹）
    用 --style-tweaker-fe-colorful-tab-color（自定义下=用户基色）+ --hue(:nth-child 派生) 经 hue-rotate 得到每个文件夹不同的颜色，
-   并加 !important 压过原版 colorful-title 段（color: var(--style-tweaker-fe-colorful-tab-color); filter: brightness）避免全成一个色。 */
+   并加 压过原版 colorful-title 段（color: var(--style-tweaker-fe-colorful-tab-color); filter: brightness）避免全成一个色。 */
 /* title 自定义模式：把 --style-tweaker-fe-colorful-tab-color 覆盖为基色，使文件夹图标(::before)与标题文字共用同一基色，
    再统一经 .nav-folder-title 的 hue-rotate(--hue) 旋转，避免图标用预设 --style-tweaker-fe-colorful-folder-K 而标题用基色旋转造成不一致。 */

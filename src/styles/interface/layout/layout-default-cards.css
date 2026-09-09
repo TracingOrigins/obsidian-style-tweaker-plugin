@@ -57,11 +57,11 @@ body.style-tweaker-layout-cards:not(.style-tweaker-bg-solid-active):not(.style-t
 
 	/* 工作区 内边距*/
 	.workspace {
-		padding: 0 16px var(--st-layout-bottom-padding) 0 !important;
+		padding: 0 16px var(--st-layout-bottom-padding) 0;
 	}
 
 	.workspace:has(.workspace-window) {
-		padding: 0 16px var(--st-layout-bottom-padding) 16px !important;
+		padding: 0 16px var(--st-layout-bottom-padding) 16px;
 	}
 
 	.workspace,

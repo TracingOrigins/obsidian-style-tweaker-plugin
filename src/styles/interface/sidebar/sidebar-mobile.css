@@ -27,8 +27,8 @@ body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-tab-option
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-active-tab-content .view-content {
-  padding-top: var(--size-4-2) !important;
-  padding-bottom: var(--size-4-8) !important;
+  padding-top: var(--size-4-2);
+  padding-bottom: var(--size-4-8);
 }
 
 /* 导航栏上移 */
@@ -52,6 +52,6 @@ body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-active-t
 body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer:not(:has(.nav-buttons-container:not(:empty))) .workspace-drawer-active-tab-content .view-content {
-  padding-top: 0 !important;
-  padding-bottom: var(--size-4-8) !important;
+  padding-top: 0;
+  padding-bottom: var(--size-4-8);
 }

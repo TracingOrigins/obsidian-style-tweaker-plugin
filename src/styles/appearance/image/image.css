@@ -12,11 +12,11 @@
   .workspace {
     position: relative;
     isolation: isolate;
-    background-color: transparent !important;
+    background-color: transparent;
 
     /* 保底：核心承载层强制透明，确保壁纸（body::before）透出。
        这一组能防止不透明内容盖住壁纸。仅在图片模式激活时生效。
-       注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用 !important
+       注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用
        的 background-image:none 把「编辑器背景」服务的网格/点阵图案一并清除。
        编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor-bg.css
        在其自身元素上绘制，二者可共存。 */
@@ -29,9 +29,9 @@
     .workspace-tabs,
     .view-header,
     .view-content {
-      background: none !important;
-      background-color: transparent !important;
-      background-image: none !important;
+      background: none;
+      background-color: transparent;
+      background-image: none;
     }
 
     /* 编辑器区仅强制底色透明以透出壁纸，但保留 background-image，
@@ -42,7 +42,7 @@
     .cm-editor,
     .cm-scroller,
     .cm-gutters {
-      background-color: transparent !important;
+      background-color: transparent;
     }
   }
 }
@@ -62,11 +62,11 @@ body.style-tweaker-bg-image-active {
       color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent),
       color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent)
     );
-    background-color: transparent !important;
-    background-image: var(--style-tweaker-stacked-mask), var(--style-tweaker-bg-image) !important;
-    background-size: auto, cover !important;
-    background-position: 0 0, center !important;
-    background-repeat: repeat, no-repeat !important;
-    background-attachment: scroll, fixed !important;
+    background-color: transparent;
+    background-image: var(--style-tweaker-stacked-mask), var(--style-tweaker-bg-image);
+    background-size: auto, cover;
+    background-position: 0 0, center;
+    background-repeat: repeat, no-repeat;
+    background-attachment: scroll, fixed;
   }
 }

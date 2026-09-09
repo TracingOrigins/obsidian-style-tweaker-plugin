@@ -1,30 +1,30 @@
 /* fast-copier 的"复制按钮"会把阅读模式标签包进 .fast-copier-wrapper（<a class="tag"> 变为其唯一子节点），
    使上方 .tag 的 nth-child 失效（每个 tag 都命中 5n+1 → 全同色）。此处兼容：
-   对"包含 .tag 的 wrapper"按 nth-child 计数，直接给 wrapper 内的 .tag 分配彩虹色。
-   :has(> .tag) 限定只处理含标签的 wrapper，排除链接/加粗等其他被包裹元素。
+   按 wrapper 的 nth-child 计数，直接给 wrapper 内唯一的 .tag 分配彩虹色。
+   wrapper 内可能被包裹链接/加粗等元素，但它们不是 .tag，无需额外排除。
    未安装此类插件时 .fast-copier-wrapper 不存在，本规则不命中、无副作用。 */
-body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:has(> .tag):nth-child(5n+1) > .tag {
-  --tag-background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(var(--accent-h), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15) !important;
+body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:nth-child(5n+1) > .tag {
+  --tag-background: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.15);
 }
-body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:has(> .tag):nth-child(5n+2) > .tag {
-  --tag-background: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.15) !important;
+body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:nth-child(5n+2) > .tag {
+  --tag-background: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 70), var(--accent-s), var(--accent-l), 0.15);
 }
-body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:has(> .tag):nth-child(5n+3) > .tag {
-  --tag-background: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.15) !important;
+body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:nth-child(5n+3) > .tag {
+  --tag-background: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 140), var(--accent-s), var(--accent-l), 0.15);
 }
-body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:has(> .tag):nth-child(5n+4) > .tag {
-  --tag-background: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.15) !important;
+body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:nth-child(5n+4) > .tag {
+  --tag-background: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 210), var(--accent-s), var(--accent-l), 0.15);
 }
-body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:has(> .tag):nth-child(5n) > .tag {
-  --tag-background: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.1) !important;
-  --tag-color: hsl(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l)) !important;
-  --tag-border-color: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.15) !important;
+body.style-tweaker-tag-color-rainbow .fast-copier-wrapper:nth-child(5n) > .tag {
+  --tag-background: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.1);
+  --tag-color: hsl(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l));
+  --tag-border-color: hsla(calc(var(--accent-h) + 280), var(--accent-s), var(--accent-l), 0.15);
 }

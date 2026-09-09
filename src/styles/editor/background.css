@@ -28,7 +28,7 @@
  *   - 不透明度通过 color-mix 烘焙进图案颜色，避免用 opacity 影响正文子元素。
  *   - 线宽 / 点径：grid-1/grid-2 线宽 1px、点阵点径 10%。
  *   - 代码块 / 嵌入块（.cm-embed-block / .markdown-embed 内的预览）透出同一图案，
- *     避免白色方块遮挡（background: inherit !important）。
+ *     避免白色方块遮挡（background: inherit）。
  * ============================================================ */
 
 body {
@@ -58,7 +58,7 @@ body.style-tweaker-editor-bg
 body.style-tweaker-editor-bg
   .markdown-embed
   :is(.markdown-preview-view, .markdown-rendered) {
-  background: inherit !important;
+  background: inherit;
 }
 
 /* —— 网格图案 1（单层细网格。单格固定 20px，线宽 1px） —— */

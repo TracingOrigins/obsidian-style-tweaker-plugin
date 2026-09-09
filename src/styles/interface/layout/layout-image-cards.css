@@ -9,11 +9,11 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 工作区 内边距*/
 	.workspace {
-		padding: 0 20px var(--st-layout-bottom-padding) 0 !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
 	.workspace:has(.workspace-window) {
-		padding: 0 20px var(--st-layout-bottom-padding) 20px !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
      .workspace,
@@ -28,13 +28,13 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 中央内容区域 标签栏的下边框 */
     .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-header-container,
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     /* 中央内容区域 标签页的圆角 */
     .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-container {
-        border-radius: 24px !important;
-        border: var(--st-layout-border) !important;
+        border-radius: 24px;
+        border: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的边距和边框 */
@@ -51,35 +51,35 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 中央内容区域 标签栏的标签区域的内边距和外边距 */
      .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
         padding: 0px 5px 0 5px;
-        margin-bottom: 0!important;
+        margin-bottom: 0;
     }
 
     /* 中央内容区域 非活动标签的边框高亮 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
         box-shadow: unset;
         border-radius: 6px 6px 0 0;
-        border-bottom: var(--st-layout-border) !important;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 活动标签的边框高亮 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
         box-shadow: unset;
-        border: var(--st-layout-border) !important;
-        border-bottom: none !important;
+        border: var(--st-layout-border);
+        border-bottom: none;
         border-radius: 6px 6px 0 0;
     }
 
     /* 中央内容区域 标签栏的新建标签页按钮 */
      .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
-        margin: 0 !important;
-        padding-left: 6px !important;
-        padding-right: 12px !important;
-        border-bottom: var(--st-layout-border) !important;
+        margin: 0;
+        padding-left: 6px;
+        padding-right: 12px;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的空白部分的下边框 */
      .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-spacer{
-        border-bottom: var(--st-layout-border) !important;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的更多标签页按钮 */
@@ -98,17 +98,17 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
         bottom: calc(-1 * var(--tab-outline-width));
         width: 50%;
         height: 1px;
-        background: var(--st-layout-border-color) !important;
+        background: var(--st-layout-border-color);
         pointer-events: none;
         z-index: 1;
     }
 
     /* 右侧边栏关闭时，标签栏的更多标签页按钮的下边框 */
     .workspace:not(.is-right-sidedock-open) .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
-        padding-right: 18px !important;
-        margin-right: -14px !important;
+        padding-right: 18px;
+        margin-right: -14px;
         margin-bottom: 0;
-        border-bottom: var(--st-layout-border) !important;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 垂直分割线、水平分割线的调整手柄 */
@@ -119,13 +119,13 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 中央内容区域 下边框 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-container {
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
      .workspace-split.mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-container {
         border-radius: 24px;
-        border: var(--st-layout-border) !important;
-        border-top: none !important;
+        border: var(--st-layout-border);
+        border-top: none;
     }
 
     /* 中央内容区域 内容栏左上角和右上角的圆角装饰 */
@@ -136,8 +136,8 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
         left: -1px;
         width: 24px;         /* 左上角圆角弧线宽度 */
         height: 24px;        /* 左上角圆角弧线高度 */
-        border-top: 2px solid var(--st-layout-border-color) !important;
-        border-left: var(--st-layout-border) !important;
+        border-top: 2px solid var(--st-layout-border-color);
+        border-left: var(--st-layout-border);
         border-radius: 24px 0 0 0;  /* 只有左上角 */
         pointer-events: none;
         z-index: 1;
@@ -150,8 +150,8 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
         right: -1px;
         width: 24px;
         height: 24px;
-        border-top: 2px solid var(--st-layout-border-color) !important;
-        border-right: 1px var(--st-layout-border-color) !important;
+        border-top: 2px solid var(--st-layout-border-color);
+        border-right: 1px var(--st-layout-border-color);
         border-radius: 0 24px 0 0;  /* 只有右上角 */
         pointer-events: none;
         z-index: 1;
@@ -167,29 +167,29 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 功能区 上方的左侧栏切换按钮 */
      .workspace-ribbon.side-dock-ribbon:before{
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     /* 功能区 边距和边框*/
     .workspace-ribbon {
-        border-color: transparent !important;
-        margin-top: 39px !important;
-        padding: 0 !important;
+        border-color: transparent;
+        margin-top: 39px;
+        padding: 0;
     }
 
     .workspace-ribbon .side-dock-actions {
         padding: 8px 4px 12px 4px;
         border-radius: 0px 24px 24px 0px;
         margin-top: 2px;
-        border: var(--st-layout-border) !important;
-        border-left: none !important;
+        border: var(--st-layout-border);
+        border-left: none;
     }
 
     /* .workspace-ribbon .workspace-sidedock-vault-profile.style-tweaker-legacy-profile {
         padding: 8px 4px 12px 4px;
         border-radius: 0px 24px 24px 0px;
-        border: var(--st-layout-border) !important;
-        border-left: none !important;
+        border: var(--st-layout-border);
+        border-left: none;
     } */
 
     /* ------------------------侧边栏------------------------ */
@@ -197,7 +197,7 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 侧边栏 标题栏的下边框 */
      .workspace-split.mod-left-split .workspace-tab-header-container,
      .workspace-split.mod-right-split .workspace-tab-header-container{
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     /* 侧边栏 左右侧分割线、右侧分割线的调整手柄 */
@@ -210,23 +210,23 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
      .workspace-split.mod-left-split .workspace-tab-container {
         border-top-left-radius: 24px;
         border-top-right-radius: 24px;
-        border: var(--st-layout-border) !important;
-        border-bottom: none !important;
+        border: var(--st-layout-border);
+        border-bottom: none;
     }
 
      .workspace-split.mod-left-split .workspace-tab-container {
         border-radius: 24px;
-        border: var(--st-layout-border) !important;
+        border: var(--st-layout-border);
     }
 
     .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
         border-radius: 24px;
-        border: var(--st-layout-border) !important;
+        border: var(--st-layout-border);
     }
 
     /* 侧边栏 右侧栏边距 */
      .workspace-split.mod-right-split .workspace-tab-container {
         border-radius: 24px;
-        border: var(--st-layout-border) !important;
+        border: var(--st-layout-border);
     }
 }

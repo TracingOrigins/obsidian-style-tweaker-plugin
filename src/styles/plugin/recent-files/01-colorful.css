@@ -135,7 +135,7 @@ body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-title
   .nav-folder-children
   > .tree-item.nav-file.recent-files-file
   .tree-item-inner.nav-file-title-content {
-  color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0)) !important;
+  color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0));
 }
 
 /* 深色主题下的固定配色亮度校正（同 file-explorer title 处理）：folder 色在深色下较暗，
@@ -170,10 +170,10 @@ body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background
   .workspace-leaf-content[data-type="recent-files"]
   .nav-folder-children
   > .tree-item.nav-file.recent-files-file {
-  background-color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0)) !important;
+  background-color: var(--style-tweaker-rf-colorful-tab-color, var(--style-tweaker-rf-colorful-folder-0));
   border-radius: var(--radius-m);
   margin: 2px 4px;
-  color: var(--style-tweaker-rf-colorful-folder-text, #fff) !important;
+  color: var(--style-tweaker-rf-colorful-folder-text, #fff);
 }
 /* custom 配色下背景为单色基色，需按行 hue-rotate 派生彩虹；白色文字不受影响 */
 body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background.style-tweaker-rf-colorful-palette-custom
@@ -193,5 +193,5 @@ body.style-tweaker-rf-colorful-enabled.style-tweaker-rf-colorful-mode-background
   .nav-folder-children
   > .tree-item.nav-file.recent-files-file
   .recent-files-title::before {
-  color: var(--style-tweaker-rf-colorful-folder-text, #fff) !important;
+  color: var(--style-tweaker-rf-colorful-folder-text, #fff);
 }

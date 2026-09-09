@@ -16,17 +16,17 @@ body.theme-dark.style-tweaker-link-color-custom :is(.markdown-preview-view, .mar
 
 /* 实时预览模式内部链接颜色 */
 body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-hmd-internal-link .cm-underline {
-  color: var(--style-tweaker-link-internal, var(--link-color)) !important;
+  color: var(--style-tweaker-link-internal, var(--link-color));
 }
 
 body.theme-dark.style-tweaker-link-color-custom .markdown-source-view .cm-hmd-internal-link .cm-underline {
-  color: var(--style-tweaker-link-internal, var(--link-color)) !important;
+  color: var(--style-tweaker-link-internal, var(--link-color));
 }
 
 /* 源码模式内部链接颜色：源码模式链接文字为 .cm-hmd-internal-link（不带 .cm-underline 包裹），
    [[ ]] 格式符号（.cm-formatting-link-*）保持原生语法色。用 :not(.is-live-preview) 排除实时预览。 */
 body.style-tweaker-link-color-custom .markdown-source-view:not(.is-live-preview) .cm-hmd-internal-link {
-  color: var(--style-tweaker-link-internal, var(--link-color)) !important;
+  color: var(--style-tweaker-link-internal, var(--link-color));
 }
 
 /* 源码模式外部链接颜色：Obsidian 默认用 .cm-s-obsidian span.cm-url 给网址着色（源码/实时预览通用），
@@ -34,19 +34,19 @@ body.style-tweaker-link-color-custom .markdown-source-view:not(.is-live-preview)
    .cm-link:not(.cm-formatting) 命中链接文字（catppuccin），排除 [ ] 格式符号；
    span.cm-url 直接命中网址与括号（Obsidian 本身也一并着色，保持一致）。 */
 body.style-tweaker-link-color-custom .cm-s-obsidian span.cm-link:not(.cm-formatting) {
-  color: var(--style-tweaker-link-external, var(--link-external-color)) !important;
+  color: var(--style-tweaker-link-external, var(--link-external-color));
 }
 body.style-tweaker-link-color-custom .cm-s-obsidian span.cm-url {
-  color: var(--style-tweaker-link-external, var(--link-external-color)) !important;
+  color: var(--style-tweaker-link-external, var(--link-external-color));
 }
 
 /* 实时预览模式未解析内部链接悬浮颜色 */
 body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-hmd-internal-link .is-unresolved .cm-underline:hover {
-  color: var(--link-color-hover) !important;
+  color: var(--link-color-hover);
 }
 
 body.theme-dark.style-tweaker-link-color-custom .markdown-source-view .cm-hmd-internal-link .is-unresolved .cm-underline:hover {
-  color: var(--link-color-hover) !important;
+  color: var(--link-color-hover);
 }
 
 /* 阅读模式外部链接颜色 */
@@ -63,8 +63,8 @@ body.theme-light.style-tweaker-link-color-custom .external-link {
 /* 阅读模式外部链接悬浮色 — 保持与悬浮前一致 */
 body.theme-dark.style-tweaker-link-color-custom .external-link:hover,
 body.theme-light.style-tweaker-link-color-custom .external-link:hover {
-  color: var(--style-tweaker-link-external, var(--link-external-color)) !important;
-  text-decoration-color: color-mix(in srgb, var(--style-tweaker-link-external, var(--link-external-color)) 40%, transparent) !important;
+  color: var(--style-tweaker-link-external, var(--link-external-color));
+  text-decoration-color: color-mix(in srgb, var(--style-tweaker-link-external, var(--link-external-color)) 40%, transparent);
 }
 
 /* 实时预览模式外部链接颜色 */
@@ -87,8 +87,8 @@ body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-link:
 body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-link:hover .cm-underline,
 body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-url:hover,
 body.theme-light.style-tweaker-link-color-custom .markdown-source-view .cm-url:hover .cm-underline {
-  color: var(--style-tweaker-link-external, var(--link-external-color)) !important;
-  text-decoration-color: currentColor !important;
+  color: var(--style-tweaker-link-external, var(--link-external-color));
+  text-decoration-color: currentColor;
 }
 
 /* 内部链接下划线（默认有；开启 linkUnderlineInternal 后关闭） */
@@ -104,18 +104,18 @@ body.style-tweaker-link-underline-unresolved .markdown-source-view.mod-cm6 .cm-h
 body.style-tweaker-link-underline-unresolved .markdown-source-view.mod-cm6 .is-unresolved .cm-underline,
 body.style-tweaker-link-underline-unresolved :is(.markdown-preview-view, .markdown-rendered) .internal-link.is-unresolved,
 body.style-tweaker-link-underline-unresolved .cm-hmd-internal-link .is-unresolved .cm-underline {
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 /* 外部链接下划线：默认保持 Obsidian 原生；开启 linkUnderlineExternal 后移除。
    源码/实时预览模式的外部链接下划线由 Obsidian 设在 .cm-s-obsidian span.cm-url
-   （含括号格式符号 .cm-formatting-link.cm-url），必须用相同作用域 + !important 覆盖。 */
+   （含括号格式符号 .cm-formatting-link.cm-url），必须用相同作用域 + 覆盖。 */
 body.style-tweaker-link-underline-external .markdown-source-view.mod-cm6 .cm-link .cm-underline,
 body.style-tweaker-link-underline-external .markdown-source-view.mod-cm6 .cm-url .cm-underline,
 body.style-tweaker-link-underline-external a.external-link,
 body.style-tweaker-link-underline-external .cm-s-obsidian span.cm-formatting-link.cm-url,
 body.style-tweaker-link-underline-external .cm-s-obsidian span.cm-url {
-  text-decoration-line: none !important;
+  text-decoration-line: none;
 }
 
 /* 去除外部链接图标 */

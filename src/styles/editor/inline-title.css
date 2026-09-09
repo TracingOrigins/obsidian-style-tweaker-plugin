@@ -17,7 +17,7 @@
 
 /* 标题颜色：默认跟随 Obsidian 强调色；自定义开启时用所选色 */
 body.style-tweaker-inline-title .inline-title {
-  color: var(--style-tweaker-inline-title-color, var(--color-accent)) !important;
+  color: var(--style-tweaker-inline-title-color, var(--color-accent));
 }
 
 /* 居中 */
@@ -37,7 +37,7 @@ body.style-tweaker-inline-title.style-tweaker-inline-title-underline-long
   .inline-title {
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  border-bottom-color: var(--style-tweaker-inline-title-color, var(--color-accent)) !important;
+  border-bottom-color: var(--style-tweaker-inline-title-color, var(--color-accent));
 }
 
 /* 长下划线线型：虚线固定 2px（覆盖默认实线） */

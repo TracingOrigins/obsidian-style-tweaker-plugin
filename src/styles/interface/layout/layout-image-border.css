@@ -11,11 +11,11 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 工作区 内边距*/
 	.workspace {
-		padding: 0 20px var(--st-layout-bottom-padding) 0 !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 0;
 	}
 
 	.workspace:has(.workspace-window) {
-		padding: 0 20px var(--st-layout-bottom-padding) 20px !important;
+		padding: 0 20px var(--st-layout-bottom-padding) 20px;
 	}
 
     /* ------------------------中央内容区域------------------------ */
@@ -23,13 +23,13 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 中央内容区域 标签栏的下边框 */
     .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-header-container,
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     /* 中央内容区域 标签页的圆角 */
     .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-container {
-        border-color: var(--st-layout-border-color) !important;
-        border-top: var(--st-layout-border) !important;
+        border-color: var(--st-layout-border-color);
+        border-top: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的边距和边框 */
@@ -54,66 +54,66 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         width: 18px;
         height: 100%;
         background: transparent;
-        border-bottom: var(--st-layout-border) !important; /* 只显示下边框，颜色可调 */
+        border-bottom: var(--st-layout-border); /* 只显示下边框，颜色可调 */
         box-sizing: border-box;
     }
 
     /* 中央内容区域 标签栏的标签区域的内边距和外边距 */
     .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
         padding: 0 5px 0 5px;
-        margin-bottom: 0!important;
+        margin-bottom: 0;
     }
 
     /* 中央内容区域 非活动标签的边框高亮 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
         box-shadow: unset;
         border-radius: 6px 6px 0 0;
-        border-bottom: var(--st-layout-border) !important;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 活动标签的边框高亮 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
         box-shadow: unset;
-        border: var(--st-layout-border) !important;
-        border-bottom: none !important;
+        border: var(--st-layout-border);
+        border-bottom: none;
         border-radius: 6px 6px 0 0;
     }
 
     /* 中央内容区域 标签栏的新建标签页按钮 */
     .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
-        margin: 0 !important;
-        padding-left: 6px !important;
-        padding-right: 12px !important;
-        border-bottom: var(--st-layout-border) !important;
+        margin: 0;
+        padding-left: 6px;
+        padding-right: 12px;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的空白部分的下边框 */
     .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-spacer{
-        border-bottom: var(--st-layout-border) !important;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 标签栏的更多标签页按钮 */
     .workspace.is-right-sidedock-open .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
-        padding-right: 12px !important;
-        margin-right: -8px !important;
-        border-bottom: var(--st-layout-border) !important;
+        padding-right: 12px;
+        margin-right: -8px;
+        border-bottom: var(--st-layout-border);
     }
 
     .workspace:not(.is-right-sidedock-open) .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
-        padding-right: 18px !important;
-        margin-right: -14px !important;
-        border-bottom: var(--st-layout-border) !important;
+        padding-right: 18px;
+        margin-right: -14px;
+        border-bottom: var(--st-layout-border);
     }
 
     /* 中央内容区域 垂直分割线、水平分割线的调整手柄 */
     .workspace-split.mod-vertical > * > .workspace-leaf-resize-handle,
     .workspace-split.mod-horizontal > * > .workspace-leaf-resize-handle {
-        border-color: var(--st-layout-border-soft) !important;
+        border-color: var(--st-layout-border-soft);
     }
 
     /* 中央内容区域 下边框 */
     .workspace .mod-root .workspace-tab-container {
-        border-bottom: var(--st-layout-border) !important;  
+        border-bottom: var(--st-layout-border);  
     }
 
     /* 中央内容区域 圆角规则 - ▼ 开始 ▼ */
@@ -123,32 +123,32 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         .workspace-tabs.mod-top-left-space {
             .workspace-tab-container {
                 border-top-left-radius: 24px;
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-middle-left-space {
             .workspace-tab-container {
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-bottom-left-space {
             .workspace-tab-container {
                 border-bottom-left-radius: 24px;
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-bottom-left-space.mod-top-left-space {
             .workspace-tab-header-container {
-                border-left: none !important;
+                border-left: none;
             }
         }
     }
@@ -158,32 +158,32 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         .workspace-tabs.mod-top-right-space {
             .workspace-tab-container {
                 border-top-right-radius: 24px;
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-middle-right-space {
             .workspace-tab-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-bottom-right-space {
             .workspace-tab-container {
                 border-bottom-right-radius: 24px;
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-bottom-right-space.mod-top-right-space {
             .workspace-tab-header-container {
-            border-right: none !important;
+            border-right: none;
             }
         }
     }
@@ -196,8 +196,8 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         left: -1px;
         width: 24px;
         height: 24px;
-        border-top: 2px solid var(--st-layout-border-color) !important;
-        border-left: var(--st-layout-border) !important;
+        border-top: 2px solid var(--st-layout-border-color);
+        border-left: var(--st-layout-border);
         border-radius: 24px 0 0 0;
         pointer-events: none;
         z-index: 1;
@@ -210,8 +210,8 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         right: -1px;
         width: 24px;
         height: 24px;
-        border-top: 2px solid var(--st-layout-border-color) !important;
-        border-right: 1px var(--st-layout-border-color) !important;
+        border-top: 2px solid var(--st-layout-border-color);
+        border-right: 1px var(--st-layout-border-color);
         border-radius: 0 24px 0 0;
         pointer-events: none;
         z-index: 1;
@@ -227,13 +227,13 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 侧边栏 左右侧分割线、右侧分割线的调整手柄 */
     .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
     .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
-        border-color: var(--st-layout-border-color) !important;
+        border-color: var(--st-layout-border-color);
     }
 
     /* 侧边栏 左侧栏和右侧栏的标题栏的下边框 */
     .workspace-split.mod-left-split .workspace-tab-header-container,
     .workspace-split.mod-right-split .workspace-tab-header-container {
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     /* 侧边栏 左侧栏边框 */
@@ -242,34 +242,34 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         .workspace-tabs.mod-top {
             .workspace-tab-container {
                 border-top-left-radius: 24px;
-                border-top: var(--st-layout-border) !important;
-                border-left: var(--st-layout-border) !important;
+                border-top: var(--st-layout-border);
+                border-left: var(--st-layout-border);
             }
         }
         
         .workspace-tabs:not(.mod-top):not(:last-child) {
             .workspace-tab-container{
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
 
             .workspace-tab-header-container {
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
         }
         
         .workspace-tabs:last-child {
             .workspace-tab-container {
-                border-left: var(--st-layout-border) !important;
-                border-bottom: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
+                border-bottom: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-left: var(--st-layout-border) !important;
+                border-left: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-top:last-child {
             .workspace-tab-header-container {
-                border-left: none !important;
+                border-left: none;
             }
         }
 
@@ -282,8 +282,8 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         /* 侧边栏 左侧仓库信息栏边框 */
         .workspace-sidedock-vault-profile {
             border-bottom-left-radius: 24px;
-            border: var(--st-layout-border) !important;
-            border-top: none !important;
+            border: var(--st-layout-border);
+            border-top: none;
         }
     } 
 
@@ -292,35 +292,35 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
         .workspace-tabs.mod-top {
             .workspace-tab-container {
                 border-top-right-radius: 24px;
-                border-top: var(--st-layout-border) !important;
-                border-right: var(--st-layout-border) !important;
+                border-top: var(--st-layout-border);
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs:not(.mod-top):not(:last-child) {
             .workspace-tab-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
 
             .workspace-tab-header-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs:last-child {
             .workspace-tab-container {
                 border-bottom-right-radius: 24px;
-                border-right: var(--st-layout-border) !important;
-                border-bottom: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
+                border-bottom: var(--st-layout-border);
             }
             .workspace-tab-header-container {
-                border-right: var(--st-layout-border) !important;
+                border-right: var(--st-layout-border);
             }
         }
 
         .workspace-tabs.mod-top:last-child {
             .workspace-tab-header-container {
-                border-right: none !important;
+                border-right: none;
             }
         }
     }
@@ -330,9 +330,9 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) .
 
     /* 新工作窗口 标签栏的更多标签页按钮*/
     .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .workspace-tab-header-tab-list {
-        padding-right: 18px !important;
-        margin-right: -14px !important;
-        border-bottom: var(--st-layout-border) !important;
+        padding-right: 18px;
+        margin-right: -14px;
+        border-bottom: var(--st-layout-border);
     }
     
     .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
@@ -349,7 +349,7 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) .
         bottom: calc(-1 * var(--tab-outline-width));
         width: 50%;
         height: 1px;
-        background: var(--st-layout-border-color) !important;
+        background: var(--st-layout-border-color);
         pointer-events: none;
         z-index: 1;
     }
