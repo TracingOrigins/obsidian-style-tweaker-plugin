@@ -45,11 +45,6 @@ const IMAGE_CLASS = "style-tweaker-bg-image-active";
 // 会显示纯色而非壁纸）。与 IMAGE_CLASS 对称，二者互斥。
 const SOLID_CLASS = "style-tweaker-bg-solid-active";
 
-// 文档是否含主工作区（.workspace 子树）的结构状态类：
-// 主窗口与 pop-out 窗格窗口含 .workspace，独立设置窗口等无 .workspace。
-// 挂载此类替代 CSS 原 `:has(.workspace)` 判断（现有 body 类无法唯一区分这三类窗口）。
-const HAS_WORKSPACE_CLASS = "style-tweaker-has-workspace";
-
 /**
  * 界面背景服务（纯色 / 图片壁纸）。
  *
@@ -549,11 +544,6 @@ export class BackgroundService extends BaseService {
     // 无需额外的 ACTIVE_CLASS。
     doc.body.classList.toggle(IMAGE_CLASS, imageOn);
     doc.body.classList.toggle(SOLID_CLASS, solidOn);
-    // 结构状态类：按文档是否含 .workspace 决定，替代 CSS 的 :has(.workspace)
-    doc.body.classList.toggle(
-      HAS_WORKSPACE_CLASS,
-      doc.querySelector(".workspace") !== null,
-    );
   }
 
   /** 任一套已配置壁纸文件夹且有图，即视为能提供真实背景（三种模式统一依赖文件夹图片）。 */
@@ -568,7 +558,7 @@ export class BackgroundService extends BaseService {
   /** 基类抽象方法：清理单个文档（移除注入的样式表 + 摘背景门控类）。 */
   protected clearDocument(doc: Document): void {
     this.removeDocCss(doc);
-    doc.body?.classList.remove(IMAGE_CLASS, SOLID_CLASS, HAS_WORKSPACE_CLASS);
+    doc.body?.classList.remove(IMAGE_CLASS, SOLID_CLASS);
   }
 
   /**
