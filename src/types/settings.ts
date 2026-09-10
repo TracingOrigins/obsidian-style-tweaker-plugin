@@ -100,6 +100,9 @@ export interface StyleTweakerSettings {
   // 核心插件 → 文件列表
   feAddFileIcon: boolean; // 添加文件前类型图标
   feReplaceFolderIcon: boolean; // 替换文件夹折叠箭头为文件夹图标
+  feFilenameWrap: boolean; // 文件名过长时换行显示（而非单行截断）
+  feHideFileTag: boolean; // 隐藏非 md 文件的后缀标签
+  feFileTagHoverReveal: boolean; // 悬浮文件行时临时显示后缀标签
   feRemoveFirstLevelFolderIconDark: boolean; // 深色主题：去除第一层文件夹前图标（仅彩色边框/色块模式生效）
   feRemoveFirstLevelFolderIconLight: boolean; // 浅色主题：去除第一层文件夹前图标（仅彩色边框/色块模式生效）
   feFolderBadge: "none" | "dot" | "count"; // 文件夹名称后的徽标：无 / 圆点 / 笔记数量
@@ -185,7 +188,9 @@ export interface StyleTweakerSettings {
   blockquoteStyle:
     | "default"
     | "accent-fill"
-    | "quotation-mark"; // 块引用样式
+    | "quotation-mark"
+    | "bubble"
+    | "frame"; // 块引用样式
   blockquoteCustom: boolean; // 是否允许自定义块引用颜色
   blockquoteTextColor: string; // 文字颜色（空=主题强调色）
   blockquoteBorderColor: string; // 边框颜色（空=主题强调色）
@@ -205,12 +210,12 @@ export interface StyleTweakerSettings {
   embedImageRadius: number; // 嵌入图片圆角大小（px，4-16）
 
   // 表格样式
-  tableStyle: string; // 风格：default / one / two / three
+  tableStyle: string; // 风格：default / one / two / three / academia（学术三线表）
   tableShowBorder: boolean; // true=显示单元格边框
   tableFullWidth: boolean; // true=表格占满容器宽度
   tableLineNumbers: boolean; // true=首列前显示行号
   // 标注样式
-  calloutStyle: string; // 风格：default / accent-bar / sleek / split / outline / minimal / soft
+  calloutStyle: string; // 风格：default / accent-bar / sleek / split / outline / minimal / soft / windows
   calloutCustomRadius: boolean; // true=启用自定义标注圆角
   calloutRadius: number; // 标注圆角大小（px，4-16）
   // 列表样式
@@ -443,6 +448,9 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   statusBarStyle: "default",
   feAddFileIcon: false,
   feReplaceFolderIcon: false,
+  feFilenameWrap: false,
+  feHideFileTag: false,
+  feFileTagHoverReveal: false,
   feRemoveFirstLevelFolderIconDark: false,
   feRemoveFirstLevelFolderIconLight: false,
   feFolderBadge: "none",

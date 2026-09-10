@@ -26,6 +26,22 @@ export function buildCorePluginsGroup(plugin: SettingTabPlugin): SettingDefiniti
             control: { type: "toggle", key: "feReplaceFolderIcon" },
           },
           {
+            name: t("plugins.fileExplorer.filenameWrap"),
+            desc: t("plugins.fileExplorer.filenameWrap.desc"),
+            control: { type: "toggle", key: "feFilenameWrap" },
+          },
+          {
+            name: t("plugins.fileExplorer.hideFileTag"),
+            desc: t("plugins.fileExplorer.hideFileTag.desc"),
+            control: { type: "toggle", key: "feHideFileTag" },
+          },
+          {
+            name: t("plugins.fileExplorer.fileTagHoverReveal"),
+            desc: t("plugins.fileExplorer.fileTagHoverReveal.desc"),
+            visible: () => plugin.settings.feHideFileTag,
+            control: { type: "toggle", key: "feFileTagHoverReveal" },
+          },
+          {
             name: t("plugins.fileExplorer.folderBadge"),
             desc: t("plugins.fileExplorer.folderBadge.desc"),
             control: {

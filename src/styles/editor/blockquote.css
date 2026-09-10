@@ -118,3 +118,107 @@ body.style-tweaker-blockquote-quotation-mark
   .cm-content div.HyperMD-quote .cm-blockquote-border {
   border: none;
 }
+
+/* ---------- 气泡样式（移植自 My_Style_Setting.css） ----------
+   整体圆角气泡框，尾巴由 ::after（弧线）与 ::before（背景色遮罩，
+   在下边框上开出尾巴口）叠加绘制；文字回归正常色。 */
+body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
+  position: relative;
+  color: var(--text-normal);
+  line-height: 1.5;
+  margin-top: 2em;
+  margin-bottom: 2.5em;
+  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-radius: 20px;
+  padding: 10px 15px;
+  background: var(--background-primary);
+}
+
+body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::after {
+  content: "";
+  position: absolute;
+  border: 2.5px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-radius: 35px 0 0 0;
+  width: 1.75rem;
+  height: 3.45rem;
+  bottom: -3.6rem;
+  left: 1.8rem;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+  z-index: 3;
+}
+
+body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  border: 4px solid var(--background-primary);
+  bottom: -4px;
+  left: 20px;
+  z-index: 2;
+}
+
+/* ---------- 边框样式（移植自 My_Style_Setting.css） ----------
+   圆角描边框，背景透明。 */
+body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote {
+  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  background-color: transparent;
+  border-radius: var(--radius-m);
+}
+
+body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:first-child {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-right: 1em;
+}
+
+body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:last-child {
+  margin-bottom: 0.5em;
+  margin-right: 1em;
+}
+
+/* ---------- 气泡/边框：实时预览拼块 ----------
+   CM6 实时预览中块引用按行渲染为 div.HyperMD-quote，没有整体盒子；
+   以左右边线贯穿、上下边线与圆角只画首末行的方式拼出盒子效果，
+   并去掉原生 .cm-blockquote-border 竖线避免出现双线。 */
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6 .cm-blockquote-border::before,
+body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
+  border-left: none;
+}
+
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote,
+body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
+  border-left: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-right: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+}
+
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
+  background: var(--background-primary);
+}
+
+/* 首行（前面不是引用行）：上边线 + 顶部圆角 */
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
+  border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/* 末行（后面不是引用行）：下边线 + 底部圆角 */
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(:has(+ .HyperMD-quote)) {
+  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
+  border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-top-left-radius: var(--radius-m);
+  border-top-right-radius: var(--radius-m);
+}
+
+body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(:has(+ .HyperMD-quote)) {
+  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-bottom-left-radius: var(--radius-m);
+  border-bottom-right-radius: var(--radius-m);
+}

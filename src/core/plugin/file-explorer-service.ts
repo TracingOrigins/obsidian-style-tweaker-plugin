@@ -4,6 +4,8 @@
  * 功能说明：
  *   feAddFileIcon              → 添加文件前类型图标
  *   feReplaceFolderIcon        → 替换文件夹折叠箭头为文件夹图标
+ *   feFilenameWrap             → 文件名过长时换行显示（移植自 My_Style_Setting.css）
+ *   feHideFileTag / feFileTagHoverReveal → 隐藏非 md 后缀标签 / 悬浮临时显示
  *   feRemoveFirstLevelFolderIconDark/Light → 去除第一层文件夹前图标（深/浅主题，仅彩色边框/色块模式生效）
  *   feFolderTrailingDot        → 文件夹后添加圆点
  *   feColoredFolders(type)     → 彩色文件夹（彩色背景/彩色标题/彩色边框/彩色色块等多种模式 + hue-rotate 彩虹着色）
@@ -21,6 +23,9 @@ const REMOVE_FIRST_FOLDER_ICON_CLASS =
 	"style-tweaker-fe-remove-first-folder-icon";
 const FOLDER_DOT_CLASS = "style-tweaker-fe-folder-note-dot";
 const FOLDER_COUNT_CLASS = "style-tweaker-fe-folder-note-count";
+const FILENAME_WRAP_CLASS = "style-tweaker-fe-filename-wrap";
+const FILE_TAG_HIDDEN_CLASS = "style-tweaker-fe-file-tag-hidden";
+const FILE_TAG_HOVER_CLASS = "style-tweaker-fe-file-tag-hover";
 const COLORFUL_FOLDERS_CLASS = "style-tweaker-fe-colorful-folders";
 // 彩色文件夹开启时，由 JS 给文件树中所有折叠箭头 <svg> 加此门控类，
 // 再由 CSS(.style-tweaker-fe-colorful-collapse) 将其 color 设为 var(--style-tweaker-fe-colorful-tab-color)。
@@ -99,6 +104,19 @@ export class FileExplorerService {
 		body.classList.toggle(
 			FOLDER_ICONS_CLASS,
 			s.feReplaceFolderIcon === true,
+		);
+		// 文件名换行 / 隐藏非 md 后缀标签（悬浮显示需与隐藏同时开启）
+		body.classList.toggle(
+			FILENAME_WRAP_CLASS,
+			s.feFilenameWrap === true,
+		);
+		body.classList.toggle(
+			FILE_TAG_HIDDEN_CLASS,
+			s.feHideFileTag === true,
+		);
+		body.classList.toggle(
+			FILE_TAG_HOVER_CLASS,
+			s.feHideFileTag === true && s.feFileTagHoverReveal === true,
 		);
 		// 去除第一层文件夹前图标：彩色文件夹开启，且当前主题的彩色化类型为
 		// 彩色边框(border) 或 彩色色块(block) 时才生效（它是 border/block 的子设置）。
@@ -341,6 +359,12 @@ export class FileExplorerService {
 			}
 			// 清理文件夹后指示（圆点 / 计数）相关 class 与 data-count
 			bodyEl?.classList.remove(FOLDER_DOT_CLASS, FOLDER_COUNT_CLASS);
+			// 清理文件名换行 / 后缀标签相关 class
+			bodyEl?.classList.remove(
+				FILENAME_WRAP_CLASS,
+				FILE_TAG_HIDDEN_CLASS,
+				FILE_TAG_HOVER_CLASS,
+			);
 			doc
 				.querySelectorAll(
 					'[data-type="file-explorer"] .nav-folder-title[data-count]',

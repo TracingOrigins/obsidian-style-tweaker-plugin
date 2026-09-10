@@ -148,3 +148,23 @@ body.style-tweaker-callout-style-soft .callout:not([data-callout="multi-column"]
 body.style-tweaker-callout-style-soft .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
   background-color: transparent;
 }
+
+/* windows — 窗口式（移植自 My_Style_Setting.css，按 Obsidian 1.13 适配：
+   原 rgb(var(--callout-color)) 三元组写法与 --admonition-bg-color 已失效，
+   改用 color-mix 与现有 padding 变量重置；无边框，inset 内描边 + 轻微投影
+   营造窗口浮起感，标题栏/内容区用 40%/10% 双色分层） */
+body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) {
+  --callout-border-width: 0;
+  box-shadow:
+    inset 0 0 0 2px color-mix(in srgb, var(--callout-color) 25%, transparent),
+    0 0.5px 1px 0.5px rgba(0, 0, 0, 0.1);
+}
+
+body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
+  background-color: color-mix(in srgb, var(--callout-color) 40%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+}
+
+body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+}

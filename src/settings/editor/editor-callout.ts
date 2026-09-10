@@ -24,6 +24,7 @@ export function buildCalloutsItem(plugin: SettingTabPlugin): SettingDefinitionIt
             outline: t("editor.callout.style.outline"),
             minimal: t("editor.callout.style.minimal"),
             soft: t("editor.callout.style.soft"),
+            windows: t("editor.callout.style.windows"),
           },
         },
       },
