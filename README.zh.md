@@ -26,42 +26,53 @@
 - **插件** — 为内置文件管理器提供样式增强（彩色文件夹、文件/文件夹图标、文件夹徽标），并支持 **Recent Files** 社区插件（文件图标与彩色行）。
 - **重置** — 一键将所有设置恢复为默认值。
 
-> **系统要求：** Obsidian 1.13.0 或更高版本。
+> **系统要求：** Obsidian 1.14.1 或更高版本。
 
-## 安装
+## 下载安装
 
-### 从 Obsidian 社区插件安装
+### 通过官方插件市场安装（推荐）
 
-1. 打开 **设置 → 第三方插件**
+1. 打开 Obsidian，进入 **设置 → 第三方插件**
 2. 关闭**安全模式**
-3. 点击**浏览**，搜索 "Style Tweaker"
-4. 安装并启用
+3. 点击**浏览**，搜索「Style Tweaker」
+4. 点击**安装**，然后**启用**
 
 ### 手动安装
 
-```bash
-cd /path/to/vault/.obsidian/plugins
-git clone https://github.com/TracingOrigins/obsidian-style-tweaker-plugin.git style-tweaker
-cd style-tweaker
-npm install && npm run build
-```
+1. 从 [Releases](https://github.com/TracingOrigins/obsidian-style-tweaker-plugin/releases) 下载最新版本的 `main.js`、`manifest.json`、`styles.css`
+2. 在 Obsidian 插件目录下创建 `style-tweaker` 文件夹（如 `你的库/.obsidian/plugins/style-tweaker/`），将上述三个文件放入其中
+3. 在 Obsidian **设置 → 第三方插件** 中启用本插件
 
-然后在 **设置 → 第三方插件** 中启用该插件。
+### 通过 BRAT 安装（推荐给测试用户）
 
-## 开发
+1. 安装 [BRAT](https://github.com/TfTHacker/obsidian42-brat) 插件
+2. 在 BRAT 设置中点击 **Add Beta plugin**（添加测试插件）
+3. 输入 `TracingOrigins/obsidian-style-tweaker-plugin`
+4. 启用插件
 
-1. 将 `.env.example` 复制为 `.env`，并设置 `VAULT_PATH` 为你的 Obsidian Vault 路径：
+## 开发指南
+
+1. 克隆仓库：
+
+    ```bash
+    git clone https://github.com/TracingOrigins/obsidian-style-tweaker-plugin.git
+    cd obsidian-style-tweaker-plugin
+    ```
+
+2. 将 `.env.example` 复制为 `.env`，并设置 `VAULT_PATH` 为你的 Obsidian Vault 路径：
+
    ```
    VAULT_PATH=C:/Users/YourName/Documents/MyVault
    ```
-2. 安装依赖并开始开发：
 
-```bash
-npm install        # 安装依赖
-npm run dev        # 监听模式（自动部署到 Vault）
-npm run build      # 生产构建（自动部署到 Vault）
-npm run lint       # 运行 eslint
-```
+3. 安装依赖并开始开发：
+
+    ```bash
+    npm install        # 安装依赖
+    npm run dev        # 监听模式（自动部署到 Vault）
+    npm run build      # 生产构建（自动部署到 Vault）
+    npm run lint       # 运行 eslint
+    ```
 
 ## 支持与帮助
 

@@ -17,7 +17,7 @@
 
 ## What you can tweak
 
-The settings tab is grouped into the following pages:
+The settings tab is grouped into the following pages, and all changes take effect immediately:
 
 - **Appearance** — interface background (solid colors or wallpaper images) and theme accent colors. Wallpapers are configured independently for desktop/mobile and dark/light themes, with per-theme opacity, frosted-glass blur and automatic switching.
 - **Interface** — overall layout (default / border / cards), tab-bar highlighting, desktop and mobile sidebars, and status bar.
@@ -26,44 +26,53 @@ The settings tab is grouped into the following pages:
 - **Plugins** — style enhancements for the built-in file explorer (colorful folders, file/folder icons, folder badges) and for the **Recent Files** community plugin (file icons and colorful rows).
 - **Reset** — restore every setting to its default with a single click.
 
-All changes take effect immediately from **Settings → Style Tweaker**.
-
-> **Requirements:** Obsidian 1.13.0 or later.
+> **Requirements:** Obsidian 1.14.1 or later.
 
 ## Installation
 
-### From Obsidian Community Plugins
+### From the Official Community Plugin Market (Recommended)
 
-1. Open **Settings → Community plugins**
-2. Disable **Safe mode**
+1. Open Obsidian and go to **Settings → Community plugins**
+2. Turn off **Safe mode**
 3. Click **Browse** and search for "Style Tweaker"
-4. Install and enable
+4. Click **Install**, then **Enable**
 
-### Manual
+### Manual Installation
 
-```bash
-cd /path/to/vault/.obsidian/plugins
-git clone https://github.com/TracingOrigins/obsidian-style-tweaker-plugin.git style-tweaker
-cd style-tweaker
-npm install && npm run build
-```
+1. Download the latest `main.js`, `manifest.json` and `styles.css` from [Releases](https://github.com/TracingOrigins/obsidian-style-tweaker-plugin/releases)
+2. Create a `style-tweaker` folder in your vault's plugin directory (e.g. `YourVault/.obsidian/plugins/style-tweaker/`) and place the three files inside
+3. Enable the plugin in **Settings → Community plugins**
 
-Then enable the plugin in **Settings → Community plugins**.
+### Install via BRAT (Recommended for Testers)
 
-## Development
+1. Install the [BRAT](https://github.com/TfTHacker/obsidian42-brat) plugin
+2. Open BRAT settings and click **Add Beta plugin**
+3. Enter `TracingOrigins/obsidian-style-tweaker-plugin`
+4. Enable the plugin
 
-1. Copy `.env.example` to `.env` and set `VAULT_PATH` to your Obsidian vault path:
+## Development Guide
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/TracingOrigins/obsidian-style-tweaker-plugin.git
+    cd obsidian-style-tweaker-plugin
+    ```
+
+2. Copy `.env.example` to `.env` and set `VAULT_PATH` to your Obsidian vault path:
+
    ```
    VAULT_PATH=C:/Users/YourName/Documents/MyVault
    ```
-2. Install dependencies and start developing:
 
-```bash
-npm install        # install dependencies
-npm run dev        # watch mode (auto-deploys to vault)
-npm run build      # production build (auto-deploys to vault)
-npm run lint       # run eslint
-```
+3. Install dependencies and start developing:
+
+    ```bash
+    npm install        # install dependencies
+    npm run dev        # watch mode (auto-deploys to vault)
+    npm run build      # production build (auto-deploys to vault)
+    npm run lint       # run eslint
+    ```
 
 ## Support & Feedback
 
