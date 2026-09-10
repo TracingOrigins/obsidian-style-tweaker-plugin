@@ -139,9 +139,13 @@ export interface StyleTweakerSettings {
   inlineTitleUnderlineStyle: "solid" | "dashed" | "double"; // 长下划线线型：实线/虚线/双线（宽度按线型固定：实/虚 2px、双线 4px）
   inlineTitleColorEnabled: boolean; // 是否允许自定义页面内标题颜色（关闭时仅使用主题色）
   inlineTitleColor: string; // 页面内标题与下划线颜色（仅当 inlineTitleColorEnabled 开启时生效）
-  // 属性区域样式
-  metadataColumnLayout: boolean; // 是否启用属性分栏布局
-  metadataColumnCount: number; // 分栏数 2-6（仅分栏布局生效）
+  // 属性区域样式：分栏布局为总开关，开启后桌面端 / 移动端各自设置栏数，
+  // 两端以 body:not(.is-mobile) / body.is-mobile 限定生效范围，互不影响。
+  // 键名与设置页 locale 命名空间 editor.properties.* 保持一致（Obsidian DOM 侧的
+  // .metadata-* 类名差异只体现在 CSS 层，见 editor-properties-service）。
+  propertiesColumnLayout: boolean; // 属性分栏布局总开关（关闭时两端均不生效）
+  desktopPropertiesColumnCount: number; // 桌面端分栏数 1-6（仅总开关开启时生效）
+  mobilePropertiesColumnCount: number; // 移动端分栏数 1-6（仅总开关开启时生效）
   // 章节标题样式
   headingHover: boolean; // 悬停章节标题时显示 H1–H6 级别徽标
   headingCustomColors: boolean; // 是否启用自定义章节标题颜色
@@ -466,9 +470,10 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   inlineTitleUnderlineStyle: "solid",
   inlineTitleColorEnabled: false,
   inlineTitleColor: "default",
-  // 属性区域默认值：关闭分栏、2 栏
-  metadataColumnLayout: false,
-  metadataColumnCount: 2,
+  // 属性区域默认值：分栏总开关关闭；桌面端 2 栏、移动端 1 栏
+  propertiesColumnLayout: false,
+  desktopPropertiesColumnCount: 2,
+  mobilePropertiesColumnCount: 1,
   // 章节标题默认值：关闭悬浮徽标、默认关闭自定义颜色
   headingHover: false,
   headingCustomColors: false,

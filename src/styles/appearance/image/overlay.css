@@ -192,6 +192,12 @@ body.style-tweaker-bg-image-active.is-mobile {
     background-color: transparent;
   }
 
+  /* 属性区（frontmatter）内容层：移动端原生不透明背景会盖住壁纸，透明化透出，
+     与同属内容层的其它元素（.view-content / .markdown-* 等）处理一致。 */
+  .metadata-content {
+    background-color: transparent;
+  }
+
   /* ============ 移动端框架容器玻璃：设置页 / 社区插件窗口 ============ */
 
   /* 外层玻璃：设置页 + 社区插件窗口（两容器同款）。 */
