@@ -135,6 +135,7 @@
   "editor.callout.style.sleek": "Гладкий",
   "editor.callout.style.soft": "Мягкий",
   "editor.callout.style.split": "Разделённый",
+  "editor.callout.style.windows": "Окно",
   "editor.codeBlock.customRadius": "Собственный радиус",
   "editor.codeBlock.customRadius.desc": "Применить собственное скругление к блокам кода.",
   "editor.codeBlock.desc": "Фон, граница и шрифт блоков кода.",

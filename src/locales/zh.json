@@ -135,6 +135,7 @@
   "editor.callout.style.sleek": "利落",
   "editor.callout.style.soft": "柔和",
   "editor.callout.style.split": "分栏",
+  "editor.callout.style.windows": "窗口",
   "editor.codeBlock.customRadius": "自定义圆角",
   "editor.codeBlock.customRadius.desc": "为代码块应用自定义圆角。",
   "editor.codeBlock.desc": "代码块的背景、边框与字体样式。",

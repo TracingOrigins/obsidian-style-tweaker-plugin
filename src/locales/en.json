@@ -135,6 +135,7 @@
   "editor.callout.style.sleek": "Sleek",
   "editor.callout.style.soft": "Soft",
   "editor.callout.style.split": "Split",
+  "editor.callout.style.windows": "Windows",
   "editor.codeBlock.customRadius": "Custom radius",
   "editor.codeBlock.customRadius.desc": "Apply a custom rounded corner to code blocks.",
   "editor.codeBlock.desc": "Background, border and font style of code blocks.",

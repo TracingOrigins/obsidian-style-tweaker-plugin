@@ -9,7 +9,8 @@ import { BaseService } from "../base-service";
 //   1. 基础标注样式：callout 圆角变量、内容首/末子元素 margin 修正。
 //     仅在选择了某种标注风格（非 default）时生效，default 时标注保持原生。
 //   2. 标注风格（calloutStyle）：default / accent-bar / sleek / split /
-//      outline / minimal / soft。
+//      outline / minimal / soft / windows（windows 移植自
+//      My_Style_Setting.css，已按 Obsidian 1.13 变量体系适配）。
 //   3. 自定义圆角（calloutCustomRadius + calloutRadius）：
 //      开关开启后按 calloutRadius（px）设置圆角。
 //
@@ -27,7 +28,15 @@ const CALLOUT_CUSTOM_RADIUS_CLASS = "style-tweaker-callout-custom-radius";
 const CALLOUT_RADIUS_VAR = "--style-tweaker-callout-radius";
 
 // 合法风格值（防止异常设置注入）
-const VALID_STYLES = ["accent-bar", "sleek", "split", "outline", "minimal", "soft"];
+const VALID_STYLES = [
+  "accent-bar",
+  "sleek",
+  "split",
+  "outline",
+  "minimal",
+  "soft",
+  "windows",
+];
 
 // 圆角有效范围（px）
 const RADIUS_MIN = 4;

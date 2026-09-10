@@ -212,7 +212,7 @@ export interface StyleTweakerSettings {
   tableFullWidth: boolean; // true=表格占满容器宽度
   tableLineNumbers: boolean; // true=首列前显示行号
   // 标注样式
-  calloutStyle: string; // 风格：default / accent-bar / sleek / split / outline / minimal / soft
+  calloutStyle: string; // 风格：default / accent-bar / sleek / split / outline / minimal / soft / windows
   calloutCustomRadius: boolean; // true=启用自定义标注圆角
   calloutRadius: number; // 标注圆角大小（px，4-16）
   // 列表样式
