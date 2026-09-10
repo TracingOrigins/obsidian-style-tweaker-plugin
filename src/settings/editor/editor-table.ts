@@ -21,6 +21,7 @@ export function buildTablesItem(_plugin: SettingTabPlugin): SettingDefinitionIte
             one: t("editor.table.style.one"),
             two: t("editor.table.style.two"),
             three: t("editor.table.style.three"),
+            academia: t("editor.table.style.academia"),
           },
         },
       },

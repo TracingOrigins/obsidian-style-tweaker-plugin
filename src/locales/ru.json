@@ -272,6 +272,7 @@
   "editor.table.showBorder": "Показать границы ячеек",
   "editor.table.showBorder.desc": "Отображать границу 1px вокруг каждой ячейки.",
   "editor.table.style": "Стиль таблицы",
+  "editor.table.style.academia": "Академическая трёхлинейная",
   "editor.table.style.default": "По умолчанию",
   "editor.table.style.desc": "Выберите визуальный стиль таблиц.",
   "editor.table.style.one": "Стиль I (прозрачный)",

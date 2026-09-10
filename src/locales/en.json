@@ -272,6 +272,7 @@
   "editor.table.showBorder": "Show cell borders",
   "editor.table.showBorder.desc": "Display a 1px border around each cell.",
   "editor.table.style": "Table style",
+  "editor.table.style.academia": "Academic three-line",
   "editor.table.style.default": "Default",
   "editor.table.style.desc": "Choose the visual style of tables.",
   "editor.table.style.one": "Style I (transparent)",

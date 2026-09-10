@@ -205,7 +205,7 @@ export interface StyleTweakerSettings {
   embedImageRadius: number; // 嵌入图片圆角大小（px，4-16）
 
   // 表格样式
-  tableStyle: string; // 风格：default / one / two / three
+  tableStyle: string; // 风格：default / one / two / three / academia（学术三线表）
   tableShowBorder: boolean; // true=显示单元格边框
   tableFullWidth: boolean; // true=表格占满容器宽度
   tableLineNumbers: boolean; // true=首列前显示行号

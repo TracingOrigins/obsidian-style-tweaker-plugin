@@ -162,6 +162,123 @@ body.style-tweaker-table-style-three .markdown-source-view td:nth-child(even):ho
   background-color: var(--table-hover-color);
 }
 
+/* ============================================================
+   学术三线表风格（academia，移植自 My_Style_Setting.css）
+   原片段仅覆盖阅读视图且依赖外网字体；此处按插件惯例扩展到实时
+   预览、去除字体依赖，并将原片段中无条件生效的全局版式规则
+   （整宽、留白、首列定宽、内容列限宽）收敛到本风格门控类下。
+   亮色保持原片段配色；暗色主题下三线改用正文色，斑马纹与
+   行悬浮保留原色调、降低亮度。
+   ============================================================ */
+
+/* 版式基础：表格整宽与上下留白、上下粗线 */
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table,
+body.style-tweaker-table-style-academia .markdown-source-view table {
+  min-width: 100%;
+  max-width: 100%;
+  margin: 25px 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: auto;
+  border-top: 2.27px solid black;
+  border-bottom: 2.27px solid black;
+  overflow-x: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 首列定宽、内容列限宽换行 */
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead tr th:first-child,
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) tbody tr td:first-child,
+body.style-tweaker-table-style-academia .markdown-source-view thead tr th:first-child,
+body.style-tweaker-table-style-academia .markdown-source-view tbody tr td:first-child {
+  width: 8em;
+  min-width: 8em;
+  max-width: 8em;
+  word-break: break-all;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) td:nth-child(1),
+body.style-tweaker-table-style-academia .markdown-source-view td:nth-child(1) {
+  word-break: break-word;
+  max-width: 36em;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) :is(td:nth-child(2), tr > td:last-of-type),
+body.style-tweaker-table-style-academia .markdown-source-view :is(td:nth-child(2), tr > td:last-of-type) {
+  word-break: break-word;
+  max-width: 17em;
+}
+
+/* 三线表主体：单元格去边框、表头底色与左对齐、
+   首末行细线、斑马纹与行悬浮 */
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) :is(th, td),
+body.style-tweaker-table-style-academia .markdown-source-view :is(th, td) {
+  border: 0 none;
+  padding: 0.51rem;
+  line-height: 1.1;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table > tbody > tr:first-child > td,
+body.style-tweaker-table-style-academia .markdown-source-view table > tbody > tr:first-child > td {
+  border-top: 1.36px solid black;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table > tbody > tr:last-child > td,
+body.style-tweaker-table-style-academia .markdown-source-view table > tbody > tr:last-child > td {
+  border-bottom: 1.36px solid black;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead th,
+body.style-tweaker-table-style-academia .markdown-source-view thead th {
+  background-color: var(--background-primary);
+  font-weight: 700;
+  padding: 8px 9px 5px 9px;
+  text-align: left;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead th:hover,
+body.style-tweaker-table-style-academia .markdown-source-view thead th:hover {
+  background-color: var(--background-primary);
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table tbody tr:nth-child(even),
+body.style-tweaker-table-style-academia .markdown-source-view table tbody tr:nth-child(even) {
+  background-color: #ebecf1;
+}
+
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) tbody tr:hover td,
+body.style-tweaker-table-style-academia .markdown-source-view tbody tr:hover td {
+  background-color: #d6c4e7;
+}
+
+/* 暗色主题适配：上下粗线用正文色、首末行细线稍弱，
+   斑马纹与行悬浮保留原紫色调、以低不透明度混入 */
+body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table,
+body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table {
+  border-top-color: var(--text-normal);
+  border-bottom-color: var(--text-normal);
+}
+
+body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table > tbody > tr:first-child > td,
+body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table > tbody > tr:first-child > td {
+  border-top-color: var(--text-muted);
+}
+
+body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table > tbody > tr:last-child > td,
+body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table > tbody > tr:last-child > td {
+  border-bottom-color: var(--text-muted);
+}
+
+body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table tbody tr:nth-child(even),
+body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table tbody tr:nth-child(even) {
+  background-color: color-mix(in srgb, #ebecf1 8%, transparent);
+}
+
+body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) tbody tr:hover td,
+body.style-tweaker-table-style-academia.theme-dark .markdown-source-view tbody tr:hover td {
+  background-color: color-mix(in srgb, #d6c4e7 14%, transparent);
+}
+
 body.style-tweaker-table-show-border :is(.markdown-preview-view, .markdown-rendered) :is(th, td) {
   border: 1px solid var(--table-border-color);
 }

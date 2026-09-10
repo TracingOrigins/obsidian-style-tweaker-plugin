@@ -10,9 +10,10 @@ import { BaseService } from "../base-service";
 //      cell/row/thead 悬浮高亮、阴影。
 //   2. 表格风格（tableStyle）：default / one / two / three，
 //      one=透明背景无交替色；two=表头底边线；three=偶数列底色。
-//   3. 显示边框（tableShowBorder）：true=显示单元格边框。
-//   4. 整宽（tableFullWidth）：true=表格占满容器宽度。
-//   5. 行号（tableLineNumbers）：true=首列前显示行号。
+//   3. 学术三线表（academia）
+//   4. 显示边框（tableShowBorder）：true=显示单元格边框。
+//   5. 整宽（tableFullWidth）：true=表格占满容器宽度。
+//   6. 行号（tableLineNumbers）：true=首列前显示行号。
 //
 // 设计要点：基础样式无门控类（始终应用）；
 // 风格/开关为门控类，低频事件驱动，与编辑器其他样式服务同构。
@@ -26,7 +27,7 @@ const TABLE_FULL_WIDTH_CLASS = "style-tweaker-table-full-width";
 const TABLE_LINE_NUMBERS_CLASS = "style-tweaker-table-line-numbers";
 
 // 合法风格值（防止异常设置注入）
-const VALID_STYLES = ["one", "two", "three"];
+const VALID_STYLES = ["one", "two", "three", "academia"];
 
 export class EditorTableService extends BaseService {
   constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
@@ -43,7 +44,7 @@ export class EditorTableService extends BaseService {
       body.classList.remove(TABLE_STYLE_CLASS_PREFIX + v);
     }
     const hasStyle = !!s.tableStyle && VALID_STYLES.includes(s.tableStyle);
-    // 基础表格样式门控：仅在 tableStyle 非 default（one/two/three）时生效，
+    // 基础表格样式门控：仅在 tableStyle 非 default（one/two/three/academia）时生效，
     // default 时不挂载，使表格保持 Obsidian 原生样式。
     body.classList.toggle(TABLE_STYLE_ACTIVE_CLASS, hasStyle);
     if (hasStyle) {

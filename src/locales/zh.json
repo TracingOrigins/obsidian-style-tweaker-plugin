@@ -272,6 +272,7 @@
   "editor.table.showBorder": "显示单元格边框",
   "editor.table.showBorder.desc": "为每个单元格显示 1px 边框。",
   "editor.table.style": "表格风格",
+  "editor.table.style.academia": "学术三线表",
   "editor.table.style.default": "默认",
   "editor.table.style.desc": "选择表格的视觉风格。",
   "editor.table.style.one": "风格一（透明）",
