@@ -63,7 +63,7 @@ body.style-tweaker-code-block-line-numbers {
   .markdown-source-view.mod-cm6
     .HyperMD-codeblock.cm-line:not(.HyperMD-codeblock-begin, .HyperMD-codeblock-end)::after {
     align-items: flex-start;
-    background-color: var(--code-background, var(--background-primary));
+    background-color: transparent;
     border-right: 1px solid var(--scrollbar-thumb-bg, var(--background-modifier-border));
     bottom: -2px;
     color: var(--text-faint);

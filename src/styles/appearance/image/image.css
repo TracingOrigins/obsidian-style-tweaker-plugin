@@ -59,11 +59,6 @@
     .markdown-source-view .HyperMD-codeblock-bg {
       background-color: var(--style-tweaker-code-bg);
     }
-
-    /* 行号栏背景透明 */
-    .markdown-source-view.mod-cm6 .HyperMD-codeblock.cm-line:not(.HyperMD-codeblock-begin,.HyperMD-codeblock-end)::after {
-      background-color: transparent;
-    }
   }
 }
 

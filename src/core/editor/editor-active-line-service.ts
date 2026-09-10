@@ -6,11 +6,11 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 // ============================================================
 // 所在行高亮服务
 // ------------------------------------------------------------
-// 高亮模式（activeLineMode）：
-//   none       —— 关闭
-//   bg         —— 仅背景高亮
-//   bg-border  —— 背景高亮 + 左侧竖边框
-//   border     —— 仅左侧竖边框
+// 结构（总开关 + 三个独立子开关，子开关互不依赖）：
+//   activeLineEnabled —— 总开关，关闭时各子项一并失效
+//   activeLineGutter  —— 行号高亮（活动行行号文字色）
+//   activeLineBorder  —— 左侧边框高亮（活动行左侧竖线）
+//   activeLineBg      —— 背景高亮（配聚焦/失焦两级强度）
 //
 // 设计要点：
 //   - 与「编辑器背景」(EditorBackgroundService) 完全解耦，独立门控类，互不牵连。
@@ -19,9 +19,10 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 //   - 颜色随深浅主题：当前文档按 body 主题解析 hex，主题切换经 css-change 重 apply 刷新。
 // ============================================================
 
-// 门控类：仅在 activeLineMode !== "none" 时挂到各窗口文档
+// 门控类：总开关挂 ACTIVE_LINE_CLASS，各子开关挂各自门控类
 const ACTIVE_LINE_CLASS = "style-tweaker-active-line";
 const ACTIVE_LINE_BG_CLASS = "style-tweaker-active-line-bg";
+const ACTIVE_LINE_GUTTER_CLASS = "style-tweaker-active-line-gutter";
 const ACTIVE_LINE_BORDER_CLASS = "style-tweaker-active-line-border";
 
 // 所在行高亮统一使用的 CSS 变量名（值由 JS 在运行时注入到 body）
@@ -55,12 +56,17 @@ export class EditorActiveLineService extends BaseService {
       [ACTIVE_LINE_UNFOCUSED_VAR]: `${unfocused}%`,
     });
 
-    const on = s.activeLineMode !== "none";
-    const withBorder = s.activeLineMode === "bg-border" || s.activeLineMode === "border";
-    const withBg = s.activeLineMode === "bg" || s.activeLineMode === "bg-border";
+    const on = !!s.activeLineEnabled;
     doc.body.classList.toggle(ACTIVE_LINE_CLASS, on);
-    doc.body.classList.toggle(ACTIVE_LINE_BG_CLASS, on && withBg);
-    doc.body.classList.toggle(ACTIVE_LINE_BORDER_CLASS, on && withBorder);
+    doc.body.classList.toggle(ACTIVE_LINE_BG_CLASS, on && !!s.activeLineBg);
+    doc.body.classList.toggle(
+      ACTIVE_LINE_GUTTER_CLASS,
+      on && !!s.activeLineGutter,
+    );
+    doc.body.classList.toggle(
+      ACTIVE_LINE_BORDER_CLASS,
+      on && !!s.activeLineBorder,
+    );
   }
 
   protected clearDocument(doc: Document): void {
@@ -70,6 +76,7 @@ export class EditorActiveLineService extends BaseService {
     doc.body?.classList.remove(
       ACTIVE_LINE_CLASS,
       ACTIVE_LINE_BG_CLASS,
+      ACTIVE_LINE_GUTTER_CLASS,
       ACTIVE_LINE_BORDER_CLASS,
     );
   }

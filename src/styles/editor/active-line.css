@@ -2,20 +2,18 @@
  * 所在行高亮（光标所在行）
  * ------------------------------------------------------------
  * 门控类（由 EditorActiveLineService 挂载到 body）：
- *   .style-tweaker-active-line            —— 总开关（mode !== none 时）
- *   .style-tweaker-active-line-bg         —— 背景高亮（mode = bg / bg-border）
- *   .style-tweaker-active-line-border     —— 左侧竖边框（mode = border / bg-border）
+ *   .style-tweaker-active-line         —— 总开关（activeLineEnabled）
+ *   .style-tweaker-active-line-gutter  —— 行号高亮（activeLineGutter）
+ *   .style-tweaker-active-line-border  —— 左侧边框高亮（activeLineBorder）
+ *   .style-tweaker-active-line-bg      —— 背景高亮（activeLineBg）
  *
  * CSS 变量（由 JS 注入到 body，含 body 兜底默认值）：
  *   --style-tweaker-active-line-color      高亮颜色（默认主题色 --color-accent）
  *   --style-tweaker-active-line-focused    聚焦时背景强度（默认 12%）
  *   --style-tweaker-active-line-unfocused  失焦时背景强度（默认 6%）
  *
- * 模式：
- *   bg         —— 仅背景高亮
- *   bg-border  —— 背景高亮 + 左侧竖边框
- *   border     —— 仅左侧竖边框
- * 失焦时强度较低、聚焦时较高；仅边框模式聚焦为全色、失焦为淡化色。
+ * 三个子开关相互独立，可任意组合。背景与左侧边框失焦时强度较低、聚焦时较高；
+ * 行号高亮取高亮色纯色（不随聚焦/失焦淡化），保证数字始终可读。
  *
  * 默认变量统一定义在 body（而非 :root）：Obsidian 主题变量如 --color-accent
  * 定义在 body 上，:root(html) 无法引用子元素 body 上的变量，会导致变量失效。
@@ -27,14 +25,27 @@ body {
   --style-tweaker-active-line-unfocused: 6%;
 }
 
-/* 所在行需为定位上下文，供 ::before 竖边框定位 */
-body.style-tweaker-active-line
+/* 左侧边框高亮的定位上下文（::before 相对所在行定位） */
+body.style-tweaker-active-line.style-tweaker-active-line-border
   .markdown-source-view
   .cm-active.cm-line {
   position: relative;
 }
 
-/* —— 背景高亮（bg / bg-border） —— */
+/* —— 左侧边框高亮（activeLineBorder） —— */
+body.style-tweaker-active-line.style-tweaker-active-line-border
+  .markdown-source-view
+  .cm-active.cm-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1.5rem;
+  width: 1px;
+  background-color: color-mix(in srgb, var(--style-tweaker-active-line-color) 70%, var(--background-secondary));
+}
+
+/* —— 背景高亮（activeLineBg） —— */
 body.style-tweaker-active-line.style-tweaker-active-line-bg
   .markdown-source-view
   .cm-active.cm-line {
@@ -58,27 +69,12 @@ body.style-tweaker-active-line.style-tweaker-active-line-bg
   );
 }
 
-/* —— 左侧竖边框（border / bg-border） —— */
-body.style-tweaker-active-line.style-tweaker-active-line-border
+/* —— 行号高亮（activeLineGutter） ——
+   CM6 行号位于 .cm-gutters > .cm-lineNumbers 中，与 .cm-line 是并排容器，
+   行元素上的高亮背景覆盖不到它，故单独给活动行的行号元素上色。 */
+body.style-tweaker-active-line.style-tweaker-active-line-gutter
   .markdown-source-view
-  .cm-active.cm-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -1.5rem;
-  width: 2px;
-  background-color: color-mix(
-    in srgb,
-    var(--style-tweaker-active-line-color)
-      var(--style-tweaker-active-line-unfocused),
-    transparent
-  );
-}
-
-body.style-tweaker-active-line.style-tweaker-active-line-border
-  .markdown-source-view
-  .cm-focused
-  .cm-active.cm-line::before {
-  background-color: var(--style-tweaker-active-line-color);
+  .cm-lineNumbers
+  .cm-active.cm-gutterElement {
+  color: var(--style-tweaker-active-line-color);
 }

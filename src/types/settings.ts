@@ -127,9 +127,12 @@ export interface StyleTweakerSettings {
   // 各类型间距固定为默认值（CSS 中写死）：网格单层 20px、网格双层细格 15px、
   // 点阵单点 22px、点阵交错 30px，不提供自定义。
   editorBgScroll: boolean; // 图案是否跟随内容滚动（true=跟随，false=固定）
-  // 所在行高亮
-  activeLineMode: "none" | "bg" | "bg-border" | "border"; // 高亮模式
+  // 所在行高亮（总开关 + 三个独立子开关）
+  activeLineEnabled: boolean; // 总开关
   activeLineColor: string; // 高亮颜色（空=主题色 --text-accent）
+  activeLineGutter: boolean; // 行号高亮
+  activeLineBorder: boolean; // 左侧边框高亮
+  activeLineBg: boolean; // 背景高亮
   activeLineFocused: number; // 聚焦时背景强度 0-100
   activeLineUnfocused: number; // 失焦时背景强度 0-100
   // 页面内标题样式（inline title）
@@ -458,9 +461,12 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   editorBgType: "none",
   editorBgColor: "default",
   editorBgScroll: true,
-  // 所在行高亮默认值：关闭、主题色、聚焦 12% / 失焦 6%
-  activeLineMode: "none",
+  // 所在行高亮默认值：总开关关闭；行号/背景子开关默认开启，边框高亮默认关闭
+  activeLineEnabled: false,
   activeLineColor: "default",
+  activeLineGutter: true,
+  activeLineBorder: false,
+  activeLineBg: true,
   activeLineFocused: 12,
   activeLineUnfocused: 6,
   // 文档标题默认值：关闭、左对齐、无下划线、主题色、2px 宽
