@@ -93,6 +93,6 @@
 |------|------|--------|------|
 | **Blue Topaz** 主题 | WhyI（[whyt-byte](https://github.com/whyt-byte)） | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css) | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi) |
 | **AnuPpuccin** 主题 | Anubis（[AnubisNekhet](https://github.com/AnubisNekhet)） | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin) | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
-| **Home Tab Plus** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus) | 作者未提供 |
-| **Style Context** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/style-context](https://github.com/Moyf/style-context) | 作者未提供 |
+| **Home Tab Plus** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus) | [Ko-fi](https://ko-fi.com/moy) |
+| **Style Context** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/style-context](https://github.com/Moyf/style-context) | [Ko-fi](https://ko-fi.com/moy) |
 | **File Explorer Note Count** 插件 | Ozan Tellioglu（[ozntel](https://github.com/ozntel)） | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante) |
