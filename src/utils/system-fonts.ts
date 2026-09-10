@@ -109,7 +109,7 @@ function quoteFamily(family: string): string {
  * 实际渲染回落到基准字体，宽度与基准一致；有该字体则宽度不同。
  */
 function detectInstalledCommonFonts(): string[] {
-  const ctx = document.createElement("canvas").getContext("2d");
+  const ctx = createEl("canvas").getContext("2d");
   if (!ctx) return [];
   return COMMON_FONTS.filter((family) => {
     const quoted = quoteFamily(family);

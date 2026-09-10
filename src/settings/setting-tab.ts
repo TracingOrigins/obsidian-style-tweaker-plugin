@@ -704,8 +704,8 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
     try {
       const doc = this.app.workspace.containerEl.ownerDocument;
       const probe = doc.body.createDiv();
-      probe.style.display = "none";
-      probe.style.color = raw;
+      // 用 setCssProps 而非直接改 style，规避 obsidianmd/no-static-styles-assignment
+      probe.setCssProps({ display: "none", color: raw });
       const computed = getComputedStyle(probe).color;
       probe.remove();
       const m = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(computed);
