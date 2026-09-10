@@ -9,6 +9,15 @@
 /* .workspace 定位与隔离，确保承载壁纸（body::before 壁纸层）时
    子内容能正确叠放。仅在图片背景激活（.style-tweaker-bg-image-active）时生效。 */
 .style-tweaker-bg-image-active {
+  /* 图片模式下代码块的「固定半透明底色」：固定 60% 不透明，不随界面不透明度设置
+     变化。此处引用的 --code-background 解析自 :root（本文件刻意不覆盖该变量，
+     否则在 body 层重定义并引用自身会形成循环依赖，导致声明整条失效）。 */
+  --style-tweaker-code-bg: color-mix(
+    in srgb,
+    var(--code-background) 60%,
+    transparent
+  );
+
   .workspace {
     position: relative;
     isolation: isolate;
@@ -42,6 +51,17 @@
     .cm-editor,
     .cm-scroller,
     .cm-gutters {
+      background-color: transparent;
+    }
+
+    /* 代码块背景改为固定半透明（见文件顶部 --style-tweaker-code-bg），透出壁纸。 */
+    .markdown-rendered pre,
+    .markdown-source-view .HyperMD-codeblock-bg {
+      background-color: var(--style-tweaker-code-bg);
+    }
+
+    /* 行号栏背景透明 */
+    .markdown-source-view.mod-cm6 .HyperMD-codeblock.cm-line:not(.HyperMD-codeblock-begin,.HyperMD-codeblock-end)::after {
       background-color: transparent;
     }
   }
