@@ -175,13 +175,8 @@
   min-width: 0;
 }
 
-/* 搜索按钮 */
-.style-tweaker-logo-code .clickable-icon {
-  flex: 0 0 auto;
-}
-
 /* ============================================================
-   Lucide 图标搜索弹窗（SuggestModal 模式）
+   Lucide 图标搜索建议（AbstractInputSuggest 弹出列表）
    ============================================================ */
 .style-tweaker-logo-suggestion {
   display: flex;

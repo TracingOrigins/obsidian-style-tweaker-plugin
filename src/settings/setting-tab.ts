@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting, TFile, setIcon } from "obsidian";
+import { App, Plugin, PluginSettingTab, Setting, TFile, setIcon, getIconIds } from "obsidian";
 import type { SettingDefinitionItem } from "obsidian";
 
 import { t } from "../utils/i18n";
@@ -12,11 +12,10 @@ import { buildResetSection } from "./reset";
 import { FolderSuggest } from "../ui/folder-suggest";
 import { FontSuggest } from "../ui/font-suggest";
 import { ImagePicker } from "../ui/image-picker";
-import { IconPicker } from "../ui/icon-picker";
+import { IconSuggest } from "../ui/icon-suggest";
 import { getSortedBackgroundImages } from "../utils/background-images";
 import { getAccentColorOptions, normalizeHexColor } from "../utils/color-palette";
 import { getFontFamilies, loadSystemFonts } from "../utils/system-fonts";
-import { getIcon } from "obsidian";
 
 export class StyleTweakerSettingTab extends PluginSettingTab {
   plugin: SettingTabPlugin;
@@ -501,7 +500,7 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
         break;
       }
       case "logo-icon": {
-        // 内置 lucide 图标徽标：左侧预览 + 中间图标名输入框 + 右侧 lucide 搜索按钮。
+        // 内置 lucide 图标徽标：左侧预览 + 图标名输入框（Fuse 模糊建议）。
         // 存储值为 lucide 图标名称；新标签页用 getIcon(name) 渲染。
         const key_ = key;
         const wrap = setting.controlEl.createDiv("style-tweaker-logo-code");
@@ -517,29 +516,27 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
           preview.empty();
           const trimmed = name.trim();
           if (!trimmed) return;
-          const icon = getIcon(trimmed);
-          if (icon) preview.appendChild(icon.cloneNode(true));
+          setIcon(preview, trimmed);
         };
         updatePreview(this.asString(settings[key]));
 
+        // 校验门控保存：saveSettings 会全量持久化并重注入全部样式服务，若每个
+        // 按键都触发会造成输入卡顿；只有输入恰好是合法图标名（或清空）时才保存，
+        // 打字的中间态零磁盘写入。合法性仅内部判断（左侧预览无效名时不显示）。
         input.addEventListener("input", () => {
-          (settings)[key_] = input.value;
-          void this.plugin.saveSettings();
-          updatePreview(input.value);
+          const value = input.value;
+          const trimmed = value.trim();
+          if (!trimmed || getIconIds().includes(trimmed)) {
+            (settings)[key_] = trimmed;
+            void this.plugin.saveSettings();
+          }
+          updatePreview(value);
         });
 
-        const searchBtn = wrap.createEl("button", { cls: "clickable-icon" });
-        setIcon(searchBtn, "search");
-        searchBtn.setAttribute("aria-label", t("newtab.logo.code.searchButton"));
-        searchBtn.addEventListener("click", () => {
-          new IconPicker(this.app, (name, _svg) => {
-            if (!name.trim()) return;
-            (settings)[key_] = name;
-            input.value = name;
-            void this.plugin.saveSettings();
-            updatePreview(name);
-          }).open();
-        });
+        // 输入即模糊搜索（IconSuggest 内置 Fuse）：
+        // 选中建议项时由其 selectSuggestion 写回 input.value 并 trigger("input")，
+        // 统一走上面的 input 监听（选中值必为合法名，会保存并刷新预览）。
+        new IconSuggest(this.app, input);
 
         // 恢复默认值（回退 feather）时更新输入框与预览
         comp = {
