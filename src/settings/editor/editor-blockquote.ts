@@ -21,6 +21,8 @@ export function buildBlockquoteItem(plugin: SettingTabPlugin): SettingDefinition
             default: t("editor.blockquote.style.default"),
             "accent-fill": t("editor.blockquote.style.accentFill"),
             "quotation-mark": t("editor.blockquote.style.quotationMark"),
+            bubble: t("editor.blockquote.style.bubble"),
+            frame: t("editor.blockquote.style.frame"),
           },
         },
       },

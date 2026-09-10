@@ -8,7 +8,8 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 // ------------------------------------------------------------
 // 功能：
 //   1. 块引用样式（blockquoteStyle）：default（Obsidian 原生）/ accent-fill（色带填充）/
-//      quotation-mark（引号）。
+//      quotation-mark（引号）/ bubble（气泡）/ frame（边框）。
+//      bubble/frame 移植自 My_Style_Setting.css。
 //   2. 自定义颜色（blockquoteCustom）：开启后文字颜色与边框颜色选项生效。
 //
 // 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body
@@ -21,6 +22,14 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 const BLOCKQUOTE_STYLE_CLASS_PREFIX = "style-tweaker-blockquote-";
 // 自定义颜色门控类
 const BLOCKQUOTE_CUSTOM_CLASS = "style-tweaker-blockquote-custom";
+
+// 风格值清单（与 blockquote.css 的门控类一一对应；default 不挂类）
+const BLOCKQUOTE_STYLES = [
+  "accent-fill",
+  "quotation-mark",
+  "bubble",
+  "frame",
+];
 
 // 块引用 CSS 变量
 const BLOCKQUOTE_COLOR_VAR = "--style-tweaker-blockquote-color";
@@ -46,7 +55,7 @@ export class EditorBlockquoteService extends BaseService {
     setAccentVar(doc, s.blockquoteBorderColor, BLOCKQUOTE_BORDER_VAR, "var(--color-accent)");
 
     // 清除上一轮样式门控类，再挂当前样式类（default 不挂）
-    for (const cls of ["accent-fill", "quotation-mark"]) {
+    for (const cls of BLOCKQUOTE_STYLES) {
       doc.body.classList.remove(BLOCKQUOTE_STYLE_CLASS_PREFIX + cls);
     }
     if (s.blockquoteStyle && s.blockquoteStyle !== "default") {
@@ -61,7 +70,7 @@ export class EditorBlockquoteService extends BaseService {
     removeDocVar(doc, BLOCKQUOTE_COLOR_VAR);
     removeDocVar(doc, BLOCKQUOTE_BORDER_VAR);
     if (doc.body) {
-      for (const cls of ["accent-fill", "quotation-mark"]) {
+      for (const cls of BLOCKQUOTE_STYLES) {
         doc.body.classList.remove(BLOCKQUOTE_STYLE_CLASS_PREFIX + cls);
       }
       doc.body.classList.remove(BLOCKQUOTE_CUSTOM_CLASS);

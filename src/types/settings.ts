@@ -185,7 +185,9 @@ export interface StyleTweakerSettings {
   blockquoteStyle:
     | "default"
     | "accent-fill"
-    | "quotation-mark"; // 块引用样式
+    | "quotation-mark"
+    | "bubble"
+    | "frame"; // 块引用样式
   blockquoteCustom: boolean; // 是否允许自定义块引用颜色
   blockquoteTextColor: string; // 文字颜色（空=主题强调色）
   blockquoteBorderColor: string; // 边框颜色（空=主题强调色）
