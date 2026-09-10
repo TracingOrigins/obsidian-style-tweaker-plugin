@@ -1,0 +1,40 @@
+/* 设置项「自定义颜色」控件：原生颜色选择器 + hex 文本输入。
+   用于颜色下拉末尾的「自定义」项（选中后展开），存储值为 #rrggbb。 */
+
+/* 容器：色块与 hex 文本框同一行，垂直居中对齐 */
+.style-tweaker-color-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 颜色选择器本体：去掉原生内边距，做成一枚可点的小色块 */
+.style-tweaker-color-picker-input {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 24px;
+  padding: 2px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s);
+  background-color: var(--background-modifier-form-field);
+  cursor: pointer;
+}
+
+/* 原生取色区域默认带内边距与边框，统一抹平以贴合上面的尺寸 */
+.style-tweaker-color-picker-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.style-tweaker-color-picker-input::-webkit-color-swatch {
+  border: none;
+  border-radius: calc(var(--radius-s) - 1px);
+}
+
+/* hex 文本框：等宽字体居中，宽度按 #rrggbb 七个字符留白 */
+.style-tweaker-color-picker-hex {
+  flex: 0 0 auto;
+  width: 12ch;
+  text-align: center;
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-small);
+}

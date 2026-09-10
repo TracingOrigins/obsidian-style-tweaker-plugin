@@ -56,6 +56,24 @@ export function accentToHex(value: string | undefined, dark: boolean): string | 
 }
 
 /**
+ * 规范化「自定义颜色」字段值：把 #rgb / #rrggbb（# 可省略）统一为 #rrggbb 小写。
+ * 空值 / 非法值返回 null，由调用方回退到主题色。
+ * 用于颜色选择器控件（原生 color input 只接受 #rrggbb）与库名等自定义色解析。
+ */
+export function normalizeHexColor(value: string | undefined): string | null {
+  const raw = (value ?? "").trim().replace(/^#/, "");
+  if (!/^(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(raw)) return null;
+  const full =
+    raw.length === 3
+      ? raw
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : raw;
+  return `#${full.toLowerCase()}`;
+}
+
+/**
  * 把颜色字段值解析为单个 hex 字符串。
  * - 有效色名 → 对应 hex
  * - default / 空 / 未知 → 返回 fallback（调用方传入的默认值或 CSS 变量）

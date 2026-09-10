@@ -45,7 +45,10 @@ body:not(.is-mobile).style-tweaker-show-vault-name
   text-align: left;
   /* 字号 / 字体 / 颜色均取自 JS 注入的 body CSS 变量，便于设置面板调整 */
   font-size: var(--style-tweaker-vault-name-font-size, 16px);
-  font-family: var(--style-tweaker-vault-name-font-family, var(--interface-font));
+  font-family: var(
+    --style-tweaker-vault-name-font-family,
+    var(--font-interface, var(--font-interface-theme, sans-serif))
+  );
   font-weight: var(--font-semibold);
   color: var(--style-tweaker-vault-name-color-light, var(--color-accent));
   white-space: nowrap;

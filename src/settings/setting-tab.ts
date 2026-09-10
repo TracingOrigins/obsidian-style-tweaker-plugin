@@ -10,10 +10,12 @@ import { buildPluginsSection } from "./plugin";
 import { buildNewTabSection } from "./newtab";
 import { buildResetSection } from "./reset";
 import { FolderSuggest } from "../ui/folder-suggest";
+import { FontSuggest } from "../ui/font-suggest";
 import { ImagePicker } from "../ui/image-picker";
 import { IconPicker } from "../ui/icon-picker";
 import { getSortedBackgroundImages } from "../utils/background-images";
-import { getAccentColorOptions } from "../utils/color-palette";
+import { getAccentColorOptions, normalizeHexColor } from "../utils/color-palette";
+import { getFontFamilies, loadSystemFonts } from "../utils/system-fonts";
 import { getIcon } from "obsidian";
 
 export class StyleTweakerSettingTab extends PluginSettingTab {
@@ -82,6 +84,7 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
     // 键名含平台前缀（desktopNewTab* / mobileNewTab*），故用 (desktop|mobile) 前缀匹配。
     if (
       /WallpaperMode/.test(key) ||
+      /^vaultName(?:Font|Color)InFileList$/.test(key) ||
       /^(?:desktop|mobile)NewTab(?:LogoType|ParticleEnabled|ParticleCustomColor|TitleType)$/.test(key)
     ) {
       this.update();
@@ -221,14 +224,101 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
       case "color": {
         // 颜色选项统一用 accent 色板下拉：default=跟随主题/默认，其余为预设色名。
         // 存量旧数据若是不在色板中的 hex，回退到 default 显示。
+        // allowCustom=true 时在末尾追加「自定义」项，选中后由调用方另行展开颜色选择器项。
         setting.addDropdown((d) => {
           comp = d as unknown as { setValue: (v: unknown) => void };
           const options = getAccentColorOptions();
+          if (ctrl.allowCustom) options.custom = t("common.custom");
           for (const [val, label] of Object.entries(options)) d.addOption(val, label);
           const cur = this.asString(settings[key]).trim();
           d.setValue(options[cur] ? cur : "default").onChange((v) =>
             this.setControlValue(key, v),
           );
+        });
+        break;
+      }
+      case "color-picker": {
+        // 自定义颜色：原生颜色选择器 + hex 文本框（双向同步），存储值为 #rrggbb。
+        // 空值 / 非法值时选择器回退显示主题强调色，避免初始呈现为黑色。
+        const key_ = key;
+        const wrap = setting.controlEl.createDiv("style-tweaker-color-picker");
+        const picker = wrap.createEl("input", {
+          type: "color",
+          cls: "style-tweaker-color-picker-input",
+        });
+        const text = wrap.createEl("input", {
+          type: "text",
+          cls: "style-tweaker-color-picker-hex",
+        });
+
+        // 写入颜色：save=true 时落盘；非法输入则不写入、文本框回退为当前生效值。
+        // 不调用 setControlValue：颜色变化不需要联动其它设置项的可见性，
+        // 且 refreshDomState 会打断正在拖拽的选择器。
+        const apply = (value: string, save: boolean): void => {
+          const hex = normalizeHexColor(value);
+          if (!hex) {
+            if (save) text.value = picker.value;
+            return;
+          }
+          picker.value = hex;
+          text.value = hex;
+          if (save) {
+            settings[key_] = hex;
+            void this.plugin.saveSettings();
+          }
+        };
+
+        apply(
+          this.toHexColor(this.asString(settings[key_])) ??
+            this.toHexColor(this.getThemeAccent()) ??
+            "#000000",
+          false,
+        );
+
+        // 拖拽/点选颜色实时生效；文本输入在回车或失焦时提交，避免中间态写入
+        picker.addEventListener("input", () => apply(picker.value, true));
+        text.addEventListener("change", () => apply(text.value, true));
+        text.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") apply(text.value, true);
+        });
+
+        // 恢复默认值（空）→ 回退显示主题强调色
+        comp = {
+          setValue: (v: unknown) => {
+            apply(
+              this.toHexColor(this.asString(v)) ??
+                this.toHexColor(this.getThemeAccent()) ??
+                "#000000",
+              false,
+            );
+          },
+        };
+        break;
+      }
+      case "font": {
+        // 字体：文本框 + 系统字体搜索建议（可下拉选择，也可自由输入任意字体名）。
+        // 候选来源见 utils/system-fonts（优先 queryLocalFonts，回退内置常见字体探测）。
+        // 输入过程中仅保存、不重渲染面板，避免刷新导致建议框被关闭、焦点丢失。
+        setting.addText((t) => {
+          comp = t as unknown as { setValue: (v: unknown) => void };
+          const inputEl = (t as unknown as { inputEl: HTMLInputElement }).inputEl;
+          t.setValue(this.asString(settings[key])).onChange((v) => {
+            settings[key] = v;
+            void this.plugin.saveSettings();
+          });
+          if (inputEl) {
+            // 支持占位提示文字：空值输入框展示 placeholder 引导用户
+            const ph = (ctrl).placeholder as string | undefined;
+            if (ph) inputEl.placeholder = ph;
+            // 用户手势中触发完整字体枚举（权限/时序上更稳），结果供后续输入使用
+            inputEl.addEventListener("focus", () => {
+              void loadSystemFonts();
+            });
+            new FontSuggest(this.app, inputEl, () => getFontFamilies(), (font) => {
+              settings[key] = font;
+              void this.plugin.saveSettings();
+            });
+          }
         });
         break;
       }
@@ -598,6 +688,32 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
         });
         break;
       }
+    }
+  }
+
+  /**
+   * 任意 CSS 颜色值 → #rrggbb。
+   * 先按 hex 直接解析；失败则用挂载的隐藏探针经 getComputedStyle 规范化
+   * （可处理 rgb()/hsl()/var() 等形式），仍失败返回 null。
+   */
+  private toHexColor(value: string): string | null {
+    const direct = normalizeHexColor(value);
+    if (direct) return direct;
+    const raw = (value ?? "").trim();
+    if (!raw) return null;
+    try {
+      const doc = this.app.workspace.containerEl.ownerDocument;
+      const probe = doc.body.createDiv();
+      probe.style.display = "none";
+      probe.style.color = raw;
+      const computed = getComputedStyle(probe).color;
+      probe.remove();
+      const m = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(computed);
+      if (!m) return null;
+      const toHex = (n: string) => Number(n).toString(16).padStart(2, "0");
+      return `#${toHex(m[1])}${toHex(m[2])}${toHex(m[3])}`;
+    } catch {
+      return null;
     }
   }
 

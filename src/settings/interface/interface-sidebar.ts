@@ -1,4 +1,4 @@
-import { SettingDefinitionItem } from "obsidian";
+import { SettingControl, SettingDefinitionItem } from "obsidian";
 
 import { t } from "../../utils/i18n";
 import { SettingTabPlugin } from "../../types/settings";
@@ -58,14 +58,46 @@ export function buildSidebarItem(plugin: SettingTabPlugin): SettingDefinitionIte
                 interface: t("newtab.title.font.interface"),
                 text: t("newtab.title.font.text"),
                 monospace: t("newtab.title.font.monospace"),
+                custom: t("interface.sidebar.desktop.vaultNameFont.custom"),
               },
             },
+          },
+          {
+            // 字体选择「自定义」后展开：字体选择框（可搜索系统字体，也可直接输入字体名，
+            // 或逗号分隔的完整字体列表）
+            name: t("interface.sidebar.desktop.vaultNameFontCustom"),
+            desc: t("interface.sidebar.desktop.vaultNameFontCustom.desc"),
+            visible: () =>
+              plugin.settings.showVaultNameInFileList &&
+              plugin.settings.vaultNameFontInFileList === "custom",
+            control: {
+              type: "font",
+              key: "vaultNameCustomFontInFileList",
+              placeholder: t("interface.sidebar.desktop.vaultNameFontCustom.placeholder"),
+            } as unknown as SettingControl,
           },
           {
             name: t("interface.sidebar.desktop.vaultNameColor"),
             desc: t("interface.sidebar.desktop.vaultNameColor.desc"),
             visible: () => plugin.settings.showVaultNameInFileList,
-            control: { type: "color", key: "vaultNameColorInFileList" },
+            // allowCustom：在预设色板下拉末尾追加「自定义」项，选中后展开下方颜色选择器
+            control: {
+              type: "color",
+              key: "vaultNameColorInFileList",
+              allowCustom: true,
+            } as unknown as SettingControl,
+          },
+          {
+            // 颜色选择「自定义」后展开：原生颜色选择器（值为 #rrggbb）
+            name: t("interface.sidebar.desktop.vaultNameColorCustom"),
+            desc: t("interface.sidebar.desktop.vaultNameColorCustom.desc"),
+            visible: () =>
+              plugin.settings.showVaultNameInFileList &&
+              plugin.settings.vaultNameColorInFileList === "custom",
+            control: {
+              type: "color-picker",
+              key: "vaultNameCustomColorInFileList",
+            } as unknown as SettingControl,
           },
           {
             name: t("interface.sidebar.desktop.restoreLegacy"),

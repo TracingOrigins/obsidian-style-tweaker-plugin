@@ -1,7 +1,7 @@
 import { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { accentToHex } from "../../utils/color-palette";
+import { accentToHex, normalizeHexColor } from "../../utils/color-palette";
 
 // ============================================================
 // 桌面端侧栏：传统布局（legacy）+ 库名显示
@@ -247,12 +247,48 @@ const VAULT_NAME_FONT_VAR = "--style-tweaker-vault-name-font-family";
 const VAULT_NAME_COLOR_DARK_VAR = "--style-tweaker-vault-name-color-dark";
 const VAULT_NAME_COLOR_LIGHT_VAR = "--style-tweaker-vault-name-color-light";
 
+/**
+ * 界面字体变量栈：Obsidian 的界面字体变量是 --font-interface（不存在 --interface-font）。
+ * 逐级回退并在末位落到通用族：自定义属性值一旦引用未定义的 var()，整个值会变成
+ * guaranteed-invalid（读出来是空串），使用它的 font-family 声明随之失效、退化为继承。
+ */
+const INTERFACE_FONT_STACK =
+  "var(--font-interface, var(--font-interface-theme, sans-serif))";
+
 /** 库名字体样式 → CSS font-family 变量 */
 const VAULT_FONT_VAR: Record<string, string> = {
-  interface: "var(--interface-font)",
-  text: "var(--font-text)",
-  monospace: "var(--font-monospace)",
+  interface: INTERFACE_FONT_STACK,
+  text: "var(--font-text, var(--font-text-theme))",
+  monospace: "var(--font-monospace, var(--font-monospace-theme))",
 };
+
+/**
+ * 库名字体设置 → CSS font-family 值。
+ * custom：用设置里填写的字体名，按逗号拆成 font-family 列表并逐项加引号
+ * （含空格或以数字开头的字体名不加引号可能被判为无效值）；var() 引用与
+ * 已带引号的项原样保留。其余选项取预设变量。
+ * 两者末尾都追加界面字体栈，使自定义字体缺失时回退界面字体而非浏览器默认字体。
+ * 自定义名为空 → 回退界面字体。
+ */
+function resolveVaultNameFontFamily(font: string, customFont: string): string {
+  if (font === "custom") {
+    const custom = (customFont ?? "").trim();
+    if (custom) {
+      const family = custom
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .map((part) =>
+          /^var\(/i.test(part) || /^["']/.test(part)
+            ? part
+            : `"${part.replace(/["']/g, "")}"`,
+        )
+        .join(", ");
+      return `${family}, ${INTERFACE_FONT_STACK}`;
+    }
+  }
+  return VAULT_FONT_VAR[font] ?? INTERFACE_FONT_STACK;
+}
 
 /**
  * 桌面端侧栏库名服务：依据 customVaultName / showVaultNameInFileList 挂门控类，
@@ -288,11 +324,17 @@ export class SidebarVaultNameService extends BaseService {
     );
     doc.body.style.setProperty(
       VAULT_NAME_FONT_VAR,
-      VAULT_FONT_VAR[s.vaultNameFontInFileList] ?? "var(--interface-font)",
+      resolveVaultNameFontFamily(
+        s.vaultNameFontInFileList,
+        s.vaultNameCustomFontInFileList,
+      ),
     );
-    // 颜色按深浅色各写一套（CSS 按 body.theme-dark/.theme-light 取用）；default 不设，CSS 回退 --color-accent。
-    const colorDark = accentToHex(s.vaultNameColorInFileList, true);
-    const colorLight = accentToHex(s.vaultNameColorInFileList, false);
+    // 颜色按深浅色各写一套（CSS 按 body.theme-dark/.theme-light 取用）；
+    // default / 空值不设，CSS 回退 --color-accent；custom 用颜色选择器的固定 hex（深浅共用同一值）。
+    const customColor = normalizeHexColor(s.vaultNameCustomColorInFileList);
+    const useCustomColor = s.vaultNameColorInFileList === "custom" && !!customColor;
+    const colorDark = useCustomColor ? customColor : accentToHex(s.vaultNameColorInFileList, true);
+    const colorLight = useCustomColor ? customColor : accentToHex(s.vaultNameColorInFileList, false);
     if (colorDark && colorLight) {
       doc.body.style.setProperty(VAULT_NAME_COLOR_DARK_VAR, colorDark);
       doc.body.style.setProperty(VAULT_NAME_COLOR_LIGHT_VAR, colorLight);

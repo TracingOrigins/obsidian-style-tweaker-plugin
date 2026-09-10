@@ -84,8 +84,10 @@ export interface StyleTweakerSettings {
   showVaultNameInFileList: boolean; // 文件列表显示库名称
   centerVaultNameInFileList: boolean; // 文件列表库名称居中显示（依赖 showVaultNameInFileList）
   vaultNameFontSizeInFileList: number; // 文件列表库名称字号(px，依赖 showVaultNameInFileList)
-  vaultNameFontInFileList: string; // 文件列表库名称字体（interface/text/monospace）
-  vaultNameColorInFileList: string; // 文件列表库名称颜色（default=跟随主题强调色/预设色）
+  vaultNameFontInFileList: string; // 文件列表库名称字体（interface/text/monospace/custom）
+  vaultNameCustomFontInFileList: string; // 自定义库名称字体名（仅上项为 custom 时生效；默认预填示例字体，清空=回退界面字体）
+  vaultNameColorInFileList: string; // 文件列表库名称颜色（default=跟随主题强调色/预设色/custom=自定义色）
+  vaultNameCustomColorInFileList: string; // 自定义库名称颜色 hex（仅上项为 custom 时生效；默认预填示例色，清空=回退主题强调色）
   restoreLegacySidebar: boolean; // 恢复传统侧栏布局
   // 移动端侧栏布局优化：三个开关对应 body.is-mobile.<class> 的类切换，仅移动端生效。
   mobileDrawerHeaderTop: boolean; // 移动端：将库信息与状态栏上移置顶
@@ -428,7 +430,11 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   centerVaultNameInFileList: false,
   vaultNameFontSizeInFileList: 16,
   vaultNameFontInFileList: "interface",
+  // 示例值：选中「自定义」字体时预填到输入框（可整段替换或清空以回退界面字体）
+  vaultNameCustomFontInFileList: "Lucida Handwriting, Segoe UI Emoji",
   vaultNameColorInFileList: "default",
+  // 示例值：选中「自定义」颜色时预填（可替换或清空以回退主题强调色）
+  vaultNameCustomColorInFileList: "#1296db",
   restoreLegacySidebar: false,
   mobileDrawerHeaderTop: false,
   mobileDrawerTabsTop: false,
