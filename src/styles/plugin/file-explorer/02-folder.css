@@ -2,12 +2,14 @@
    隐藏第一层文件夹标题前的折叠按钮（.collapse-icon），以及被替换为该图标的文件夹图标。
    只作用于第一层文件夹标题，不隐藏子文件夹的折叠按钮。 */
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	> div
 	> .tree-item.nav-folder
 	> .tree-item-self.nav-folder-title
 	.collapse-icon,
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	> div
 	> .tree-item.nav-folder
@@ -18,12 +20,14 @@ body.style-tweaker-fe-remove-first-folder-icon
 }
 
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder.mod-root
 	> .nav-folder-children
 	> .nav-folder
 	> .nav-folder-title
 	.collapse-icon,
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder.mod-root
 	> .nav-folder-children
 	> .nav-folder
@@ -38,12 +42,14 @@ body.style-tweaker-fe-remove-first-folder-icon
    隐藏折叠按钮后该 padding 仍在、标题不会前移。因此给标题内容元素加负 margin，
    让其左移到 padding 起点（即原折叠按钮位置），实现"隐藏的折叠按钮不占位"。 */
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	> div
 	> .tree-item.nav-folder
 	> .tree-item-self.nav-folder-title
 	.nav-folder-title-content,
 body.style-tweaker-fe-remove-first-folder-icon
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder.mod-root
 	> .nav-folder-children
 	> .nav-folder
@@ -52,18 +58,18 @@ body.style-tweaker-fe-remove-first-folder-icon
 	margin-inline-start: calc(-1 * var(--size-4-4));
 }
 
-/* ---------- 文件夹后添加圆点 ---------- */
-body.style-tweaker-fe-folder-note-dot
+/* ---------- 文件夹行末标记：圆点 ---------- */
+body.style-tweaker-fe-folder-marker-dot
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title,
-body.style-tweaker-fe-folder-note-dot
+body.style-tweaker-fe-folder-marker-dot
 	.workspace-leaf-content[data-type="file-explorer"]
 	.tree-item-self.is-clickable.nav-folder-title {
 	display: flex;
 	align-items: center;
 }
 
-body.style-tweaker-fe-folder-note-dot
+body.style-tweaker-fe-folder-marker-dot
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title
 	.nav-folder-title-content {
@@ -71,7 +77,7 @@ body.style-tweaker-fe-folder-note-dot
 	width: 100%;
 }
 
-body.style-tweaker-fe-folder-note-dot
+body.style-tweaker-fe-folder-marker-dot
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title:after {
 	color: var(--style-tweaker-fe-colorful-tab-color, var(--color-accent));
@@ -92,18 +98,18 @@ body.style-tweaker-fe-folder-note-dot
 	transform: translateY(0.18em);
 }
 
-/* ---------- 文件夹后显示笔记数量（与圆点互斥） ---------- */
-body.style-tweaker-fe-folder-note-count
+/* ---------- 文件夹行末标记：笔记数量（与圆点互斥） ---------- */
+body.style-tweaker-fe-folder-marker-count
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title,
-body.style-tweaker-fe-folder-note-count
+body.style-tweaker-fe-folder-marker-count
 	.workspace-leaf-content[data-type="file-explorer"]
 	.tree-item-self.is-clickable.nav-folder-title {
 	display: flex;
 	align-items: center;
 }
 
-body.style-tweaker-fe-folder-note-count
+body.style-tweaker-fe-folder-marker-count
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title
 	.nav-folder-title-content {
@@ -111,7 +117,7 @@ body.style-tweaker-fe-folder-note-count
 	width: 100%;
 }
 
-body.style-tweaker-fe-folder-note-count
+body.style-tweaker-fe-folder-marker-count
 	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-folder-title[data-count]::after {
 	content: attr(data-count);

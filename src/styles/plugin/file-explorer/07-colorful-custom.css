@@ -2,22 +2,22 @@
    基色来自用户设置 --style-tweaker-fe-colorful-custom-color（可在设置中修改，不写死）。
    通过 :nth-child(12n+K) 为每个顶层文件夹分配递增的 --hue 旋转角，
    渲染时用 filter: hue-rotate(var(--hue)) 把基色自动派生出 12 色彩虹循环。 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+1) { --hue: 0deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) { --hue: 30deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) { --hue: 60deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) { --hue: 90deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) { --hue: 120deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) { --hue: 150deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) { --hue: 180deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) { --hue: 210deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) { --hue: 240deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) { --hue: 270deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) { --hue: 300deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) { --hue: 330deg; }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) { --hue: 0deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+1) { --hue: 0deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) { --hue: 30deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) { --hue: 60deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) { --hue: 90deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) { --hue: 120deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) { --hue: 150deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) { --hue: 180deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) { --hue: 210deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) { --hue: 240deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) { --hue: 270deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) { --hue: 300deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) { --hue: 330deg; }
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) { --hue: 0deg; }
 
 /* 自定义配色：colorful / colorful-background 模式 —— 基色 + hue-rotate 自动派生彩虹背景 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   background-color: var(--style-tweaker-fe-colorful-custom-color);
   color: var(--style-tweaker-fe-colorful-folder-text, inherit);
   filter: hue-rotate(var(--hue, 0deg));
@@ -26,7 +26,7 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background
 
 /* 仅"彩色背景"类型：圆点用标题文字色(currentColor)，避免与同色背景重叠不可见；
    其他类型（彩色标题/彩色边框/彩色色块）的圆点仍使用彩虹色（--style-tweaker-fe-colorful-tab-color）。 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-folder-note-dot
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background.style-tweaker-fe-folder-marker-dot
   .workspace-leaf-content[data-type="file-explorer"]
   .nav-folder-title:after {
   color: currentColor;
@@ -53,14 +53,14 @@ body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-e
 }
 /* 折叠按钮容器本身：强制继承父级 .nav-folder-title 的文字色（覆盖 Obsidian 默认给 .collapse-icon 的灰色），
    使默认折叠箭头与替换的文件夹图标（background-color: currentColor）都严格跟随标题颜色。 */
-body.style-tweaker-fe-colorful-folders .nav-files-container .nav-folder-title .collapse-icon {
+body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .nav-folder-title .collapse-icon {
   color: inherit;
 }
 /* 2) 文件图标
    彩色文件夹开启时，让文件图标颜色 = 文件名称颜色（继承 .nav-file-title 的 color，
    即所属文件夹的标题色 / folder-text）。用 currentColor 直接继承"已渲染"的文字色，
    确保与文件名严格同色。 */
-body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .nav-files-container .nav-file-title[data-path]::before {
+body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .nav-file-title[data-path]::before {
   background-color: currentColor;
 }
 
@@ -69,24 +69,24 @@ body.style-tweaker-fe-file-icons.style-tweaker-fe-colorful-folders .nav-files-co
    - title/block 及其他：标题色 = --style-tweaker-fe-colorful-tab-color
    - background：标题色 = --style-tweaker-fe-colorful-folder-text
    - border：标题色 = 变暗/变亮的 tab-color（浅色主题 black 20%，深色主题 white 38%） */
-body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .tree-item-children,
-body.style-tweaker-fe-colorful-folders .nav-files-container .tree-item.nav-folder .nav-folder-children {
+body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .nav-folder-children {
   border-left: 1px solid color-mix(in srgb, var(--style-tweaker-fe-colorful-tab-color, var(--text-muted)) 50%, transparent);
 }
 
 /* background 模式：标题文字用 folder-text（在彩色背景上可读的对比色），缩进线跟随标题文字色 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .tree-item-children,
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container .tree-item.nav-folder .nav-folder-children {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .nav-folder-children {
   border-left-color: color-mix(in srgb, var(--style-tweaker-fe-colorful-folder-text, var(--text-muted)) 50%, transparent);
 }
 
 /* border 模式：标题文字变暗/变亮（浅色主题 black 20%），缩进线跟随标题文字色 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .nav-folder-children {
   border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), black 20%) 50%, transparent);
 }
-body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .tree-item-children,
-body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .nav-files-container .tree-item.nav-folder .nav-folder-children {
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .tree-item-children,
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-border .workspace-leaf-content[data-type="file-explorer"] .nav-files-container .tree-item.nav-folder .nav-folder-children {
   border-left-color: color-mix(in srgb, color-mix(in hsl, var(--style-tweaker-fe-colorful-tab-color), white 38%) 50%, transparent);
 }
 

@@ -4,12 +4,11 @@
  * 功能说明：
  *   feAddFileIcon              → 添加文件前类型图标
  *   feReplaceFolderIcon        → 替换文件夹折叠箭头为文件夹图标
- *   feFilenameWrap             → 文件名过长时换行显示
- *   feHideFileTag / feFileTagHoverReveal → 隐藏非 md 后缀标签 / 悬浮临时显示
+ *   feFileNameWrap             → 文件名过长时换行显示
+ *   feHoverRevealFileTag       → 悬停显示文件后缀标签（默认隐藏扩展名标签，md 行补一个 md 标签）
  *   feRemoveFirstLevelFolderIconDark/Light → 去除第一层文件夹前图标（深/浅主题，仅彩色边框/色块模式生效）
- *   feFolderTrailingDot        → 文件夹后添加圆点
- *   feColoredFolders(type)     → 彩色文件夹（彩色背景/彩色标题/彩色边框/彩色色块等多种模式 + hue-rotate 彩虹着色）
- *   feFolderColor              → 彩色文件夹基色
+ *   feFolderTrailingMarker     → 文件夹行末标记（none / dot / count）
+ *   feColorfulFoldersEnabled / feColorfulFolderMode{Dark,Light} / feColorfulFolderPalette{Dark,Light} / feColorfulFolderColor{Dark,Light} → 彩色文件夹（多模式 + 配色）
  */
 
 import { Plugin, App, TFile, EventRef } from "obsidian";
@@ -21,11 +20,11 @@ const FILE_ICONS_CLASS = "style-tweaker-fe-file-icons";
 const FOLDER_ICONS_CLASS = "style-tweaker-fe-folder-icons";
 const REMOVE_FIRST_FOLDER_ICON_CLASS =
 	"style-tweaker-fe-remove-first-folder-icon";
-const FOLDER_DOT_CLASS = "style-tweaker-fe-folder-note-dot";
-const FOLDER_COUNT_CLASS = "style-tweaker-fe-folder-note-count";
-const FILENAME_WRAP_CLASS = "style-tweaker-fe-filename-wrap";
-const FILE_TAG_HIDDEN_CLASS = "style-tweaker-fe-file-tag-hidden";
-const FILE_TAG_HOVER_CLASS = "style-tweaker-fe-file-tag-hover";
+const FOLDER_MARKER_DOT_CLASS = "style-tweaker-fe-folder-marker-dot";
+const FOLDER_MARKER_COUNT_CLASS = "style-tweaker-fe-folder-marker-count";
+const FILE_NAME_WRAP_CLASS = "style-tweaker-fe-file-name-wrap";
+// 悬停显示后缀标签：默认隐藏、hover 显示，两态同属一个开关
+const HOVER_REVEAL_FILE_TAG_CLASS = "style-tweaker-fe-hover-reveal-file-tag";
 const COLORFUL_FOLDERS_CLASS = "style-tweaker-fe-colorful-folders";
 // 彩色文件夹开启时，由 JS 给文件树中所有折叠箭头 <svg> 加此门控类，
 // 再由 CSS(.style-tweaker-fe-colorful-collapse) 将其 color 设为 var(--style-tweaker-fe-colorful-tab-color)。
@@ -47,6 +46,7 @@ const FOLDER_COLOR_DARK_VAR = "--style-tweaker-fe-colorful-custom-color-dark";
 const FOLDER_COLOR_LIGHT_VAR = "--style-tweaker-fe-colorful-custom-color-light";
 
 export class FileExplorerService {
+	private plugin: Plugin;
 	private app: App;
 	private getSettings: () => StyleTweakerSettings;
 	private enabled = false;
@@ -55,6 +55,7 @@ export class FileExplorerService {
 	private vaultEventRefs: EventRef[] = [];
 
 	constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+		this.plugin = plugin;
 		this.app = plugin.app;
 		this.getSettings = getSettings;
 	}
@@ -64,11 +65,16 @@ export class FileExplorerService {
 		if (!this.listenersRegistered) {
 			this.listenersRegistered = true;
 			const { workspace, vault } = this.app;
+			// onLayoutReady 是 Obsidian 管理的一次性回调，无需退订
 			workspace?.onLayoutReady(() => this.apply());
-			workspace?.on("layout-change", () => this.apply());
-			workspace?.on("window-open", () => this.apply());
-			// 主题（深色/浅色）切换时重新应用对应的彩色文件夹配置
-			workspace?.on("css-change", () => this.apply());
+			// workspace 事件一律走 registerEvent：插件卸载时自动退订，
+			// 避免裸 workspace.on 在卸载后残留回调（重复 apply / 引用不释放）。
+			if (workspace) {
+				this.plugin.registerEvent(workspace.on("layout-change", () => this.apply()));
+				this.plugin.registerEvent(workspace.on("window-open", () => this.apply()));
+				// 主题（深色/浅色）切换时重新应用对应的彩色文件夹配置
+				this.plugin.registerEvent(workspace.on("css-change", () => this.apply()));
+			}
 			// 笔记数量需要随 vault 增删改实时更新
 			this.vaultEventRefs.push(vault.on("create", () => this.apply()));
 			this.vaultEventRefs.push(vault.on("rename", () => this.apply()));
@@ -97,46 +103,17 @@ export class FileExplorerService {
 		const s = this.getSettings();
 		const body = doc.body;
 
-		body.classList.toggle(
-			FILE_ICONS_CLASS,
-			s.feAddFileIcon === true,
-		);
-		body.classList.toggle(
-			FOLDER_ICONS_CLASS,
-			s.feReplaceFolderIcon === true,
-		);
-		// 文件名换行 / 隐藏非 md 后缀标签（悬浮显示需与隐藏同时开启）
-		body.classList.toggle(
-			FILENAME_WRAP_CLASS,
-			s.feFilenameWrap === true,
-		);
-		body.classList.toggle(
-			FILE_TAG_HIDDEN_CLASS,
-			s.feHideFileTag === true,
-		);
-		body.classList.toggle(
-			FILE_TAG_HOVER_CLASS,
-			s.feHideFileTag === true && s.feFileTagHoverReveal === true,
-		);
-		// 去除第一层文件夹前图标：彩色文件夹开启，且当前主题的彩色化类型为
-		// 彩色边框(border) 或 彩色色块(block) 时才生效（它是 border/block 的子设置）。
-		const isDarkNow = body.classList.contains("theme-dark");
-		const colorfulModeNow = isDarkNow
-			? s.feColorfulFolderModeDark
-			: s.feColorfulFolderModeLight;
-		const removeFirstFolderIcon = isDarkNow
+		// 当前主题派生值：彩色文件夹的模式/配色、去除第一层图标、行末标记都按主题取一套
+		const isDark = body.classList.contains("theme-dark");
+		const mode = isDark ? s.feColorfulFolderModeDark : s.feColorfulFolderModeLight;
+		const palette = isDark
+			? s.feColorfulFolderPaletteDark
+			: s.feColorfulFolderPaletteLight;
+		const removeFirstFolderIcon = isDark
 			? s.feRemoveFirstLevelFolderIconDark
 			: s.feRemoveFirstLevelFolderIconLight;
-		body.classList.toggle(
-			REMOVE_FIRST_FOLDER_ICON_CLASS,
-			s.feColorfulFoldersEnabled === true &&
-				removeFirstFolderIcon === true &&
-				(colorfulModeNow === "border" || colorfulModeNow === "tab"),
-		);
-		// 文件夹名称后的徽标：无 / 圆点 / 笔记数量
-		const indicator = s.feFolderBadge ?? "none";
-		body.classList.toggle(FOLDER_DOT_CLASS, indicator === "dot");
-		body.classList.toggle(FOLDER_COUNT_CLASS, indicator === "count");
+		const indicator = s.feFolderTrailingMarker ?? "none";
+		const colorfulOn = s.feColorfulFoldersEnabled === true;
 
 		// 先清除所有旧的彩色文件夹 class（mode / palette），避免切换时残留叠加导致特异性冲突。
 		for (let i = body.classList.length - 1; i >= 0; i--) {
@@ -149,38 +126,35 @@ export class FileExplorerService {
 			}
 		}
 
-		body.classList.toggle(
-			COLORFUL_FOLDERS_CLASS,
-			s.feColorfulFoldersEnabled === true,
-		);
-
-		// 深色/浅色主题各自的配置：mode、palette 门控类按当前主题选择对应的一套。
-		// 主题切换时通过 css-change 事件重新 apply 即可切换。
-		const isDark = body.classList.contains("theme-dark");
-		const mode = isDark
-			? s.feColorfulFolderModeDark
-			: s.feColorfulFolderModeLight;
-		const palette = isDark
-			? s.feColorfulFolderPaletteDark
-			: s.feColorfulFolderPaletteLight;
-		const color = isDark
-			? s.feColorfulFolderColorDark
-			: s.feColorfulFolderColorLight;
-
-		body.classList.toggle(
-			this.colorfulModeClass(mode),
-			s.feColorfulFoldersEnabled === true,
-		);
-		body.classList.toggle(
-			COLORFUL_PALETTE_PREFIX + palette,
-			s.feColorfulFoldersEnabled === true,
-		);
+		// 布尔门控类统一挂摘：[[类名, 是否挂载], …]，避免逐条 classList.toggle 样板。
+		const toggles: Array<[string, boolean]> = [
+			[FILE_ICONS_CLASS, s.feAddFileIcon === true],
+			[FOLDER_ICONS_CLASS, s.feReplaceFolderIcon === true],
+			[FILE_NAME_WRAP_CLASS, s.feFileNameWrap === true],
+			// 悬停显示后缀标签：默认隐藏、hover 显示由 CSS 同一条规则的两种状态控制
+			[HOVER_REVEAL_FILE_TAG_CLASS, s.feHoverRevealFileTag === true],
+			// 去除第一层文件夹前图标：彩色文件夹开启，且当前主题的彩色化类型为
+			// 彩色边框(border) 或 彩色色块(tab) 时才生效（它是 border/tab 的子设置）。
+			[
+				REMOVE_FIRST_FOLDER_ICON_CLASS,
+				colorfulOn &&
+					removeFirstFolderIcon === true &&
+					(mode === "border" || mode === "tab"),
+			],
+			// 文件夹行末标记：无 / 圆点 / 笔记数量（dot 与 count 互斥）
+			[FOLDER_MARKER_DOT_CLASS, indicator === "dot"],
+			[FOLDER_MARKER_COUNT_CLASS, indicator === "count"],
+			[COLORFUL_FOLDERS_CLASS, colorfulOn],
+			[this.colorfulModeClass(mode), colorfulOn],
+			[COLORFUL_PALETTE_PREFIX + palette, colorfulOn],
+		];
+		for (const [cls, on] of toggles) body.classList.toggle(cls, on);
 
 		// 彩色文件夹自定义配色基色（仅 custom 配色使用）。
 		// 按深浅主题各设一套：--style-tweaker-fe-colorful-custom-color-dark / -light，
-		// 由 CSS 在 .theme-dark/.theme-light 下分别选用（见 file-explorer-07-colorful-palette-custom.css）。
+		// 由 CSS 在 .theme-dark/.theme-light 下分别选用（见 06-colorful-palette-custom.css）。
 		// 这里始终把深色、浅色的基色都写进去（CSS 按主题取用），实现深浅各自配色。
-		if (s.feColorfulFoldersEnabled === true) {
+		if (colorfulOn) {
 			body.style.setProperty(
 				FOLDER_COLOR_DARK_VAR,
 				resolveAccentValue(s.feColorfulFolderColorDark, "#ef8c3a"),
@@ -189,7 +163,6 @@ export class FileExplorerService {
 				FOLDER_COLOR_LIGHT_VAR,
 				resolveAccentValue(s.feColorfulFolderColorLight, "#ef8c3a"),
 			);
-			void color;
 		} else {
 			body.style.removeProperty(FOLDER_COLOR_DARK_VAR);
 			body.style.removeProperty(FOLDER_COLOR_LIGHT_VAR);
@@ -197,10 +170,9 @@ export class FileExplorerService {
 
 		// 折叠箭头门控类：彩色文件夹开启时给所有 .collapse-icon > svg 加
 		// .style-tweaker-fe-colorful-collapse，由 CSS 着彩虹色；关闭时移除并停观察。
-		const colorfulOn = s.feColorfulFoldersEnabled === true;
 		this.syncCollapseIconClass(doc, colorfulOn);
 
-		// 笔记数量：仅当「文件夹后显示笔记数量」时计算并写入 data-count，否则清空。
+		// 笔记数量：仅当行末标记选「笔记数量」时计算并写入 data-count，否则清空。
 		// 子文件夹标题是展开时才渲染的，需用 MutationObserver 监听补写 data-count。
 		const countOn = indicator === "count";
 		if (countOn) {
@@ -357,13 +329,15 @@ export class FileExplorerService {
 				countObs.disconnect();
 				countObservers.delete(doc);
 			}
-			// 清理文件夹后指示（圆点 / 计数）相关 class 与 data-count
-			bodyEl?.classList.remove(FOLDER_DOT_CLASS, FOLDER_COUNT_CLASS);
-			// 清理文件名换行 / 后缀标签相关 class
+			// 清理文件夹行末标记（圆点 / 计数）相关 class 与 data-count
 			bodyEl?.classList.remove(
-				FILENAME_WRAP_CLASS,
-				FILE_TAG_HIDDEN_CLASS,
-				FILE_TAG_HOVER_CLASS,
+				FOLDER_MARKER_DOT_CLASS,
+				FOLDER_MARKER_COUNT_CLASS,
+			);
+			// 清理文件名换行 / 悬停显示后缀标签相关 class
+			bodyEl?.classList.remove(
+				FILE_NAME_WRAP_CLASS,
+				HOVER_REVEAL_FILE_TAG_CLASS,
 			);
 			doc
 				.querySelectorAll(

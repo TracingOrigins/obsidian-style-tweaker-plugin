@@ -1,0 +1,80 @@
+/* ---------- 文件名换行 / 悬停显示文件后缀标签 ----------
+   文件名换行：长文件名在行内折行完整显示，而非单行截断省略。
+   悬停显示文件后缀标签：默认隐藏扩展名标签（.nav-file-tag，如 png、canvas），
+   悬停文件条目时显示，移出后再次隐藏；两态同属一个开关。
+   md 行没有原生标签（md 是默认扩展名，Obsidian 不为它渲染 .nav-file-tag），
+   这里用 .nav-file-title::after 补一个 md 标签，外观/位置/两态与原生标签一致：
+   贴在行末最右侧、悬停文字色跟随 --nav-tag-color-hover。
+
+   作用域：一律限定在 .workspace-leaf-content[data-type="file-explorer"] 内。
+   Recent Files 的文件行同样使用 .nav-file-title-content / .nav-file-tag，
+   不加视图限定时会连带影响 recent-files 列表。
+
+   隐藏/显示用 display 切换：隐藏态不占位，空间还给文件名；代价是切换会重排
+   （开启文件名换行时 hover 可能引起折行）。
+   ------------------------------------------------------------------ */
+
+/* 文件名换行（仅文件列表） */
+body.style-tweaker-fe-file-name-wrap
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-file-title-content {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-all;
+	white-space: normal;
+}
+
+/* 默认隐藏扩展名标签 */
+body.style-tweaker-fe-hover-reveal-file-tag
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-file-title
+	.nav-file-tag {
+	display: none;
+}
+
+/* 鼠标悬停文件条目时显示，移出后自动回到隐藏态 */
+body.style-tweaker-fe-hover-reveal-file-tag
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-file:hover
+	.nav-file-title
+	.nav-file-tag {
+	display: inline;
+}
+
+/* md 行的 md 标签：外观照抄 .nav-file-tag（--nav-tag-* 变量，core 默认值兜底），
+   margin-inline-start: auto 让它在 flex 行里贴到最右侧，与原生标签同位置。 */
+body.style-tweaker-fe-hover-reveal-file-tag
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-file-title[data-path$=".md"]::after {
+	content: "md";
+	display: none;
+	align-self: center;
+	background-color: var(--nav-tag-background, var(--background-modifier-hover));
+	border-radius: var(--nav-tag-radius, var(--radius-s));
+	color: var(--nav-tag-color, var(--text-muted));
+	font-size: 9px;
+	font-weight: var(--nav-tag-weight, var(--font-semibold));
+	letter-spacing: 0.05em;
+	line-height: var(--line-height-normal);
+	margin-inline-start: auto;
+	padding: 0 var(--size-4-1);
+	text-transform: uppercase;
+}
+
+/* 悬停时与原生标签一同显示 */
+body.style-tweaker-fe-hover-reveal-file-tag
+	.workspace-leaf-content[data-type="file-explorer"]
+	.nav-file:hover
+	.nav-file-title[data-path$=".md"]::after {
+	display: inline;
+}
+
+/* 悬停高亮：原生标签由 core/主题的 .tree-item-self:hover .nav-file-tag 负责变色，
+   伪元素不在其选择器内，需自补一条；@media 与 core 一致，触屏不进入 hover 态。 */
+@media (hover: hover) {
+	body.style-tweaker-fe-hover-reveal-file-tag
+		.workspace-leaf-content[data-type="file-explorer"]
+		.nav-file-title[data-path$=".md"]:hover::after {
+		color: var(--nav-tag-color-hover, var(--nav-tag-color, var(--text-muted)));
+	}
+}

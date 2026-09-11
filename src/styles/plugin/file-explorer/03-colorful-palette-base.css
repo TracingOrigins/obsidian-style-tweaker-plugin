@@ -10,12 +10,12 @@
    ============================================================ */
 
 /* 0-Z 彩色文件夹配色 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-folder-title {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-folder-title {
   margin-bottom: 0;
 }
 
 /* 彩色背景模式：顶层文件夹统一圆角 + 间距，与彩色边框/彩色色块模式保持一致 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   margin: 5px 4px 5px 0;
   border-radius: 3px;
   border: 1px solid transparent;
@@ -28,7 +28,7 @@ body.style-tweaker-fe-colorful-folders:is(
   .style-tweaker-fe-colorful-mode-background,
   .style-tweaker-fe-colorful-mode-border,
   .style-tweaker-fe-colorful-mode-tab
-) .nav-files-container>div>.tree-item.nav-folder>.tree-item-self.nav-folder-title {
+) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder>.tree-item-self.nav-folder-title {
   margin: 2px 0;
 }
 

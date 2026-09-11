@@ -1,8 +1,8 @@
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-custom-color);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder .nav-folder-title,
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .nav-files-container>div>.tree-item.nav-folder .nav-file-title {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-folder-title,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.style-tweaker-fe-colorful-palette-custom .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-file-title {
   color: var(--style-tweaker-fe-colorful-tab-color, var(--style-tweaker-fe-colorful-custom-color));
   filter: hue-rotate(var(--hue, 0deg)) brightness(0.85);
   font-weight: 600;
@@ -13,13 +13,13 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title.styl
    仅做颜色覆盖：把 --style-tweaker-fe-colorful-tab-color 改由用户基色 + 顺序派生色相（hue-rotate）提供，
    使边框高亮、色块、悬浮阴影都与派生的彩虹色一致。 */
 /* 1) 自定义模式下 --style-tweaker-fe-colorful-tab-color 覆盖为基色（优先级高于原版 nth-child 的 --style-tweaker-fe-colorful-folder-X 赋值） */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .nav-files-container>div>.tree-item.nav-folder,
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .nav-files-container>div>.tree-item.nav-folder::before {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder,
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder::before {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-custom-color);
 }
 /* 2) 容器(.nav-folder)整体加 filter，色块(::before 是它的后代伪元素)与边框一并随文件夹序号派生 */
 /*    注意：不要给 ::before 单独再加 filter，否则会叠加旋转导致与左侧高亮色不一致 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:is(.style-tweaker-fe-colorful-mode-border,.style-tweaker-fe-colorful-mode-tab) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   filter: hue-rotate(var(--hue, 0deg));
 }
 
@@ -29,43 +29,43 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-palette-custom:
 /* 必须带第一层级前缀
    .nav-files-container>div>.tree-item.nav-folder:nth-child(...) 才能正确对应顶层列表位置。 */
 /* 顶层文件夹默认 --style-tweaker-fe-colorful-tab-color（覆盖 nth-child(12n+1) 等未定义位置，避免图标/标题 fallback 成蓝色） */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-0);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-0);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-1);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-2);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-3);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-4);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-5);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-6);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-7);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-8);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-9);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-A);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-B);
 }
 
@@ -75,56 +75,56 @@ body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-background
 /* ===== 彩色标题(colorful-title)模式：按列表位置 nth-child(12n+2..13) 给标题文字上色 ===== */
 /* title 模式只着色文字(color)，不渲染背景。 */
 /* 悬浮不加额外样式（加粗/饱和），使用 Obsidian 默认悬浮反馈 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder .nav-folder-title {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-folder-title {
   font-weight: 600;
 }
 /* 顶层文件夹默认 --style-tweaker-fe-colorful-tab-color（覆盖 nth-child(12n+1) 等未定义位置，避免图标/标题 fallback 成蓝色 --text-accent 造成颜色不一致）。
    特异性 (0,2,1) 低于各 nth-child 规则 (0,3,1)，故仍能被 12n+2..13 覆盖。 */
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-0);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+2) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-0);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+3) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-1);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+4) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-2);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+5) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-3);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+6) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-4);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+7) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-5);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+8) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-6);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+9) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-7);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+10) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-8);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+11) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-9);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+12) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-A);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder:nth-child(12n+13) {
   --style-tweaker-fe-colorful-tab-color: var(--style-tweaker-fe-colorful-folder-B);
 }
-body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .nav-files-container>div>.tree-item.nav-folder .nav-folder-title {
+body.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-folder-title {
   color: var(--style-tweaker-fe-colorful-tab-color);
   filter: brightness(0.8);
 }
-body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title:not(.style-tweaker-fe-colorful-palette-six) .nav-files-container>div>.tree-item.nav-folder .nav-folder-title,
-body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title:not(.style-tweaker-fe-colorful-palette-six) .nav-files-container>div>.tree-item.nav-folder .nav-file-title {
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title:not(.style-tweaker-fe-colorful-palette-six) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-folder-title,
+body.theme-dark.style-tweaker-fe-colorful-folders.style-tweaker-fe-colorful-mode-title:not(.style-tweaker-fe-colorful-palette-six) .workspace-leaf-content[data-type="file-explorer"] .nav-files-container>div>.tree-item.nav-folder .nav-file-title {
   color: var(--style-tweaker-fe-colorful-tab-color);
   filter: brightness(1.2);
 }

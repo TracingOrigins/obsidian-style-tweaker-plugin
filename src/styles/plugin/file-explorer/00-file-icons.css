@@ -12,6 +12,7 @@
    position: absolute 脱离文档流（不占位、不推文件名），margin-left 负值落到
    Obsidian 在文件名左侧预留的空间内。 */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path] {
@@ -20,6 +21,7 @@ body.style-tweaker-fe-file-icons
 }
 
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path]::before {
@@ -39,6 +41,7 @@ body.style-tweaker-fe-file-icons
 
 /* PDF */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".pdf"]::before {
@@ -48,26 +51,32 @@ body.style-tweaker-fe-file-icons
 
 /* 图片 */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".jpg"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".png"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".svg"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".gif"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".jpeg"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".bmp"]::before {
@@ -77,22 +86,27 @@ body.style-tweaker-fe-file-icons
 
 /* 视频 */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".mp4"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".webm"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".ogv"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".mov"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".mkv"]::before {
@@ -102,26 +116,32 @@ body.style-tweaker-fe-file-icons
 
 /* 音频 */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".mp3"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".wav"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".m4a"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".ogg"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".3gp"]::before,
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".flac"]::before {
@@ -131,6 +151,7 @@ body.style-tweaker-fe-file-icons
 
 /* Canvas */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".canvas"]::before {
@@ -140,6 +161,7 @@ body.style-tweaker-fe-file-icons
 
 /* Excalidraw */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".excalidraw.md"]::before {
@@ -149,6 +171,7 @@ body.style-tweaker-fe-file-icons
 
 /* Loom */
 body.style-tweaker-fe-file-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-file
 	.nav-file-title[data-path$=".loom"]::before {
@@ -162,6 +185,7 @@ body.style-tweaker-fe-file-icons
    严格照 AnuPpuccin：.collapse-icon 用 mask 显示文件夹图标，隐藏原始箭头 svg（display:none），
    避免残留默认箭头图标与替换图标叠显。 */
 body.style-tweaker-fe-folder-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-folder-title
 	.collapse-icon {
@@ -180,6 +204,7 @@ body.style-tweaker-fe-folder-icons
 
 /* 隐藏折叠箭头自带的原始 svg（避免与替换图标叠显） */
 body.style-tweaker-fe-folder-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.nav-folder-title
 	.collapse-icon
@@ -189,6 +214,7 @@ body.style-tweaker-fe-folder-icons
 
 /* 折叠的文件夹图标（.is-collapsed 加在 .tree-item / .nav-folder 容器上） */
 body.style-tweaker-fe-folder-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.tree-item.is-collapsed
 	.collapse-icon {
@@ -198,6 +224,7 @@ body.style-tweaker-fe-folder-icons
 
 /* 折叠时也隐藏原始箭头 svg */
 body.style-tweaker-fe-folder-icons
+	.workspace-leaf-content[data-type="file-explorer"]
 	.nav-files-container
 	.tree-item.is-collapsed
 	.collapse-icon
