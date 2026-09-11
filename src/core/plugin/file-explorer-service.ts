@@ -4,7 +4,7 @@
  * 功能说明：
  *   feAddFileIcon              → 添加文件前类型图标
  *   feReplaceFolderIcon        → 替换文件夹折叠箭头为文件夹图标
- *   feFilenameWrap             → 文件名过长时换行显示（移植自 My_Style_Setting.css）
+ *   feFilenameWrap             → 文件名过长时换行显示
  *   feHideFileTag / feFileTagHoverReveal → 隐藏非 md 后缀标签 / 悬浮临时显示
  *   feRemoveFirstLevelFolderIconDark/Light → 去除第一层文件夹前图标（深/浅主题，仅彩色边框/色块模式生效）
  *   feFolderTrailingDot        → 文件夹后添加圆点

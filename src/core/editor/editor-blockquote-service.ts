@@ -9,7 +9,6 @@ import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 // 功能：
 //   1. 块引用样式（blockquoteStyle）：default（Obsidian 原生）/ accent-fill（色带填充）/
 //      quotation-mark（引号）/ bubble（气泡）/ frame（边框）。
-//      bubble/frame 移植自 My_Style_Setting.css。
 //   2. 自定义颜色（blockquoteCustom）：开启后文字颜色与边框颜色选项生效。
 //
 // 设计要点：与编辑器其他样式服务同构，独立门控类 + CSS 变量以内联方式写入 body

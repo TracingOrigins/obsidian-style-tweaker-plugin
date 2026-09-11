@@ -63,7 +63,7 @@ body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-
   margin-right: 0;
 }
 
-/* 引号样式（用 Unicode 引号字符，避免依赖外部字体导致引号乱码/不显示） */
+/* 引号样式（引号取自内联的 boxicons 图标字体，不依赖用户环境字体） */
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote::before,
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
   border-left: none;
@@ -119,47 +119,92 @@ body.style-tweaker-blockquote-quotation-mark
   border: none;
 }
 
-/* ---------- 气泡样式（移植自 My_Style_Setting.css） ----------
-   整体圆角气泡框，尾巴由 ::after（弧线）与 ::before（背景色遮罩，
-   在下边框上开出尾巴口）叠加绘制；文字回归正常色。 */
+/* ---------- 气泡样式 ----------
+   圆角气泡框 + 尾巴，文字回归正常色。背景透明（避免挡住壁纸），
+   因此气泡只画上/左/右边框，下边框改由 ::before 补画；
+   尾巴由 ::after（右臂）与段落 ::before（左臂）两段 1/4 圆弧拼出尖角。
+   本节坐标均以气泡 padding box 为基准，长度统一用 px（不随字号变化）。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
   position: relative;
   color: var(--text-normal);
   line-height: 1.5;
-  margin-top: 2em;
-  margin-bottom: 2.5em;
+  margin-top: 32px;
+  margin-bottom: 32px;
   border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-bottom: none;
   border-radius: 20px;
   padding: 10px 15px;
-  background: var(--background-primary);
+  background: transparent;
 }
 
+/* 尾巴右臂：只描 border-top 的 1/4 圆弧 —— 左上圆角写 35px 会被钳制成 28px，
+   弧线由水平转向竖直、末端停在尾巴尖；其水平段与 ::before 的下边框完全重合。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::after {
   content: "";
   position: absolute;
-  border: 2.5px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-radius: 35px 0 0 0;
-  width: 1.75rem;
-  height: 3.45rem;
-  bottom: -3.6rem;
-  left: 1.8rem;
+  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-radius: 35px 0 0;
+  width: 28px;
+  height: 25px;
+  bottom: -26px;
+  left: 26px;
   border-bottom: none;
   border-left: none;
   border-right: none;
   z-index: 3;
 }
 
+/* 下边框：气泡自身下边框为 none，这里补画整条（含左下/右下圆角），
+   再用 clip-path 挖掉尾巴开口。left/right: -3px 与气泡边框盒外沿对齐；
+   height 与 border-radius 取 20px，沿用气泡自身的圆角半径；bottom: -1px
+   让这 3px 宽的线正好压在 ::after 弧线的水平段上，接缝不可见。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::before {
   content: "";
   position: absolute;
-  width: 25px;
-  border: 4px solid var(--background-primary);
-  bottom: -4px;
-  left: 20px;
+  left: -3px;
+  right: -3px;
+  bottom: -1px;
+  height: 20px;
+  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  border-radius: 0 0 20px 20px;
+  /* 沿外轮廓描一圈后折回，挖空 [23px, 56px] 这一竖条 => 尾巴开口 */
+  clip-path: polygon(
+    0 0,
+    0 100%,
+    100% 100%,
+    100% 0,
+    56px 0,
+    56px 100%,
+    23px 100%,
+    23px 0
+  );
+  pointer-events: none;
   z-index: 2;
 }
 
-/* ---------- 边框样式（移植自 My_Style_Setting.css） ----------
+/* 尾巴左臂：接在下边框缺口的左断口上，末端落在 ::after 弧线的尖端，把尾巴合拢成尖角。
+   画法与右臂同源 —— border-left 描边（线宽即根部粗细）+ 左下椭圆圆角把矩形
+   裁成 1/4 弧，所以根部最粗、末端收成尖，整条弧凸向左下。
+   微调三个值即可：left（根部位置）/ width（横向跨度）/ height（尾巴长度）。 */
+body.style-tweaker-blockquote-bubble
+  :is(.markdown-preview-view, .markdown-rendered)
+  blockquote
+  > p:first-child::before {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  left: 19px;
+  bottom: -26px;
+  width: 8px;
+  height: 28px;
+  border: none;
+  border-left: 2px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+  /* 左下椭圆圆角把矩形裁成 1/4 弧：上端满宽 → 右下端收成尖 */
+  border-bottom-left-radius: 8px 26px;
+  pointer-events: none;
+}
+
+/* ---------- 边框样式 ----------
    圆角描边框，背景透明。 */
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote {
   border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
@@ -168,14 +213,14 @@ body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-render
 }
 
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:first-child {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  margin-right: 1em;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 16px;
 }
 
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:last-child {
-  margin-bottom: 0.5em;
-  margin-right: 1em;
+  margin-bottom: 8px;
+  margin-right: 16px;
 }
 
 /* ---------- 气泡/边框：实时预览拼块 ----------
@@ -194,7 +239,7 @@ body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-previe
 }
 
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
-  background: var(--background-primary);
+  background: transparent;
 }
 
 /* 首行（前面不是引用行）：上边线 + 顶部圆角 */
