@@ -77,6 +77,9 @@ export interface StyleTweakerSettings {
   mobileBackgroundImageOpacityLight: number; // 0-100，移动浅色背景图不透明度（不影响正文）
   mobileGlassBlurDark: number; // 移动深色玻璃模糊半径(px)
   mobileGlassBlurLight: number; // 移动浅色玻璃模糊半径(px)
+  // 弹框背景模糊：开启后打开弹框时模糊遮罩背后的界面内容（与背景模式无关）
+  desktopModalBlur: boolean; // 桌面端
+  mobileModalBlur: boolean; // 移动端
   // 活动标签高亮：活动标签的图标/标题与侧栏开合按钮用强调色高亮
   activeTabHighlight: boolean;
   // 桌面端侧栏布局
@@ -429,6 +432,9 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   mobileBackgroundImageOpacityLight: 30,
   mobileGlassBlurDark: 30,
   mobileGlassBlurLight: 30,
+  // 弹框背景模糊：移动端默认开启（延续打开弹框即模糊的既有观感），桌面端默认关闭
+  desktopModalBlur: false,
+  mobileModalBlur: true,
   activeTabHighlight: false,
   customVaultName: "",
   showVaultNameInFileList: false,

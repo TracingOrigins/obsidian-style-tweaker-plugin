@@ -1,0 +1,27 @@
+/* 弹框（modal）样式：设置项「界面 → 弹框」
+ *
+ * 门控类由 ModalService 依设置挂载（src/core/interface/modal-service.ts）：
+ *   - style-tweaker-modal-blur-desktop：桌面端开关开启
+ *   - style-tweaker-modal-blur-mobile ：移动端开关开启
+ *
+ * 现有功能：弹框背景模糊。模糊施加在 .modal-container（覆盖全屏的弹窗容器）
+ * 与其内的 .modal-bg（各版本承担压暗的层可能是其中之一，两者都覆盖即可稳定生效）；
+ * 弹窗本体 .modal 绘制在遮罩之上，不受影响（不会被糊）。
+ *
+ * 设备限定（:not(.is-mobile) / .is-mobile）写在 CSS 里而非服务里：
+ * 设置会随 Obsidian Sync 同步到对端设备，即使对端的门控类被挂上，也不会误生效。
+ *
+ * 后续弹框相关的样式（描边、圆角、遮罩压暗等）都集中在本文件。
+ */
+
+body.style-tweaker-modal-blur-mobile.is-mobile .modal-container,
+body.style-tweaker-modal-blur-mobile.is-mobile .modal-container .modal-bg {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body.style-tweaker-modal-blur-desktop:not(.is-mobile) .modal-container,
+body.style-tweaker-modal-blur-desktop:not(.is-mobile) .modal-container .modal-bg {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}

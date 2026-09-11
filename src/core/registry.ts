@@ -17,6 +17,7 @@ import { TabBeforeActiveStateService } from "./shared/tab-before-active-state-se
 import { LayoutService } from "./interface/layout-service";
 import { LeftRightSpaceService } from "./interface/left-right-space-service";
 import { StatusBarService } from "./interface/statusbar-service";
+import { ModalService } from "./interface/modal-service";
 import { EditorBackgroundService } from "./editor/editor-background-service";
 import { EditorActiveLineService } from "./editor/editor-active-line-service";
 import { EditorInlineTitleService } from "./editor/editor-inline-title-service";
@@ -63,6 +64,8 @@ export class StyleServiceRegistry {
       new LeftRightSpaceService(this.plugin, this.getSettings),
       // 状态栏样式：依据 statusBarStyle 挂悬浮/固定门控类，default 不挂任何类。
       new StatusBarService(this.plugin, this.getSettings),
+      // 弹框服务：目前按移动端/桌面端各自开关挂背景模糊门控类（设备限定在 CSS 侧）。
+      new ModalService(this.plugin, this.getSettings),
       // 移动端抽屉内容区块置顶：纯门控类，仅移动端（is-mobile）生效。
       new SidebarMobileService(this.plugin, this.getSettings),
       // 桌面端侧栏库名显示（自定义库名 / 文件列表顶部库名）：纯门控类 + 注入库名变量。

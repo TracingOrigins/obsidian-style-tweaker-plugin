@@ -6,6 +6,7 @@ import { buildLayoutItem } from "./interface-layout";
 import { buildSidebarItem } from "./interface-sidebar";
 import { buildTabsItem } from "./interface-tabbar";
 import { buildStatusBarItem } from "./interface-statusbar";
+import { buildModalItem } from "./interface-modal";
 
 // ============================================================
 // 顶级分组二：界面（布局 + 标签栏 + 侧边栏 + 状态栏）
@@ -20,6 +21,7 @@ export function buildInterfaceSection(plugin: SettingTabPlugin): SettingDefiniti
       buildTabsItem(plugin),
       buildSidebarItem(plugin),
       buildStatusBarItem(plugin),
+      buildModalItem(plugin),
     ],
   };
 }
