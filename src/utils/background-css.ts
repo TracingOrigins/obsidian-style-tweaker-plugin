@@ -79,9 +79,9 @@ body.theme-light {
  *     规则大幅简化。
  *   - 玻璃浮层（命令面板/菜单/状态栏等）无 transform 时不创建独立层叠上下文，
  *     backdrop-filter 直接模糊到根层 body::before（已验证）。仅移动端 .mobile-tab-switcher
- *     因滑入 transform 创建独立 context，由其自身在 overlay.css 携带壁纸（见 overlay.css）。
+ *     因滑入 transform 创建独立 context，由其自身在 ui-glass.css 携带壁纸（见 ui-glass.css）。
  *
- * 门控 .style-tweaker-bg-image-active：纯色模式不挂载，navbar 等显示 surface 色（见 overlay.css / solid.css）。
+ * 门控 .style-tweaker-bg-image-active：纯色模式不挂载，navbar 等显示 surface 色（见 ui-glass.css / solid.css）。
  */
 export function buildBackgroundLayerCss(): string {
   return `/* Style Tweaker 壁纸层：统一 body::before 双伪元素（图片层 + 遮罩层），桌面/移动端共用。
@@ -110,7 +110,7 @@ body.style-tweaker-bg-image-active.theme-light::after {
   opacity: var(--style-tweaker-bg-opacity);
 }
 /* 所有承载容器透明透出 body::before 壁纸；不干预 navbar/drawer/titlebar 的 z-index，保持原生层叠。
-   navbar/tabbar/drawer 的 background:transparent 等细节已由 overlay.css 图片组负责。
+   navbar/tabbar/drawer 的 background:transparent 等细节已由 ui-glass.css 图片组负责。
    覆盖桌面（.workspace 等）与移动（.app-container / .horizontal-main-container 等）两端容器。 */
 .style-tweaker-bg-image-active .app-container,
 .style-tweaker-bg-image-active .horizontal-main-container,
@@ -145,7 +145,7 @@ body.is-mobile:has(.workspace-drawer-backdrop) .mobile-tabbar {
 //     根层最底、不受任何子元素 z-index / isolation 遮挡；各 UI 子内容透明即透出壁纸，
 //     不透明度由 body::after 遮罩（读取 token --style-tweaker-bg-opacity）控制。
 //   - 原生 UI 容器的透明化 / 玻璃浮层 / 纯色覆盖规则已全部迁移到静态 CSS
-//     （src/styles/appearance/overlay.css、src/styles/appearance/solid/solid.css），
+//     （src/styles/appearance/image/ui-glass.css、src/styles/appearance/solid/solid.css），
 //     由 styles.css 加载。图片规则以 .style-tweaker-bg-image-active 为前缀，
 //     纯色规则以 .style-tweaker-bg-solid-active 为前缀；JS 只负责注入 token 变量与挂摘
 //     门控类，不再拼装这些规则字符串。

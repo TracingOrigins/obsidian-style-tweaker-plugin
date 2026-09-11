@@ -1,4 +1,8 @@
-/* 背景：图片壁纸层骨架（仅图片模式）
+/* 图片模式：壁纸层骨架（仅图片模式）
+ *
+ * 命名：wallpaper.css 指「壁纸（background-image）承载骨架」——让核心容器透明化，
+ * 透出由 background-css.ts 注入的 body::before 壁纸层。与 editor/background.css
+ *（编辑器背景图案）无关，与 interface/layout/layout-image-*.css（布局形态）无关。
  *
  * 门控类：整组以 .style-tweaker-bg-image-active 为前缀（仅图片模式挂载），
  * 纯色模式（solid）不挂载该类，本组规则整组失效。只有背景图片需要核心容器
@@ -8,7 +12,7 @@
 
 /* .workspace 定位与隔离，确保承载壁纸（body::before 壁纸层）时
    子内容能正确叠放。仅在图片背景激活（.style-tweaker-bg-image-active）时生效。 */
-.style-tweaker-bg-image-active {
+body.style-tweaker-bg-image-active {
   /* 图片模式下代码块的「固定半透明底色」：固定 60% 不透明，不随界面不透明度设置
      变化。此处引用的 --code-background 解析自 :root（本文件刻意不覆盖该变量，
      否则在 body 层重定义并引用自身会形成循环依赖，导致声明整条失效）。 */
@@ -27,7 +31,7 @@
        这一组能防止不透明内容盖住壁纸。仅在图片模式激活时生效。
        注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用
        的 background-image:none 把「编辑器背景」服务的网格/点阵图案一并清除。
-       编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor-bg.css
+       编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor/background.css
        在其自身元素上绘制，二者可共存。 */
     .workspace-split,
     .workspace-split.mod-root,

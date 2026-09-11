@@ -1,4 +1,10 @@
-/* 移动端侧边栏抽屉（workspace-drawer）玻璃化（仅图片模式）
+/* 图片模式下移动端侧边栏抽屉（workspace-drawer）玻璃化
+ *
+ * 命名分工：
+ *   - 本文件（sidebar-glass.css）：图片模式下移动端抽屉的玻璃表面。
+ *   - interface/sidebar/：界面侧边栏自身的布局与外观开关（桌面端 / 移动端各一份），
+ *     与背景模式无关。
+ *   - 同目录 modal-glass.css：图片模式下弹框/设置窗口的玻璃表面。
  *
  * 注：workspace-drawer 即 Obsidian 移动端的侧边栏抽屉，桌面端无此结构。
  * 门控类：body.style-tweaker-bg-image-active.is-mobile，仅图片模式 + 移动端生效。
@@ -10,7 +16,7 @@
  *   - 局部选择项用半透明色块（color-mix）叠在玻璃上，保证可读性。
  */
 
-/* 抽屉根容器：透明 + 玻璃模糊（与 overlay.css 移动端框架玻璃同参数）。 */
+/* 抽屉根容器：透明 + 玻璃模糊（与 ui-glass.css 移动端框架玻璃同参数）。 */
 body.style-tweaker-bg-image-active.is-mobile {
   .workspace-drawer {
     background-color: transparent;

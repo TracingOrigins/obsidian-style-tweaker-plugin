@@ -1,4 +1,11 @@
-/* 设置窗口（.modal.mod-settings）与设置面板相关样式（仅图片模式）
+/* 图片模式下弹框（modal）的玻璃表面：设置窗口 + 其他弹框（仅图片模式）
+ *
+ * 命名分工（本目录内）：
+ *   - modal-glass.css：图片模式下弹框/设置窗口的玻璃、透明与控件淡化规则。
+ *   - ui-glass.css   ：移动端弹框玻璃与所有弹窗的统一描边。
+ * 与 interface/modal.css 的分工：
+ *   - interface/modal.css：弹框「背景模糊」开关（门控类驱动，桌面/移动端各一开关）。
+ *   - 本文件：图片模式下的玻璃表面，随背景模式生效。
  *
  * 设置页 .modal.mod-settings 存在两种 DOM 形态，按结构直接区分：
  *   1) 独立设置窗口：body.is-popout-window > .modal.mod-settings

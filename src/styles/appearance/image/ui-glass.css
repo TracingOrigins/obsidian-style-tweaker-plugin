@@ -1,4 +1,11 @@
-/* 工作区：图片背景激活时的原生 UI 容器透明化 + 玻璃浮层
+/* 图片模式：工作区 UI 的透明化与玻璃浮层（仅图片模式）
+ *
+ * 命名：ui-glass.css 承载「通用 UI 玻璃与透明」——桌面端浮层（命令面板 / 建议 / 菜单 /
+ * 状态栏 / popover / tooltip）、主界面容器透明化，以及移动端框架（navbar / tabbar /
+ * 设置页 / 社区插件窗口）玻璃。与同目录玻璃文件的职责分工：
+ *   - modal-glass.css  ：弹框（含设置窗口）玻璃，按「独立窗口 / 内嵌」分形态。
+ *   - sidebar-glass.css：移动端抽屉（workspace-drawer）玻璃。
+ *   - 本文件           ：其余 UI 的玻璃与透明化。
  *
  * 壁纸承载：图片模式下壁纸由 background-css.ts 注入的 body::before（图片层）+ body::after
  * （遮罩层）双伪元素承载，根层最底，桌面/移动端共用。各 UI 容器只需 background:transparent
@@ -64,7 +71,7 @@ body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
    模糊半径来自 token --style-tweaker-glass-blur（用户滑块 0~30px，0 时 blur(0px) 自动关断）。
    注：右键菜单 .menu 的玻璃效果实际渲染可能受 Obsidian 菜单位置/文档影响而失效，
    此规则保留原 backdrop-filter 方案，未做破坏性改动。 */
-/* 注：第三方插件弹窗（.modal）的玻璃效果已在 modal.css 按「独立窗口/内嵌」分形态处理，
+/* 注：第三方插件弹窗（.modal）的玻璃效果已在 modal-glass.css 按「独立窗口/内嵌」分形态处理，
    独立窗口形态纯透明透壁纸、不加玻璃；此处仅处理系统浮层（命令面板/建议/菜单/状态栏等）。 */
 .style-tweaker-bg-image-active {
   .modal-container .prompt,
@@ -198,6 +205,18 @@ body.style-tweaker-bg-image-active.is-mobile {
     background-color: transparent;
   }
 
+  /* ============ 移动端：所有弹窗统一描边 ============ */
+
+  /* 遮罩背景模糊不在本文件：已抽为「界面 → 弹框」的独立开关
+     （interface/modal.css，门控类由 ModalService 挂载），
+     不再随图片模式无条件生效。 */
+
+  /* 所有弹窗统一描边（与图标选择器同款：accent 混合透明，深浅色均自适应）。
+     设置页 / 社区插件窗口下方另有特异性更高的 accent 边框规则，保持原样不受影响。 */
+  .modal {
+    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, transparent);
+  }
+
   /* ============ 移动端框架容器玻璃：设置页 / 社区插件窗口 ============ */
 
   /* 外层玻璃：设置页 + 社区插件窗口（两容器同款）。 */
@@ -221,11 +240,11 @@ body.style-tweaker-bg-image-active.is-mobile {
   .modal.mod-settings .search-input-container {
     border: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
   }
-  
+
   .search-input-container input:focus {
     box-shadow: none;
   }
-  
+
   /* 设置窗口右侧设置分组中设置项的上边框 */
   .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
     border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
@@ -281,7 +300,7 @@ body.style-tweaker-bg-image-active.is-mobile {
     border: 1px solid var(--color-accent);
     border-bottom: none;
   }
-  
+
   /* 移动端新标签页按钮透明 */
   .empty-state .empty-state-action {
     background-color: transparent;

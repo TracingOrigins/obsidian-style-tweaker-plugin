@@ -2,18 +2,18 @@
  * 活动标签前邻标签状态服务
  *
  * 对应门控：style-tweaker-bg-image-active（图片背景激活，桌面端）。
- * 消费 CSS：appearance/image/border.css
+ * 消费 CSS：appearance/image/divider.css
  *           （style-tweaker-tab-before-active，隐藏活动标签前邻标签的残留分隔线）。
  *
  * 把"某标签头紧邻活动标签（其后是 .is-active）"维护成该标签头上的状态类，
- * 替代 border.css 原先的 :has(+ .is-active)。仅当图片背景激活（桌面）时观察。
+ * 替代 divider.css 原先的 :has(+ .is-active)。仅当图片背景激活（桌面）时观察。
  */
 
 import { DomStateServiceBase } from "./dom-state-service-base";
 
 /** 图片背景激活门控类（background-service 挂载） */
 const IMAGE_ACTIVE_CLASS = "style-tweaker-bg-image-active";
-/** 前邻活动标签的状态类（border.css 消费） */
+/** 前邻活动标签的状态类（divider.css 消费） */
 const TAB_BEFORE_ACTIVE_CLASS = "style-tweaker-tab-before-active";
 
 /** 元素是否属于标签头区域（决定是否值得刷新标签分类） */
