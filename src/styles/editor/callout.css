@@ -158,8 +158,8 @@ body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-colum
 }
 
 body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-title {
-  background-color: color-mix(in srgb, var(--callout-color) 40%, transparent);
-  color: color-mix(in srgb, var(--callout-color) 80%, transparent);
+  background-color: color-mix(in srgb, var(--callout-color) 30%, transparent);
+  color: color-mix(in srgb, var(--callout-color) 100%, transparent);
 }
 
 body.style-tweaker-callout-style-windows .callout:not([data-callout="multi-column"]):not([data-callout-metadata*="revert"]) > .callout-content {
