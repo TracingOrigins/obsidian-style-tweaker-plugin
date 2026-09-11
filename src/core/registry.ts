@@ -12,6 +12,7 @@ import { TabBarService } from "./interface/tabbar-service";
 import { SidebarMobileService } from "./interface/sidebar-mobile-service";
 import { SidebarDesktopService, SidebarVaultNameService } from "./interface/sidebar-desktop-service";
 import { EditorLineTypeStateService } from "./shared/editor-line-type-state-service";
+import { EditorBlockquoteLineStateService } from "./shared/editor-blockquote-line-state-service";
 import { MobileDrawerNavStateService } from "./shared/mobile-drawer-nav-state-service";
 import { TabBeforeActiveStateService } from "./shared/tab-before-active-state-service";
 import { LayoutService } from "./interface/layout-service";
@@ -100,6 +101,8 @@ export class StyleServiceRegistry {
       // DOM 结构状态观察（按需）：把原 CSS 的 :has 结构判断前移为元素状态类。
       // 每个服务仅在对应设置/门控生效时 attach 观察器，未生效即断开并清类。
       new EditorLineTypeStateService(this.plugin, this.getSettings),
+      // 引用块"末行"状态（气泡/边框风格的封闭下边缘）：替代 :has(+ .HyperMD-quote)
+      new EditorBlockquoteLineStateService(this.plugin, this.getSettings),
       new MobileDrawerNavStateService(this.plugin, this.getSettings),
       new TabBeforeActiveStateService(this.plugin, this.getSettings),
     ];

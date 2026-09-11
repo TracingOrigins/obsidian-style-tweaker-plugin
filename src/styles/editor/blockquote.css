@@ -155,7 +155,7 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
 }
 
 /* 下边框：气泡自身下边框为 none，这里补画整条（含左下/右下圆角），
-   再用 clip-path 挖掉尾巴开口。left/right: -3px 与气泡边框盒外沿对齐；
+   再用遮罩挖掉尾巴开口。left/right: -3px 与气泡边框盒外沿对齐；
    height 与 border-radius 取 20px，沿用气泡自身的圆角半径；bottom: -1px
    让这 3px 宽的线正好压在 ::after 弧线的水平段上，接缝不可见。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::before {
@@ -167,16 +167,19 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
   height: 20px;
   border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
   border-radius: 0 0 20px 20px;
-  /* 沿外轮廓描一圈后折回，挖空 [23px, 56px] 这一竖条 => 尾巴开口 */
-  clip-path: polygon(
-    0 0,
-    0 100%,
-    100% 100%,
-    100% 0,
-    56px 0,
-    56px 100%,
-    23px 100%,
-    23px 0
+  /* 挖空 [23px, 56px] 这一竖条 => 尾巴开口。遮罩与 clip-path 的挖洞等价，
+     但 clip-path 在 Obsidian 端属于"部分支持"的功能（提交审核 CSS lint 告警）。 */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0 23px,
+    transparent 23px 56px,
+    #000 56px
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0 23px,
+    transparent 23px 56px,
+    #000 56px
   );
   pointer-events: none;
   z-index: 2;
@@ -226,7 +229,10 @@ body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-render
 /* ---------- 气泡/边框：实时预览拼块 ----------
    CM6 实时预览中块引用按行渲染为 div.HyperMD-quote，没有整体盒子；
    以左右边线贯穿、上下边线与圆角只画首末行的方式拼出盒子效果，
-   并去掉原生 .cm-blockquote-border 竖线避免出现双线。 */
+   并去掉原生 .cm-blockquote-border 竖线避免出现双线。
+   首行用相邻兄弟选择器判定；末行由 EditorBlockquoteLineStateService 挂上的
+   style-tweaker-line-quote-last 标出（:has(+ .HyperMD-quote) 会触发宽泛的
+   失效重算，故前移为状态类）。 */
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6 .cm-blockquote-border::before,
 body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
   border-left: none;
@@ -250,7 +256,7 @@ body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-previ
 }
 
 /* 末行（后面不是引用行）：下边线 + 底部圆角 */
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(:has(+ .HyperMD-quote)) {
+body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
   border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -262,7 +268,7 @@ body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-previe
   border-top-right-radius: var(--radius-m);
 }
 
-body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(:has(+ .HyperMD-quote)) {
+body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
   border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
   border-bottom-left-radius: var(--radius-m);
   border-bottom-right-radius: var(--radius-m);
