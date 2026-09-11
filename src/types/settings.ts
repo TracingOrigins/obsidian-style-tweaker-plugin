@@ -157,6 +157,17 @@ export interface StyleTweakerSettings {
   propertiesColumnLayout: boolean; // 属性分栏布局总开关（关闭时两端均不生效）
   desktopPropertiesColumnCount: number; // 桌面端分栏数 1-6（仅总开关开启时生效）
   mobilePropertiesColumnCount: number; // 移动端分栏数 1-6（仅总开关开启时生效）
+  // 栏间分隔线：仅分栏布局开启时生效，桌面端与移动端各自可配。
+  // 线型写入 CSS 变量（dashed/solid/none）；颜色沿用「色板 + 自定义色」模式
+  // （default=主题强调色），不透明度为百分比。键名与栏数一致，按平台前缀区分。
+  desktopPropertiesDividerStyle: string; // 桌面端分隔线线型：dashed=虚线 / solid=实线 / none=无
+  desktopPropertiesDividerColor: string; // 桌面端分隔线颜色：default / 色名 / custom
+  desktopPropertiesCustomDividerColor: string; // 桌面端自定义分隔线色 hex（仅上项为 custom 时生效）
+  desktopPropertiesDividerOpacity: number; // 桌面端分隔线不透明度（%，0-100）
+  mobilePropertiesDividerStyle: string; // 移动端分隔线线型：dashed=虚线 / solid=实线 / none=无
+  mobilePropertiesDividerColor: string; // 移动端分隔线颜色：default / 色名 / custom
+  mobilePropertiesCustomDividerColor: string; // 移动端自定义分隔线色 hex（仅上项为 custom 时生效）
+  mobilePropertiesDividerOpacity: number; // 移动端分隔线不透明度（%，0-100）
   // 章节标题样式
   headingHover: boolean; // 悬停章节标题时显示 H1–H6 级别徽标
   headingCustomColors: boolean; // 是否启用自定义章节标题颜色
@@ -505,10 +516,19 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   inlineTitleUnderlineStyle: "solid",
   inlineTitleColorEnabled: false,
   inlineTitleColor: "default",
-  // 属性区域默认值：分栏总开关关闭；桌面端 2 栏、移动端 1 栏
+  // 属性区域默认值：分栏总开关关闭；桌面端 2 栏、移动端 1 栏；
+  // 栏间分隔线两端默认均为虚线 + 主题强调色 + 50% 不透明度
   propertiesColumnLayout: false,
   desktopPropertiesColumnCount: 2,
   mobilePropertiesColumnCount: 1,
+  desktopPropertiesDividerStyle: "dashed",
+  desktopPropertiesDividerColor: "default",
+  desktopPropertiesCustomDividerColor: "",
+  desktopPropertiesDividerOpacity: 50,
+  mobilePropertiesDividerStyle: "dashed",
+  mobilePropertiesDividerColor: "default",
+  mobilePropertiesCustomDividerColor: "",
+  mobilePropertiesDividerOpacity: 50,
   // 章节标题默认值：关闭悬浮徽标、默认关闭自定义颜色
   headingHover: false,
   headingCustomColors: false,
