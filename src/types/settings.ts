@@ -119,6 +119,7 @@ export interface StyleTweakerSettings {
   feColorfulFolderColorLight: string; // 浅色主题自定义配色基色（palette === custom 时作为 --style-tweaker-fe-colorful-custom-color）
   // 社区插件 → Recent Files
   rfAddFileIcon: boolean; // 给 recent-files 文件列表加文件类型图标
+  rfHoverRevealFileTag: boolean; // 默认隐藏扩展名标签，悬停文件行时显示（md 行补一个 md 标签）
   rfColorfulEnabled: boolean; // recent-files 彩色化总开关
   rfColorfulModeDark: RecentFilesMode; // 深色主题彩色化类型（title/background）
   rfColorfulModeLight: RecentFilesMode; // 浅色主题彩色化类型（title/background）
@@ -489,6 +490,7 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   feColorfulFolderColorLight: "default",
   // recent-files 默认值：关闭图标、关闭彩色、title 模式、six 配色、custom 基色 default
   rfAddFileIcon: false,
+  rfHoverRevealFileTag: false,
   rfColorfulEnabled: false,
   rfColorfulModeDark: "title",
   rfColorfulModeLight: "title",

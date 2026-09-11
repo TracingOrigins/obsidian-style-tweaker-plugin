@@ -423,6 +423,8 @@
   "plugins.recentFiles.coloredFiles.toggle": "Включить цветные файлы",
   "plugins.recentFiles.coloredFiles.toggle.desc": "Включить или выключить раскрашивание списка recent-files.",
   "plugins.recentFiles.desc": "Стили для плагина Recent Files.",
+  "plugins.recentFiles.hoverRevealFileTag": "Показывать метку файла при наведении",
+  "plugins.recentFiles.hoverRevealFileTag.desc": "По умолчанию скрывать метки расширений (напр. png, canvas) в списке; показывать их при наведении на файл и снова скрывать. У файлов markdown своей метки нет, поэтому при наведении добавляется метка md.",
   "plugins.recentFiles.name": "Recent Files",
   "plugins.desc": "Стили основных и сторонних плагинов.",
   "plugins.fileExplorer.addFileIcon": "Добавить иконку файла",

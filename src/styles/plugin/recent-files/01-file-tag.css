@@ -1,0 +1,44 @@
+/* ===== Recent Files 悬停显示文件后缀标签 =====
+   门控类：style-tweaker-rf-hover-reveal-file-tag（由 rfHoverRevealFileTag 控制）。
+
+   recent-files 为每个文件行都创建 .nav-file-tag，但只在「扩展名存在且非 md」时写入文本，
+   因此 md 行是一个空标签 —— 直接复用该元素，用 ::before 补上 md：
+   与原生标签同元素、同位置（core 的 margin-inline-start: auto 已把它推到行末）、
+   同外观（--nav-tag-* 变量），也不会出现「原生标签 + 自补徽标」重复。
+   悬停高亮同样无需自补：标签是真实元素，core 的
+   .tree-item-self:hover .nav-file-tag 已覆盖。
+
+   行结构（recent-files 插件）：
+     .recent-files-file[aria-label="<完整路径>"]
+       > .nav-file-title.recent-files-title
+           .nav-file-title-content / .nav-file-tag / .tree-item-spacer / .recent-files-file-delete
+
+   隐藏/显示用 display 切换：隐藏态不占位，空间还给文件名。
+   ------------------------------------------------------------------ */
+
+/* 默认隐藏扩展名标签 */
+body.style-tweaker-rf-hover-reveal-file-tag
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-title
+  .nav-file-tag {
+  display: none;
+}
+
+/* 鼠标悬停文件条目时显示，移出后自动回到隐藏态 */
+body.style-tweaker-rf-hover-reveal-file-tag
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file:hover
+  .recent-files-title
+  .nav-file-tag {
+  display: inline;
+}
+
+/* md 行：空标签里补 md 文本（大小写交给 core 的 text-transform: uppercase）。
+   aria-label 挂在行外层 .recent-files-file 上（插件 setTooltip 写入完整路径），
+   故用 [aria-label$=".md"] 命中；.excalidraw.md 这类同样属于 markdown，一并命中。 */
+body.style-tweaker-rf-hover-reveal-file-tag
+  .workspace-leaf-content[data-type="recent-files"]
+  .recent-files-file[aria-label$=".md"]
+  .nav-file-tag::before {
+  content: "md";
+}

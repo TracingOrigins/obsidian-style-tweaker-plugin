@@ -423,6 +423,8 @@
   "plugins.recentFiles.coloredFiles.toggle": "启用彩色文件",
   "plugins.recentFiles.coloredFiles.toggle.desc": "开启或关闭 recent-files 文件列表的彩色化样式。",
   "plugins.recentFiles.desc": "Recent Files 社区插件的样式。",
+  "plugins.recentFiles.hoverRevealFileTag": "悬停显示文件后缀标签",
+  "plugins.recentFiles.hoverRevealFileTag.desc": "默认隐藏文件列表中的扩展名标签（如 png、canvas），鼠标悬停在文件条目上时显示，移出后再次隐藏。markdown 文件本身没有扩展名标签，悬停时会补一个 md 标签。",
   "plugins.recentFiles.name": "Recent Files",
   "plugins.desc": "核心插件与社区插件的样式。",
   "plugins.fileExplorer.addFileIcon": "添加文件前图标",

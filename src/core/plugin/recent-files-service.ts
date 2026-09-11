@@ -3,6 +3,7 @@
  *
  * 功能：
  *   rfAddFileIcon        → 给 recent-files 文件列表加文件类型图标
+ *   rfHoverRevealFileTag → 悬停显示文件后缀标签（默认隐藏扩展名标签，md 行补一个 md 标签）
  *   rfColorfulEnabled    → recent-files 彩色化总开关（标题文字/行背景 + 图标同色）
  *   rfColorfulMode{Dark,Light} → 彩色化类型：title（仅标题色）/ background（行背景色块）
  *   rfColorfulPalette{Dark,Light} → 配色方案（one~six + custom）
@@ -25,6 +26,8 @@ import { resolveAccentValue } from "../../utils/color-palette";
 // 总开关
 const COLORFUL_ENABLED_CLASS = "style-tweaker-rf-colorful-enabled";
 const FILE_ICONS_CLASS = "style-tweaker-rf-file-icons";
+// 悬停显示后缀标签：默认隐藏、hover 显示，两态同属一个开关
+const HOVER_REVEAL_FILE_TAG_CLASS = "style-tweaker-rf-hover-reveal-file-tag";
 // mode 门控前缀（真实类 …colorful-mode-{title|background}）
 const MODE_PREFIX = "style-tweaker-rf-colorful-mode-";
 // palette 门控前缀（真实类 …colorful-palette-{one..six|custom}）
@@ -53,6 +56,12 @@ export class RecentFilesService extends BaseService {
 
     // 文件图标门控
     body.classList.toggle(FILE_ICONS_CLASS, s.rfAddFileIcon === true);
+
+    // 悬停显示后缀标签门控
+    body.classList.toggle(
+      HOVER_REVEAL_FILE_TAG_CLASS,
+      s.rfHoverRevealFileTag === true,
+    );
 
     // 彩色化总开关
     body.classList.toggle(COLORFUL_ENABLED_CLASS, s.rfColorfulEnabled === true);
@@ -88,7 +97,11 @@ export class RecentFilesService extends BaseService {
   }
 
   protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(FILE_ICONS_CLASS, COLORFUL_ENABLED_CLASS);
+    doc.body?.classList.remove(
+      FILE_ICONS_CLASS,
+      HOVER_REVEAL_FILE_TAG_CLASS,
+      COLORFUL_ENABLED_CLASS,
+    );
     if (!doc.body) return;
     for (let i = doc.body.classList.length - 1; i >= 0; i--) {
       const cls = doc.body.classList[i];

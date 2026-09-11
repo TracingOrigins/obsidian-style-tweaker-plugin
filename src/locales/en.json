@@ -423,6 +423,8 @@
   "plugins.recentFiles.coloredFiles.toggle": "Enable colorful files",
   "plugins.recentFiles.coloredFiles.toggle.desc": "Enable or disable colorful styling for the recent-files list.",
   "plugins.recentFiles.desc": "Recent Files community plugin styles.",
+  "plugins.recentFiles.hoverRevealFileTag": "Show file tag on hover",
+  "plugins.recentFiles.hoverRevealFileTag.desc": "Hide extension tags (e.g. png, canvas) in the list by default; show them when hovering a file item and hide them again on mouse-out. Markdown files have no extension tag of their own, so an md tag is added on hover.",
   "plugins.recentFiles.name": "Recent Files",
   "plugins.desc": "Styles for core plugins and community plugins.",
   "plugins.fileExplorer.addFileIcon": "Add file icon",

@@ -42,6 +42,11 @@ export function buildCommunityPluginsGroup(plugin: SettingTabPlugin): SettingDef
             control: { type: "toggle", key: "rfAddFileIcon" },
           },
           {
+            name: t("plugins.recentFiles.hoverRevealFileTag"),
+            desc: t("plugins.recentFiles.hoverRevealFileTag.desc"),
+            control: { type: "toggle", key: "rfHoverRevealFileTag" },
+          },
+          {
             type: "page",
             name: t("plugins.recentFiles.coloredFiles.name"),
             desc: t("plugins.recentFiles.coloredFiles.desc"),
