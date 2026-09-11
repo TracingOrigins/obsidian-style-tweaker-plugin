@@ -214,6 +214,15 @@ export interface StyleTweakerSettings {
 
   // 表格样式
   tableStyle: string; // 风格：default / one / two / three / academia（学术三线表）
+  tableHeaderColor: string; // 表头底色：default=主题强调色 / accent 色名 / custom=自定义色
+  tableCustomHeaderColor: string; // 自定义表头底色 hex（仅上项为 custom 时生效）
+  tableHeaderColorOpacity: number; // 表头底色不透明度（%，0-100）
+  tableBackgroundColor: string; // 偶数行底色（风格三为偶数列）：default / 色名 / custom
+  tableCustomBackgroundColor: string; // 自定义偶数行底色 hex（仅上项为 custom 时生效）
+  tableBackgroundColorOpacity: number; // 偶数行底色不透明度（%，0-100）
+  tableHoverColor: string; // 悬浮底色：default / 色名 / custom
+  tableCustomHoverColor: string; // 自定义悬浮底色 hex（仅上项为 custom 时生效）
+  tableHoverColorOpacity: number; // 悬浮底色不透明度（%，0-100）
   tableShowBorder: boolean; // true=显示单元格边框
   tableFullWidth: boolean; // true=表格占满容器宽度
   tableLineNumbers: boolean; // true=首列前显示行号
@@ -551,7 +560,18 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   embedImageRadius: 8,
 
   // 表格默认值：风格 default（不挂类），开关类默认 false（原生行为）
+  // 配色默认 default（跟随主题强调色）；自定义色留空，取色器回退显示主题强调色；
+  // 不透明度默认：表头底色 10% / 偶数行底色 7% / 悬浮底色 15%
   tableStyle: "default",
+  tableHeaderColor: "default",
+  tableCustomHeaderColor: "",
+  tableHeaderColorOpacity: 10,
+  tableBackgroundColor: "default",
+  tableCustomBackgroundColor: "",
+  tableBackgroundColorOpacity: 7,
+  tableHoverColor: "default",
+  tableCustomHoverColor: "",
+  tableHoverColorOpacity: 15,
   tableShowBorder: false,
   tableFullWidth: false,
   tableLineNumbers: false,

@@ -7,13 +7,15 @@
 //   - value 为 default/空 → 写 fallback（通常是 var(--color-accent)）
 //   - 否则按该文档 body 的当前深浅主题解析对应 hex（theme-dark → 深色系）
 // 深/浅切换时由调用方监听 css-change 重新 apply，以刷新此变量。
+// setAccentVarPair 则是「色板下拉 + 自定义色」的变体：深浅两份一次写全，
+// 由 CSS 按 body 主题取用，切换主题无需重算、也无需监听 css-change。
 //
 // 变量统一挂在 body 上（而非 :root/html）：Obsidian 主题变量（如 --color-accent）
 // 定义在 body 的 theme-dark/theme-light 类上，挂在 body 才能正确解析引用；
 // 挂 :root(html) 无法引用子元素 body 上的变量，会导致颜色整条失效。
 // ============================================================
 
-import { accentToHex } from "./color-palette";
+import { accentToHex, normalizeHexColor } from "./color-palette";
 
 /**
  * 把「颜色设置值」解析后写入指定文档 body 上的 CSS 变量。
@@ -37,6 +39,58 @@ export function setAccentVar(
     if (!resolved) resolved = accentToHex(name, !isDark);
   }
   doc.body.setCssProps({ [variable]: resolved ?? fallback });
+}
+
+/**
+ * 「色板下拉 + 自定义色」组合值的双变量落地（深浅各写一份，无需监听 css-change）：
+ *   - colorValue 为 default / 空 → 移除变量，由 CSS 回退 fallback
+ *   - 其余色名 → 深浅两套 hex 分别写入 darkVar / lightVar
+ *   - colorValue 为 "custom" 且 customValue 是合法 hex → 两处都写该固定色
+ * CSS 侧按 body 的 theme-dark / theme-light 取用，形如：
+ *   var(<darkVar>, var(--color-accent)) / var(<lightVar>, var(--color-accent))
+ *
+ * @param colorValue  色板下拉值（"default" / 色名 / "custom"）
+ * @param customValue 自定义色字段值（仅 colorValue 为 custom 时参与解析）
+ */
+export function setAccentVarPair(
+  doc: Document,
+  colorValue: string | undefined,
+  customValue: string | undefined,
+  darkVar: string,
+  lightVar: string,
+): void {
+  if (!doc?.body) return;
+  const body = doc.body;
+  const custom = normalizeHexColor(customValue);
+  const useCustom = (colorValue ?? "").trim() === "custom" && !!custom;
+  const dark = useCustom ? custom : accentToHex(colorValue, true);
+  const light = useCustom ? custom : accentToHex(colorValue, false);
+  if (dark && light) {
+    body.style.setProperty(darkVar, dark);
+    body.style.setProperty(lightVar, light);
+  } else {
+    body.style.removeProperty(darkVar);
+    body.style.removeProperty(lightVar);
+  }
+}
+
+/**
+ * 百分比数值变量的落地（如不透明度）：
+ *   - 写入 `<n>%`，超出 0-100 会被夹紧
+ *   - 非法值 / undefined → 移除变量，由 CSS 回退默认百分比
+ */
+export function setPercentVar(
+  doc: Document,
+  value: number | undefined,
+  variable: string,
+): void {
+  if (!doc?.body) return;
+  const n = Number(value);
+  if (!Number.isFinite(n)) {
+    doc.body.style.removeProperty(variable);
+    return;
+  }
+  doc.body.style.setProperty(variable, `${Math.min(100, Math.max(0, n))}%`);
 }
 
 /** 移除指定文档 body 上的变量（对应 clearDocument）。 */

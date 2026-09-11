@@ -3,33 +3,53 @@
    纯 CSS（esbuild 不支持 SCSS 预编译，已展开变量）
    ============================================================ */
 
-/* 基础表格样式仅在 tableStyle 非 default（one/two/three）时生效，
+/* 基础表格样式仅在 tableStyle 非 default（one/two/three/academia）时生效，
    default 时不挂载门控类，表格保持 Obsidian 原生样式。 */
+/* 配色单一数据源：所有表格风格共用，颜色与不透明度都由设置驱动，
+   不透明度默认 表头底色 10% / 偶数行底色（风格三为偶数列）7% / 悬浮底色 15%。
+   颜色默认取主题强调色；设置里选了色名或自定义色时，由 EditorTableService 按深浅
+   主题各解析一份写入 body 内联变量（--style-tweaker-table-*-color-dark|light），
+   此处按 body 的 theme-dark / theme-light 取用；未设置则回退 var(--color-accent)。
+   不透明度由同一个服务写入 --style-tweaker-table-*-opacity（值形如 12%），
+   未设置时用下方各处的默认百分比兜底（不透明度与主题无关，深浅共用一份）。 */
 body.style-tweaker-table-style-active {
+  --table-background-color: transparent;
+  --table-background-color-odd: color-mix(
+    in srgb,
+    var(--style-tweaker-table-bg-color-dark, var(--color-accent)) var(--style-tweaker-table-bg-opacity, 7%),
+    transparent
+  );
   --table-border-color: var(--background-modifier-border);
+  --table-thead-background-color: color-mix(
+    in srgb,
+    var(--style-tweaker-table-header-color-dark, var(--color-accent)) var(--style-tweaker-table-header-opacity, 10%),
+    transparent
+  );
+  --table-hover-color: color-mix(
+    in srgb,
+    var(--style-tweaker-table-hover-color-dark, var(--color-accent)) var(--style-tweaker-table-hover-opacity, 15%),
+    transparent
+  );
   --table-header-color: var(--text-normal);
 }
 
-body.style-tweaker-table-style-active.theme-dark {
-  --table-background-color: color-mix(in srgb, var(--background-primary) 98%, var(--background-secondary));
-  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 20%, transparent);
-  --table-border-color: var(--background-modifier-border);
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
-  --table-header-color: var(--text-normal);
-}
-
+/* 浅色主题取浅色系色值（自定义色深浅共用同一值，两处等价；不透明度同理共用） */
 body.style-tweaker-table-style-active.theme-light {
-  --table-background-color: color-mix(in srgb, var(--background-primary) 97%, var(--background-secondary));
-  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 40%, transparent);
-  --table-border-color: var(--background-modifier-border);
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
-  --table-header-color: var(--text-normal);
+  --table-background-color-odd: color-mix(
+    in srgb,
+    var(--style-tweaker-table-bg-color-light, var(--color-accent)) var(--style-tweaker-table-bg-opacity, 7%),
+    transparent
+  );
+  --table-thead-background-color: color-mix(
+    in srgb,
+    var(--style-tweaker-table-header-color-light, var(--color-accent)) var(--style-tweaker-table-header-opacity, 10%),
+    transparent
+  );
+  --table-hover-color: color-mix(
+    in srgb,
+    var(--style-tweaker-table-hover-color-light, var(--color-accent)) var(--style-tweaker-table-hover-opacity, 15%),
+    transparent
+  );
 }
 
 /* 去除默认边框（右侧/底侧） */
@@ -44,13 +64,15 @@ body.style-tweaker-table-style-active .markdown-source-view :is(th, td) {
   border: none;
 }
 
-/* 偶数行背景色 */
+/* 偶数行底色（正文行里唯一带底色的行）。变量名沿用原主题：-odd 实际用在偶数行上。
+   需要覆盖主题/核心的同类规则，故用 :nth-child(even) 提升特异性。 */
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(even),
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:nth-child(even) {
   background-color: var(--table-background-color-odd);
 }
 
-/* 奇数行背景色 */
+/* 奇数行：只有基础底色，而 --table-background-color 为 transparent，
+   因此无底色、透出页面/壁纸（带底色的只有偶数行）。 */
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr,
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr {
   background-color: var(--table-background-color);
@@ -63,24 +85,20 @@ body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rend
   font-family: var(--font-family-strong);
 }
 
-/* table cell hover */
-body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) td:hover,
-body.style-tweaker-table-style-active .markdown-rendered tbody tr > td:nth-child(2n + 2):hover {
-  background-color: var(--table-hover-color);
-}
-
-/* table row hover — 所有行悬浮高亮 */
+/* table row hover — 所有行悬浮高亮：整行只有这一层，颜色/不透明度与表头同用一组变量。
+   悬浮一律由本规则上色（没有 td:hover 那一层）：偶数行条纹与悬浮同属「本行」的
+   background-color，后者替换前者而非叠加，故整行有效不透明度恒等于设置值。 */
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:hover,
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:hover,
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(even):hover,
 body.style-tweaker-table-style-active .markdown-source-view table tbody > tr:nth-child(even):hover {
-  background-color: var(--table-hover-raw-color);
+  background-color: var(--table-hover-color);
 }
 
 /* thead hover */
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) th:hover,
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered, .markdown-source-view) thead tr > th:nth-child(2n + 2):hover {
-  background-color: var(--table-hover-thead-color);
+  background-color: var(--table-hover-color);
 }
 
 body.style-tweaker-table-style-active :is(.markdown-preview-view, .markdown-rendered) table,
@@ -88,43 +106,15 @@ body.style-tweaker-table-style-active .markdown-source-view table {
   box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-/* Style I — 透明背景，无交替底色 */
-body.style-tweaker-table-style-one.theme-light {
-  --table-background-color: transparent;
-  --table-background-color-odd: transparent;
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
-}
-
+/* Style I — 无交替底色（其余配色沿用上方共用变量）。
+   需压过浅色主题那份（.theme-* 使特异性更高），故三态一并列出。 */
+body.style-tweaker-table-style-one,
+body.style-tweaker-table-style-one.theme-light,
 body.style-tweaker-table-style-one.theme-dark {
-  --table-background-color: transparent;
   --table-background-color-odd: transparent;
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
 }
 
-/* Style II — 表头底边线，偶数行与 Default 一致 */
-body.style-tweaker-table-style-two.theme-light {
-  --table-background-color: color-mix(in srgb, var(--background-primary) 97%, var(--background-secondary));
-  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 40%, transparent);
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 15%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 10%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 20%, transparent);
-}
-
-body.style-tweaker-table-style-two.theme-dark {
-  --table-background-color: color-mix(in srgb, var(--background-primary) 98%, var(--background-secondary));
-  --table-background-color-odd: color-mix(in srgb, var(--background-secondary) 20%, transparent);
-  --table-thead-background-color: color-mix(in srgb, var(--interactive-accent) 12%, transparent);
-  --table-hover-color: color-mix(in srgb, var(--interactive-accent) 13%, transparent);
-  --table-hover-raw-color: color-mix(in srgb, var(--interactive-accent) 8%, transparent);
-  --table-hover-thead-color: color-mix(in srgb, var(--interactive-accent) 25%, transparent);
-}
+/* Style II — 只加表头底边线：底色与悬浮色（含偶数行）沿用上方共用变量，无需再声明 */
 
 body.style-tweaker-table-style-two :is(.markdown-preview-view, .markdown-rendered) th {
   border: none;
@@ -135,20 +125,22 @@ body.style-tweaker-table-style-two :is(.markdown-preview-view, .markdown-rendere
   border: none;
 }
 
-/* Style III — 偶数列底色 */
+/* Style III — 偶数列底色：行一律透明，只有偶数列单元格带底色。
+   行选择器加 :nth-child(n) 是为提升特异性——基础样式的偶数行底色带 :nth-child(even)，
+   同级才压得住，否则本风格会同时出现行条纹。 */
 body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) th,
 body.style-tweaker-table-style-three .markdown-source-view th,
 body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) th:hover,
 body.style-tweaker-table-style-three .markdown-source-view th:hover,
 body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) td:hover,
 body.style-tweaker-table-style-three .markdown-source-view td:hover,
-body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr,
-body.style-tweaker-table-style-three .markdown-source-view table tbody > tr {
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(n),
+body.style-tweaker-table-style-three .markdown-source-view table tbody > tr:nth-child(n) {
   background-color: transparent;
 }
 
-body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:hover,
-body.style-tweaker-table-style-three .markdown-source-view table tbody > tr:hover {
+body.style-tweaker-table-style-three :is(.markdown-preview-view, .markdown-rendered) table tbody > tr:nth-child(n):hover,
+body.style-tweaker-table-style-three .markdown-source-view table tbody > tr:nth-child(n):hover {
   background-color: transparent;
 }
 
@@ -166,6 +158,16 @@ body.style-tweaker-table-style-three .markdown-source-view td:nth-child(even):ho
    学术三线表风格
    ============================================================ */
 
+/* 配色：表头底色与交替底色一律透明（三线表只有横线，透出页面/壁纸），
+   只保留悬浮色（沿用共用变量 --table-hover-color，不透明度同设置）。
+   需压过浅色主题那份变量，故三态一并列出。 */
+body.style-tweaker-table-style-academia,
+body.style-tweaker-table-style-academia.theme-light,
+body.style-tweaker-table-style-academia.theme-dark {
+  --table-background-color-odd: transparent;
+  --table-thead-background-color: transparent;
+}
+
 /* 版式基础：表格整宽与上下留白、上下粗线 */
 body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table,
 body.style-tweaker-table-style-academia .markdown-source-view table {
@@ -178,7 +180,8 @@ body.style-tweaker-table-style-academia .markdown-source-view table {
   border-top: 2.27px solid black;
   border-bottom: 2.27px solid black;
   overflow-x: auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  /* 底色透明后阴影会在壁纸上留下灰色方框，同时压掉基础样式的 1px 硬阴影 */
+  box-shadow: none;
 }
 
 /* 首列定宽、内容列限宽换行 */
@@ -204,8 +207,7 @@ body.style-tweaker-table-style-academia .markdown-source-view :is(td:nth-child(2
   max-width: 17em;
 }
 
-/* 三线表主体：单元格去边框、表头底色与左对齐、
-   首末行细线、斑马纹与行悬浮 */
+/* 三线表主体：单元格去边框、表头左对齐、首末行细线（配色见共用变量） */
 body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) :is(th, td),
 body.style-tweaker-table-style-academia .markdown-source-view :is(th, td) {
   border: 0 none;
@@ -223,31 +225,23 @@ body.style-tweaker-table-style-academia .markdown-source-view table > tbody > tr
   border-bottom: 1.36px solid black;
 }
 
+/* 表头只做版式差异（底色「透明」与悬浮「共用悬浮色」都不必在此重复声明）。
+   偶数列单元格需单独列出：主题对“偶数列表头”另有一套底色，选择器带 :nth-child(2n + 2)
+   因而特异性更高，只有同级选择器才压得住。 */
 body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead th,
-body.style-tweaker-table-style-academia .markdown-source-view thead th {
-  background-color: var(--background-primary);
+body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead tr > th:nth-child(2n + 2),
+body.style-tweaker-table-style-academia .markdown-source-view thead th,
+body.style-tweaker-table-style-academia .markdown-source-view thead tr > th:nth-child(2n + 2) {
   font-weight: 700;
   padding: 8px 9px 5px 9px;
   text-align: left;
 }
 
-body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) thead th:hover,
-body.style-tweaker-table-style-academia .markdown-source-view thead th:hover {
-  background-color: var(--background-primary);
-}
+/* 行无需额外规则：奇偶行底色都取 transparent（见上方 academia 变量块），
+   行悬浮沿用基础样式的 tr:hover / tr:nth-child(even):hover（--table-hover-color）。 */
 
-body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) table tbody tr:nth-child(even),
-body.style-tweaker-table-style-academia .markdown-source-view table tbody tr:nth-child(even) {
-  background-color: #ebecf1;
-}
-
-body.style-tweaker-table-style-academia :is(.markdown-preview-view, .markdown-rendered) tbody tr:hover td,
-body.style-tweaker-table-style-academia .markdown-source-view tbody tr:hover td {
-  background-color: #d6c4e7;
-}
-
-/* 暗色主题适配：上下粗线用正文色、首末行细线稍弱，
-   斑马纹与行悬浮保留原紫色调、以低不透明度混入 */
+/* 暗色主题适配：上下粗线用正文色、首末行细线稍弱
+   （底色已透明、悬浮色来自共用变量，无需在此覆盖） */
 body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table,
 body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table {
   border-top-color: var(--text-normal);
@@ -262,16 +256,6 @@ body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table >
 body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table > tbody > tr:last-child > td,
 body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table > tbody > tr:last-child > td {
   border-bottom-color: var(--text-muted);
-}
-
-body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) table tbody tr:nth-child(even),
-body.style-tweaker-table-style-academia.theme-dark .markdown-source-view table tbody tr:nth-child(even) {
-  background-color: color-mix(in srgb, #ebecf1 8%, transparent);
-}
-
-body.style-tweaker-table-style-academia.theme-dark :is(.markdown-preview-view, .markdown-rendered) tbody tr:hover td,
-body.style-tweaker-table-style-academia.theme-dark .markdown-source-view tbody tr:hover td {
-  background-color: color-mix(in srgb, #d6c4e7 14%, transparent);
 }
 
 body.style-tweaker-table-show-border :is(.markdown-preview-view, .markdown-rendered) :is(th, td) {
