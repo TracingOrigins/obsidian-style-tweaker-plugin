@@ -1,56 +1,90 @@
 import { AbstractInputSuggest, App, setIcon, getIconIds } from "obsidian";
-import Fuse from "fuse.js";
-import type { IFuseOptions } from "fuse.js";
 
 /**
- * 图标名称搜索建议（AbstractInputSuggest + Fuse.js 模糊搜索，参考 home-tab-plus 的 iconSuggester）：
- * 绑定到徽标图标的文本输入框，边输入边模糊匹配 Obsidian 运行时可用图标
+ * 图标名称搜索建议（AbstractInputSuggest，过滤算法与 IconPicker 同一套）：
+ * 绑定到徽标图标的文本输入框，边输入边按名称匹配 Obsidian 运行时可用图标
  * （getIconIds 返回 lucide 内置库 + 其它插件 addIcon 注册的图标）。
  *
- * 性能设计（借鉴要点）：
- * - Fuse 索引在构造时建立一次，之后每次按键复用索引，不做全表线性扫描；
- * - 每次最多返回少量结果（SCORE_LIMIT 15 条）并按匹配分数过滤，
- *   每次按键的渲染开销被限制在十几个建议项内。
- *   切勿放宽到全部图标数量——AbstractInputSuggest 会同步渲染全部建议项，
- *   上千个图标的 SVG 逐项解析会长时间阻塞主线程（旧版 IconPicker 卡死的根因）。
+ * 性能设计（目标：几十万图标下与 IconPicker 一样丝滑）：
+ * - 图标清单与小写名缓存都延迟到第一次输入才建，构造期不做任何全表工作
+ *   （设置面板每次重绘都会 new 一个 IconSuggest，构造期建大索引会拖慢面板重绘）；
+ * - 过滤只做一次线性扫描：前缀命中优先、其次包含命中，收满即停，不做逐项评分。
+ *   逐项评分的模糊匹配在几十万图标下是每次按键的主要延迟来源
+ *   （20 万项实测：评分搜索 120~160ms/次，线性扫描 8~12ms/次），
+ *   IconPicker 的搜索框同样只用前缀/包含匹配；
+ * - 每次按键返回的条数沿用基类 AbstractInputSuggest.limit（默认 100，与 FolderSuggest /
+ *   ImagePicker 同一写法）。基类会同步渲染返回的全部项，所以这个上限必须留着，
+ *   切勿放宽到全部图标数量——几万个图标的 SVG 逐项解析会长时间阻塞主线程，
+ *   那正是旧版 IconPicker 卡死的根因。
  */
 
-/** 模糊匹配分数阈值：score 越低越匹配，超过阈值的结果视为不相关而丢弃。 */
-const SCORE_THRESHOLD = 0.25;
-/** 每次按键最多返回/渲染的建议条数。 */
-const SCORE_LIMIT = 15;
-
-/** 图标名为短字符串：开启评分（阈值过滤需要），其余为短字段调优参数。 */
-const FUSE_OPTIONS: IFuseOptions<string> = {
-  includeScore: true,
-  threshold: 0.2,
-  distance: 100,
-  // 偏向查询占目标串比例高的匹配（如 "arrow" 命中 "arrow" 优于 "box-arrows"）
-  fieldNormWeight: 1.35,
-};
+/** 基类未给出 limit 时的兜底条数（与 FolderSuggest / ImagePicker 同一兜底值）。 */
+const FALLBACK_LIMIT = 100;
 
 export class IconSuggest extends AbstractInputSuggest<string> {
   private readonly inputEl: HTMLInputElement;
-  private readonly iconList: string[];
-  private readonly fuse: Fuse<string>;
+  /** 全部图标 id：null 表示尚未加载（延迟到第一次输入，构造期不做全表工作）。 */
+  private icons: string[] | null = null;
+  /** 与 icons 同序的小写名缓存：过滤时避免每次按键对全表重复 toLowerCase。 */
+  private lowerIcons: string[] | null = null;
 
-  constructor(app: App, inputEl: HTMLInputElement) {
+  constructor(
+    app: App,
+    inputEl: HTMLInputElement,
+    onSelect?: (name: string) => void,
+  ) {
     super(app, inputEl);
     this.inputEl = inputEl;
-    // 图标列表与 Fuse 索引都只在构造时建一次，后续按键复用。
-    this.iconList = getIconIds();
-    this.fuse = new Fuse(this.iconList, FUSE_OPTIONS);
+
+    // 选中回调走基类的注册式 API（与 FolderSuggest / FontSuggest 同一写法）：
+    // 只在用户从建议列表中选定一项时触发。输入框上没有注册 input 监听，因此手打输入
+    // 既不写设置也不刷预览，外部把「保存 + 刷新预览」全部收敛到这条回调链路上。
+    if (onSelect) {
+      this.onSelect((name) => {
+        // 直接写 DOM 值（不经 setValue）：不再额外派发 input 事件。
+        this.inputEl.value = name;
+        onSelect(name);
+        // 基类选中后已 close 一次；值变化可能让建议框重新打开，事件循环后再兜一次
+        // （FolderSuggest / FontSuggest 的 setValue 有同样问题）。
+        window.setTimeout(() => this.close(), 0);
+      });
+    }
   }
 
   getSuggestions(query: string): string[] {
-    const q = query.trim();
+    const q = query.trim().toLowerCase();
     // 空查询不弹建议：聚焦或清空输入框时保持安静，开始输入才给出匹配
     if (!q) return [];
-    // 先限量搜索再按分数过滤（与被借鉴方案一致：fuse 级 limit 提前截断，减少计算）
-    return this.fuse
-      .search(q, { limit: SCORE_LIMIT })
-      .filter((r) => r.score == null || r.score < SCORE_THRESHOLD)
-      .map((r) => r.item);
+
+    // 首次输入才枚举图标清单并建小写缓存（与 IconPicker 的懒加载同理）：
+    // 小写缓存只建一次，之后每次按键都复用，避免对全表重复 toLowerCase。
+    let icons = this.icons;
+    let lower = this.lowerIcons;
+    if (!icons || !lower) {
+      icons = getIconIds();
+      lower = icons.map((name) => name.toLowerCase());
+      this.icons = icons;
+      this.lowerIcons = lower;
+    }
+
+    // 条数上限沿用基类的 limit（默认 100，与 FolderSuggest / ImagePicker 同一写法）：
+    // 基类会同步渲染返回的全部项，所以上限得留着；limit 为 0（不限制）时退回兜底值。
+    const limit = this.limit || FALLBACK_LIMIT;
+
+    // 前缀优先、其次包含：一次线性扫描，不做任何逐项评分（与 IconPicker 的搜索框一致）。
+    // 前缀命中已经填满上限时直接停，后面的包含命中不可能再排到前缀之前。
+    const starts: string[] = [];
+    const contains: string[] = [];
+    for (let i = 0; i < icons.length; i++) {
+      const lowerName = lower[i];
+      if (lowerName.startsWith(q)) {
+        if (starts.length < limit) starts.push(icons[i]);
+        if (starts.length >= limit) break;
+      } else if (lowerName.includes(q) && contains.length < limit) {
+        contains.push(icons[i]);
+      }
+    }
+    return starts.concat(contains).slice(0, limit);
   }
 
   renderSuggestion(name: string, el: HTMLElement): void {
@@ -62,17 +96,5 @@ export class IconSuggest extends AbstractInputSuggest<string> {
 
     const info = el.createDiv({ cls: "style-tweaker-logo-suggestion-name" });
     info.createDiv({ text: name });
-  }
-
-  /**
-   * 选中建议：写回输入框并以 DOM input 事件通知外部（外部监听该事件保存设置、刷新预览），
-   * 再关闭建议框。事件同步派发，之后 close 即为最终状态；事件循环后再关一次兜底，
-   * 防止 input 事件让建议框因新值重新打开（FolderSuggest 的 setValue 也有同样问题）。
-   */
-  selectSuggestion(name: string): void {
-    this.inputEl.value = name;
-    this.inputEl.trigger("input");
-    this.close();
-    window.setTimeout(() => this.close(), 0);
   }
 }

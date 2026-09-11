@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting, TFile, setIcon, getIconIds } from "obsidian";
+import { App, Plugin, PluginSettingTab, Setting, TFile, setIcon } from "obsidian";
 import type { SettingDefinitionItem } from "obsidian";
 
 import { t } from "../utils/i18n";
@@ -13,6 +13,7 @@ import { FolderSuggest } from "../ui/folder-suggest";
 import { FontSuggest } from "../ui/font-suggest";
 import { ImagePicker } from "../ui/image-picker";
 import { IconSuggest } from "../ui/icon-suggest";
+import { IconPicker } from "../ui/icon-picker";
 import { getSortedBackgroundImages } from "../utils/background-images";
 import { getAccentColorOptions, normalizeHexColor } from "../utils/color-palette";
 import { getFontFamilies, loadSystemFonts } from "../utils/system-fonts";
@@ -500,7 +501,7 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
         break;
       }
       case "logo-icon": {
-        // 内置 lucide 图标徽标：左侧预览 + 图标名输入框（Fuse 模糊建议）。
+        // 内置 lucide 图标徽标：左侧预览 + 图标名输入框（前缀/包含匹配建议）。
         // 存储值为 lucide 图标名称；新标签页用 getIcon(name) 渲染。
         const key_ = key;
         const wrap = setting.controlEl.createDiv("style-tweaker-logo-code");
@@ -520,23 +521,31 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
         };
         updatePreview(this.asString(settings[key]));
 
-        // 校验门控保存：saveSettings 会全量持久化并重注入全部样式服务，若每个
-        // 按键都触发会造成输入卡顿；只有输入恰好是合法图标名（或清空）时才保存，
-        // 打字的中间态零磁盘写入。合法性仅内部判断（左侧预览无效名时不显示）。
-        input.addEventListener("input", () => {
-          const value = input.value;
-          const trimmed = value.trim();
-          if (!trimmed || getIconIds().includes(trimmed)) {
-            (settings)[key_] = trimmed;
-            void this.plugin.saveSettings();
-          }
-          updatePreview(value);
-        });
+        // 唯一的写入链路：确认选中一个图标后写回输入框、保存并刷新预览。
+        // 手打输入只用于过滤建议，既不写设置也不动预览——输入的中间态（含打错的
+        // 名字，哪怕恰好撞上某个合法图标名）都不该改变徽标；且 saveSettings 会
+        // 全量持久化并重注入全部样式服务，逐键保存会拖慢输入。
+        const applyPick = (name: string): void => {
+          input.value = name;
+          (settings)[key_] = name;
+          void this.plugin.saveSettings();
+          updatePreview(name);
+        };
 
-        // 输入即模糊搜索（IconSuggest 内置 Fuse）：
-        // 选中建议项时由其 selectSuggestion 写回 input.value 并 trigger("input")，
-        // 统一走上面的 input 监听（选中值必为合法名，会保存并刷新预览）。
-        new IconSuggest(this.app, input);
+        // 输入即过滤建议（IconSuggest 内置前缀/包含匹配，与搜索弹窗同一套算法）：只有从下拉建议中选定后
+        // 才回调 applyPick（trigger("input") 那条老链路已弃用）。
+        new IconSuggest(this.app, input, applyPick);
+
+        // 搜索按钮：打开图标网格弹窗浏览全部图标（虚拟滚动，几万项不卡，只显示图标）。
+        // 选中后同样走 applyPick 这条唯一写入链路。
+        const searchBtn = wrap.createEl("button", {
+          cls: "clickable-icon style-tweaker-logo-icon-search",
+        });
+        setIcon(searchBtn, "search");
+        searchBtn.setAttribute("aria-label", t("newtab.logo.icon.searchButton"));
+        searchBtn.addEventListener("click", () => {
+          new IconPicker(this.app, applyPick).open();
+        });
 
         // 恢复默认值（回退 feather）时更新输入框与预览
         comp = {

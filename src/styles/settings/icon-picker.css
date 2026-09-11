@@ -1,0 +1,132 @@
+/* ============================================================
+   图标选择弹窗（虚拟滚动网格，只显示图标）
+   注意：单元格尺寸 / 间距需与 src/ui/icon-picker.ts 中的
+   CELL_SIZE / CELL_GAP 保持一致，虚拟滚动按它们换算行列。
+   ============================================================ */
+.style-tweaker-icon-picker {
+  width: min(760px, 90vw);
+}
+
+/* 去掉搜索框和搜索框内容区的左右内边距，这样网格容器能一直延伸到弹窗右边缘，滚动条才会贴着边框而不是浮在中间。 */
+body:not(.is-mobile) .modal.style-tweaker-icon-picker {
+    padding: var(--size-4-4) 0;
+  }
+
+.style-tweaker-icon-picker .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 标题：文字居中 */
+.style-tweaker-icon-picker .modal-title {
+  text-align: center;
+}
+
+/* 搜索框：限宽 + 圆角 + 居中 */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-search {
+  flex: 0 0 auto;
+  /* 限宽：弹窗宽 760px，输入框若横贯整行会显得空，收到 320px 后水平居中 */
+  width: 100%;
+  max-width: 320px;
+  border-radius: 16px;
+  margin: var(--size-4-2) auto;
+  /* 内容居中：输入的图标名与 placeholder 都落在框的中间 */
+  text-align: center;
+  
+}
+
+/* 搜索框：透明背景 + 描边 */
+body.style-tweaker-bg-image-active .style-tweaker-icon-picker .style-tweaker-icon-picker-search {
+  background-color: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 70%, transparent);
+  box-shadow: none;
+}
+
+body.style-tweaker-bg-image-active .style-tweaker-icon-picker .style-tweaker-icon-picker-search:hover,
+body.style-tweaker-bg-image-active .style-tweaker-icon-picker .style-tweaker-icon-picker-search:focus {
+  background-color: transparent;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 70%, transparent);
+  box-shadow: none;
+}
+
+/* 匹配数量提示：紧贴搜索框下方、居中一行小字。
+   兼容要点：不设固定宽度 / 高度（窄屏不溢出），字号用主题变量，
+   纯文本无 hover / 点击态（移动端没有"悬停"），两端表现一致。 */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-count {
+  flex: 0 0 auto;
+  /* 搜索框自带 var(--size-4-2) 的下外边距，这里只补一点行下空隙；左右留同样的边距防贴边 */
+  margin: 0 var(--size-4-2) var(--size-4-1);
+  font-size: var(--font-ui-smaller);
+  line-height: 1.2;
+  color: var(--text-muted);
+  text-align: center;
+  /* 极端窄屏 / 超长数字时省略而不是换行，避免把网格高度挤掉 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 仅移动端：竖向空间更紧张，把这行压到最薄（不加外边距），
+   确保矮屏下「标题 + 搜索框 + 计数 + 网格」仍在弹窗高度内。 */
+body.is-mobile .style-tweaker-icon-picker .style-tweaker-icon-picker-count {
+  margin: 0 var(--size-4-2);
+  line-height: 1.1;
+}
+
+/* 滚动容器：固定高度，滚动条只出现在这里。
+   横向内边距让图标不贴边，容器自身无外边距 → 右边缘与弹窗边框齐平，
+   overflow 的滚动条就贴在最右侧（内容区宽度已由 track 自行扣除）。
+   顶部不留白：与搜索框的间距已由搜索框 margin-bottom 提供，避免两侧不等。 */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-grid {
+  position: relative;
+  flex: 0 0 auto;
+  height: min(60vh, 520px);
+  padding: var(--size-4-2);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* 占位层：高度 = 总行数 × 行步进，撑出真实滚动范围 */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-track {
+  position: relative;
+  width: 100%;
+}
+
+/* 可视行：绝对定位到对应行偏移，行内 flex 排布单元格 */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-row {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+}
+
+/* 单元格：只显示图标（宽高需与 CELL_SIZE 一致） */
+.style-tweaker-icon-picker .style-tweaker-icon-picker-cell {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-s);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.style-tweaker-icon-picker .style-tweaker-icon-picker-cell:hover {
+  color: var(--text-normal);
+  background-color: var(--background-modifier-hover);
+}
+
+.style-tweaker-icon-picker .style-tweaker-icon-picker-cell svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* 仅移动端：输入框圆角加大到 32px（桌面端 16px）。
+   多一层类选择器，特异性高于桌面规则，可稳定覆盖。 */
+body.is-mobile .style-tweaker-icon-picker .style-tweaker-icon-picker-search {
+  border-radius: 32px;
+}
