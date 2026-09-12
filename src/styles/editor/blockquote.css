@@ -142,20 +142,22 @@ body.style-tweaker-blockquote-custom.style-tweaker-blockquote-bubble :is(.markdo
     color: var(--blockquote-color, var(--color-accent));
 }
 
-/* 尾巴右臂：只描 border-top 的 1/4 圆弧 —— 左上圆角写 35px 会被钳制成 28px，
-   弧线由水平转向竖直、末端停在尾巴尖；其水平段与 ::before 的下边框完全重合。 */
+/* 尾巴右臂：与左臂同源画法 —— box-sizing: border-box 让 width/height 即 1/4 弧的外
+   包围盒（28×28），只描 border-top，左上圆角取满宽满高（28px 28px）把矩形裁成 1/4 弧；
+   弧顶水平切点落在 ::before 下边框的缺口右端，弧线由水平转向竖直、末端停在尾巴尖。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::after {
     content: "";
     position: absolute;
-    border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-radius: 35px 0 0;
-    width: 28px;
-    height: 25px;
-    bottom: -26px;
+    box-sizing: border-box;
     left: 26px;
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
+    bottom: -26px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    /* 左上椭圆圆角把矩形裁成 1/4 弧：上端满宽 → 左下端收成尖 */
+    border-top-left-radius: 28px 28px;
+    pointer-events: none;
     z-index: 3;
 }
 
