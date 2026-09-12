@@ -31,39 +31,37 @@ const TEXT_STRIKETHROUGH_VAR = "--style-tweaker-text-strikethrough";
 const TEXT_HIGHLIGHT_VAR = "--style-tweaker-text-highlight";
 
 export class EditorTextDecorationService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 各装饰色；default/空值回退主题强调色（--color-accent）
-    setAccentVar(doc, s.textBoldColor, TEXT_BOLD_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.textItalicColor, TEXT_ITALIC_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.textItalicBoldColor, TEXT_ITALIC_BOLD_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.textUnderlineColor, TEXT_UNDERLINE_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.textStrikethroughColor, TEXT_STRIKETHROUGH_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.textHighlightColor, TEXT_HIGHLIGHT_VAR, "var(--color-accent)");
+        // 各装饰色；default/空值回退主题强调色（--color-accent）
+        setAccentVar(doc, s.textBoldColor, TEXT_BOLD_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.textItalicColor, TEXT_ITALIC_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.textItalicBoldColor, TEXT_ITALIC_BOLD_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.textUnderlineColor, TEXT_UNDERLINE_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.textStrikethroughColor, TEXT_STRIKETHROUGH_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.textHighlightColor, TEXT_HIGHLIGHT_VAR, "var(--color-accent)");
 
-    doc.body?.classList.toggle(TEXT_DECORATION_CLASS, s.textDecorationCustom);
-  }
+        doc.body?.classList.toggle(TEXT_DECORATION_CLASS, s.textDecorationCustom);
+    }
 
-  protected clearDocument(doc: Document): void {
-    removeDocVar(doc, TEXT_BOLD_VAR);
-    removeDocVar(doc, TEXT_ITALIC_VAR);
-    removeDocVar(doc, TEXT_ITALIC_BOLD_VAR);
-    removeDocVar(doc, TEXT_UNDERLINE_VAR);
-    removeDocVar(doc, TEXT_STRIKETHROUGH_VAR);
-    removeDocVar(doc, TEXT_HIGHLIGHT_VAR);
-    doc.body?.classList.remove(TEXT_DECORATION_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        removeDocVar(doc, TEXT_BOLD_VAR);
+        removeDocVar(doc, TEXT_ITALIC_VAR);
+        removeDocVar(doc, TEXT_ITALIC_BOLD_VAR);
+        removeDocVar(doc, TEXT_UNDERLINE_VAR);
+        removeDocVar(doc, TEXT_STRIKETHROUGH_VAR);
+        removeDocVar(doc, TEXT_HIGHLIGHT_VAR);
+        doc.body?.classList.remove(TEXT_DECORATION_CLASS);
+    }
 }

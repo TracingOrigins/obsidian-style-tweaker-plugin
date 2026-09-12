@@ -8,7 +8,7 @@
 // 由 StyleServiceRegistry 统一以 enableAll/applyAll/disableAll 循环驱动，
 // 使 main.ts 不必感知具体服务，新增服务只需在 registry 数组追加一行。
 export interface StyleService {
-  enable(): void;
-  disable(): void;
-  apply(): void;
+    enable(): void;
+    disable(): void;
+    apply(): void;
 }

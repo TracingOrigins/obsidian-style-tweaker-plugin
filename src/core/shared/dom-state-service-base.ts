@@ -18,65 +18,60 @@
 import { BaseService } from "../base-service";
 
 export abstract class DomStateServiceBase extends BaseService {
-  /** 每文档一个观察器，disable / 失效时统一断开 */
-  private readonly observers = new Map<Document, MutationObserver>();
+    /** 每文档一个观察器，disable / 失效时统一断开 */
+    private readonly observers = new Map<Document, MutationObserver>();
 
-  /** 本服务是否应在该文档观察并维护状态（按设置项/门控类判断）。 */
-  protected abstract isActive(doc: Document): boolean;
+    /** 本服务是否应在该文档观察并维护状态（按设置项/门控类判断）。 */
+    protected abstract isActive(doc: Document): boolean;
 
-  /** 全量刷新状态（初始 apply、布局/窗口变化时调用）。 */
-  protected abstract refreshAll(doc: Document): void;
+    /** 全量刷新状态（初始 apply、布局/窗口变化时调用）。 */
+    protected abstract refreshAll(doc: Document): void;
 
-  /** 增量处理 DOM 变化。 */
-  protected abstract onMutations(
-    doc: Document,
-    records: MutationRecord[],
-  ): void;
+    /** 增量处理 DOM 变化。 */
+    protected abstract onMutations(doc: Document, records: MutationRecord[]): void;
 
-  /** 移除本服务在文档中维护的所有状态类。 */
-  protected abstract clearStates(doc: Document): void;
+    /** 移除本服务在文档中维护的所有状态类。 */
+    protected abstract clearStates(doc: Document): void;
 
-  /** 观察器监听范围：默认全 body 的子树增删 + 类/勾选属性变化。 */
-  protected observeOptions(): MutationObserverInit {
-    return {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      // 只关注类与任务勾选属性变化，避免编辑器 style/text 等高频变更触发扫描
-      attributeFilter: ["class", "className", "data-task", "aria-checked", "checked"],
-    };
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    if (this.isActive(doc)) {
-      this.ensureObserver(doc);
-      this.refreshAll(doc);
-    } else {
-      // 设置/门控未生效：断开观察器并清理状态，避免空转
-      this.detach(doc);
+    /** 观察器监听范围：默认全 body 的子树增删 + 类/勾选属性变化。 */
+    protected observeOptions(): MutationObserverInit {
+        return {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            // 只关注类与任务勾选属性变化，避免编辑器 style/text 等高频变更触发扫描
+            attributeFilter: ["class", "className", "data-task", "aria-checked", "checked"],
+        };
     }
-  }
 
-  protected clearDocument(doc: Document): void {
-    this.detach(doc);
-  }
-
-  private ensureObserver(doc: Document): void {
-    if (this.observers.has(doc)) return;
-    const observer = new MutationObserver((records) =>
-      this.onMutations(doc, records),
-    );
-    observer.observe(doc.body, this.observeOptions());
-    this.observers.set(doc, observer);
-  }
-
-  private detach(doc: Document): void {
-    const observer = this.observers.get(doc);
-    if (observer) {
-      observer.disconnect();
-      this.observers.delete(doc);
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        if (this.isActive(doc)) {
+            this.ensureObserver(doc);
+            this.refreshAll(doc);
+        } else {
+            // 设置/门控未生效：断开观察器并清理状态，避免空转
+            this.detach(doc);
+        }
     }
-    if (doc?.body) this.clearStates(doc);
-  }
+
+    protected clearDocument(doc: Document): void {
+        this.detach(doc);
+    }
+
+    private ensureObserver(doc: Document): void {
+        if (this.observers.has(doc)) return;
+        const observer = new MutationObserver((records) => this.onMutations(doc, records));
+        observer.observe(doc.body, this.observeOptions());
+        this.observers.set(doc, observer);
+    }
+
+    private detach(doc: Document): void {
+        const observer = this.observers.get(doc);
+        if (observer) {
+            observer.disconnect();
+            this.observers.delete(doc);
+        }
+        if (doc?.body) this.clearStates(doc);
+    }
 }

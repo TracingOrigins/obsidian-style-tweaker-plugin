@@ -17,19 +17,19 @@ const STATUSBAR_FIXED_CLASS = "style-tweaker-statusbar-fixed";
  * 纯门控类驱动，不注入 CSS 变量，由基类统一管理事件驱动。
  */
 export class StatusBarService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    const style = s.statusBarStyle ?? "default";
-    doc.body.classList.toggle(STATUSBAR_FLOATING_CLASS, style === "floating");
-    doc.body.classList.toggle(STATUSBAR_FIXED_CLASS, style === "fixed");
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        const style = s.statusBarStyle ?? "default";
+        doc.body.classList.toggle(STATUSBAR_FLOATING_CLASS, style === "floating");
+        doc.body.classList.toggle(STATUSBAR_FIXED_CLASS, style === "fixed");
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(STATUSBAR_FLOATING_CLASS, STATUSBAR_FIXED_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(STATUSBAR_FLOATING_CLASS, STATUSBAR_FIXED_CLASS);
+    }
 }

@@ -12,16 +12,16 @@ import { buildModalItem } from "./interface-modal";
 // 顶级分组二：界面（布局 + 标签栏 + 侧边栏 + 状态栏）
 // ============================================================
 export function buildInterfaceSection(plugin: SettingTabPlugin): SettingDefinitionItem {
-  return {
-    type: "page",
-    name: t("interface.name"),
-    desc: t("interface.desc"),
-    items: [
-      buildLayoutItem(),
-      buildTabsItem(plugin),
-      buildSidebarItem(plugin),
-      buildStatusBarItem(plugin),
-      buildModalItem(plugin),
-    ],
-  };
+    return {
+        type: "page",
+        name: t("interface.name"),
+        desc: t("interface.desc"),
+        items: [
+            buildLayoutItem(),
+            buildTabsItem(plugin),
+            buildSidebarItem(plugin),
+            buildStatusBarItem(plugin),
+            buildModalItem(plugin),
+        ],
+    };
 }

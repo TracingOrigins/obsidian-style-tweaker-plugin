@@ -1,3 +1,5 @@
+import { css } from "./css";
+
 // ============================================================
 // 界面背景 CSS 生成工具（仅供 BackgroundService 使用）
 // ------------------------------------------------------------
@@ -27,35 +29,37 @@
  * @param solidLight 浅色主题纯色（Hex）
  */
 export function buildTokensCss(opts: {
-  imageUrl: string;
-  opacity: number;
-  glassBlur: number;
-  solidDark: string;
-  solidLight: string;
+    imageUrl: string;
+    opacity: number;
+    glassBlur: number;
+    solidDark: string;
+    solidLight: string;
 }): string {
-  const { imageUrl, opacity, glassBlur, solidDark, solidLight } = opts;
-  const url = imageUrl ? `url("${imageUrl}")` : "none";
-  const maskAlpha = Math.max(0, Math.min(1, 1 - opacity)).toFixed(3);
-  const blur = `${Math.max(0, Math.round(glassBlur ?? 0))}px`;
-  return `/* Style Tweaker 全局 token（--style-tweaker-*） */
-/* 与主题无关的 token：按当前文档实际解析结果注入（body 单值，不随主题分两段） */
-body {
-  --style-tweaker-bg-image: ${url};
-  --style-tweaker-bg-opacity: ${maskAlpha};
-  --style-tweaker-glass-blur: ${blur};
-}
-/* 深色主题 token：遮罩色=黑、纯色=solidDark、表面色=半透明主题色 */
-body.theme-dark {
-  --style-tweaker-mask-color: #000;
-  --style-tweaker-solid: ${solidDark};
-  --style-tweaker-surface: color-mix(in srgb, var(--background-primary) 70%, transparent);
-}
-/* 浅色主题 token：遮罩色=白、纯色=solidLight、表面色=半透明主题色 */
-body.theme-light {
-  --style-tweaker-mask-color: #fff;
-  --style-tweaker-solid: ${solidLight};
-  --style-tweaker-surface: color-mix(in srgb, var(--background-primary) 70%, transparent);
-}`;
+    const { imageUrl, opacity, glassBlur, solidDark, solidLight } = opts;
+    const url = imageUrl ? `url("${imageUrl}")` : "none";
+    const maskAlpha = Math.max(0, Math.min(1, 1 - opacity)).toFixed(3);
+    const blur = `${Math.max(0, Math.round(glassBlur ?? 0))}px`;
+    return css`
+        /* Style Tweaker 全局 token（--style-tweaker-*） */
+        /* 与主题无关的 token：按当前文档实际解析结果注入（body 单值，不随主题分两段） */
+        body {
+            --style-tweaker-bg-image: ${url};
+            --style-tweaker-bg-opacity: ${maskAlpha};
+            --style-tweaker-glass-blur: ${blur};
+        }
+        /* 深色主题 token：遮罩色=黑、纯色=solidDark、表面色=半透明主题色 */
+        body.theme-dark {
+            --style-tweaker-mask-color: #000;
+            --style-tweaker-solid: ${solidDark};
+            --style-tweaker-surface: color-mix(in srgb, var(--background-primary) 70%, transparent);
+        }
+        /* 浅色主题 token：遮罩色=白、纯色=solidLight、表面色=半透明主题色 */
+        body.theme-light {
+            --style-tweaker-mask-color: #fff;
+            --style-tweaker-solid: ${solidLight};
+            --style-tweaker-surface: color-mix(in srgb, var(--background-primary) 70%, transparent);
+        }
+    `;
 }
 
 /**
@@ -84,60 +88,62 @@ body.theme-light {
  * 门控 .style-tweaker-bg-image-active：纯色模式不挂载，navbar 等显示 surface 色（见 ui-glass.css / solid.css）。
  */
 export function buildBackgroundLayerCss(): string {
-  return `/* Style Tweaker 壁纸层：统一 body::before 双伪元素（图片层 + 遮罩层），桌面/移动端共用。
+    return css`
+        /* Style Tweaker 壁纸层：统一 body::before 双伪元素（图片层 + 遮罩层），桌面/移动端共用。
    图片层 body::before：fixed + z-index:-1，根层最底，承载背景图。
    遮罩层 body::after：fixed + z-index:-1，叠加半透明遮罩色，衰减图片亮度。 */
-body.style-tweaker-bg-image-active::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-image: var(--style-tweaker-bg-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-body.style-tweaker-bg-image-active.theme-dark::after,
-body.style-tweaker-bg-image-active.theme-light::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-color: var(--style-tweaker-mask-color);
-  opacity: var(--style-tweaker-bg-opacity);
-}
-/* 所有承载容器透明透出 body::before 壁纸；不干预 navbar/drawer/titlebar 的 z-index，保持原生层叠。
-   navbar/tabbar/drawer 的 background:transparent 等细节已由 ui-glass.css 图片组负责。
-   覆盖桌面（.workspace 等）与移动（.app-container / .horizontal-main-container 等）两端容器。 */
-.style-tweaker-bg-image-active .app-container,
-.style-tweaker-bg-image-active .horizontal-main-container,
-.style-tweaker-bg-image-active .workspace,
-.style-tweaker-bg-image-active .workspace-drawer,
-.style-tweaker-bg-image-active .workspace-drawer-header,
-.style-tweaker-bg-image-active .workspace-drawer-ribbon,
-.style-tweaker-bg-image-active .titlebar,
-.style-tweaker-bg-image-active .titlebar-inner,
-body.style-tweaker-bg-image-active > .modal {
-  background-color: transparent !important;
-  background-image: none !important;
-}
-/* 移动端抽屉打开时：navbar/tabbar 降到 z-index:-1，使其低于所有 0 层内容（含抽屉）。
- 关键点：Obsidian 移动端 .mobile-navbar 原生 z-index 本就高于 .workspace-drawer，
- 默认模式"正常"只是因为两者都不透明、视觉上抽屉覆盖了 navbar；透明化后 navbar 的按钮盒子
- 浮在 drawer 之上，故必须显式降层。navbar 是 .app-container 直接子级、drawer 嵌在
- .horizontal-main-container（移动端常带 transform 创建独立 context）内，两者不在同级比较，
- 只能把 navbar 降到根 context 的 -1 层：与 body::before（壁纸层，同为 -1）同层但 DOM 更晚，
- navbar 仍透出壁纸、非重叠区照常显示；重叠区被 0 层的抽屉覆盖。navbar 不隐藏。
- 判定覆盖抽屉打开常见状态：抽屉含 .is-open，或存在抽屉遮罩 .workspace-drawer-backdrop。 */
-body.is-mobile:has(.workspace-drawer.is-open) .mobile-navbar,
-body.is-mobile:has(.workspace-drawer.is-open) .mobile-tabbar,
-body.is-mobile:has(.workspace-drawer-backdrop) .mobile-navbar,
-body.is-mobile:has(.workspace-drawer-backdrop) .mobile-tabbar {
-  z-index: -1 !important;
-}`;
+        body.style-tweaker-bg-image-active::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image: var(--style-tweaker-bg-image);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        body.style-tweaker-bg-image-active.theme-dark::after,
+        body.style-tweaker-bg-image-active.theme-light::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-color: var(--style-tweaker-mask-color);
+            opacity: var(--style-tweaker-bg-opacity);
+        }
+        /* 所有承载容器透明透出 body::before 壁纸；不干预 navbar/drawer/titlebar 的 z-index，保持原生层叠。
+           navbar/tabbar/drawer 的 background:transparent 等细节已由 ui-glass.css 图片组负责。
+           覆盖桌面（.workspace 等）与移动（.app-container / .horizontal-main-container 等）两端容器。 */
+        .style-tweaker-bg-image-active .app-container,
+        .style-tweaker-bg-image-active .horizontal-main-container,
+        .style-tweaker-bg-image-active .workspace,
+        .style-tweaker-bg-image-active .workspace-drawer,
+        .style-tweaker-bg-image-active .workspace-drawer-header,
+        .style-tweaker-bg-image-active .workspace-drawer-ribbon,
+        .style-tweaker-bg-image-active .titlebar,
+        .style-tweaker-bg-image-active .titlebar-inner,
+        body.style-tweaker-bg-image-active > .modal {
+            background-color: transparent !important;
+            background-image: none !important;
+        }
+        /* 移动端抽屉打开时：navbar/tabbar 降到 z-index:-1，使其低于所有 0 层内容（含抽屉）。
+         关键点：Obsidian 移动端 .mobile-navbar 原生 z-index 本就高于 .workspace-drawer，
+         默认模式"正常"只是因为两者都不透明、视觉上抽屉覆盖了 navbar；透明化后 navbar 的按钮盒子
+         浮在 drawer 之上，故必须显式降层。navbar 是 .app-container 直接子级、drawer 嵌在
+         .horizontal-main-container（移动端常带 transform 创建独立 context）内，两者不在同级比较，
+         只能把 navbar 降到根 context 的 -1 层：与 body::before（壁纸层，同为 -1）同层但 DOM 更晚，
+         navbar 仍透出壁纸、非重叠区照常显示；重叠区被 0 层的抽屉覆盖。navbar 不隐藏。
+         判定覆盖抽屉打开常见状态：抽屉含 .is-open，或存在抽屉遮罩 .workspace-drawer-backdrop。 */
+        body.is-mobile:has(.workspace-drawer.is-open) .mobile-navbar,
+        body.is-mobile:has(.workspace-drawer.is-open) .mobile-tabbar,
+        body.is-mobile:has(.workspace-drawer-backdrop) .mobile-navbar,
+        body.is-mobile:has(.workspace-drawer-backdrop) .mobile-tabbar {
+            z-index: -1 !important;
+        }
+    `;
 }
 
 // 背景层承载方式：

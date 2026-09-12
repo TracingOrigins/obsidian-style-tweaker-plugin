@@ -25,33 +25,28 @@ const INLINE_CODE_CUSTOM_CLASS = "style-tweaker-inline-code-custom";
 const INLINE_CODE_COLOR_VAR = "--style-tweaker-inline-code-color";
 
 export class EditorInlineCodeService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 自定义色；default/空值回退主题强调色（--color-accent）
-    setAccentVar(doc, s.inlineCodeColor, INLINE_CODE_COLOR_VAR, "var(--color-accent)");
+        // 自定义色；default/空值回退主题强调色（--color-accent）
+        setAccentVar(doc, s.inlineCodeColor, INLINE_CODE_COLOR_VAR, "var(--color-accent)");
 
-    doc.body.classList.toggle(INLINE_CODE_STYLE_CLASS, s.inlineCodeStyle);
-    doc.body.classList.toggle(INLINE_CODE_CUSTOM_CLASS, s.inlineCodeCustom);
-  }
+        doc.body.classList.toggle(INLINE_CODE_STYLE_CLASS, s.inlineCodeStyle);
+        doc.body.classList.toggle(INLINE_CODE_CUSTOM_CLASS, s.inlineCodeCustom);
+    }
 
-  protected clearDocument(doc: Document): void {
-    removeDocVar(doc, INLINE_CODE_COLOR_VAR);
-    doc.body?.classList.remove(
-      INLINE_CODE_STYLE_CLASS,
-      INLINE_CODE_CUSTOM_CLASS
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        removeDocVar(doc, INLINE_CODE_COLOR_VAR);
+        doc.body?.classList.remove(INLINE_CODE_STYLE_CLASS, INLINE_CODE_CUSTOM_CLASS);
+    }
 }

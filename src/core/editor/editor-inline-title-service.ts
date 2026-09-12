@@ -34,64 +34,62 @@ const INLINE_TITLE_UL_SHORT_CLASS = "style-tweaker-inline-title-underline-short"
 const UNDERLINE_STYLE_CLASSES = ["solid", "dashed", "double"] as const;
 
 export class EditorInlineTitleService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-
-    // 仅当「允许自定义标题颜色」开启时才写入颜色变量；未开启/未指定时
-    // CSS 用 var(--color-accent) 回退（与静态默认一致）。
-    if (s.inlineTitleColorEnabled === true) {
-      setAccentVar(doc, s.inlineTitleColor, INLINE_TITLE_COLOR_VAR, "var(--color-accent)");
-    } else {
-      removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
 
-    if (!doc.body) return;
-    const on = s.inlineTitleEnabled;
-    doc.body.classList.toggle(INLINE_TITLE_CLASS, on);
-    doc.body.classList.toggle(INLINE_TITLE_CENTER_CLASS, on && s.inlineTitleAlign === "center");
-    doc.body.classList.toggle(INLINE_TITLE_RIGHT_CLASS, on && s.inlineTitleAlign === "right");
-    doc.body.classList.toggle(
-      INLINE_TITLE_UL_LONG_CLASS,
-      on && s.inlineTitleUnderline === "long",
-    );
-    doc.body.classList.toggle(
-      INLINE_TITLE_UL_SHORT_CLASS,
-      on && s.inlineTitleUnderline === "short",
-    );
-    // 下划线线型仅对「长下划线」生效（样式类须叠加 long）。
-    // 先移除所有线型类再加当前选中项，避免切换（尤其虚线/双线切回实线）时残留旧类
-    // 导致不生效——实线为 long 默认样式，残留的虚线/双线类会覆盖它。
-    for (const style of UNDERLINE_STYLE_CLASSES) {
-      doc.body.classList.remove(`style-tweaker-inline-title-underline-${style}`);
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
     }
-    if (on && s.inlineTitleUnderline === "long") {
-      doc.body.classList.add(`style-tweaker-inline-title-underline-${s.inlineTitleUnderlineStyle}`);
-    }
-  }
 
-  protected clearDocument(doc: Document): void {
-    removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
-    doc.body?.classList.remove(
-      INLINE_TITLE_CLASS,
-      INLINE_TITLE_CENTER_CLASS,
-      INLINE_TITLE_RIGHT_CLASS,
-      INLINE_TITLE_UL_LONG_CLASS,
-      INLINE_TITLE_UL_SHORT_CLASS,
-      ...UNDERLINE_STYLE_CLASSES.map(
-        (st) => `style-tweaker-inline-title-underline-${st}`,
-      ),
-    );
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+
+        // 仅当「允许自定义标题颜色」开启时才写入颜色变量；未开启/未指定时
+        // CSS 用 var(--color-accent) 回退（与静态默认一致）。
+        if (s.inlineTitleColorEnabled === true) {
+            setAccentVar(doc, s.inlineTitleColor, INLINE_TITLE_COLOR_VAR, "var(--color-accent)");
+        } else {
+            removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
+        }
+
+        if (!doc.body) return;
+        const on = s.inlineTitleEnabled;
+        doc.body.classList.toggle(INLINE_TITLE_CLASS, on);
+        doc.body.classList.toggle(INLINE_TITLE_CENTER_CLASS, on && s.inlineTitleAlign === "center");
+        doc.body.classList.toggle(INLINE_TITLE_RIGHT_CLASS, on && s.inlineTitleAlign === "right");
+        doc.body.classList.toggle(
+            INLINE_TITLE_UL_LONG_CLASS,
+            on && s.inlineTitleUnderline === "long",
+        );
+        doc.body.classList.toggle(
+            INLINE_TITLE_UL_SHORT_CLASS,
+            on && s.inlineTitleUnderline === "short",
+        );
+        // 下划线线型仅对「长下划线」生效（样式类须叠加 long）。
+        // 先移除所有线型类再加当前选中项，避免切换（尤其虚线/双线切回实线）时残留旧类
+        // 导致不生效——实线为 long 默认样式，残留的虚线/双线类会覆盖它。
+        for (const style of UNDERLINE_STYLE_CLASSES) {
+            doc.body.classList.remove(`style-tweaker-inline-title-underline-${style}`);
+        }
+        if (on && s.inlineTitleUnderline === "long") {
+            doc.body.classList.add(
+                `style-tweaker-inline-title-underline-${s.inlineTitleUnderlineStyle}`,
+            );
+        }
+    }
+
+    protected clearDocument(doc: Document): void {
+        removeDocVar(doc, INLINE_TITLE_COLOR_VAR);
+        doc.body?.classList.remove(
+            INLINE_TITLE_CLASS,
+            INLINE_TITLE_CENTER_CLASS,
+            INLINE_TITLE_RIGHT_CLASS,
+            INLINE_TITLE_UL_LONG_CLASS,
+            INLINE_TITLE_UL_SHORT_CLASS,
+            ...UNDERLINE_STYLE_CLASSES.map((st) => `style-tweaker-inline-title-underline-${st}`),
+        );
+    }
 }

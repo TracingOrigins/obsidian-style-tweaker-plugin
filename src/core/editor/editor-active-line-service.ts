@@ -31,53 +31,45 @@ const ACTIVE_LINE_FOCUSED_VAR = "--style-tweaker-active-line-focused";
 const ACTIVE_LINE_UNFOCUSED_VAR = "--style-tweaker-active-line-unfocused";
 
 export class EditorActiveLineService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 高亮色；default/空值回退主题强调色（--color-accent）
-    setAccentVar(doc, s.activeLineColor, ACTIVE_LINE_COLOR_VAR, "var(--color-accent)");
-    // 聚焦/失焦背景强度（百分比）
-    const focused = Math.min(100, Math.max(0, s.activeLineFocused ?? 12));
-    const unfocused = Math.min(100, Math.max(0, s.activeLineUnfocused ?? 6));
-    doc.body.setCssProps({
-      [ACTIVE_LINE_FOCUSED_VAR]: `${focused}%`,
-      [ACTIVE_LINE_UNFOCUSED_VAR]: `${unfocused}%`,
-    });
+        // 高亮色；default/空值回退主题强调色（--color-accent）
+        setAccentVar(doc, s.activeLineColor, ACTIVE_LINE_COLOR_VAR, "var(--color-accent)");
+        // 聚焦/失焦背景强度（百分比）
+        const focused = Math.min(100, Math.max(0, s.activeLineFocused ?? 12));
+        const unfocused = Math.min(100, Math.max(0, s.activeLineUnfocused ?? 6));
+        doc.body.setCssProps({
+            [ACTIVE_LINE_FOCUSED_VAR]: `${focused}%`,
+            [ACTIVE_LINE_UNFOCUSED_VAR]: `${unfocused}%`,
+        });
 
-    const on = !!s.activeLineEnabled;
-    doc.body.classList.toggle(ACTIVE_LINE_CLASS, on);
-    doc.body.classList.toggle(ACTIVE_LINE_BG_CLASS, on && !!s.activeLineBg);
-    doc.body.classList.toggle(
-      ACTIVE_LINE_GUTTER_CLASS,
-      on && !!s.activeLineGutter,
-    );
-    doc.body.classList.toggle(
-      ACTIVE_LINE_BORDER_CLASS,
-      on && !!s.activeLineBorder,
-    );
-  }
+        const on = !!s.activeLineEnabled;
+        doc.body.classList.toggle(ACTIVE_LINE_CLASS, on);
+        doc.body.classList.toggle(ACTIVE_LINE_BG_CLASS, on && !!s.activeLineBg);
+        doc.body.classList.toggle(ACTIVE_LINE_GUTTER_CLASS, on && !!s.activeLineGutter);
+        doc.body.classList.toggle(ACTIVE_LINE_BORDER_CLASS, on && !!s.activeLineBorder);
+    }
 
-  protected clearDocument(doc: Document): void {
-    removeDocVar(doc, ACTIVE_LINE_COLOR_VAR);
-    doc.body?.style.removeProperty(ACTIVE_LINE_FOCUSED_VAR);
-    doc.body?.style.removeProperty(ACTIVE_LINE_UNFOCUSED_VAR);
-    doc.body?.classList.remove(
-      ACTIVE_LINE_CLASS,
-      ACTIVE_LINE_BG_CLASS,
-      ACTIVE_LINE_GUTTER_CLASS,
-      ACTIVE_LINE_BORDER_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        removeDocVar(doc, ACTIVE_LINE_COLOR_VAR);
+        doc.body?.style.removeProperty(ACTIVE_LINE_FOCUSED_VAR);
+        doc.body?.style.removeProperty(ACTIVE_LINE_UNFOCUSED_VAR);
+        doc.body?.classList.remove(
+            ACTIVE_LINE_CLASS,
+            ACTIVE_LINE_BG_CLASS,
+            ACTIVE_LINE_GUTTER_CLASS,
+            ACTIVE_LINE_BORDER_CLASS,
+        );
+    }
 }

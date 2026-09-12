@@ -19,25 +19,25 @@ const MOBILE_DRAWER_NAV_TOP_CLASS = "style-tweaker-mobile-drawer-nav-top";
  * 本服务只负责移动端。
  */
 export class SidebarMobileService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    // 移动端抽屉内容区块置顶：仅由对应设置项决定。挂在 body 上，
-    // CSS 以 body.is-mobile.<class> 限定，仅移动端生效。
-    doc.body.classList.toggle(MOBILE_DRAWER_HEADER_TOP_CLASS, s.mobileDrawerHeaderTop);
-    doc.body.classList.toggle(MOBILE_DRAWER_TABS_TOP_CLASS, s.mobileDrawerTabsTop);
-    doc.body.classList.toggle(MOBILE_DRAWER_NAV_TOP_CLASS, s.mobileDrawerNavTop);
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        // 移动端抽屉内容区块置顶：仅由对应设置项决定。挂在 body 上，
+        // CSS 以 body.is-mobile.<class> 限定，仅移动端生效。
+        doc.body.classList.toggle(MOBILE_DRAWER_HEADER_TOP_CLASS, s.mobileDrawerHeaderTop);
+        doc.body.classList.toggle(MOBILE_DRAWER_TABS_TOP_CLASS, s.mobileDrawerTabsTop);
+        doc.body.classList.toggle(MOBILE_DRAWER_NAV_TOP_CLASS, s.mobileDrawerNavTop);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(
-      MOBILE_DRAWER_HEADER_TOP_CLASS,
-      MOBILE_DRAWER_TABS_TOP_CLASS,
-      MOBILE_DRAWER_NAV_TOP_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(
+            MOBILE_DRAWER_HEADER_TOP_CLASS,
+            MOBILE_DRAWER_TABS_TOP_CLASS,
+            MOBILE_DRAWER_NAV_TOP_CLASS,
+        );
+    }
 }

@@ -16,61 +16,58 @@ const LINE_OL_CLASS = "style-tweaker-line-ol";
 const LINE_TASK_CLASS = "style-tweaker-line-task";
 
 function classifyLine(line: HTMLElement): void {
-  const ul = line.querySelector(".cm-formatting-list-ul") !== null;
-  const ol = line.querySelector(".cm-formatting-list-ol") !== null;
-  // 源码模式任务行含 .cm-formatting-task；实时预览任务行含 .task-list-label
-  const task =
-    line.querySelector(".cm-formatting-task, .task-list-label") !== null;
-  line.classList.toggle(LINE_UL_CLASS, ul);
-  line.classList.toggle(LINE_OL_CLASS, ol);
-  line.classList.toggle(LINE_TASK_CLASS, task);
+    const ul = line.querySelector(".cm-formatting-list-ul") !== null;
+    const ol = line.querySelector(".cm-formatting-list-ol") !== null;
+    // 源码模式任务行含 .cm-formatting-task；实时预览任务行含 .task-list-label
+    const task = line.querySelector(".cm-formatting-task, .task-list-label") !== null;
+    line.classList.toggle(LINE_UL_CLASS, ul);
+    line.classList.toggle(LINE_OL_CLASS, ol);
+    line.classList.toggle(LINE_TASK_CLASS, task);
 }
 
 /** 判断某元素是否为（或位于）CM6 源码/实时预览行 */
 function resolveCmLine(el: Element): HTMLElement | null {
-  if (el.classList?.contains("cm-line")) return el as HTMLElement;
-  return el.closest(".markdown-source-view.mod-cm6 .cm-line");
+    if (el.classList?.contains("cm-line")) return el as HTMLElement;
+    return el.closest(".markdown-source-view.mod-cm6 .cm-line");
 }
 
 export class EditorLineTypeStateService extends DomStateServiceBase {
-  protected isActive(doc: Document): boolean {
-    if (!doc?.body) return false;
-    const s = this.getSettings();
-    return s.listCustomColors || s.taskCustomColors;
-  }
-
-  protected refreshAll(doc: Document): void {
-    if (!doc?.body) return;
-    doc
-      .querySelectorAll<HTMLElement>(".markdown-source-view.mod-cm6 .cm-line")
-      .forEach(classifyLine);
-  }
-
-  protected onMutations(_doc: Document, records: MutationRecord[]): void {
-    const lines = new Set<HTMLElement>();
-    const visit = (el: Element | null): void => {
-      if (!el) return;
-      const line = resolveCmLine(el);
-      if (line) lines.add(line);
-    };
-    for (const record of records) {
-      const target = record.target.instanceOf(Element) ? record.target : null;
-      if (record.type === "childList") {
-        for (const node of Array.from(record.addedNodes)) {
-          if (node.instanceOf(Element)) visit(node);
-        }
-      }
-      if (target) visit(target);
+    protected isActive(doc: Document): boolean {
+        if (!doc?.body) return false;
+        const s = this.getSettings();
+        return s.listCustomColors || s.taskCustomColors;
     }
-    lines.forEach(classifyLine);
-  }
 
-  protected clearStates(doc: Document): void {
-    if (!doc?.body) return;
-    doc
-      .querySelectorAll<HTMLElement>(`.${LINE_UL_CLASS}, .${LINE_OL_CLASS}, .${LINE_TASK_CLASS}`)
-      .forEach((el) =>
-        el.classList.remove(LINE_UL_CLASS, LINE_OL_CLASS, LINE_TASK_CLASS),
-      );
-  }
+    protected refreshAll(doc: Document): void {
+        if (!doc?.body) return;
+        doc.querySelectorAll<HTMLElement>(".markdown-source-view.mod-cm6 .cm-line").forEach(
+            classifyLine,
+        );
+    }
+
+    protected onMutations(_doc: Document, records: MutationRecord[]): void {
+        const lines = new Set<HTMLElement>();
+        const visit = (el: Element | null): void => {
+            if (!el) return;
+            const line = resolveCmLine(el);
+            if (line) lines.add(line);
+        };
+        for (const record of records) {
+            const target = record.target.instanceOf(Element) ? record.target : null;
+            if (record.type === "childList") {
+                for (const node of Array.from(record.addedNodes)) {
+                    if (node.instanceOf(Element)) visit(node);
+                }
+            }
+            if (target) visit(target);
+        }
+        lines.forEach(classifyLine);
+    }
+
+    protected clearStates(doc: Document): void {
+        if (!doc?.body) return;
+        doc.querySelectorAll<HTMLElement>(
+            `.${LINE_UL_CLASS}, .${LINE_OL_CLASS}, .${LINE_TASK_CLASS}`,
+        ).forEach((el) => el.classList.remove(LINE_UL_CLASS, LINE_OL_CLASS, LINE_TASK_CLASS));
+    }
 }

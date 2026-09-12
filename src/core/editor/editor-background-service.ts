@@ -23,10 +23,10 @@ const EDITOR_BG_CLASS = "style-tweaker-editor-bg";
 
 // 图案类型门控类：对应 editorBgType 的 4 种变体。互斥，仅类型匹配时挂载。
 const EDITOR_BG_PATTERN_CLASSES = [
-  "style-tweaker-editor-bg-grid-1",
-  "style-tweaker-editor-bg-grid-2",
-  "style-tweaker-editor-bg-dotted-1",
-  "style-tweaker-editor-bg-dotted-2",
+    "style-tweaker-editor-bg-grid-1",
+    "style-tweaker-editor-bg-grid-2",
+    "style-tweaker-editor-bg-dotted-1",
+    "style-tweaker-editor-bg-dotted-2",
 ] as const;
 
 // 固定门控类：当「不跟随滚动」时挂到 body。
@@ -40,53 +40,47 @@ const EDITOR_BG_COLOR_VAR = "--style-tweaker-editor-bg-color";
 const EDITOR_BG_ATTACH_VAR = "--style-tweaker-editor-bg-attach";
 
 export class EditorBackgroundService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 图案统一颜色；default/空值回退默认图案灰 #c7c7c7
-    const color = resolveAccentValue(s.editorBgColor, "#c7c7c7");
-    // 跟随滚动用 local；固定（不跟随）用默认（scroll）
-    const attach = s.editorBgScroll ? "local" : "scroll";
-    doc.body.setCssProps({
-      [EDITOR_BG_COLOR_VAR]: color,
-      [EDITOR_BG_ATTACH_VAR]: attach,
-    });
+        // 图案统一颜色；default/空值回退默认图案灰 #c7c7c7
+        const color = resolveAccentValue(s.editorBgColor, "#c7c7c7");
+        // 跟随滚动用 local；固定（不跟随）用默认（scroll）
+        const attach = s.editorBgScroll ? "local" : "scroll";
+        doc.body.setCssProps({
+            [EDITOR_BG_COLOR_VAR]: color,
+            [EDITOR_BG_ATTACH_VAR]: attach,
+        });
 
-    // 挂摘门控类：保证后打开的独立窗口也生效。
-    const on = s.editorBgType !== "none";
-    doc.body.classList.toggle(EDITOR_BG_CLASS, on);
-    doc.body.classList.toggle(
-      EDITOR_BG_PATTERN_CLASSES[0],
-      on && s.editorBgType === "grid-1",
-    );
-    doc.body.classList.toggle(
-      EDITOR_BG_PATTERN_CLASSES[1],
-      on && s.editorBgType === "grid-2",
-    );
-    doc.body.classList.toggle(
-      EDITOR_BG_PATTERN_CLASSES[2],
-      on && s.editorBgType === "dotted-1",
-    );
-    doc.body.classList.toggle(
-      EDITOR_BG_PATTERN_CLASSES[3],
-      on && s.editorBgType === "dotted-2",
-    );
-    // 「不跟随滚动」时挂 fixed 类；跟随滚动（默认）时不挂，由 CSS 设为 local
-    doc.body.classList.toggle(EDITOR_BG_FIXED_CLASS, on && !s.editorBgScroll);
-  }
+        // 挂摘门控类：保证后打开的独立窗口也生效。
+        const on = s.editorBgType !== "none";
+        doc.body.classList.toggle(EDITOR_BG_CLASS, on);
+        doc.body.classList.toggle(EDITOR_BG_PATTERN_CLASSES[0], on && s.editorBgType === "grid-1");
+        doc.body.classList.toggle(EDITOR_BG_PATTERN_CLASSES[1], on && s.editorBgType === "grid-2");
+        doc.body.classList.toggle(
+            EDITOR_BG_PATTERN_CLASSES[2],
+            on && s.editorBgType === "dotted-1",
+        );
+        doc.body.classList.toggle(
+            EDITOR_BG_PATTERN_CLASSES[3],
+            on && s.editorBgType === "dotted-2",
+        );
+        // 「不跟随滚动」时挂 fixed 类；跟随滚动（默认）时不挂，由 CSS 设为 local
+        doc.body.classList.toggle(EDITOR_BG_FIXED_CLASS, on && !s.editorBgScroll);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.style.removeProperty(EDITOR_BG_COLOR_VAR);
-    doc.body?.style.removeProperty(EDITOR_BG_ATTACH_VAR);
-    doc.body?.classList.remove(
-      EDITOR_BG_CLASS,
-      ...EDITOR_BG_PATTERN_CLASSES,
-      EDITOR_BG_FIXED_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.style.removeProperty(EDITOR_BG_COLOR_VAR);
+        doc.body?.style.removeProperty(EDITOR_BG_ATTACH_VAR);
+        doc.body?.classList.remove(
+            EDITOR_BG_CLASS,
+            ...EDITOR_BG_PATTERN_CLASSES,
+            EDITOR_BG_FIXED_CLASS,
+        );
+    }
 }

@@ -38,54 +38,52 @@ const LINK_INTERNAL_VAR = "--style-tweaker-link-internal";
 const LINK_EXTERNAL_VAR = "--style-tweaker-link-external";
 
 export class EditorLinkService extends BaseService {
-  /** link 样式模板：原 link.css 因 text-decoration 被旧基线误报，改由运行时注入。 */
-  private readonly linkStyle = new InjectedStyleSheet(LINK_STYLES_CSS);
+    /** link 样式模板：原 link.css 因 text-decoration 被旧基线误报，改由运行时注入。 */
+    private readonly linkStyle = new InjectedStyleSheet(LINK_STYLES_CSS);
 
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // default/空值回退主题强调色（--color-accent），与其它颜色设置项语义一致：
-    // 未选色时链接用主题强调色，而非主题的原生链接色（--link-color / --link-external-color）。
-    setAccentVar(doc, s.linkInternalColor, LINK_INTERNAL_VAR, "var(--color-accent)");
-    setAccentVar(doc, s.linkExternalColor, LINK_EXTERNAL_VAR, "var(--color-accent)");
+        // default/空值回退主题强调色（--color-accent），与其它颜色设置项语义一致：
+        // 未选色时链接用主题强调色，而非主题的原生链接色（--link-color / --link-external-color）。
+        setAccentVar(doc, s.linkInternalColor, LINK_INTERNAL_VAR, "var(--color-accent)");
+        setAccentVar(doc, s.linkExternalColor, LINK_EXTERNAL_VAR, "var(--color-accent)");
 
-    if (!doc.body) return;
-    // 颜色门控类恒定挂载（原为「仅在选色时挂载」）：default 也要回退主题强调色，
-    // 故注入的链接颜色规则须始终生效；该类现作为链接颜色规则的作用域锚点。
-    doc.body.classList.add(LINK_COLOR_CUSTOM_CLASS);
-    // 开关类：true 才挂（true=去除/增强；false/默认=原生行为）。
-    doc.body.classList.toggle(LINK_UNDERLINE_INTERNAL_CLASS, s.linkUnderlineInternal);
-    doc.body.classList.toggle(LINK_UNDERLINE_UNRESOLVED_CLASS, s.linkUnderlineUnresolved);
-    doc.body.classList.toggle(LINK_UNDERLINE_EXTERNAL_CLASS, s.linkUnderlineExternal);
-    doc.body.classList.toggle(LINK_REMOVE_ICON_CLASS, s.linkRemoveExternalIcon);
-    doc.body.classList.toggle(LINK_COLORFUL_CLASS, s.linkColorfulAnimation);
-    // 注入样式模板（幂等；CSS 条件均以 body 门控类为准，设置变化无需重注入）
-    this.linkStyle.apply(doc);
-  }
+        if (!doc.body) return;
+        // 颜色门控类恒定挂载（原为「仅在选色时挂载」）：default 也要回退主题强调色，
+        // 故注入的链接颜色规则须始终生效；该类现作为链接颜色规则的作用域锚点。
+        doc.body.classList.add(LINK_COLOR_CUSTOM_CLASS);
+        // 开关类：true 才挂（true=去除/增强；false/默认=原生行为）。
+        doc.body.classList.toggle(LINK_UNDERLINE_INTERNAL_CLASS, s.linkUnderlineInternal);
+        doc.body.classList.toggle(LINK_UNDERLINE_UNRESOLVED_CLASS, s.linkUnderlineUnresolved);
+        doc.body.classList.toggle(LINK_UNDERLINE_EXTERNAL_CLASS, s.linkUnderlineExternal);
+        doc.body.classList.toggle(LINK_REMOVE_ICON_CLASS, s.linkRemoveExternalIcon);
+        doc.body.classList.toggle(LINK_COLORFUL_CLASS, s.linkColorfulAnimation);
+        // 注入样式模板（幂等；CSS 条件均以 body 门控类为准，设置变化无需重注入）
+        this.linkStyle.apply(doc);
+    }
 
-  protected clearDocument(doc: Document): void {
-    this.linkStyle.remove(doc);
-    removeDocVar(doc, LINK_INTERNAL_VAR);
-    removeDocVar(doc, LINK_EXTERNAL_VAR);
-    doc.body?.classList.remove(
-      LINK_COLOR_CUSTOM_CLASS,
-      LINK_UNDERLINE_INTERNAL_CLASS,
-      LINK_UNDERLINE_UNRESOLVED_CLASS,
-      LINK_UNDERLINE_EXTERNAL_CLASS,
-      LINK_REMOVE_ICON_CLASS,
-      LINK_COLORFUL_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        this.linkStyle.remove(doc);
+        removeDocVar(doc, LINK_INTERNAL_VAR);
+        removeDocVar(doc, LINK_EXTERNAL_VAR);
+        doc.body?.classList.remove(
+            LINK_COLOR_CUSTOM_CLASS,
+            LINK_UNDERLINE_INTERNAL_CLASS,
+            LINK_UNDERLINE_UNRESOLVED_CLASS,
+            LINK_UNDERLINE_EXTERNAL_CLASS,
+            LINK_REMOVE_ICON_CLASS,
+            LINK_COLORFUL_CLASS,
+        );
+    }
 }

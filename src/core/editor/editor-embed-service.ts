@@ -32,32 +32,32 @@ const RADIUS_MIN = 4;
 const RADIUS_MAX = 16;
 
 export class EditorEmbedService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.embedImageRadius ?? 8));
-    doc.body.setCssProps({
-      [EMBED_IMAGE_RADIUS_VAR]: `${radius}px`,
-    });
+        const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.embedImageRadius ?? 8));
+        doc.body.setCssProps({
+            [EMBED_IMAGE_RADIUS_VAR]: `${radius}px`,
+        });
 
-    doc.body.classList.toggle(EMBED_IMAGE_CENTER_CLASS, s.embedImageCenter);
-    doc.body.classList.toggle(EMBED_MARKDOWN_SEAMLESS_CLASS, s.embedMarkdownSeamless);
-    doc.body.classList.toggle(EMBED_IMAGE_BORDER_CLASS, s.embedImageBorder);
-    doc.body.classList.toggle(EMBED_IMAGE_CUSTOM_RADIUS_CLASS, s.embedImageCustomRadius);
-  }
+        doc.body.classList.toggle(EMBED_IMAGE_CENTER_CLASS, s.embedImageCenter);
+        doc.body.classList.toggle(EMBED_MARKDOWN_SEAMLESS_CLASS, s.embedMarkdownSeamless);
+        doc.body.classList.toggle(EMBED_IMAGE_BORDER_CLASS, s.embedImageBorder);
+        doc.body.classList.toggle(EMBED_IMAGE_CUSTOM_RADIUS_CLASS, s.embedImageCustomRadius);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.style.removeProperty(EMBED_IMAGE_RADIUS_VAR);
-    doc.body?.classList.remove(
-      EMBED_IMAGE_CENTER_CLASS,
-      EMBED_MARKDOWN_SEAMLESS_CLASS,
-      EMBED_IMAGE_BORDER_CLASS,
-      EMBED_IMAGE_CUSTOM_RADIUS_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.style.removeProperty(EMBED_IMAGE_RADIUS_VAR);
+        doc.body?.classList.remove(
+            EMBED_IMAGE_CENTER_CLASS,
+            EMBED_MARKDOWN_SEAMLESS_CLASS,
+            EMBED_IMAGE_BORDER_CLASS,
+            EMBED_IMAGE_CUSTOM_RADIUS_CLASS,
+        );
+    }
 }

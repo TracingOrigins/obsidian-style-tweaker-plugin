@@ -26,47 +26,45 @@ const HEADING_CUSTOM_CLASS = "style-tweaker-heading-custom";
 const HEADING_COLOR_PREFIX = "--style-tweaker-heading-h";
 
 export class EditorHeadingService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-
-    const colorKeys: (keyof StyleTweakerSettings)[] = [
-      "headingH1",
-      "headingH2",
-      "headingH3",
-      "headingH4",
-      "headingH5",
-      "headingH6",
-    ];
-    colorKeys.forEach((key, i) => {
-      // default/空值回退主题强调色（--color-accent）
-      setAccentVar(
-        doc,
-        s[key] as string,
-        `${HEADING_COLOR_PREFIX}${i + 1}`,
-        "var(--color-accent)",
-      );
-    });
-
-    doc.body?.classList.toggle(HEADING_HOVER_CLASS, s.headingHover);
-    doc.body?.classList.toggle(HEADING_CUSTOM_CLASS, s.headingCustomColors);
-  }
-
-  protected clearDocument(doc: Document): void {
-    for (let i = 1; i <= 6; i++) {
-      removeDocVar(doc, `${HEADING_COLOR_PREFIX}${i}`);
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
-    doc.body?.classList.remove(HEADING_HOVER_CLASS, HEADING_CUSTOM_CLASS);
-  }
+
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
+
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+
+        const colorKeys: (keyof StyleTweakerSettings)[] = [
+            "headingH1",
+            "headingH2",
+            "headingH3",
+            "headingH4",
+            "headingH5",
+            "headingH6",
+        ];
+        colorKeys.forEach((key, i) => {
+            // default/空值回退主题强调色（--color-accent）
+            setAccentVar(
+                doc,
+                s[key] as string,
+                `${HEADING_COLOR_PREFIX}${i + 1}`,
+                "var(--color-accent)",
+            );
+        });
+
+        doc.body?.classList.toggle(HEADING_HOVER_CLASS, s.headingHover);
+        doc.body?.classList.toggle(HEADING_CUSTOM_CLASS, s.headingCustomColors);
+    }
+
+    protected clearDocument(doc: Document): void {
+        for (let i = 1; i <= 6; i++) {
+            removeDocVar(doc, `${HEADING_COLOR_PREFIX}${i}`);
+        }
+        doc.body?.classList.remove(HEADING_HOVER_CLASS, HEADING_CUSTOM_CLASS);
+    }
 }

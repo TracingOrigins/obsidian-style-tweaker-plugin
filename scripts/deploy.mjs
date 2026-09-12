@@ -18,9 +18,9 @@
 // 3. 准备 dist 目录（确保存在 .hotreload 标记）。
 // 4. 在 dev 模式下创建/复用软链接，在 build 模式下复制构建产物。
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 /**
  * 将 .env 文件中的键值对合并进 process.env（不覆盖已有环境变量，与 dotenv 默认行为一致）。
@@ -28,39 +28,39 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
  * @param {string} filePath .env 绝对路径
  */
 function applyDotenvFile(filePath) {
-	const content = fs.readFileSync(filePath, 'utf8');
-	for (const line of content.split(/\r?\n/)) {
-		const trimmed = line.trim();
-		if (!trimmed || trimmed.startsWith('#')) {
-			continue;
-		}
-		const eq = trimmed.indexOf('=');
-		if (eq === -1) {
-			continue;
-		}
-		const key = trimmed.slice(0, eq).trim();
-		if (!key) {
-			continue;
-		}
-		let value = trimmed.slice(eq + 1).trim();
-		if (
-			(value.startsWith('"') && value.endsWith('"')) ||
-			(value.startsWith("'") && value.endsWith("'"))
-		) {
-			value = value.slice(1, -1);
-		}
-		if (process.env[key] === undefined) {
-			process.env[key] = value;
-		}
-	}
+    const content = fs.readFileSync(filePath, "utf8");
+    for (const line of content.split(/\r?\n/)) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) {
+            continue;
+        }
+        const eq = trimmed.indexOf("=");
+        if (eq === -1) {
+            continue;
+        }
+        const key = trimmed.slice(0, eq).trim();
+        if (!key) {
+            continue;
+        }
+        let value = trimmed.slice(eq + 1).trim();
+        if (
+            (value.startsWith('"') && value.endsWith('"')) ||
+            (value.startsWith("'") && value.endsWith("'"))
+        ) {
+            value = value.slice(1, -1);
+        }
+        if (process.env[key] === undefined) {
+            process.env[key] = value;
+        }
+    }
 }
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const projectRoot = path.resolve(__dirname, '../');
-const envPath = path.join(projectRoot, '.env');
-const distDir = path.join(projectRoot, 'dist');
-const manifestPath = path.join(projectRoot, 'manifest.json');
+const projectRoot = path.resolve(__dirname, "../");
+const envPath = path.join(projectRoot, ".env");
+const distDir = path.join(projectRoot, "dist");
+const manifestPath = path.join(projectRoot, "manifest.json");
 
 // ==================== 通用工具函数 ====================
 
@@ -69,10 +69,10 @@ const manifestPath = path.join(projectRoot, 'manifest.json');
  * 在本脚本中，建议优先使用该工具而不是直接使用 console.log/console.error。
  */
 const log = {
-	success: (msg) => console.log(`✅ ${msg}`),
-	error: (msg) => console.error(`❌ ${msg}`),
-	info: (msg) => console.log(`ℹ️  ${msg}`),
-	warn: (msg) => console.warn(`⚠️  ${msg}`),
+    success: (msg) => console.log(`✅ ${msg}`),
+    error: (msg) => console.error(`❌ ${msg}`),
+    info: (msg) => console.log(`ℹ️  ${msg}`),
+    warn: (msg) => console.warn(`⚠️  ${msg}`),
 };
 
 /**
@@ -82,19 +82,19 @@ const log = {
  * @param dest 目标目录路径
  */
 function copyDir(src, dest) {
-	fs.mkdirSync(dest, { recursive: true });
-	
-	const entries = fs.readdirSync(src, { withFileTypes: true });
-	for (const entry of entries) {
-		const srcPath = path.join(src, entry.name);
-		const destPath = path.join(dest, entry.name);
-		
-		if (entry.isDirectory()) {
-			copyDir(srcPath, destPath);
-		} else {
-			fs.copyFileSync(srcPath, destPath);
-		}
-	}
+    fs.mkdirSync(dest, { recursive: true });
+
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+        const srcPath = path.join(src, entry.name);
+        const destPath = path.join(dest, entry.name);
+
+        if (entry.isDirectory()) {
+            copyDir(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    }
 }
 
 /**
@@ -105,22 +105,24 @@ function copyDir(src, dest) {
  * @returns 带有终端点击跳转能力的字符串
  */
 function createClickablePath(filePath, displayText) {
-	const resolvedPath = path.resolve(filePath);
-	let targetPathForUrl = resolvedPath;
+    const resolvedPath = path.resolve(filePath);
+    let targetPathForUrl = resolvedPath;
 
-	// 如果目标是目录，给 URL 结尾补上 "/"，部分终端/系统对目录打开更稳定
-	try {
-		if (fs.existsSync(resolvedPath) && fs.lstatSync(resolvedPath).isDirectory()) {
-			targetPathForUrl = resolvedPath.endsWith(path.sep) ? resolvedPath : resolvedPath + path.sep;
-		}
-	} catch {
-		// 忽略：只要能生成 URL 即可
-	}
+    // 如果目标是目录，给 URL 结尾补上 "/"，部分终端/系统对目录打开更稳定
+    try {
+        if (fs.existsSync(resolvedPath) && fs.lstatSync(resolvedPath).isDirectory()) {
+            targetPathForUrl = resolvedPath.endsWith(path.sep)
+                ? resolvedPath
+                : resolvedPath + path.sep;
+        }
+    } catch {
+        // 忽略：只要能生成 URL 即可
+    }
 
-	// 使用标准 API 生成 file:// URL（自动处理 Windows 盘符与空格编码）
-	const fileUrl = pathToFileURL(targetPathForUrl).href;
-	const text = displayText ?? path.basename(resolvedPath);
-	return `\x1b]8;;${fileUrl}\x1b\\${text}\x1b]8;;\x1b\\`;
+    // 使用标准 API 生成 file:// URL（自动处理 Windows 盘符与空格编码）
+    const fileUrl = pathToFileURL(targetPathForUrl).href;
+    const text = displayText ?? path.basename(resolvedPath);
+    return `\x1b]8;;${fileUrl}\x1b\\${text}\x1b]8;;\x1b\\`;
 }
 
 // ==================== 参数与配置解析 ====================
@@ -135,22 +137,22 @@ function createClickablePath(filePath, displayText) {
  * @returns mode 字符串："dev" | "build"
  */
 function parseMode(argv) {
-	const arg = argv[2];
+    const arg = argv[2];
 
-	if (arg === 'dev') {
-		return 'dev';
-	}
+    if (arg === "dev") {
+        return "dev";
+    }
 
-	if (arg === 'build') {
-		return 'build';
-	}
+    if (arg === "build") {
+        return "build";
+    }
 
-	if (!arg) {
-		log.error('缺少模式参数，请使用 "dev" 或 "build"。');
-	} else {
-		log.error(`不支持的模式参数: "${arg}"，请使用 "dev" 或 "build"。`);
-	}
-	process.exit(1);
+    if (!arg) {
+        log.error('缺少模式参数，请使用 "dev" 或 "build"。');
+    } else {
+        log.error(`不支持的模式参数: "${arg}"，请使用 "dev" 或 "build"。`);
+    }
+    process.exit(1);
 }
 
 /**
@@ -160,21 +162,21 @@ function parseMode(argv) {
  * @returns 解析后的 VAULT 绝对路径
  */
 function getVaultPath() {
-	// 如果没有 .env，静默退出（允许 CI/CD 场景）
-	if (!fs.existsSync(envPath)) {
-		log.warn('.env 文件不存在，跳过部署');
-		process.exit(0);
-	}
+    // 如果没有 .env，静默退出（允许 CI/CD 场景）
+    if (!fs.existsSync(envPath)) {
+        log.warn(".env 文件不存在，跳过部署");
+        process.exit(0);
+    }
 
-	applyDotenvFile(envPath);
-	const vaultPath = process.env.VAULT_PATH;
+    applyDotenvFile(envPath);
+    const vaultPath = process.env.VAULT_PATH;
 
-	if (!vaultPath) {
-		log.error('未设置 VAULT_PATH，请在 .env 文件中设置 VAULT_PATH=你的vault路径');
-		process.exit(1);
-	}
+    if (!vaultPath) {
+        log.error("未设置 VAULT_PATH，请在 .env 文件中设置 VAULT_PATH=你的vault路径");
+        process.exit(1);
+    }
 
-	return path.resolve(vaultPath);
+    return path.resolve(vaultPath);
 }
 
 /**
@@ -183,21 +185,21 @@ function getVaultPath() {
  * @returns 插件 ID（通常与插件文件夹名相同）
  */
 function getPluginId() {
-	// 读取插件ID（统一从项目根目录读取 manifest.json）
-	if (!fs.existsSync(manifestPath)) {
-		log.error(`manifest.json 文件未找到，无法获取插件ID: ${manifestPath}`);
-		process.exit(1);
-	}
+    // 读取插件ID（统一从项目根目录读取 manifest.json）
+    if (!fs.existsSync(manifestPath)) {
+        log.error(`manifest.json 文件未找到，无法获取插件ID: ${manifestPath}`);
+        process.exit(1);
+    }
 
-	try {
-		const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
-		const pluginId = manifest.id;
-		if (!pluginId) throw new Error();
-		return pluginId;
-	} catch {
-		log.error('无法从 manifest.json 获取插件ID。');
-		process.exit(1);
-	}
+    try {
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
+        const pluginId = manifest.id;
+        if (!pluginId) throw new Error();
+        return pluginId;
+    } catch {
+        log.error("无法从 manifest.json 获取插件ID。");
+        process.exit(1);
+    }
 }
 
 // ==================== 目录准备与校验 ====================
@@ -208,15 +210,15 @@ function getPluginId() {
  * - 如果 .hotreload 文件不存在则创建空文件，便于其他工具做热重载检测。
  */
 function ensureDistReady() {
-	// 检查 dist 目录
-	if (!fs.existsSync(distDir)) {
-		fs.mkdirSync(distDir, { recursive: true });
-	}
-	// 确保 .hotreload 文件存在
-	const hotreloadPath = path.join(distDir, '.hotreload');
-	if (!fs.existsSync(hotreloadPath)) {
-		fs.writeFileSync(hotreloadPath, '');
-	}
+    // 检查 dist 目录
+    if (!fs.existsSync(distDir)) {
+        fs.mkdirSync(distDir, { recursive: true });
+    }
+    // 确保 .hotreload 文件存在
+    const hotreloadPath = path.join(distDir, ".hotreload");
+    if (!fs.existsSync(hotreloadPath)) {
+        fs.writeFileSync(hotreloadPath, "");
+    }
 }
 
 /**
@@ -227,14 +229,14 @@ function ensureDistReady() {
  * @returns 插件目录绝对路径
  */
 function getPluginDir(vaultPath, pluginId) {
-	const pluginDir = path.join(vaultPath, '.obsidian', 'plugins', pluginId);
+    const pluginDir = path.join(vaultPath, ".obsidian", "plugins", pluginId);
 
-	// 如果插件目录与 dist 目录相同，则直接退出，避免递归复制或循环链接
-	if (path.resolve(pluginDir) === path.resolve(distDir)) {
-		process.exit(0);
-	}
+    // 如果插件目录与 dist 目录相同，则直接退出，避免递归复制或循环链接
+    if (path.resolve(pluginDir) === path.resolve(distDir)) {
+        process.exit(0);
+    }
 
-	return pluginDir;
+    return pluginDir;
 }
 
 // ==================== 插件目录处理 ====================
@@ -247,25 +249,25 @@ function getPluginDir(vaultPath, pluginId) {
  * @param pluginDir 插件目录绝对路径
  */
 function backupDataJson(pluginDir) {
-	// 不存在或不是文件夹则直接跳过
-	if (!fs.existsSync(pluginDir)) return;
-	const stats = fs.lstatSync(pluginDir);
-	if (!stats.isDirectory()) return;
+    // 不存在或不是文件夹则直接跳过
+    if (!fs.existsSync(pluginDir)) return;
+    const stats = fs.lstatSync(pluginDir);
+    if (!stats.isDirectory()) return;
 
-	const dataJsonPath = path.join(pluginDir, 'data.json');
-	const distDataJsonPath = path.join(distDir, 'data.json');
+    const dataJsonPath = path.join(pluginDir, "data.json");
+    const distDataJsonPath = path.join(distDir, "data.json");
 
-	// 若插件目录不存在 data.json，则删除 dist 中的 data.json（若存在），避免沿用旧配置
-	if (!fs.existsSync(dataJsonPath)) {
-		try {
-			fs.rmSync(distDataJsonPath, { force: true });
-		} catch (err) {
-			log.warn(`无法删除 dist 中的 data.json: ${err?.message ?? err}`);
-		}
-		return;
-	}
+    // 若插件目录不存在 data.json，则删除 dist 中的 data.json（若存在），避免沿用旧配置
+    if (!fs.existsSync(dataJsonPath)) {
+        try {
+            fs.rmSync(distDataJsonPath, { force: true });
+        } catch (err) {
+            log.warn(`无法删除 dist 中的 data.json: ${err?.message ?? err}`);
+        }
+        return;
+    }
 
-	fs.copyFileSync(dataJsonPath, distDataJsonPath);
+    fs.copyFileSync(dataJsonPath, distDataJsonPath);
 }
 
 /**
@@ -274,9 +276,9 @@ function backupDataJson(pluginDir) {
  * @returns 是否为指向 dist 目录的软链接
  */
 function isExistingSymlinkToDist(pluginDir) {
-	const linkTarget = fs.readlinkSync(pluginDir);
-	const resolvedLinkTarget = path.resolve(path.dirname(pluginDir), linkTarget);
-	return resolvedLinkTarget === path.resolve(distDir);
+    const linkTarget = fs.readlinkSync(pluginDir);
+    const resolvedLinkTarget = path.resolve(path.dirname(pluginDir), linkTarget);
+    return resolvedLinkTarget === path.resolve(distDir);
 }
 
 /**
@@ -284,12 +286,12 @@ function isExistingSymlinkToDist(pluginDir) {
  * @param targetPath 需要删除的文件或目录路径
  */
 function removePath(targetPath) {
-	try {
-		fs.rmSync(targetPath, { recursive: true, force: true });
-	} catch (err) {
-		log.error(`处理目标路径时出错: ${err.message}`);
-		process.exit(1);
-	}
+    try {
+        fs.rmSync(targetPath, { recursive: true, force: true });
+    } catch (err) {
+        log.error(`处理目标路径时出错: ${err.message}`);
+        process.exit(1);
+    }
 }
 
 // ==================== 部署实现 ====================
@@ -301,28 +303,32 @@ function removePath(targetPath) {
  * @param context 部署上下文（包含 mode、vaultPath、pluginId、pluginDir 等）
  */
 function deployDev(context) {
-	const { pluginDir, pluginId } = context;
-	const linkType = process.platform === 'win32' ? 'junction' : 'dir';
+    const { pluginDir, pluginId } = context;
+    const linkType = process.platform === "win32" ? "junction" : "dir";
 
-	// 如果目标目录已存在，优先尝试复用已有的软链接
-	if (fs.existsSync(pluginDir)) {
-		const stats = fs.lstatSync(pluginDir);
+    // 如果目标目录已存在，优先尝试复用已有的软链接
+    if (fs.existsSync(pluginDir)) {
+        const stats = fs.lstatSync(pluginDir);
 
-		// 已存在且是软链接，且指向 dist：直接复用并返回
-		if (stats.isSymbolicLink() && isExistingSymlinkToDist(pluginDir)) {
-			log.info(`链接成功：${createClickablePath(distDir, 'dist')} → ${createClickablePath(pluginDir, pluginId)}`);
-			return;
-		}
+        // 已存在且是软链接，且指向 dist：直接复用并返回
+        if (stats.isSymbolicLink() && isExistingSymlinkToDist(pluginDir)) {
+            log.info(
+                `链接成功：${createClickablePath(distDir, "dist")} → ${createClickablePath(pluginDir, pluginId)}`,
+            );
+            return;
+        }
 
-		// 否则删除旧目录/文件，为重新创建链接做准备
-		removePath(pluginDir);
-	}
+        // 否则删除旧目录/文件，为重新创建链接做准备
+        removePath(pluginDir);
+    }
 
-	// 确保父目录存在
-	fs.mkdirSync(path.dirname(pluginDir), { recursive: true });
-	
-	fs.symlinkSync(distDir, pluginDir, linkType);
-	log.info(`链接成功：${createClickablePath(distDir, 'dist')} → ${createClickablePath(pluginDir, pluginId)}`);
+    // 确保父目录存在
+    fs.mkdirSync(path.dirname(pluginDir), { recursive: true });
+
+    fs.symlinkSync(distDir, pluginDir, linkType);
+    log.info(
+        `链接成功：${createClickablePath(distDir, "dist")} → ${createClickablePath(pluginDir, pluginId)}`,
+    );
 }
 
 /**
@@ -331,18 +337,20 @@ function deployDev(context) {
  * @param context 部署上下文（包含 mode、vaultPath、pluginId、pluginDir 等）
  */
 function deployBuild(context) {
-	const { pluginDir, pluginId } = context;
+    const { pluginDir, pluginId } = context;
 
-	// 如果目标目录已存在，先删除旧目录，避免残留文件影响结果
-	if (fs.existsSync(pluginDir)) {
-		removePath(pluginDir);
-	}
+    // 如果目标目录已存在，先删除旧目录，避免残留文件影响结果
+    if (fs.existsSync(pluginDir)) {
+        removePath(pluginDir);
+    }
 
-	fs.mkdirSync(pluginDir, { recursive: true });
-	copyDir(distDir, pluginDir);
-	// 统计复制后的文件数量，用于日志输出
-	const fileNames = fs.readdirSync(pluginDir).sort();
-	log.info(`复制成功：${createClickablePath(distDir, 'dist')} → ${createClickablePath(pluginDir, pluginId)}`);
+    fs.mkdirSync(pluginDir, { recursive: true });
+    copyDir(distDir, pluginDir);
+    // 统计复制后的文件数量，用于日志输出
+    const fileNames = fs.readdirSync(pluginDir).sort();
+    log.info(
+        `复制成功：${createClickablePath(distDir, "dist")} → ${createClickablePath(pluginDir, pluginId)}`,
+    );
 }
 
 // ==================== 主流程入口 ====================
@@ -355,39 +363,38 @@ function deployBuild(context) {
  * 4. 根据模式执行软链接或复制部署。
  */
 function main() {
-	const mode = parseMode(process.argv);
+    const mode = parseMode(process.argv);
 
-	const vaultPath = getVaultPath();
-	const pluginId = getPluginId();
-	const pluginDir = getPluginDir(vaultPath, pluginId);
-	backupDataJson(pluginDir);
-	ensureDistReady();
+    const vaultPath = getVaultPath();
+    const pluginId = getPluginId();
+    const pluginDir = getPluginDir(vaultPath, pluginId);
+    backupDataJson(pluginDir);
+    ensureDistReady();
 
-	log.info(`开始部署：${mode} 模式`);
-	
-	// 构造部署上下文
-	const context = { mode, vaultPath, pluginId, pluginDir };
+    log.info(`开始部署：${mode} 模式`);
 
-	// 执行部署操作
-	try {
-		switch (mode) {
-			case 'dev':
-				deployDev(context);
-				break;
-			case 'build':
-				deployBuild(context);
-				break;
-			default:
-				log.error(`不支持的模式: ${mode}`);
-				process.exit(1);
-		}
+    // 构造部署上下文
+    const context = { mode, vaultPath, pluginId, pluginDir };
 
-		log.success(`部署完成！`);
-	} catch (err) {
-		log.error(`${mode === 'dev' ? '创建软链接' : '复制'}失败: ${err.message}`);
-		process.exit(1);
-	}
+    // 执行部署操作
+    try {
+        switch (mode) {
+            case "dev":
+                deployDev(context);
+                break;
+            case "build":
+                deployBuild(context);
+                break;
+            default:
+                log.error(`不支持的模式: ${mode}`);
+                process.exit(1);
+        }
+
+        log.success(`部署完成！`);
+    } catch (err) {
+        log.error(`${mode === "dev" ? "创建软链接" : "复制"}失败: ${err.message}`);
+        process.exit(1);
+    }
 }
 
 main();
-

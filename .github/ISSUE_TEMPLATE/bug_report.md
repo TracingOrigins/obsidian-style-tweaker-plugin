@@ -27,4 +27,4 @@ A clear and concise description of what the bug is. | 请简要描述你遇到�
 
 - Plugin version | 插件版本：
 - Obsidian version | Obsidian 版本：
-- OS | 操作系统： 
+- OS | 操作系统：

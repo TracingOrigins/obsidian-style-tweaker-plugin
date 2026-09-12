@@ -25,35 +25,33 @@ const TAG_COLOR_CUSTOM_CLASS = "style-tweaker-tag-color-custom";
 const TAG_BG_COLOR_VAR = "--style-tweaker-tag-bg-color";
 
 export class EditorTagService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
+    /** 主题切换时重 apply，刷新随深浅色解析的变量。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 自定义色；default/空值回退主题强调色（--color-accent）
-    setAccentVar(doc, s.tagColor, TAG_BG_COLOR_VAR, "var(--color-accent)");
+        // 自定义色；default/空值回退主题强调色（--color-accent）
+        setAccentVar(doc, s.tagColor, TAG_BG_COLOR_VAR, "var(--color-accent)");
 
-    doc.body.classList.toggle(TAG_CLICK_CLASS, s.tagDisableTextClick);
-    doc.body.classList.toggle(TAG_COLOR_RAINBOW_CLASS, s.tagStyle === "rainbow");
-    doc.body.classList.toggle(TAG_COLOR_CUSTOM_CLASS, s.tagStyle === "custom");
-  }
+        doc.body.classList.toggle(TAG_CLICK_CLASS, s.tagDisableTextClick);
+        doc.body.classList.toggle(TAG_COLOR_RAINBOW_CLASS, s.tagStyle === "rainbow");
+        doc.body.classList.toggle(TAG_COLOR_CUSTOM_CLASS, s.tagStyle === "custom");
+    }
 
-  protected clearDocument(doc: Document): void {
-    removeDocVar(doc, TAG_BG_COLOR_VAR);
-    doc.body?.classList.remove(
-      TAG_CLICK_CLASS,
-      TAG_COLOR_RAINBOW_CLASS,
-      TAG_COLOR_CUSTOM_CLASS,
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        removeDocVar(doc, TAG_BG_COLOR_VAR);
+        doc.body?.classList.remove(
+            TAG_CLICK_CLASS,
+            TAG_COLOR_RAINBOW_CLASS,
+            TAG_COLOR_CUSTOM_CLASS,
+        );
+    }
 }

@@ -2,15 +2,13 @@
    块引用（Blockquote / > quote）样式
    ============================================================ */
 
-
 /* 引号样式用 boxicons（图标字体，内联自带，用户无需安装） */
 @font-face {
-  font-family: boxicons;
-  src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAUQAAwAAAAACcgAAATCAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYGYABcEQgKizCJEgsWAAE2AiQDIAQgBYJKB20bvAfIjsK22bOwIjmQDyeRhxX00NzbvN1Nmu62nLQHQCDL9ufY3SlWLCy602dZsQLOD3n6L92cdrLTQfkrT6MySDfJpw9OaT98nP5JmH4/V2cmpe/6WhKztuSGJ/ESuA4hvX1EJEJolEji6JTI0tpue1NL4JWIHgIq4OgbhCi/3NpClyACc5XyAoCL6n70EWwlhmpONTB1FlpfjQVO/p/gZZEPIDSpXtxo4LaSYhHSHYt+SxUJhpheH+5uX9ye3VV/Gfy/gOQ3Fu8zRRlHGQfpRqmPgCzFCBUF1Uh/SQrUgH4DZhk6yeGXoC8cBhsxFq7pb0yj9ZTXp1KXLMmRQUixqcS8vOSggBJukKH1ydDZR4IPYZr5Euhg83gIFk9pP/Clx0I87acK8hy24z0qvcx2nb/0Cdoa+Ii0XgVzgN6r+iK0nkGLXR2X+z/gex7bxsateRzxFtwXn/LeVSySZJFoZH5I+4HvqJZKR+o4Dur6t87I2TrM6j9XdbrRcY44fLSlI+3ubuzuV5Hdvmmca2jI1uvoSDsmADmD6IHuGenUM5hVdZIFkpwkXs2bzaqVg5ig21xnZ9bUpK4udbC3keseVkdfg/zQ+QTxrilf2khRYnFlXQ3oFA9wOU5xw2nnctiCmtR0SRXZXYGyoKwnVewY+LjeTGHwbDzaORny7Ubx7umQd2bik2Sobg3K+RPl9l33+SOXNRX7Rzyyh3xsi93O6bABkL+k7Qg6sJdNW4lpYOrJSeqY8Y5wNiV/TaCTQbNh4pWu3ptEMLym787heHiFV1iqrfSZGuEmx6pMFUnBWUPZprrSuqbVv4VrsZIKU9XLvSABx5PYHh7sJLorocDdi5VC+fTknXoQAxapG1EZ7VJcvB7ywPCse5ZoWiXhxg3VDtXKzdUSo1yu6AlFbyjzB3Pl5lRYKqpMFQC6zlNVwVQBoO3DfBetL/3fZHyLEH875zoW9LUhTUVOcYUwA6fRgIBbTtKvA2yR+LMPYlIc5SLq732uzjZsbz84PdW809uR351YPvDkeGS/e1mcsIKQurCaoLCpnHWQjeFEVjhOEDgAvBQ5jVYIczAa5Qa864uU+J0mG9FJzq7mz8ye7ie0vQGl5woLR5VRhY1FYIfw4VmMLCL8P4DJY4JBvrso7cAWqDglK65rDHcKgpDsOnEZo+/qSKSJPI5BruiogT4dVdX60tQ816e755+W0fkD9Kn+1ymZhUg7aIxqABL9F1JVtE7bwhtlS+iC/gaPfES5EmhGRPcKfzdjw4z8RBxP5HiAThQ/8i1/7/VOSbevCeoAeBVmJ+lNFB8tT6ATuAU6O9hvowFoaKlY+maXjJ1P0vq4gXpOO6ynCtbAAgG8fQ61ZUvrtSoegKYKJ8usGcpIYLktWu4idUSgenkMV3u60AWLXDmihnGgNlQxb7mF5Q7UEQ2sWR6D18uFQ3uIogdmMPf3es536ZyNhdVX/kVvRrnAOOLfKX4a7IGgiBTiIMgklwgSSCKfdGLIgU0COeSSUjGpxRhGMIoFieY8tDhIAtqr9WPII4H4zj0Uo8XiwfKhEM12YYFBf70HGYwsVk6RYpUpiQ8eK85KthbJP5FiReyeEPPGMJafL53oZ03CnHJ0G2cA")
-    format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    font-family: boxicons;
+    src: url("data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAUQAAwAAAAACcgAAATCAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYGYABcEQgKizCJEgsWAAE2AiQDIAQgBYJKB20bvAfIjsK22bOwIjmQDyeRhxX00NzbvN1Nmu62nLQHQCDL9ufY3SlWLCy602dZsQLOD3n6L92cdrLTQfkrT6MySDfJpw9OaT98nP5JmH4/V2cmpe/6WhKztuSGJ/ESuA4hvX1EJEJolEji6JTI0tpue1NL4JWIHgIq4OgbhCi/3NpClyACc5XyAoCL6n70EWwlhmpONTB1FlpfjQVO/p/gZZEPIDSpXtxo4LaSYhHSHYt+SxUJhpheH+5uX9ye3VV/Gfy/gOQ3Fu8zRRlHGQfpRqmPgCzFCBUF1Uh/SQrUgH4DZhk6yeGXoC8cBhsxFq7pb0yj9ZTXp1KXLMmRQUixqcS8vOSggBJukKH1ydDZR4IPYZr5Euhg83gIFk9pP/Clx0I87acK8hy24z0qvcx2nb/0Cdoa+Ii0XgVzgN6r+iK0nkGLXR2X+z/gex7bxsateRzxFtwXn/LeVSySZJFoZH5I+4HvqJZKR+o4Dur6t87I2TrM6j9XdbrRcY44fLSlI+3ubuzuV5Hdvmmca2jI1uvoSDsmADmD6IHuGenUM5hVdZIFkpwkXs2bzaqVg5ig21xnZ9bUpK4udbC3keseVkdfg/zQ+QTxrilf2khRYnFlXQ3oFA9wOU5xw2nnctiCmtR0SRXZXYGyoKwnVewY+LjeTGHwbDzaORny7Ubx7umQd2bik2Sobg3K+RPl9l33+SOXNRX7Rzyyh3xsi93O6bABkL+k7Qg6sJdNW4lpYOrJSeqY8Y5wNiV/TaCTQbNh4pWu3ptEMLym787heHiFV1iqrfSZGuEmx6pMFUnBWUPZprrSuqbVv4VrsZIKU9XLvSABx5PYHh7sJLorocDdi5VC+fTknXoQAxapG1EZ7VJcvB7ywPCse5ZoWiXhxg3VDtXKzdUSo1yu6AlFbyjzB3Pl5lRYKqpMFQC6zlNVwVQBoO3DfBetL/3fZHyLEH875zoW9LUhTUVOcYUwA6fRgIBbTtKvA2yR+LMPYlIc5SLq732uzjZsbz84PdW809uR351YPvDkeGS/e1mcsIKQurCaoLCpnHWQjeFEVjhOEDgAvBQ5jVYIczAa5Qa864uU+J0mG9FJzq7mz8ye7ie0vQGl5woLR5VRhY1FYIfw4VmMLCL8P4DJY4JBvrso7cAWqDglK65rDHcKgpDsOnEZo+/qSKSJPI5BruiogT4dVdX60tQ816e755+W0fkD9Kn+1ymZhUg7aIxqABL9F1JVtE7bwhtlS+iC/gaPfES5EmhGRPcKfzdjw4z8RBxP5HiAThQ/8i1/7/VOSbevCeoAeBVmJ+lNFB8tT6ATuAU6O9hvowFoaKlY+maXjJ1P0vq4gXpOO6ynCtbAAgG8fQ61ZUvrtSoegKYKJ8usGcpIYLktWu4idUSgenkMV3u60AWLXDmihnGgNlQxb7mF5Q7UEQ2sWR6D18uFQ3uIogdmMPf3es536ZyNhdVX/kVvRrnAOOLfKX4a7IGgiBTiIMgklwgSSCKfdGLIgU0COeSSUjGpxRhGMIoFieY8tDhIAtqr9WPII4H4zj0Uo8XiwfKhEM12YYFBf70HGYwsVk6RYpUpiQ8eK85KthbJP5FiReyeEPPGMJafL53oZ03CnHJ0G2cA") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 /* 默认变量统一定义在 body（而非 :root）：Obsidian 主题变量如 --color-accent /
@@ -23,109 +21,99 @@
    2. blockquoteCustom 开启 → --blockquote-color 取自 --style-tweaker-blockquote-color，
       该变量在文字色选「默认」时由 JS 写入 var(--color-accent)，即默认用主题强调色。 */
 body {
-  /* 默认值 = 强调色；该变量只在上面的 custom 域内被消费 */
-  --style-tweaker-blockquote-color: var(--color-accent);
-  --style-tweaker-blockquote-border-color: var(--color-accent);
-  /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */
-  --style-tweaker-blockquote-background: color-mix(
-    in srgb,
-    var(--text-muted) 12%,
-    transparent
-  );
+    /* 默认值 = 强调色；该变量只在上面的 custom 域内被消费 */
+    --style-tweaker-blockquote-color: var(--color-accent);
+    --style-tweaker-blockquote-border-color: var(--color-accent);
+    /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */
+    --style-tweaker-blockquote-background: color-mix(in srgb, var(--text-muted) 12%, transparent);
 }
 
 body.style-tweaker-blockquote-custom {
-  --blockquote-color: var(--style-tweaker-blockquote-color, var(--color-accent));
-  --blockquote-border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    --blockquote-color: var(--style-tweaker-blockquote-color, var(--color-accent));
+    --blockquote-border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
 }
 
 /* 开启自定义颜色时，块引用应用自定义颜色（文字色未选即强调色）；未开启则保持 Obsidian 原生颜色 */
 body.style-tweaker-blockquote-custom :is(.markdown-preview-view, .markdown-rendered) blockquote {
-  color: var(--blockquote-color, var(--color-accent));
-  border-left-color: var(--blockquote-border-color, var(--color-accent));
+    color: var(--blockquote-color, var(--color-accent));
+    border-left-color: var(--blockquote-border-color, var(--color-accent));
 }
 
 body.style-tweaker-blockquote-custom .cm-s-obsidian span.cm-quote {
-  color: var(--blockquote-color, var(--color-accent));
+    color: var(--blockquote-color, var(--color-accent));
 }
 
 /* 色带填充 */
 body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote {
-  padding: 0.5em 0.5em 0.5em 0.6em;
-  border-right-width: 0;
-  border-left: solid;
-  border-top-width: 0;
-  border-bottom-width: 0;
-  border-left-width: 5px;
-  border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  background-color: var(--style-tweaker-blockquote-background);
-  border-radius: var(--radius-s);
-  margin-inline-start: 2.5%;
-  margin-inline-end: 2.5%;
-  /* 文字色：未开启自定义颜色时 --blockquote-color 未定义 → 回退正常文字色；
-     开启后由 --blockquote-color 接管（选默认即强调色） */
-  color: var(--blockquote-color, var(--text-normal));
+    padding: 0.5em 0.5em 0.5em 0.6em;
+    border-right-width: 0;
+    border-left: solid;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 5px;
+    border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    background-color: var(--style-tweaker-blockquote-background);
+    border-radius: var(--radius-s);
+    margin-inline-start: 2.5%;
+    margin-inline-end: 2.5%;
+    /* 文字色：未开启自定义颜色时 --blockquote-color 未定义 → 回退正常文字色；
+       开启后由 --blockquote-color 接管（选默认即强调色） */
+    color: var(--blockquote-color, var(--text-normal));
 }
 
 body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote p {
-  margin-left: 1px;
-  margin-right: 0;
+    margin-left: 1px;
+    margin-right: 0;
 }
 
 /* 引号样式（引号取自内联的 boxicons 图标字体，不依赖用户环境字体） */
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote::before,
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
-  border-left: none;
+    border-left: none;
 }
 
 body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote {
-  color: var(--blockquote-color, var(--text-normal));
-  background: transparent;
-  padding-left: 35px;
-  padding-right: 10px;
-  margin-inline-start: 1%;
-  margin-inline-end: 1%;
-  border-left-width: 0;
-  border: none;
+    color: var(--blockquote-color, var(--text-normal));
+    background: transparent;
+    padding-left: 35px;
+    padding-right: 10px;
+    margin-inline-start: 1%;
+    margin-inline-end: 1%;
+    border-left-width: 0;
+    border: none;
 }
 
 body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote p {
-  position: relative;
-  margin-left: 0.7em;
-  margin-right: 0;
+    position: relative;
+    margin-left: 0.7em;
+    margin-right: 0;
 }
 
 body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdown-rendered) blockquote p:first-of-type::before {
-  content: "\ee81";
-  font-size: 2em;
-  font-family: boxicons;
-  color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  position: absolute;
-  top: -0.4em;
-  left: -1.2em;
+    content: "\ee81";
+    font-size: 2em;
+    font-family: boxicons;
+    color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    position: absolute;
+    top: -0.4em;
+    left: -1.2em;
 }
 
-body.style-tweaker-blockquote-quotation-mark
-  .markdown-source-view.mod-cm6.is-live-preview
-  .HyperMD-quote:not(.cm-active) > .cm-formatting.cm-formatting-quote.cm-quote::before {
-  content: "\ee81";
-  font-size: 1.5em;
-  font-family: boxicons;
-  color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  position: absolute;
-  margin-left: -0.8em;
+body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote:not(.cm-active) > .cm-formatting.cm-formatting-quote.cm-quote::before {
+    content: "\ee81";
+    font-size: 1.5em;
+    font-family: boxicons;
+    color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    position: absolute;
+    margin-left: -0.8em;
 }
 
-body.style-tweaker-blockquote-quotation-mark
-  .markdown-source-view.mod-cm6.is-live-preview
-  .HyperMD-quote + .HyperMD-quote > .cm-formatting.cm-formatting-quote.cm-quote::before {
-  display: none;
+body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote + .HyperMD-quote > .cm-formatting.cm-formatting-quote.cm-quote::before {
+    display: none;
 }
 
-body.style-tweaker-blockquote-quotation-mark
-  .markdown-source-view.mod-cm6.is-live-preview
-  .cm-content div.HyperMD-quote .cm-blockquote-border {
-  border: none;
+body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .cm-content div.HyperMD-quote .cm-blockquote-border {
+    border: none;
 }
 
 /* ---------- 气泡样式 ----------
@@ -134,43 +122,41 @@ body.style-tweaker-blockquote-quotation-mark
    尾巴由 ::after（右臂）与段落 ::before（左臂）两段 1/4 圆弧拼出尖角。
    本节坐标均以气泡 padding box 为基准，长度统一用 px（不随字号变化）。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
-  position: relative;
-  color: var(--text-normal);
-  line-height: 1.5;
-  margin-top: 32px;
-  margin-bottom: 32px;
-  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-bottom: none;
-  border-radius: 20px;
-  padding: 10px 15px;
-  background: transparent;
+    position: relative;
+    color: var(--text-normal);
+    line-height: 1.5;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-bottom: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    background: transparent;
 }
 
 /* 气泡文字色的自定义覆盖：上面这条规则写了 color: var(--text-normal)，与文件开头的
    --custom 规则特异性相同（都是 0,2,2）却在更后面，会把自定义文字色盖回去。
    这里叠加 custom 门控类把特异性抬到 0,3,2，只在自定义颜色开启时生效；
    未开启时该规则不匹配，气泡文字仍是 text-normal。 */
-body.style-tweaker-blockquote-custom.style-tweaker-blockquote-bubble
-  :is(.markdown-preview-view, .markdown-rendered)
-  blockquote {
-  color: var(--blockquote-color, var(--color-accent));
+body.style-tweaker-blockquote-custom.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
+    color: var(--blockquote-color, var(--color-accent));
 }
 
 /* 尾巴右臂：只描 border-top 的 1/4 圆弧 —— 左上圆角写 35px 会被钳制成 28px，
    弧线由水平转向竖直、末端停在尾巴尖；其水平段与 ::before 的下边框完全重合。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::after {
-  content: "";
-  position: absolute;
-  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-radius: 35px 0 0;
-  width: 28px;
-  height: 25px;
-  bottom: -26px;
-  left: 26px;
-  border-bottom: none;
-  border-left: none;
-  border-right: none;
-  z-index: 3;
+    content: "";
+    position: absolute;
+    border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-radius: 35px 0 0;
+    width: 28px;
+    height: 25px;
+    bottom: -26px;
+    left: 26px;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    z-index: 3;
 }
 
 /* 下边框：气泡自身下边框为 none，这里补画整条（含左下/右下圆角），
@@ -178,71 +164,58 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
    height 与 border-radius 取 20px，沿用气泡自身的圆角半径；bottom: -1px
    让这 3px 宽的线正好压在 ::after 弧线的水平段上，接缝不可见。 */
 body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote::before {
-  content: "";
-  position: absolute;
-  left: -3px;
-  right: -3px;
-  bottom: -1px;
-  height: 20px;
-  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-radius: 0 0 20px 20px;
-  /* 挖空 [23px, 56px] 这一竖条 => 尾巴开口。遮罩与 clip-path 的挖洞等价，
-     但 clip-path 在 Obsidian 端属于"部分支持"的功能（提交审核 CSS lint 告警）。 */
-  -webkit-mask-image: linear-gradient(
-    to right,
-    #000 0 23px,
-    transparent 23px 56px,
-    #000 56px
-  );
-  mask-image: linear-gradient(
-    to right,
-    #000 0 23px,
-    transparent 23px 56px,
-    #000 56px
-  );
-  pointer-events: none;
-  z-index: 2;
+    content: "";
+    position: absolute;
+    left: -3px;
+    right: -3px;
+    bottom: -1px;
+    height: 20px;
+    border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-radius: 0 0 20px 20px;
+    /* 挖空 [23px, 56px] 这一竖条 => 尾巴开口。遮罩与 clip-path 的挖洞等价，
+       但 clip-path 在 Obsidian 端属于"部分支持"的功能（提交审核 CSS lint 告警）。 */
+    -webkit-mask-image: linear-gradient(to right, #000 0 23px, transparent 23px 56px, #000 56px);
+    mask-image: linear-gradient(to right, #000 0 23px, transparent 23px 56px, #000 56px);
+    pointer-events: none;
+    z-index: 2;
 }
 
 /* 尾巴左臂：接在下边框缺口的左断口上，末端落在 ::after 弧线的尖端，把尾巴合拢成尖角。
    画法与右臂同源 —— border-left 描边（线宽即根部粗细）+ 左下椭圆圆角把矩形
    裁成 1/4 弧，所以根部最粗、末端收成尖，整条弧凸向左下。
    微调三个值即可：left（根部位置）/ width（横向跨度）/ height（尾巴长度）。 */
-body.style-tweaker-blockquote-bubble
-  :is(.markdown-preview-view, .markdown-rendered)
-  blockquote
-  > p:first-child::before {
-  content: "";
-  position: absolute;
-  box-sizing: border-box;
-  left: 19px;
-  bottom: -26px;
-  width: 8px;
-  height: 28px;
-  border: none;
-  border-left: 2px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  /* 左下椭圆圆角把矩形裁成 1/4 弧：上端满宽 → 右下端收成尖 */
-  border-bottom-left-radius: 8px 26px;
-  pointer-events: none;
+body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote > p:first-child::before {
+    content: "";
+    position: absolute;
+    box-sizing: border-box;
+    left: 19px;
+    bottom: -26px;
+    width: 8px;
+    height: 28px;
+    border: none;
+    border-left: 2px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    /* 左下椭圆圆角把矩形裁成 1/4 弧：上端满宽 → 右下端收成尖 */
+    border-bottom-left-radius: 8px 26px;
+    pointer-events: none;
 }
 
 /* ---------- 边框样式 ----------
    圆角描边框，背景透明。 */
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote {
-  border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  background-color: transparent;
-  border-radius: var(--radius-m);
+    border: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    background-color: transparent;
+    border-radius: var(--radius-m);
 }
 
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:first-child {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  margin-right: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 16px;
 }
 
 body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-rendered) blockquote > p:last-child {
-  margin-bottom: 8px;
-  margin-right: 16px;
+    margin-bottom: 8px;
+    margin-right: 16px;
 }
 
 /* ---------- 气泡/边框：实时预览拼块 ----------
@@ -254,41 +227,41 @@ body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-render
    失效重算，故前移为状态类）。 */
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6 .cm-blockquote-border::before,
 body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
-  border-left: none;
+    border-left: none;
 }
 
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote,
 body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
-  border-left: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-right: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-left: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-right: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
 }
 
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
-  background: transparent;
+    background: transparent;
 }
 
 /* 首行（前面不是引用行）：上边线 + 顶部圆角 */
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
-  border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+    border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 /* 末行（后面不是引用行）：下边线 + 底部圆角 */
 body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
-  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+    border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
-  border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-top-left-radius: var(--radius-m);
-  border-top-right-radius: var(--radius-m);
+    border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-top-left-radius: var(--radius-m);
+    border-top-right-radius: var(--radius-m);
 }
 
 body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
-  border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-  border-bottom-left-radius: var(--radius-m);
-  border-bottom-right-radius: var(--radius-m);
+    border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
+    border-bottom-left-radius: var(--radius-m);
+    border-bottom-right-radius: var(--radius-m);
 }

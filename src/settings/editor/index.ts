@@ -25,28 +25,28 @@ import { buildTagsItem } from "./editor-tag";
 // ============================================================
 
 export function buildEditorSection(plugin: SettingTabPlugin): SettingDefinitionItem {
-  return {
-    type: "page",
-    name: t("editor.name"),
-    desc: t("editor.desc"),
-    items: [
-      buildBackgroundItem(plugin),
-      buildActiveLineItem(plugin),
-      buildInlineTitleItem(plugin),
-      buildPropertiesItem(plugin),
-      buildHeadingsItem(plugin),
-      buildTextDecorationItem(plugin),
-      buildInlineCodeItem(plugin),
-      buildCodeBlockItem(plugin),
-      buildHrItem(plugin),
-      buildBlockquoteItem(plugin),
-      buildLinksItem(plugin),
-      buildEmbedsItem(plugin),
-      buildTablesItem(plugin),
-      buildCalloutsItem(plugin),
-      buildListsItem(plugin),
-      buildTasksItem(plugin),
-      buildTagsItem(plugin),
-    ],
-  };
+    return {
+        type: "page",
+        name: t("editor.name"),
+        desc: t("editor.desc"),
+        items: [
+            buildBackgroundItem(plugin),
+            buildActiveLineItem(plugin),
+            buildInlineTitleItem(plugin),
+            buildPropertiesItem(plugin),
+            buildHeadingsItem(plugin),
+            buildTextDecorationItem(plugin),
+            buildInlineCodeItem(plugin),
+            buildCodeBlockItem(plugin),
+            buildHrItem(plugin),
+            buildBlockquoteItem(plugin),
+            buildLinksItem(plugin),
+            buildEmbedsItem(plugin),
+            buildTablesItem(plugin),
+            buildCalloutsItem(plugin),
+            buildListsItem(plugin),
+            buildTasksItem(plugin),
+            buildTagsItem(plugin),
+        ],
+    };
 }

@@ -24,25 +24,25 @@ import { accentToHex, normalizeHexColor } from "./color-palette";
  * @param fallback  未指定 / 未知色名时的回退值（可为 var(--color-accent)）
  */
 export function setAccentVar(
-  doc: Document,
-  value: string | undefined,
-  variable: string,
-  fallback: string,
+    doc: Document,
+    value: string | undefined,
+    variable: string,
+    fallback: string,
 ): void {
-  if (!doc?.body) return;
-  const name = (value ?? "").trim();
-  let resolved: string | null = null;
-  if (name && name !== "default") {
-    // 自定义色（颜色选择器写入的 #rrggbb）是固定色，深浅主题通用，直接用。
-    resolved = normalizeHexColor(name);
-    if (!resolved) {
-      const isDark = doc.body.classList.contains("theme-dark");
-      resolved = accentToHex(name, isDark);
-      // 深浅两表都无匹配（理论不发生）时回退
-      if (!resolved) resolved = accentToHex(name, !isDark);
+    if (!doc?.body) return;
+    const name = (value ?? "").trim();
+    let resolved: string | null = null;
+    if (name && name !== "default") {
+        // 自定义色（颜色选择器写入的 #rrggbb）是固定色，深浅主题通用，直接用。
+        resolved = normalizeHexColor(name);
+        if (!resolved) {
+            const isDark = doc.body.classList.contains("theme-dark");
+            resolved = accentToHex(name, isDark);
+            // 深浅两表都无匹配（理论不发生）时回退
+            if (!resolved) resolved = accentToHex(name, !isDark);
+        }
     }
-  }
-  doc.body.setCssProps({ [variable]: resolved ?? fallback });
+    doc.body.setCssProps({ [variable]: resolved ?? fallback });
 }
 
 /**
@@ -57,25 +57,25 @@ export function setAccentVar(
  * @param customValue 自定义色字段值（仅 colorValue 为 custom 时参与解析）
  */
 export function setAccentVarPair(
-  doc: Document,
-  colorValue: string | undefined,
-  customValue: string | undefined,
-  darkVar: string,
-  lightVar: string,
+    doc: Document,
+    colorValue: string | undefined,
+    customValue: string | undefined,
+    darkVar: string,
+    lightVar: string,
 ): void {
-  if (!doc?.body) return;
-  const body = doc.body;
-  const custom = normalizeHexColor(customValue);
-  const useCustom = (colorValue ?? "").trim() === "custom" && !!custom;
-  const dark = useCustom ? custom : accentToHex(colorValue, true);
-  const light = useCustom ? custom : accentToHex(colorValue, false);
-  if (dark && light) {
-    body.style.setProperty(darkVar, dark);
-    body.style.setProperty(lightVar, light);
-  } else {
-    body.style.removeProperty(darkVar);
-    body.style.removeProperty(lightVar);
-  }
+    if (!doc?.body) return;
+    const body = doc.body;
+    const custom = normalizeHexColor(customValue);
+    const useCustom = (colorValue ?? "").trim() === "custom" && !!custom;
+    const dark = useCustom ? custom : accentToHex(colorValue, true);
+    const light = useCustom ? custom : accentToHex(colorValue, false);
+    if (dark && light) {
+        body.style.setProperty(darkVar, dark);
+        body.style.setProperty(lightVar, light);
+    } else {
+        body.style.removeProperty(darkVar);
+        body.style.removeProperty(lightVar);
+    }
 }
 
 /**
@@ -83,21 +83,17 @@ export function setAccentVarPair(
  *   - 写入 `<n>%`，超出 0-100 会被夹紧
  *   - 非法值 / undefined → 移除变量，由 CSS 回退默认百分比
  */
-export function setPercentVar(
-  doc: Document,
-  value: number | undefined,
-  variable: string,
-): void {
-  if (!doc?.body) return;
-  const n = Number(value);
-  if (!Number.isFinite(n)) {
-    doc.body.style.removeProperty(variable);
-    return;
-  }
-  doc.body.style.setProperty(variable, `${Math.min(100, Math.max(0, n))}%`);
+export function setPercentVar(doc: Document, value: number | undefined, variable: string): void {
+    if (!doc?.body) return;
+    const n = Number(value);
+    if (!Number.isFinite(n)) {
+        doc.body.style.removeProperty(variable);
+        return;
+    }
+    doc.body.style.setProperty(variable, `${Math.min(100, Math.max(0, n))}%`);
 }
 
 /** 移除指定文档 body 上的变量（对应 clearDocument）。 */
 export function removeDocVar(doc: Document, variable: string): void {
-  doc.body?.style.removeProperty(variable);
+    doc.body?.style.removeProperty(variable);
 }

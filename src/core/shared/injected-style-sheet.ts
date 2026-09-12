@@ -9,40 +9,38 @@
  * 属于被 core/editor 等服务复用的跨域基础设施，故放在 core/shared/。
  */
 export class InjectedStyleSheet {
-  private readonly sheets = new Map<Document, CSSStyleSheet>();
+    private readonly sheets = new Map<Document, CSSStyleSheet>();
 
-  constructor(private readonly css: string) {}
+    constructor(private readonly css: string) {}
 
-  /** 将样式应用到指定文档（已存在则幂等）；CSS 解析失败时静默保留旧内容。 */
-  apply(doc: Document): void {
-    const win = doc.defaultView;
-    if (!win || typeof win.CSSStyleSheet !== "function") return;
-    let sheet = this.sheets.get(doc);
-    if (!sheet) {
-      sheet = new win.CSSStyleSheet();
-      this.sheets.set(doc, sheet);
+    /** 将样式应用到指定文档（已存在则幂等）；CSS 解析失败时静默保留旧内容。 */
+    apply(doc: Document): void {
+        const win = doc.defaultView;
+        if (!win || typeof win.CSSStyleSheet !== "function") return;
+        let sheet = this.sheets.get(doc);
+        if (!sheet) {
+            sheet = new win.CSSStyleSheet();
+            this.sheets.set(doc, sheet);
+        }
+        try {
+            sheet.replaceSync(this.css);
+        } catch (e) {
+            console.warn("[style-tweaker] injected css update failed:", e);
+            return;
+        }
+        const adopted = Array.from(doc.adoptedStyleSheets ?? []);
+        if (!adopted.includes(sheet)) {
+            doc.adoptedStyleSheets = [...adopted, sheet];
+        }
     }
-    try {
-      sheet.replaceSync(this.css);
-    } catch (e) {
-      console.warn("[style-tweaker] injected css update failed:", e);
-      return;
-    }
-    const adopted = Array.from(doc.adoptedStyleSheets ?? []);
-    if (!adopted.includes(sheet)) {
-      doc.adoptedStyleSheets = [...adopted, sheet];
-    }
-  }
 
-  /** 从指定文档移除注入的样式。 */
-  remove(doc: Document): void {
-    const sheet = this.sheets.get(doc);
-    if (!sheet) return;
-    this.sheets.delete(doc);
-    if (doc.adoptedStyleSheets) {
-      doc.adoptedStyleSheets = Array.from(doc.adoptedStyleSheets).filter(
-        (s) => s !== sheet,
-      );
+    /** 从指定文档移除注入的样式。 */
+    remove(doc: Document): void {
+        const sheet = this.sheets.get(doc);
+        if (!sheet) return;
+        this.sheets.delete(doc);
+        if (doc.adoptedStyleSheets) {
+            doc.adoptedStyleSheets = Array.from(doc.adoptedStyleSheets).filter((s) => s !== sheet);
+        }
     }
-  }
 }

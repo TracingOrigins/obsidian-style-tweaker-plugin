@@ -14,17 +14,17 @@ const ICONS_HIGHLIGHT_CLASS = "style-tweaker-active-icon-highlight";
  * 不需要轮询或 MutationObserver。由基类统一管理事件驱动。
  */
 export class TabBarService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    doc.body.classList.toggle(ICONS_HIGHLIGHT_CLASS, s.activeTabHighlight);
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        doc.body.classList.toggle(ICONS_HIGHLIGHT_CLASS, s.activeTabHighlight);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(ICONS_HIGHLIGHT_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(ICONS_HIGHLIGHT_CLASS);
+    }
 }

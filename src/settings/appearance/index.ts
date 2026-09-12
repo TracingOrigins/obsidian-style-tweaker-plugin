@@ -10,13 +10,10 @@ import { buildThemeItem } from "./appearance-theme";
 // ============================================================
 
 export function buildAppearanceSection(plugin: SettingTabPlugin): SettingDefinitionItem {
-  return {
-    type: "page",
-    name: t("appearance.name"),
-    desc: t("appearance.desc"),
-    items: [
-      buildBackgroundItem(plugin),
-      buildThemeItem(plugin),
-    ],
-  };
+    return {
+        type: "page",
+        name: t("appearance.name"),
+        desc: t("appearance.desc"),
+        items: [buildBackgroundItem(plugin), buildThemeItem(plugin)],
+    };
 }

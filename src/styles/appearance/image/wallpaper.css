@@ -13,57 +13,53 @@
 /* .workspace 定位与隔离，确保承载壁纸（body::before 壁纸层）时
    子内容能正确叠放。仅在图片背景激活（.style-tweaker-bg-image-active）时生效。 */
 body.style-tweaker-bg-image-active {
-  /* 图片模式下代码块的「固定半透明底色」：固定 60% 不透明，不随界面不透明度设置
-     变化。此处引用的 --code-background 解析自 :root（本文件刻意不覆盖该变量，
-     否则在 body 层重定义并引用自身会形成循环依赖，导致声明整条失效）。 */
-  --style-tweaker-code-bg: color-mix(
-    in srgb,
-    var(--code-background) 60%,
-    transparent
-  );
+    /* 图片模式下代码块的「固定半透明底色」：固定 60% 不透明，不随界面不透明度设置
+       变化。此处引用的 --code-background 解析自 :root（本文件刻意不覆盖该变量，
+       否则在 body 层重定义并引用自身会形成循环依赖，导致声明整条失效）。 */
+    --style-tweaker-code-bg: color-mix(in srgb, var(--code-background) 60%, transparent);
 
-  .workspace {
-    position: relative;
-    isolation: isolate;
-    background-color: transparent;
+    .workspace {
+        position: relative;
+        isolation: isolate;
+        background-color: transparent;
 
-    /* 保底：核心承载层强制透明，确保壁纸（body::before）透出。
-       这一组能防止不透明内容盖住壁纸。仅在图片模式激活时生效。
-       注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用
-       的 background-image:none 把「编辑器背景」服务的网格/点阵图案一并清除。
-       编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor/background.css
-       在其自身元素上绘制，二者可共存。 */
-    .workspace-split,
-    .workspace-split.mod-root,
-    .workspace-split.mod-left-split,
-    .workspace-split.mod-right-split,
-    .workspace-leaf,
-    .workspace-leaf-content,
-    .workspace-tabs,
-    .workspace-leaf .view-header,
-    .view-content {
-      background: none;
-      background-color: transparent;
-      background-image: none;
+        /* 保底：核心承载层强制透明，确保壁纸（body::before）透出。
+           这一组能防止不透明内容盖住壁纸。仅在图片模式激活时生效。
+           注意：刻意排除编辑器相关元素（.cm-* / .markdown-* 视图），避免用
+           的 background-image:none 把「编辑器背景」服务的网格/点阵图案一并清除。
+           编辑器区本身已是透明（由上面的 .workspace 透出壁纸），其图案由 editor/background.css
+           在其自身元素上绘制，二者可共存。 */
+        .workspace-split,
+        .workspace-split.mod-root,
+        .workspace-split.mod-left-split,
+        .workspace-split.mod-right-split,
+        .workspace-leaf,
+        .workspace-leaf-content,
+        .workspace-tabs,
+        .workspace-leaf .view-header,
+        .view-content {
+            background: none;
+            background-color: transparent;
+            background-image: none;
+        }
+
+        /* 编辑器区仅强制底色透明以透出壁纸，但保留 background-image，
+           以免清除「编辑器背景」服务绘制的网格/点阵图案。 */
+        .markdown-source-view,
+        .markdown-preview-view,
+        .markdown-rendered,
+        .cm-editor,
+        .cm-scroller,
+        .cm-gutters {
+            background-color: transparent;
+        }
+
+        /* 代码块背景改为固定半透明（见文件顶部 --style-tweaker-code-bg），透出壁纸。 */
+        .markdown-rendered pre,
+        .markdown-source-view .HyperMD-codeblock-bg {
+            background-color: var(--style-tweaker-code-bg);
+        }
     }
-
-    /* 编辑器区仅强制底色透明以透出壁纸，但保留 background-image，
-       以免清除「编辑器背景」服务绘制的网格/点阵图案。 */
-    .markdown-source-view,
-    .markdown-preview-view,
-    .markdown-rendered,
-    .cm-editor,
-    .cm-scroller,
-    .cm-gutters {
-      background-color: transparent;
-    }
-
-    /* 代码块背景改为固定半透明（见文件顶部 --style-tweaker-code-bg），透出壁纸。 */
-    .markdown-rendered pre,
-    .markdown-source-view .HyperMD-codeblock-bg {
-      background-color: var(--style-tweaker-code-bg);
-    }
-  }
 }
 
 /* 堆叠标签（stacked tabs）：多层 .workspace-leaf 空间重叠摆放，原生靠每层叶子自身的
@@ -73,19 +69,18 @@ body.style-tweaker-bg-image-active {
    壁纸背景（background-attachment: fixed 使图像相对视口固定，与根层壁纸逐像素一致），
    并叠加同款遮罩色，使顶层叶子/标题条/标签头既能遮挡下层内容、视觉上仍是同一张壁纸。 */
 body.style-tweaker-bg-image-active {
-  .workspace-tabs.mod-stacked .workspace-leaf,
-  .workspace-tabs.mod-stacked .workspace-leaf-content,
-  .workspace-tabs.mod-stacked .view-header,
-  .workspace-tabs.mod-stacked .workspace-tab-header {
-    --style-tweaker-stacked-mask: linear-gradient(
-      color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent),
-      color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent)
-    );
-    background-color: transparent;
-    background-image: var(--style-tweaker-stacked-mask), var(--style-tweaker-bg-image);
-    background-size: auto, cover;
-    background-position: 0 0, center;
-    background-repeat: repeat, no-repeat;
-    background-attachment: scroll, fixed;
-  }
+    .workspace-tabs.mod-stacked .workspace-leaf,
+    .workspace-tabs.mod-stacked .workspace-leaf-content,
+    .workspace-tabs.mod-stacked .view-header,
+    .workspace-tabs.mod-stacked .workspace-tab-header {
+        --style-tweaker-stacked-mask: linear-gradient(color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent), color-mix(in srgb, var(--style-tweaker-mask-color) calc(var(--style-tweaker-bg-opacity) * 100%), transparent));
+        background-color: transparent;
+        background-image: var(--style-tweaker-stacked-mask), var(--style-tweaker-bg-image);
+        background-size: auto, cover;
+        background-position:
+            0 0,
+            center;
+        background-repeat: repeat, no-repeat;
+        background-attachment: scroll, fixed;
+    }
 }

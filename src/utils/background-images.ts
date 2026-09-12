@@ -8,10 +8,10 @@ export const IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp", "svg", "av
  * folder 为空表示扫描整个 vault。
  */
 export function isSelectableImage(file: TFile, folder = ""): boolean {
-  if (!IMAGE_EXTENSIONS.includes(file.extension.toLowerCase())) return false;
-  const f = folder.trim();
-  if (f && !file.path.toLowerCase().startsWith(f.toLowerCase() + "/")) return false;
-  return true;
+    if (!IMAGE_EXTENSIONS.includes(file.extension.toLowerCase())) return false;
+    const f = folder.trim();
+    if (f && !file.path.toLowerCase().startsWith(f.toLowerCase() + "/")) return false;
+    return true;
 }
 
 /**
@@ -20,13 +20,13 @@ export function isSelectableImage(file: TFile, folder = ""): boolean {
  * @param extraFilter 额外过滤条件（默认仅按扩展名 + 文件夹过滤）
  */
 export function getSortedBackgroundImages(
-  app: App,
-  folder = "",
-  extraFilter?: (file: TFile) => boolean,
+    app: App,
+    folder = "",
+    extraFilter?: (file: TFile) => boolean,
 ): TFile[] {
-  return app.vault
-    .getFiles()
-    .filter((f) => isSelectableImage(f, folder))
-    .filter((f) => (extraFilter ? extraFilter(f) : true))
-    .sort((a, b) => a.path.localeCompare(b.path));
+    return app.vault
+        .getFiles()
+        .filter((f) => isSelectableImage(f, folder))
+        .filter((f) => (extraFilter ? extraFilter(f) : true))
+        .sort((a, b) => a.path.localeCompare(b.path));
 }

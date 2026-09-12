@@ -11,7 +11,7 @@ on:
 
 permissions:
     id-token: write
-    contents: write          # 改为 write，允许上传到 Release
+    contents: write # 改为 write，允许上传到 Release
     attestations: write
     artifact-metadata: write
 

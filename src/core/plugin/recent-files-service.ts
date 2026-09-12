@@ -37,79 +37,74 @@ const CUSTOM_COLOR_DARK_VAR = "--style-tweaker-rf-colorful-custom-color-dark";
 const CUSTOM_COLOR_LIGHT_VAR = "--style-tweaker-rf-colorful-custom-color-light";
 
 export class RecentFilesService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  /** 主题（深色/浅色）切换时按最新 theme 重挂对应门控类。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    const body = doc.body;
-    const isDark = body.classList.contains("theme-dark");
-
-    // 文件图标门控
-    body.classList.toggle(FILE_ICONS_CLASS, s.rfAddFileIcon === true);
-
-    // 悬停显示后缀标签门控
-    body.classList.toggle(
-      HOVER_REVEAL_FILE_TAG_CLASS,
-      s.rfHoverRevealFileTag === true,
-    );
-
-    // 彩色化总开关
-    body.classList.toggle(COLORFUL_ENABLED_CLASS, s.rfColorfulEnabled === true);
-
-    // 先清除旧的 mode / palette 门控类，避免切换残留叠加导致特异性冲突
-    for (let i = body.classList.length - 1; i >= 0; i--) {
-      const cls = body.classList[i];
-      if (cls.startsWith(MODE_PREFIX) || cls.startsWith(PALETTE_PREFIX)) {
-        body.classList.remove(cls);
-      }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
 
-    // 按当前主题取对应一套 mode / palette
-    const mode = isDark ? s.rfColorfulModeDark : s.rfColorfulModeLight;
-    const palette = isDark ? s.rfColorfulPaletteDark : s.rfColorfulPaletteLight;
-
-    if (s.rfColorfulEnabled === true) {
-      body.classList.add(MODE_PREFIX + mode);
-      body.classList.add(PALETTE_PREFIX + palette);
-      // 自定义配色基色：深浅各写一套，CSS 按主题取用（仅 custom 配色会用到）
-      body.style.setProperty(
-        CUSTOM_COLOR_DARK_VAR,
-        resolveAccentValue(s.rfColorfulColorDark, "#ef8c3a"),
-      );
-      body.style.setProperty(
-        CUSTOM_COLOR_LIGHT_VAR,
-        resolveAccentValue(s.rfColorfulColorLight, "#ef8c3a"),
-      );
-    } else {
-      body.style.removeProperty(CUSTOM_COLOR_DARK_VAR);
-      body.style.removeProperty(CUSTOM_COLOR_LIGHT_VAR);
+    /** 主题（深色/浅色）切换时按最新 theme 重挂对应门控类。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
     }
-  }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(
-      FILE_ICONS_CLASS,
-      HOVER_REVEAL_FILE_TAG_CLASS,
-      COLORFUL_ENABLED_CLASS,
-    );
-    if (!doc.body) return;
-    for (let i = doc.body.classList.length - 1; i >= 0; i--) {
-      const cls = doc.body.classList[i];
-      if (cls.startsWith(MODE_PREFIX) || cls.startsWith(PALETTE_PREFIX)) {
-        doc.body.classList.remove(cls);
-      }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        const body = doc.body;
+        const isDark = body.classList.contains("theme-dark");
+
+        // 文件图标门控
+        body.classList.toggle(FILE_ICONS_CLASS, s.rfAddFileIcon === true);
+
+        // 悬停显示后缀标签门控
+        body.classList.toggle(HOVER_REVEAL_FILE_TAG_CLASS, s.rfHoverRevealFileTag === true);
+
+        // 彩色化总开关
+        body.classList.toggle(COLORFUL_ENABLED_CLASS, s.rfColorfulEnabled === true);
+
+        // 先清除旧的 mode / palette 门控类，避免切换残留叠加导致特异性冲突
+        for (let i = body.classList.length - 1; i >= 0; i--) {
+            const cls = body.classList[i];
+            if (cls.startsWith(MODE_PREFIX) || cls.startsWith(PALETTE_PREFIX)) {
+                body.classList.remove(cls);
+            }
+        }
+
+        // 按当前主题取对应一套 mode / palette
+        const mode = isDark ? s.rfColorfulModeDark : s.rfColorfulModeLight;
+        const palette = isDark ? s.rfColorfulPaletteDark : s.rfColorfulPaletteLight;
+
+        if (s.rfColorfulEnabled === true) {
+            body.classList.add(MODE_PREFIX + mode);
+            body.classList.add(PALETTE_PREFIX + palette);
+            // 自定义配色基色：深浅各写一套，CSS 按主题取用（仅 custom 配色会用到）
+            body.style.setProperty(
+                CUSTOM_COLOR_DARK_VAR,
+                resolveAccentValue(s.rfColorfulColorDark, "#ef8c3a"),
+            );
+            body.style.setProperty(
+                CUSTOM_COLOR_LIGHT_VAR,
+                resolveAccentValue(s.rfColorfulColorLight, "#ef8c3a"),
+            );
+        } else {
+            body.style.removeProperty(CUSTOM_COLOR_DARK_VAR);
+            body.style.removeProperty(CUSTOM_COLOR_LIGHT_VAR);
+        }
     }
-    doc.body.style.removeProperty(CUSTOM_COLOR_DARK_VAR);
-    doc.body.style.removeProperty(CUSTOM_COLOR_LIGHT_VAR);
-  }
+
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(
+            FILE_ICONS_CLASS,
+            HOVER_REVEAL_FILE_TAG_CLASS,
+            COLORFUL_ENABLED_CLASS,
+        );
+        if (!doc.body) return;
+        for (let i = doc.body.classList.length - 1; i >= 0; i--) {
+            const cls = doc.body.classList[i];
+            if (cls.startsWith(MODE_PREFIX) || cls.startsWith(PALETTE_PREFIX)) {
+                doc.body.classList.remove(cls);
+            }
+        }
+        doc.body.style.removeProperty(CUSTOM_COLOR_DARK_VAR);
+        doc.body.style.removeProperty(CUSTOM_COLOR_LIGHT_VAR);
+    }
 }

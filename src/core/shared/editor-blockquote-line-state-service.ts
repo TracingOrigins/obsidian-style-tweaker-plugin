@@ -20,63 +20,62 @@ const QUOTE_LINE_CLASS = "HyperMD-quote";
 
 /** 跨窗口安全的 Element 判定；非元素节点返回 null。 */
 function asElement(node: Node | null): Element | null {
-  return node !== null && node.instanceOf(Element) ? node : null;
+    return node !== null && node.instanceOf(Element) ? node : null;
 }
 
 /** 判断某元素是否为（或位于）CM6 源码/实时预览行 */
 function resolveCmLine(el: Element | null): HTMLElement | null {
-  if (!el) return null;
-  if (el.classList?.contains("cm-line")) return el as HTMLElement;
-  return el.closest<HTMLElement>(CM_LINE_SELECTOR);
+    if (!el) return null;
+    if (el.classList?.contains("cm-line")) return el as HTMLElement;
+    return el.closest<HTMLElement>(CM_LINE_SELECTOR);
 }
 
 /** 引用块末行：下一个同级元素不是引用行即末行，没有后继同样是末行。 */
 function classifyLine(line: HTMLElement): void {
-  const next = line.nextElementSibling;
-  line.classList.toggle(
-    QUOTE_LAST_CLASS,
-    line.classList.contains(QUOTE_LINE_CLASS) &&
-      !next?.classList.contains(QUOTE_LINE_CLASS),
-  );
+    const next = line.nextElementSibling;
+    line.classList.toggle(
+        QUOTE_LAST_CLASS,
+        line.classList.contains(QUOTE_LINE_CLASS) && !next?.classList.contains(QUOTE_LINE_CLASS),
+    );
 }
 
 export class EditorBlockquoteLineStateService extends DomStateServiceBase {
-  protected isActive(doc: Document): boolean {
-    if (!doc?.body) return false;
-    const style = this.getSettings().blockquoteStyle;
-    return style === "bubble" || style === "frame";
-  }
-
-  protected refreshAll(doc: Document): void {
-    if (!doc?.body) return;
-    doc.querySelectorAll<HTMLElement>(CM_LINE_SELECTOR).forEach(classifyLine);
-  }
-
-  protected onMutations(_doc: Document, records: MutationRecord[]): void {
-    // 末行身份同时取决于"本行"与"前一行"的结构，故每次顺带重判前一行
-    const lines = new Set<HTMLElement>();
-    const visit = (node: Node | null): void => {
-      const line = resolveCmLine(asElement(node));
-      if (!line) return;
-      lines.add(line);
-      const prev = resolveCmLine(asElement(line.previousElementSibling));
-      if (prev) lines.add(prev);
-    };
-    for (const record of records) {
-      visit(record.target);
-      if (record.type === "childList") {
-        visit(record.previousSibling);
-        visit(record.nextSibling);
-        Array.from(record.addedNodes).forEach(visit);
-      }
+    protected isActive(doc: Document): boolean {
+        if (!doc?.body) return false;
+        const style = this.getSettings().blockquoteStyle;
+        return style === "bubble" || style === "frame";
     }
-    lines.forEach(classifyLine);
-  }
 
-  protected clearStates(doc: Document): void {
-    if (!doc?.body) return;
-    doc
-      .querySelectorAll<HTMLElement>(`.${QUOTE_LAST_CLASS}`)
-      .forEach((line) => line.classList.remove(QUOTE_LAST_CLASS));
-  }
+    protected refreshAll(doc: Document): void {
+        if (!doc?.body) return;
+        doc.querySelectorAll<HTMLElement>(CM_LINE_SELECTOR).forEach(classifyLine);
+    }
+
+    protected onMutations(_doc: Document, records: MutationRecord[]): void {
+        // 末行身份同时取决于"本行"与"前一行"的结构，故每次顺带重判前一行
+        const lines = new Set<HTMLElement>();
+        const visit = (node: Node | null): void => {
+            const line = resolveCmLine(asElement(node));
+            if (!line) return;
+            lines.add(line);
+            const prev = resolveCmLine(asElement(line.previousElementSibling));
+            if (prev) lines.add(prev);
+        };
+        for (const record of records) {
+            visit(record.target);
+            if (record.type === "childList") {
+                visit(record.previousSibling);
+                visit(record.nextSibling);
+                Array.from(record.addedNodes).forEach(visit);
+            }
+        }
+        lines.forEach(classifyLine);
+    }
+
+    protected clearStates(doc: Document): void {
+        if (!doc?.body) return;
+        doc.querySelectorAll<HTMLElement>(`.${QUOTE_LAST_CLASS}`).forEach((line) =>
+            line.classList.remove(QUOTE_LAST_CLASS),
+        );
+    }
 }

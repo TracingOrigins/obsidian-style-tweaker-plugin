@@ -9,49 +9,49 @@
 
 /* 库信息和状态栏上移 */
 body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-header {
-  order: 0;
-  padding-bottom: var(--size-4-3);
-  padding-top: 0;
+    order: 0;
+    padding-bottom: var(--size-4-3);
+    padding-top: 0;
 }
 
 /* 标签选项卡上移 */
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-tab-options {
-  order: 0;
+    order: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-tab-options-list {
-  padding-top: var(--touch-size-l);
-  padding-bottom: var(--size-4-2);
-  bottom: unset;
-  top: 0;
+    padding-top: var(--touch-size-l);
+    padding-bottom: var(--size-4-2);
+    bottom: unset;
+    top: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer-active-tab-content .view-content {
-  padding-top: var(--size-4-2);
-  padding-bottom: var(--size-4-8);
+    padding-top: var(--size-4-2);
+    padding-bottom: var(--size-4-8);
 }
 
 /* 导航栏上移 */
 body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer .nav-buttons-container {
-  position: unset;
-  top: 0;
+    position: unset;
+    top: 0;
 }
 
 /* 上下边距微调 */
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-header,
 body.is-mobile.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-header {
-  padding-top: 0;
+    padding-top: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-inner,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-inner {
-  padding-bottom: 0;
+    padding-bottom: 0;
 }
 
 body.is-mobile.style-tweaker-mobile-drawer-header-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top.style-tweaker-mobile-drawer-nav-top .workspace-drawer-active-tab-content .view-content,
 body.is-mobile.style-tweaker-mobile-drawer-header-top.style-tweaker-mobile-drawer-tabs-top .workspace-drawer.style-tweaker-drawer-nav-buttons-empty .workspace-drawer-active-tab-content .view-content {
-  padding-top: 0;
-  padding-bottom: var(--size-4-8);
+    padding-top: 0;
+    padding-bottom: var(--size-4-8);
 }

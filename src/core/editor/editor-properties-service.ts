@@ -51,7 +51,7 @@ const VALID_DIVIDER_STYLES = ["dashed", "solid", "none"];
 
 /** 线型取值校验：异常值回退虚线。 */
 function normalizeDividerStyle(value: string | undefined): string {
-  return VALID_DIVIDER_STYLES.includes(value ?? "") ? (value as string) : "dashed";
+    return VALID_DIVIDER_STYLES.includes(value ?? "") ? (value as string) : "dashed";
 }
 
 /**
@@ -59,85 +59,83 @@ function normalizeDividerStyle(value: string | undefined): string {
  * 其余值（default / 空 / 色名）交给 setAccentVar 按该文档当前主题解析。
  */
 function setDividerColorVar(
-  doc: Document,
-  color: string | undefined,
-  custom: string | undefined,
-  variable: string,
+    doc: Document,
+    color: string | undefined,
+    custom: string | undefined,
+    variable: string,
 ): void {
-  const hex = normalizeHexColor(custom);
-  if ((color ?? "").trim() === "custom" && hex) {
-    doc.body?.style.setProperty(variable, hex);
-    return;
-  }
-  setAccentVar(doc, color, variable, "var(--color-accent)");
+    const hex = normalizeHexColor(custom);
+    if ((color ?? "").trim() === "custom" && hex) {
+        doc.body?.style.setProperty(variable, hex);
+        return;
+    }
+    setAccentVar(doc, color, variable, "var(--color-accent)");
 }
 
 export class EditorPropertiesService extends BaseService {
-  /** 属性区域样式模板：原 properties.css 因 multicolumn 被旧基线误报，改由运行时注入。 */
-  private readonly propertiesStyle = new InjectedStyleSheet(PROPERTIES_STYLES_CSS);
+    /** 属性区域样式模板：原 properties.css 因 multicolumn 被旧基线误报，改由运行时注入。 */
+    private readonly propertiesStyle = new InjectedStyleSheet(PROPERTIES_STYLES_CSS);
 
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  /** 主题（深色 / 浅色）切换时重 apply，刷新按当前主题解析的分隔线颜色。 */
-  protected registerExtraListeners(): void {
-    this.plugin.registerEvent(
-      this.app.workspace.on("css-change", () => this.apply()),
-    );
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-
-    // 栏数限幅 1–6：旧数据 / 手改配置越界时回退到合法区间
-    const clampCount = (v: number | undefined, fallback: number): string =>
-      String(Math.min(6, Math.max(1, v ?? fallback)));
-
-    doc.body.setCssProps({
-      [DESKTOP_PROPERTIES_COLUMN_COUNT_VAR]: clampCount(s.desktopPropertiesColumnCount, 2),
-      [MOBILE_PROPERTIES_COLUMN_COUNT_VAR]: clampCount(s.mobilePropertiesColumnCount, 1),
-      // 栏间分隔线线型：桌面端 / 移动端各一套
-      [DIVIDER_STYLE_DESKTOP_VAR]: normalizeDividerStyle(s.desktopPropertiesDividerStyle),
-      [DIVIDER_STYLE_MOBILE_VAR]: normalizeDividerStyle(s.mobilePropertiesDividerStyle),
-    });
-
-    // 栏间分隔线颜色与不透明度：两端各自解析（default / 空值 → 主题强调色）
-    setDividerColorVar(
-      doc,
-      s.desktopPropertiesDividerColor,
-      s.desktopPropertiesCustomDividerColor,
-      DIVIDER_COLOR_DESKTOP_VAR,
-    );
-    setDividerColorVar(
-      doc,
-      s.mobilePropertiesDividerColor,
-      s.mobilePropertiesCustomDividerColor,
-      DIVIDER_COLOR_MOBILE_VAR,
-    );
-    setPercentVar(doc, s.desktopPropertiesDividerOpacity, DIVIDER_OPACITY_DESKTOP_VAR);
-    setPercentVar(doc, s.mobilePropertiesDividerOpacity, DIVIDER_OPACITY_MOBILE_VAR);
-
-    doc.body.classList.toggle(PROPERTIES_COLUMN_CLASS, s.propertiesColumnLayout);
-    // 注入样式模板（幂等；CSS 条件均以 body 门控类/变量为准）
-    this.propertiesStyle.apply(doc);
-  }
-
-  protected clearDocument(doc: Document): void {
-    this.propertiesStyle.remove(doc);
-    for (const variable of [
-      DESKTOP_PROPERTIES_COLUMN_COUNT_VAR,
-      MOBILE_PROPERTIES_COLUMN_COUNT_VAR,
-      DIVIDER_STYLE_DESKTOP_VAR,
-      DIVIDER_STYLE_MOBILE_VAR,
-      DIVIDER_COLOR_DESKTOP_VAR,
-      DIVIDER_COLOR_MOBILE_VAR,
-      DIVIDER_OPACITY_DESKTOP_VAR,
-      DIVIDER_OPACITY_MOBILE_VAR,
-    ]) {
-      removeDocVar(doc, variable);
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
-    doc.body?.classList.remove(PROPERTIES_COLUMN_CLASS);
-  }
+
+    /** 主题（深色 / 浅色）切换时重 apply，刷新按当前主题解析的分隔线颜色。 */
+    protected registerExtraListeners(): void {
+        this.plugin.registerEvent(this.app.workspace.on("css-change", () => this.apply()));
+    }
+
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+
+        // 栏数限幅 1–6：旧数据 / 手改配置越界时回退到合法区间
+        const clampCount = (v: number | undefined, fallback: number): string =>
+            String(Math.min(6, Math.max(1, v ?? fallback)));
+
+        doc.body.setCssProps({
+            [DESKTOP_PROPERTIES_COLUMN_COUNT_VAR]: clampCount(s.desktopPropertiesColumnCount, 2),
+            [MOBILE_PROPERTIES_COLUMN_COUNT_VAR]: clampCount(s.mobilePropertiesColumnCount, 1),
+            // 栏间分隔线线型：桌面端 / 移动端各一套
+            [DIVIDER_STYLE_DESKTOP_VAR]: normalizeDividerStyle(s.desktopPropertiesDividerStyle),
+            [DIVIDER_STYLE_MOBILE_VAR]: normalizeDividerStyle(s.mobilePropertiesDividerStyle),
+        });
+
+        // 栏间分隔线颜色与不透明度：两端各自解析（default / 空值 → 主题强调色）
+        setDividerColorVar(
+            doc,
+            s.desktopPropertiesDividerColor,
+            s.desktopPropertiesCustomDividerColor,
+            DIVIDER_COLOR_DESKTOP_VAR,
+        );
+        setDividerColorVar(
+            doc,
+            s.mobilePropertiesDividerColor,
+            s.mobilePropertiesCustomDividerColor,
+            DIVIDER_COLOR_MOBILE_VAR,
+        );
+        setPercentVar(doc, s.desktopPropertiesDividerOpacity, DIVIDER_OPACITY_DESKTOP_VAR);
+        setPercentVar(doc, s.mobilePropertiesDividerOpacity, DIVIDER_OPACITY_MOBILE_VAR);
+
+        doc.body.classList.toggle(PROPERTIES_COLUMN_CLASS, s.propertiesColumnLayout);
+        // 注入样式模板（幂等；CSS 条件均以 body 门控类/变量为准）
+        this.propertiesStyle.apply(doc);
+    }
+
+    protected clearDocument(doc: Document): void {
+        this.propertiesStyle.remove(doc);
+        for (const variable of [
+            DESKTOP_PROPERTIES_COLUMN_COUNT_VAR,
+            MOBILE_PROPERTIES_COLUMN_COUNT_VAR,
+            DIVIDER_STYLE_DESKTOP_VAR,
+            DIVIDER_STYLE_MOBILE_VAR,
+            DIVIDER_COLOR_DESKTOP_VAR,
+            DIVIDER_COLOR_MOBILE_VAR,
+            DIVIDER_OPACITY_DESKTOP_VAR,
+            DIVIDER_OPACITY_MOBILE_VAR,
+        ]) {
+            removeDocVar(doc, variable);
+        }
+        doc.body?.classList.remove(PROPERTIES_COLUMN_CLASS);
+    }
 }

@@ -13,57 +13,35 @@
    会导致本变量失效、增强样式与基础配色全部不生效（表现为只开增强无变化，
    开启自定义后才出现）。 */
 body {
-  --style-tweaker-inline-code-accent: var(--color-accent);
+    --style-tweaker-inline-code-accent: var(--color-accent);
 }
 
 body.style-tweaker-inline-code-custom {
-  --style-tweaker-inline-code-accent: var(--style-tweaker-inline-code-color, var(--color-accent));
+    --style-tweaker-inline-code-accent: var(--style-tweaker-inline-code-color, var(--color-accent));
 }
 
 /* 目标选择器：阅读视图与编辑视图中的内联代码（排除代码块内的 code）。
    仅在开启内联代码自定义（inlineCodeStyle / inlineCodeCustom）时生效，
    默认时内联代码保持 Obsidian 原生样式（--code-normal 文字 + --code-background 背景）。 */
-body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom)
-  :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view)
-  :not(pre)
-  > code,
-body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom)
-  .cm-s-obsidian
-  span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(
-    .obsidian-search-match-highlight
-  ) {
-  color: var(--style-tweaker-inline-code-accent);
-  background-color: color-mix(
-    in srgb,
-    var(--style-tweaker-inline-code-accent) 8%,
-    transparent
-  );
+body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom) :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view) :not(pre) > code,
+body:is(.style-tweaker-inline-code-style, .style-tweaker-inline-code-custom) .cm-s-obsidian span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(.obsidian-search-match-highlight) {
+    color: var(--style-tweaker-inline-code-accent);
+    background-color: color-mix(in srgb, var(--style-tweaker-inline-code-accent) 8%, transparent);
 }
 
 /* 内联代码增强样式
    门控类 .style-tweaker-inline-code-style 由 EditorInlineCodeService 注入。 */
 body.style-tweaker-inline-code-style {
-  :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view)
-    :not(pre)
-    > code,
-  .cm-s-obsidian
-    span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(
-      .obsidian-search-match-highlight
-    ) {
-    font-family: var(--font-text, var(--font-text-theme));
-    font-size: 0.9375rem;
-    border-radius: 0.25rem;
-    padding: 0.125rem 0.375rem;
-    white-space: nowrap;
-    color: var(--style-tweaker-inline-code-accent, var(--color-accent));
-    border: 1px solid
-      color-mix(in srgb, var(--style-tweaker-inline-code-accent, var(--color-accent)) 30%, transparent);
-    box-shadow: 0 3px
-      color-mix(in srgb, var(--style-tweaker-inline-code-accent, var(--color-accent)) 30%, transparent);
-    background-color: color-mix(
-      in srgb,
-      var(--style-tweaker-inline-code-accent, var(--color-accent)) 10%,
-      transparent
-    );
-  }
+    :is(.markdown-rendered, .markdown-preview-view, .markdown-source-view) :not(pre) > code,
+    .cm-s-obsidian span.cm-inline-code:not(.cm-formatting):not(.cm-hmd-indented-code):not(.obsidian-search-match-highlight) {
+        font-family: var(--font-text, var(--font-text-theme));
+        font-size: 0.9375rem;
+        border-radius: 0.25rem;
+        padding: 0.125rem 0.375rem;
+        white-space: nowrap;
+        color: var(--style-tweaker-inline-code-accent, var(--color-accent));
+        border: 1px solid color-mix(in srgb, var(--style-tweaker-inline-code-accent, var(--color-accent)) 30%, transparent);
+        box-shadow: 0 3px color-mix(in srgb, var(--style-tweaker-inline-code-accent, var(--color-accent)) 30%, transparent);
+        background-color: color-mix(in srgb, var(--style-tweaker-inline-code-accent, var(--color-accent)) 10%, transparent);
+    }
 }

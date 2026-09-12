@@ -51,80 +51,80 @@ const TABLE_HOVER_OPACITY_VAR = "--style-tweaker-table-hover-opacity";
 const VALID_STYLES = ["one", "two", "three", "academia"];
 
 export class EditorTableService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    const body = doc.body;
-
-    // 先清除所有风格类，再按当前设置挂上
-    for (const v of VALID_STYLES) {
-      body.classList.remove(TABLE_STYLE_CLASS_PREFIX + v);
-    }
-    const hasStyle = !!s.tableStyle && VALID_STYLES.includes(s.tableStyle);
-    // 基础表格样式门控：仅在 tableStyle 非 default（one/two/three/academia）时生效，
-    // default 时不挂载，使表格保持 Obsidian 原生样式。
-    body.classList.toggle(TABLE_STYLE_ACTIVE_CLASS, hasStyle);
-    if (hasStyle) {
-      body.classList.add(TABLE_STYLE_CLASS_PREFIX + s.tableStyle);
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
 
-    // 配色：色名解析为深浅两套 hex 写入变量；default/空 → 移除变量，CSS 回退主题色
-    setAccentVarPair(
-      doc,
-      s.tableHeaderColor,
-      s.tableCustomHeaderColor,
-      TABLE_HEADER_COLOR_DARK_VAR,
-      TABLE_HEADER_COLOR_LIGHT_VAR,
-    );
-    setAccentVarPair(
-      doc,
-      s.tableBackgroundColor,
-      s.tableCustomBackgroundColor,
-      TABLE_BG_COLOR_DARK_VAR,
-      TABLE_BG_COLOR_LIGHT_VAR,
-    );
-    setAccentVarPair(
-      doc,
-      s.tableHoverColor,
-      s.tableCustomHoverColor,
-      TABLE_HOVER_COLOR_DARK_VAR,
-      TABLE_HOVER_COLOR_LIGHT_VAR,
-    );
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        const body = doc.body;
 
-    // 不透明度：写入百分比变量；设置缺失/非法时移除变量，由 CSS 用默认值兜底
-    setPercentVar(doc, s.tableHeaderColorOpacity, TABLE_HEADER_OPACITY_VAR);
-    setPercentVar(doc, s.tableBackgroundColorOpacity, TABLE_BG_OPACITY_VAR);
-    setPercentVar(doc, s.tableHoverColorOpacity, TABLE_HOVER_OPACITY_VAR);
+        // 先清除所有风格类，再按当前设置挂上
+        for (const v of VALID_STYLES) {
+            body.classList.remove(TABLE_STYLE_CLASS_PREFIX + v);
+        }
+        const hasStyle = !!s.tableStyle && VALID_STYLES.includes(s.tableStyle);
+        // 基础表格样式门控：仅在 tableStyle 非 default（one/two/three/academia）时生效，
+        // default 时不挂载，使表格保持 Obsidian 原生样式。
+        body.classList.toggle(TABLE_STYLE_ACTIVE_CLASS, hasStyle);
+        if (hasStyle) {
+            body.classList.add(TABLE_STYLE_CLASS_PREFIX + s.tableStyle);
+        }
 
-    body.classList.toggle(TABLE_SHOW_BORDER_CLASS, s.tableShowBorder);
-    body.classList.toggle(TABLE_FULL_WIDTH_CLASS, s.tableFullWidth);
-    body.classList.toggle(TABLE_LINE_NUMBERS_CLASS, s.tableLineNumbers);
-  }
+        // 配色：色名解析为深浅两套 hex 写入变量；default/空 → 移除变量，CSS 回退主题色
+        setAccentVarPair(
+            doc,
+            s.tableHeaderColor,
+            s.tableCustomHeaderColor,
+            TABLE_HEADER_COLOR_DARK_VAR,
+            TABLE_HEADER_COLOR_LIGHT_VAR,
+        );
+        setAccentVarPair(
+            doc,
+            s.tableBackgroundColor,
+            s.tableCustomBackgroundColor,
+            TABLE_BG_COLOR_DARK_VAR,
+            TABLE_BG_COLOR_LIGHT_VAR,
+        );
+        setAccentVarPair(
+            doc,
+            s.tableHoverColor,
+            s.tableCustomHoverColor,
+            TABLE_HOVER_COLOR_DARK_VAR,
+            TABLE_HOVER_COLOR_LIGHT_VAR,
+        );
 
-  protected clearDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const body = doc.body;
-    for (const v of VALID_STYLES) {
-      body.classList.remove(TABLE_STYLE_CLASS_PREFIX + v);
+        // 不透明度：写入百分比变量；设置缺失/非法时移除变量，由 CSS 用默认值兜底
+        setPercentVar(doc, s.tableHeaderColorOpacity, TABLE_HEADER_OPACITY_VAR);
+        setPercentVar(doc, s.tableBackgroundColorOpacity, TABLE_BG_OPACITY_VAR);
+        setPercentVar(doc, s.tableHoverColorOpacity, TABLE_HOVER_OPACITY_VAR);
+
+        body.classList.toggle(TABLE_SHOW_BORDER_CLASS, s.tableShowBorder);
+        body.classList.toggle(TABLE_FULL_WIDTH_CLASS, s.tableFullWidth);
+        body.classList.toggle(TABLE_LINE_NUMBERS_CLASS, s.tableLineNumbers);
     }
-    body.classList.remove(
-      TABLE_STYLE_ACTIVE_CLASS,
-      TABLE_SHOW_BORDER_CLASS,
-      TABLE_FULL_WIDTH_CLASS,
-      TABLE_LINE_NUMBERS_CLASS,
-    );
-    removeDocVar(doc, TABLE_HEADER_COLOR_DARK_VAR);
-    removeDocVar(doc, TABLE_HEADER_COLOR_LIGHT_VAR);
-    removeDocVar(doc, TABLE_BG_COLOR_DARK_VAR);
-    removeDocVar(doc, TABLE_BG_COLOR_LIGHT_VAR);
-    removeDocVar(doc, TABLE_HOVER_COLOR_DARK_VAR);
-    removeDocVar(doc, TABLE_HOVER_COLOR_LIGHT_VAR);
-    removeDocVar(doc, TABLE_HEADER_OPACITY_VAR);
-    removeDocVar(doc, TABLE_BG_OPACITY_VAR);
-    removeDocVar(doc, TABLE_HOVER_OPACITY_VAR);
-  }
+
+    protected clearDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const body = doc.body;
+        for (const v of VALID_STYLES) {
+            body.classList.remove(TABLE_STYLE_CLASS_PREFIX + v);
+        }
+        body.classList.remove(
+            TABLE_STYLE_ACTIVE_CLASS,
+            TABLE_SHOW_BORDER_CLASS,
+            TABLE_FULL_WIDTH_CLASS,
+            TABLE_LINE_NUMBERS_CLASS,
+        );
+        removeDocVar(doc, TABLE_HEADER_COLOR_DARK_VAR);
+        removeDocVar(doc, TABLE_HEADER_COLOR_LIGHT_VAR);
+        removeDocVar(doc, TABLE_BG_COLOR_DARK_VAR);
+        removeDocVar(doc, TABLE_BG_COLOR_LIGHT_VAR);
+        removeDocVar(doc, TABLE_HOVER_COLOR_DARK_VAR);
+        removeDocVar(doc, TABLE_HOVER_COLOR_LIGHT_VAR);
+        removeDocVar(doc, TABLE_HEADER_OPACITY_VAR);
+        removeDocVar(doc, TABLE_BG_OPACITY_VAR);
+        removeDocVar(doc, TABLE_HOVER_OPACITY_VAR);
+    }
 }

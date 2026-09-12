@@ -19,18 +19,18 @@ const MODAL_BLUR_MOBILE_CLASS = "style-tweaker-modal-blur-mobile";
  * 纯门控类驱动，不注入 CSS 变量，由基类统一管理事件驱动。
  */
 export class ModalService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    doc.body.classList.toggle(MODAL_BLUR_DESKTOP_CLASS, Boolean(s.desktopModalBlur));
-    doc.body.classList.toggle(MODAL_BLUR_MOBILE_CLASS, Boolean(s.mobileModalBlur));
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        doc.body.classList.toggle(MODAL_BLUR_DESKTOP_CLASS, Boolean(s.desktopModalBlur));
+        doc.body.classList.toggle(MODAL_BLUR_MOBILE_CLASS, Boolean(s.mobileModalBlur));
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(MODAL_BLUR_DESKTOP_CLASS, MODAL_BLUR_MOBILE_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(MODAL_BLUR_DESKTOP_CLASS, MODAL_BLUR_MOBILE_CLASS);
+    }
 }

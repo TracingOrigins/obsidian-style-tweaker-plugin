@@ -20,121 +20,121 @@
 
 /* ============ 通用（不分窗口形态） ============ */
 .style-tweaker-bg-image-active {
-  /* 设置窗口 设置分组内的条目背景色和边框。 */
-  .setting-group .setting-items {
-    background-color: transparent;
-    border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
-  }
+    /* 设置窗口 设置分组内的条目背景色和边框。 */
+    .setting-group .setting-items {
+        background-color: transparent;
+        border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+    }
 
-  /* 设置窗口 子设置页的标题栏（.setting-page-titlebar）背景色和边框。 */
-  .setting-page-titlebar {
-    background-color: transparent;
-    box-shadow: none;
-  }
+    /* 设置窗口 子设置页的标题栏（.setting-page-titlebar）背景色和边框。 */
+    .setting-page-titlebar {
+        background-color: transparent;
+        box-shadow: none;
+    }
 
-  /* 设置页激活的左侧导航项用强调色高亮，便于区分 */
-  .modal.mod-settings .vertical-tab-nav-item.is-active {
-    color: var(--color-accent);
-  }
+    /* 设置页激活的左侧导航项用强调色高亮，便于区分 */
+    .modal.mod-settings .vertical-tab-nav-item.is-active {
+        color: var(--color-accent);
+    }
 
-  /* 弹框内控件（按钮/输入框/下拉/开关）整体降透明度，弱化原生控件在壁纸上的存在感。 */
-  .modal button,
-  .modal input,
-  .modal select,
-  .modal label.checkbox-container {
-    opacity: 0.6;
-  }
+    /* 弹框内控件（按钮/输入框/下拉/开关）整体降透明度，弱化原生控件在壁纸上的存在感。 */
+    .modal button,
+    .modal input,
+    .modal select,
+    .modal label.checkbox-container {
+        opacity: 0.6;
+    }
 
-  .modal textarea {
-    opacity: 0.5;
-  }
+    .modal textarea {
+        opacity: 0.5;
+    }
 
-  .modal label.checkbox-container input {
-    opacity: 0;
-  }
+    .modal label.checkbox-container input {
+        opacity: 0;
+    }
 
-  /* 下拉选项原生底色透明，透出弹框玻璃。 */
-  select.dropdown option {
-    background-color: transparent;
-  }
+    /* 下拉选项原生底色透明，透出弹框玻璃。 */
+    select.dropdown option {
+        background-color: transparent;
+    }
 
-  select.dropdown option:checked {
-    color: var(--color-accent);
-  }
+    select.dropdown option:checked {
+        color: var(--color-accent);
+    }
 
-  /* 设置页分组筛选按钮（激活态）：透明底 + accent 描边。 */
-  .setting-group-filter.is-active {
-    background-color: transparent;
-    border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
-    color: var(--text-muted);
-  }
+    /* 设置页分组筛选按钮（激活态）：透明底 + accent 描边。 */
+    .setting-group-filter.is-active {
+        background-color: transparent;
+        border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+        color: var(--text-muted);
+    }
 
-  .setting-group-filter.is-active:hover {
-    background-color: transparent;
-    color: var(--text-normal);
-  }
+    .setting-group-filter.is-active:hover {
+        background-color: transparent;
+        color: var(--text-normal);
+    }
 
-  .setting-item-heading,
-  .setting-item-heading .setting-item-name,
-  .setting-page-title {
-    font-weight: unset;
-  }
+    .setting-item-heading,
+    .setting-item-heading .setting-item-name,
+    .setting-page-title {
+        font-weight: unset;
+    }
 
-  /* 设置页返回按钮随页面滚动（不吸顶） */
-  .setting-page-titlebar {
-    position: static;
-  }
+    /* 设置页返回按钮随页面滚动（不吸顶） */
+    .setting-page-titlebar {
+        position: static;
+    }
 }
 
 /* ============ 独立设置窗口（body 直挂 .modal.mod-settings）：纯透明透壁纸 ============ */
 body.style-tweaker-bg-image-active.is-popout-window > .modal.mod-settings.mod-sidebar-layout {
-  /* 设置页自身：透明透出该独立窗口的 body::before 壁纸。 */
-  position: relative;
-  isolation: isolate;
-  background-color: transparent;
+    /* 设置页自身：透明透出该独立窗口的 body::before 壁纸。 */
+    position: relative;
+    isolation: isolate;
+    background-color: transparent;
 }
 
 /* 独立（非 modal-container 内嵌）弹框与遮罩：纯透明透壁纸，不强加玻璃，
    避免第三方插件独立窗口/弹窗异常。 */
 body.style-tweaker-bg-image-active > .modal:not(.mod-settings) {
-  position: relative;
-  isolation: isolate;
-  background-color: transparent;
-  background-image: none;
-  box-shadow: none;
+    position: relative;
+    isolation: isolate;
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
 }
 body.style-tweaker-bg-image-active > .modal-bg {
-  background-color: transparent;
-  background-image: none;
+    background-color: transparent;
+    background-image: none;
 }
 
 /* ============ 内嵌设置页（位于 .modal-container 内）：玻璃表面保证可读 ============ */
 body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal.mod-settings.mod-sidebar-layout {
-  background-color: transparent;
-  background-image: none;
-  backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-  -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    background-color: transparent;
+    background-image: none;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
 /* 遮罩层：保留半透明压暗，避免主窗口内容干扰弹框阅读。 */
 body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal-bg {
-  background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
+    background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
 }
 
 /* 其他弹框（非设置，位于 modal-container 内）：同款玻璃表面。 */
 body.style-tweaker-bg-image-active .modal-container .modal:not(.mod-settings) {
-  background-color: transparent;
-  background-image: none;
-  backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-  -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    background-color: transparent;
+    background-image: none;
+    backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
 
 /* ============ 独立设置窗口标题栏（is-popout-modal） ============ */
 body.style-tweaker-bg-image-active.is-popout-modal.is-frameless {
-  /* 设置窗口标题栏底部边框高亮 */
-  .titlebar {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
-  }
+    /* 设置窗口标题栏底部边框高亮 */
+    .titlebar {
+        border-bottom: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+    }
 }

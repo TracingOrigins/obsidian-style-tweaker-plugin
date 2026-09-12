@@ -19,73 +19,60 @@
  *   - 库名（::after，即 nav-header 内容的最后一个子项）绝对定位于这行内；
  *   - 开启「居中显示库名称」仅把这一行的对齐改为居中（见 1b），
  *     位置始终在 nav-header 的整个内容之后，不忽上忽下。 */
-body:not(.is-mobile).style-tweaker-show-vault-name
-  .workspace-leaf-content[data-type="file-explorer"]
-  .nav-header {
-  position: relative;
-  box-sizing: border-box;
-  /* 预留库名行高度（32px），确保库名行占位、不覆盖按钮行 */
-  padding-bottom: 32px;
+body:not(.is-mobile).style-tweaker-show-vault-name .workspace-leaf-content[data-type="file-explorer"] .nav-header {
+    position: relative;
+    box-sizing: border-box;
+    /* 预留库名行高度（32px），确保库名行占位、不覆盖按钮行 */
+    padding-bottom: 32px;
 }
 
-body:not(.is-mobile).style-tweaker-show-vault-name
-  .workspace-leaf-content[data-type="file-explorer"]
-  .nav-header::after {
-  content: var(--style-tweaker-vault-name);
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  /* 默认左对齐，并与 Obsidian 侧栏水平留白近似（不依赖按钮行内部布局） */
-  justify-content: flex-start;
-  padding: 0 12px;
-  text-align: left;
-  /* 字号 / 字体 / 颜色均取自 JS 注入的 body CSS 变量，便于设置面板调整 */
-  font-size: var(--style-tweaker-vault-name-font-size, 16px);
-  font-family: var(
-    --style-tweaker-vault-name-font-family,
-    var(--font-interface, var(--font-interface-theme, sans-serif))
-  );
-  font-weight: var(--font-semibold);
-  color: var(--style-tweaker-vault-name-color-light, var(--color-accent));
-  /* 不透明度取自 JS 注入的百分比变量（如 60%），未注入时回退默认值 90% */
-  opacity: var(--style-tweaker-vault-name-opacity, 90%);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  line-height: normal;
-  pointer-events: none;
+body:not(.is-mobile).style-tweaker-show-vault-name .workspace-leaf-content[data-type="file-explorer"] .nav-header::after {
+    content: var(--style-tweaker-vault-name);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    /* 默认左对齐，并与 Obsidian 侧栏水平留白近似（不依赖按钮行内部布局） */
+    justify-content: flex-start;
+    padding: 0 12px;
+    text-align: left;
+    /* 字号 / 字体 / 颜色均取自 JS 注入的 body CSS 变量，便于设置面板调整 */
+    font-size: var(--style-tweaker-vault-name-font-size, 16px);
+    font-family: var(--style-tweaker-vault-name-font-family, var(--font-interface, var(--font-interface-theme, sans-serif)));
+    font-weight: var(--font-semibold);
+    color: var(--style-tweaker-vault-name-color-light, var(--color-accent));
+    /* 不透明度取自 JS 注入的百分比变量（如 60%），未注入时回退默认值 90% */
+    opacity: var(--style-tweaker-vault-name-opacity, 90%);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: normal;
+    pointer-events: none;
 }
 
 /* 深色主题下库名颜色用深色变量（default 时回退 --color-accent，两变量都未注入） */
-body:not(.is-mobile).theme-dark.style-tweaker-show-vault-name
-  .workspace-leaf-content[data-type="file-explorer"]
-  .nav-header::after {
-  color: var(--style-tweaker-vault-name-color-dark, var(--color-accent));
+body:not(.is-mobile).theme-dark.style-tweaker-show-vault-name .workspace-leaf-content[data-type="file-explorer"] .nav-header::after {
+    color: var(--style-tweaker-vault-name-color-dark, var(--color-accent));
 }
 
 /* 1b) 库名称水平居中：仅改变库名这一行的对齐，位置仍固定在 nav-header 内容之后 */
-body:not(.is-mobile).style-tweaker-show-vault-name.style-tweaker-center-vault-name
-  .workspace-leaf-content[data-type="file-explorer"]
-  .nav-header::after {
-  justify-content: center;
-  text-align: center;
+body:not(.is-mobile).style-tweaker-show-vault-name.style-tweaker-center-vault-name .workspace-leaf-content[data-type="file-explorer"] .nav-header::after {
+    justify-content: center;
+    text-align: center;
 }
 
 /* 2) 侧栏库名替换为自定义名称
  * Obsidian 原生库名在 .workspace-drawer-vault-name。隐藏其原生文本，
  * 用 ::before 注入自定义/真实库名（来自 --style-tweaker-vault-name）。 */
-body:not(.is-mobile).style-tweaker-custom-vault-name
-  .workspace-drawer-vault-name {
-  font-size: 0; /* 隐藏原生文本（含子节点文字），::before 重新设置字号 */
+body:not(.is-mobile).style-tweaker-custom-vault-name .workspace-drawer-vault-name {
+    font-size: 0; /* 隐藏原生文本（含子节点文字），::before 重新设置字号 */
 }
 
-body:not(.is-mobile).style-tweaker-custom-vault-name
-  .workspace-drawer-vault-name::before {
-  content: var(--style-tweaker-vault-name);
-  font-size: var(--font-ui-medium);
-  font-weight: var(--font-semibold);
+body:not(.is-mobile).style-tweaker-custom-vault-name .workspace-drawer-vault-name::before {
+    content: var(--style-tweaker-vault-name);
+    font-size: var(--font-ui-medium);
+    font-weight: var(--font-semibold);
 }

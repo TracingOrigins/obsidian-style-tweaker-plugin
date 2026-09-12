@@ -15,66 +15,50 @@
    ------------------------------------------------------------------ */
 
 /* 文件名换行（仅文件列表） */
-body.style-tweaker-fe-file-name-wrap
-	.workspace-leaf-content[data-type="file-explorer"]
-	.nav-file-title-content {
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	word-break: break-all;
-	white-space: normal;
+body.style-tweaker-fe-file-name-wrap .workspace-leaf-content[data-type="file-explorer"] .nav-file-title-content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
 }
 
 /* 默认隐藏扩展名标签 */
-body.style-tweaker-fe-hover-reveal-file-tag
-	.workspace-leaf-content[data-type="file-explorer"]
-	.nav-file-title
-	.nav-file-tag {
-	display: none;
+body.style-tweaker-fe-hover-reveal-file-tag .workspace-leaf-content[data-type="file-explorer"] .nav-file-title .nav-file-tag {
+    display: none;
 }
 
 /* 鼠标悬停文件条目时显示，移出后自动回到隐藏态 */
-body.style-tweaker-fe-hover-reveal-file-tag
-	.workspace-leaf-content[data-type="file-explorer"]
-	.nav-file:hover
-	.nav-file-title
-	.nav-file-tag {
-	display: inline;
+body.style-tweaker-fe-hover-reveal-file-tag .workspace-leaf-content[data-type="file-explorer"] .nav-file:hover .nav-file-title .nav-file-tag {
+    display: inline;
 }
 
 /* md 行的 md 标签：外观照抄 .nav-file-tag（--nav-tag-* 变量，core 默认值兜底），
    margin-inline-start: auto 让它在 flex 行里贴到最右侧，与原生标签同位置。 */
-body.style-tweaker-fe-hover-reveal-file-tag
-	.workspace-leaf-content[data-type="file-explorer"]
-	.nav-file-title[data-path$=".md"]::after {
-	content: "md";
-	display: none;
-	align-self: center;
-	background-color: var(--nav-tag-background, var(--background-modifier-hover));
-	border-radius: var(--nav-tag-radius, var(--radius-s));
-	color: var(--nav-tag-color, var(--text-muted));
-	font-size: 9px;
-	font-weight: var(--nav-tag-weight, var(--font-semibold));
-	letter-spacing: 0.05em;
-	line-height: var(--line-height-normal);
-	margin-inline-start: auto;
-	padding: 0 var(--size-4-1);
-	text-transform: uppercase;
+body.style-tweaker-fe-hover-reveal-file-tag .workspace-leaf-content[data-type="file-explorer"] .nav-file-title[data-path$=".md"]::after {
+    content: "md";
+    display: none;
+    align-self: center;
+    background-color: var(--nav-tag-background, var(--background-modifier-hover));
+    border-radius: var(--nav-tag-radius, var(--radius-s));
+    color: var(--nav-tag-color, var(--text-muted));
+    font-size: 9px;
+    font-weight: var(--nav-tag-weight, var(--font-semibold));
+    letter-spacing: 0.05em;
+    line-height: var(--line-height-normal);
+    margin-inline-start: auto;
+    padding: 0 var(--size-4-1);
+    text-transform: uppercase;
 }
 
 /* 悬停时与原生标签一同显示 */
-body.style-tweaker-fe-hover-reveal-file-tag
-	.workspace-leaf-content[data-type="file-explorer"]
-	.nav-file:hover
-	.nav-file-title[data-path$=".md"]::after {
-	display: inline;
+body.style-tweaker-fe-hover-reveal-file-tag .workspace-leaf-content[data-type="file-explorer"] .nav-file:hover .nav-file-title[data-path$=".md"]::after {
+    display: inline;
 }
 
 /* 悬停高亮：原生标签由 core/主题的 .tree-item-self:hover .nav-file-tag 负责变色，
    伪元素不在其选择器内，需自补一条；@media 与 core 一致，触屏不进入 hover 态。 */
 @media (hover: hover) {
-	body.style-tweaker-fe-hover-reveal-file-tag
-		.workspace-leaf-content[data-type="file-explorer"]
-		.nav-file-title[data-path$=".md"]:hover::after {
-		color: var(--nav-tag-color-hover, var(--nav-tag-color, var(--text-muted)));
-	}
+    body.style-tweaker-fe-hover-reveal-file-tag .workspace-leaf-content[data-type="file-explorer"] .nav-file-title[data-path$=".md"]:hover::after {
+        color: var(--nav-tag-color-hover, var(--nav-tag-color, var(--text-muted)));
+    }
 }

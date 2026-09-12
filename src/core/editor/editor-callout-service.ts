@@ -27,54 +27,46 @@ const CALLOUT_CUSTOM_RADIUS_CLASS = "style-tweaker-callout-custom-radius";
 const CALLOUT_RADIUS_VAR = "--style-tweaker-callout-radius";
 
 // 合法风格值（防止异常设置注入）
-const VALID_STYLES = [
-  "accent-bar",
-  "sleek",
-  "split",
-  "outline",
-  "minimal",
-  "soft",
-  "windows",
-];
+const VALID_STYLES = ["accent-bar", "sleek", "split", "outline", "minimal", "soft", "windows"];
 
 // 圆角有效范围（px）
 const RADIUS_MIN = 4;
 const RADIUS_MAX = 16;
 
 export class EditorCalloutService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
-
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-
-    const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.calloutRadius ?? 8));
-    doc.body.setCssProps({
-      [CALLOUT_RADIUS_VAR]: `${radius}px`,
-    });
-
-    const body = doc.body;
-
-    // 先清除所有风格类，再按当前设置挂上
-    for (const v of VALID_STYLES) {
-      body.classList.remove(CALLOUT_STYLE_CLASS_PREFIX + v);
-    }
-    if (s.calloutStyle && VALID_STYLES.includes(s.calloutStyle)) {
-      body.classList.add(CALLOUT_STYLE_CLASS_PREFIX + s.calloutStyle);
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
     }
 
-    body.classList.toggle(CALLOUT_CUSTOM_RADIUS_CLASS, s.calloutCustomRadius);
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.style.removeProperty(CALLOUT_RADIUS_VAR);
-    if (!doc?.body) return;
-    const body = doc.body;
-    for (const v of VALID_STYLES) {
-      body.classList.remove(CALLOUT_STYLE_CLASS_PREFIX + v);
+        const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.calloutRadius ?? 8));
+        doc.body.setCssProps({
+            [CALLOUT_RADIUS_VAR]: `${radius}px`,
+        });
+
+        const body = doc.body;
+
+        // 先清除所有风格类，再按当前设置挂上
+        for (const v of VALID_STYLES) {
+            body.classList.remove(CALLOUT_STYLE_CLASS_PREFIX + v);
+        }
+        if (s.calloutStyle && VALID_STYLES.includes(s.calloutStyle)) {
+            body.classList.add(CALLOUT_STYLE_CLASS_PREFIX + s.calloutStyle);
+        }
+
+        body.classList.toggle(CALLOUT_CUSTOM_RADIUS_CLASS, s.calloutCustomRadius);
     }
-    body.classList.remove(CALLOUT_CUSTOM_RADIUS_CLASS);
-  }
+
+    protected clearDocument(doc: Document): void {
+        doc.body?.style.removeProperty(CALLOUT_RADIUS_VAR);
+        if (!doc?.body) return;
+        const body = doc.body;
+        for (const v of VALID_STYLES) {
+            body.classList.remove(CALLOUT_STYLE_CLASS_PREFIX + v);
+        }
+        body.classList.remove(CALLOUT_CUSTOM_RADIUS_CLASS);
+    }
 }

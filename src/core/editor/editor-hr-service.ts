@@ -25,33 +25,33 @@ const HR_CENTER_ICON_VAR = "--style-tweaker-hr-center-icon";
 const HR_ICON_ROTATE_VAR = "--style-tweaker-hr-icon-rotate";
 
 export class EditorHrService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    // 变量值始终写入 body（default 时变量无消费者），规则本体在静态 hr.css；
-    // 用 setCssProps 而非直接 style 赋值，避免 obsidianmd/no-static-styles-assignment。
-    const icon = s.hrCenterIcon?.trim() ? s.hrCenterIcon : "⚡️";
-    const rotate = `${Math.round(s.hrIconRotate ?? 0)}deg`;
-    doc.body.setCssProps({
-      [HR_CENTER_ICON_VAR]: `"${icon}"`,
-      [HR_ICON_ROTATE_VAR]: rotate,
-    });
+        // 变量值始终写入 body（default 时变量无消费者），规则本体在静态 hr.css；
+        // 用 setCssProps 而非直接 style 赋值，避免 obsidianmd/no-static-styles-assignment。
+        const icon = s.hrCenterIcon?.trim() ? s.hrCenterIcon : "⚡️";
+        const rotate = `${Math.round(s.hrIconRotate ?? 0)}deg`;
+        doc.body.setCssProps({
+            [HR_CENTER_ICON_VAR]: `"${icon}"`,
+            [HR_ICON_ROTATE_VAR]: rotate,
+        });
 
-    // "default" 不挂任何门控类（即 Obsidian 原生 hr）；
-    // "icon" / "no-icon" 分别挂对应门控类。
-    doc.body.classList.toggle(HR_ICON_CLASS, s.hrStyle === "icon");
-    doc.body.classList.toggle(HR_NO_ICON_CLASS, s.hrStyle === "no-icon");
-  }
+        // "default" 不挂任何门控类（即 Obsidian 原生 hr）；
+        // "icon" / "no-icon" 分别挂对应门控类。
+        doc.body.classList.toggle(HR_ICON_CLASS, s.hrStyle === "icon");
+        doc.body.classList.toggle(HR_NO_ICON_CLASS, s.hrStyle === "no-icon");
+    }
 
-  protected clearDocument(doc: Document): void {
-    // 移除 body 上注入的变量（与旧 removeStyle 对应）
-    doc.body?.style.removeProperty(HR_CENTER_ICON_VAR);
-    doc.body?.style.removeProperty(HR_ICON_ROTATE_VAR);
-    doc.body?.classList.remove(HR_ICON_CLASS, HR_NO_ICON_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        // 移除 body 上注入的变量（与旧 removeStyle 对应）
+        doc.body?.style.removeProperty(HR_CENTER_ICON_VAR);
+        doc.body?.style.removeProperty(HR_ICON_ROTATE_VAR);
+        doc.body?.classList.remove(HR_ICON_CLASS, HR_NO_ICON_CLASS);
+    }
 }

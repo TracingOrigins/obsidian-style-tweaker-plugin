@@ -22,23 +22,23 @@ import { t } from "./i18n";
 // 下拉选项：default + 14 个 accent 色。value=色名，label=翻译后的显示名。
 // 键顺序即下拉显示顺序，按用户指定的顺序排列（Red → … → Lavender，default 置顶）。
 export function getAccentColorOptions(): Record<string, string> {
-  return {
-    default: t("appearance.theme.color.default"),
-    red: t("appearance.theme.color.red"),
-    maroon: t("appearance.theme.color.maroon"),
-    pink: t("appearance.theme.color.pink"),
-    flamingo: t("appearance.theme.color.flamingo"),
-    rosewater: t("appearance.theme.color.rosewater"),
-    peach: t("appearance.theme.color.peach"),
-    yellow: t("appearance.theme.color.yellow"),
-    green: t("appearance.theme.color.green"),
-    teal: t("appearance.theme.color.teal"),
-    sky: t("appearance.theme.color.sky"),
-    sapphire: t("appearance.theme.color.sapphire"),
-    blue: t("appearance.theme.color.blue"),
-    mauve: t("appearance.theme.color.mauve"),
-    lavender: t("appearance.theme.color.lavender"),
-  };
+    return {
+        default: t("appearance.theme.color.default"),
+        red: t("appearance.theme.color.red"),
+        maroon: t("appearance.theme.color.maroon"),
+        pink: t("appearance.theme.color.pink"),
+        flamingo: t("appearance.theme.color.flamingo"),
+        rosewater: t("appearance.theme.color.rosewater"),
+        peach: t("appearance.theme.color.peach"),
+        yellow: t("appearance.theme.color.yellow"),
+        green: t("appearance.theme.color.green"),
+        teal: t("appearance.theme.color.teal"),
+        sky: t("appearance.theme.color.sky"),
+        sapphire: t("appearance.theme.color.sapphire"),
+        blue: t("appearance.theme.color.blue"),
+        mauve: t("appearance.theme.color.mauve"),
+        lavender: t("appearance.theme.color.lavender"),
+    };
 }
 
 /**
@@ -47,9 +47,9 @@ export function getAccentColorOptions(): Record<string, string> {
  * 避免误判仅含 default/custom 的普通下拉（如标签样式、文件夹配色方案）。
  */
 export function isAccentPaletteOptions(options: unknown): boolean {
-  if (!options || typeof options !== "object") return false;
-  const keys = Object.keys(options);
-  return keys.includes("default") && keys.includes("lavender");
+    if (!options || typeof options !== "object") return false;
+    const keys = Object.keys(options);
+    return keys.includes("default") && keys.includes("lavender");
 }
 
 // accent 色值表（MOCHA_ACCENTS / LATTE_ACCENTS）见文件底部：统一从 FLAVORS（AnuPpuccin）推导，
@@ -61,9 +61,9 @@ export function isAccentPaletteOptions(options: unknown): boolean {
  * @param dark  true=深色（Mocha 系），false=浅色（Latte 系）
  */
 export function accentToHex(value: string | undefined, dark: boolean): string | null {
-  const name = (value ?? "").trim();
-  if (!name || name === "default") return null;
-  return (dark ? MOCHA_ACCENTS : LATTE_ACCENTS)[name] ?? null;
+    const name = (value ?? "").trim();
+    if (!name || name === "default") return null;
+    return (dark ? MOCHA_ACCENTS : LATTE_ACCENTS)[name] ?? null;
 }
 
 /**
@@ -72,16 +72,16 @@ export function accentToHex(value: string | undefined, dark: boolean): string | 
  * 用于颜色选择器控件（原生 color input 只接受 #rrggbb）与库名等自定义色解析。
  */
 export function normalizeHexColor(value: string | undefined): string | null {
-  const raw = (value ?? "").trim().replace(/^#/, "");
-  if (!/^(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(raw)) return null;
-  const full =
-    raw.length === 3
-      ? raw
-          .split("")
-          .map((c) => c + c)
-          .join("")
-      : raw;
-  return `#${full.toLowerCase()}`;
+    const raw = (value ?? "").trim().replace(/^#/, "");
+    if (!/^(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(raw)) return null;
+    const full =
+        raw.length === 3
+            ? raw
+                  .split("")
+                  .map((c) => c + c)
+                  .join("")
+            : raw;
+    return `#${full.toLowerCase()}`;
 }
 
 /**
@@ -93,17 +93,14 @@ export function normalizeHexColor(value: string | undefined): string | null {
  * 注：本函数不区分深浅色，返回单一值；用于「固定色 / 不随主题切换」的场景
  * （如纯色背景、编辑器网格色等）。
  */
-export function resolveAccentValue(
-  value: string | undefined,
-  fallback: string,
-): string {
-  const name = (value ?? "").trim();
-  if (!name || name === "default") return fallback;
-  // 自定义色（#rrggbb）直接使用，无需查色板。
-  const hex = normalizeHexColor(name);
-  if (hex) return hex;
-  // 固定色用深色系（Mocha）色值作为统一表示；如需深浅区分请用 setAccentVar。
-  return MOCHA_ACCENTS[name] ?? LATTE_ACCENTS[name] ?? fallback;
+export function resolveAccentValue(value: string | undefined, fallback: string): string {
+    const name = (value ?? "").trim();
+    if (!name || name === "default") return fallback;
+    // 自定义色（#rrggbb）直接使用，无需查色板。
+    const hex = normalizeHexColor(name);
+    if (hex) return hex;
+    // 固定色用深色系（Mocha）色值作为统一表示；如需深浅区分请用 setAccentVar。
+    return MOCHA_ACCENTS[name] ?? LATTE_ACCENTS[name] ?? fallback;
 }
 
 // ============================================================
@@ -116,34 +113,34 @@ export function resolveAccentValue(
 
 // 深色 flavor 下拉选项（value=flavor 名，label=i18n 显示名）
 export function getDarkFlavorOptions(): Record<string, string> {
-  return {
-    frappe: t("appearance.background.solid.flavor.frappe"),
-    macchiato: t("appearance.background.solid.flavor.macchiato"),
-    mocha: t("appearance.background.solid.flavor.mocha"),
-    "mocha-old": t("appearance.background.solid.flavor.mochaOld"),
-  };
+    return {
+        frappe: t("appearance.background.solid.flavor.frappe"),
+        macchiato: t("appearance.background.solid.flavor.macchiato"),
+        mocha: t("appearance.background.solid.flavor.mocha"),
+        "mocha-old": t("appearance.background.solid.flavor.mochaOld"),
+    };
 }
 
 // 浅色 flavor 下拉选项
 export function getLightFlavorOptions(): Record<string, string> {
-  return {
-    latte: t("appearance.background.solid.flavor.latte"),
-    "rosepine-light": t("appearance.background.solid.flavor.rosepineLight"),
-  };
+    return {
+        latte: t("appearance.background.solid.flavor.latte"),
+        "rosepine-light": t("appearance.background.solid.flavor.rosepineLight"),
+    };
 }
 
 // 深色 flavor 的 base 色
 const DARK_FLAVOR_BASE: Record<string, string> = {
-  frappe: "#303446",
-  macchiato: "#24273A",
-  mocha: "#1E1E2E",
-  "mocha-old": "#1E1E2E",
+    frappe: "#303446",
+    macchiato: "#24273A",
+    mocha: "#1E1E2E",
+    "mocha-old": "#1E1E2E",
 };
 
 // 浅色 flavor 的 base 色
 const LIGHT_FLAVOR_BASE: Record<string, string> = {
-  latte: "#EFF1F5",
-  "rosepine-light": "#EEE6DD",
+    latte: "#EFF1F5",
+    "rosepine-light": "#EEE6DD",
 };
 
 /**
@@ -152,9 +149,9 @@ const LIGHT_FLAVOR_BASE: Record<string, string> = {
  * @param dark  true=深色 flavors，false=浅色 flavors
  */
 export function flavorToHex(value: string | undefined, dark: boolean): string | null {
-  const name = (value ?? "").trim();
-  if (!name || name === "default") return null;
-  return (dark ? DARK_FLAVOR_BASE : LIGHT_FLAVOR_BASE)[name] ?? null;
+    const name = (value ?? "").trim();
+    if (!name || name === "default") return null;
+    return (dark ? DARK_FLAVOR_BASE : LIGHT_FLAVOR_BASE)[name] ?? null;
 }
 
 // ============================================================
@@ -167,114 +164,222 @@ export function flavorToHex(value: string | undefined, dark: boolean): string | 
 
 /** 单个 flavor 的 27 色色板。 */
 export interface FlavorColors {
-  rosewater: string;
-  flamingo: string;
-  pink: string;
-  mauve: string;
-  red: string;
-  maroon: string;
-  peach: string;
-  yellow: string;
-  green: string;
-  teal: string;
-  sky: string;
-  sapphire: string;
-  blue: string;
-  lavender: string;
-  text: string;
-  subtext1: string;
-  subtext0: string;
-  overlay2: string;
-  overlay1: string;
-  overlay0: string;
-  surface2: string;
-  surface1: string;
-  surface0: string;
-  base: string;
-  mantle: string;
-  crust: string;
+    rosewater: string;
+    flamingo: string;
+    pink: string;
+    mauve: string;
+    red: string;
+    maroon: string;
+    peach: string;
+    yellow: string;
+    green: string;
+    teal: string;
+    sky: string;
+    sapphire: string;
+    blue: string;
+    lavender: string;
+    text: string;
+    subtext1: string;
+    subtext0: string;
+    overlay2: string;
+    overlay1: string;
+    overlay0: string;
+    surface2: string;
+    surface1: string;
+    surface0: string;
+    base: string;
+    mantle: string;
+    crust: string;
 }
 
 /** flavor 完整色板。 */
 export const FLAVORS: Record<string, { mode: "dark" | "light"; colors: FlavorColors }> = {
-  mocha: {
-    mode: "dark",
-    colors: {
-      rosewater: "#F5E0DC", flamingo: "#F2CDCD", pink: "#F5C2E7", mauve: "#CBA6F7",
-      red: "#F38BA8", maroon: "#EBA0AC", peach: "#FAB387", yellow: "#F9E2AF",
-      green: "#A6E3A1", teal: "#94E2D5", sky: "#89DCEB", sapphire: "#74C7EC",
-      blue: "#87B0F9", lavender: "#B4BEFE",
-      text: "#C6D0F5", subtext1: "#B3BCDF", subtext0: "#A1A8C9",
-      overlay2: "#8E95B3", overlay1: "#7B819D", overlay0: "#696D86",
-      surface2: "#565970", surface1: "#43465A", surface0: "#313244",
-      base: "#1E1E2E", mantle: "#181825", crust: "#11111B",
+    mocha: {
+        mode: "dark",
+        colors: {
+            rosewater: "#F5E0DC",
+            flamingo: "#F2CDCD",
+            pink: "#F5C2E7",
+            mauve: "#CBA6F7",
+            red: "#F38BA8",
+            maroon: "#EBA0AC",
+            peach: "#FAB387",
+            yellow: "#F9E2AF",
+            green: "#A6E3A1",
+            teal: "#94E2D5",
+            sky: "#89DCEB",
+            sapphire: "#74C7EC",
+            blue: "#87B0F9",
+            lavender: "#B4BEFE",
+            text: "#C6D0F5",
+            subtext1: "#B3BCDF",
+            subtext0: "#A1A8C9",
+            overlay2: "#8E95B3",
+            overlay1: "#7B819D",
+            overlay0: "#696D86",
+            surface2: "#565970",
+            surface1: "#43465A",
+            surface0: "#313244",
+            base: "#1E1E2E",
+            mantle: "#181825",
+            crust: "#11111B",
+        },
     },
-  },
-  macchiato: {
-    mode: "dark",
-    colors: {
-      rosewater: "#F4DBD6", flamingo: "#F0C6C6", pink: "#F5BDE6", mauve: "#C6A0F6",
-      red: "#ED8796", maroon: "#EE99A0", peach: "#F5A97F", yellow: "#EED49F",
-      green: "#A6DA95", teal: "#8BD5CA", sky: "#91D7E3", sapphire: "#7DC4E4",
-      blue: "#8AADF4", lavender: "#B7BDF8",
-      text: "#C5CFF5", subtext1: "#B3BCE0", subtext0: "#A1AACB",
-      overlay2: "#8F97B7", overlay1: "#7D84A2", overlay0: "#6C728D",
-      surface2: "#5A5F78", surface1: "#484C64", surface0: "#363A4F",
-      base: "#24273A", mantle: "#1E2030", crust: "#181926",
+    macchiato: {
+        mode: "dark",
+        colors: {
+            rosewater: "#F4DBD6",
+            flamingo: "#F0C6C6",
+            pink: "#F5BDE6",
+            mauve: "#C6A0F6",
+            red: "#ED8796",
+            maroon: "#EE99A0",
+            peach: "#F5A97F",
+            yellow: "#EED49F",
+            green: "#A6DA95",
+            teal: "#8BD5CA",
+            sky: "#91D7E3",
+            sapphire: "#7DC4E4",
+            blue: "#8AADF4",
+            lavender: "#B7BDF8",
+            text: "#C5CFF5",
+            subtext1: "#B3BCE0",
+            subtext0: "#A1AACB",
+            overlay2: "#8F97B7",
+            overlay1: "#7D84A2",
+            overlay0: "#6C728D",
+            surface2: "#5A5F78",
+            surface1: "#484C64",
+            surface0: "#363A4F",
+            base: "#24273A",
+            mantle: "#1E2030",
+            crust: "#181926",
+        },
     },
-  },
-  frappe: {
-    mode: "dark",
-    colors: {
-      rosewater: "#F2D5CF", flamingo: "#EEBEBE", pink: "#F4B8E4", mauve: "#CA9EE6",
-      red: "#E78284", maroon: "#EA999C", peach: "#EF9F76", yellow: "#E5C890",
-      green: "#A6D189", teal: "#81C8BE", sky: "#99D1DB", sapphire: "#85C1DC",
-      blue: "#8CAAEE", lavender: "#BABBF1",
-      text: "#C6CEEF", subtext1: "#B5BDDC", subtext0: "#A5ACC9",
-      overlay2: "#949BB7", overlay1: "#838AA4", overlay0: "#737891",
-      surface2: "#62677E", surface1: "#51566C", surface0: "#414559",
-      base: "#303446", mantle: "#292C3C", crust: "#232634",
+    frappe: {
+        mode: "dark",
+        colors: {
+            rosewater: "#F2D5CF",
+            flamingo: "#EEBEBE",
+            pink: "#F4B8E4",
+            mauve: "#CA9EE6",
+            red: "#E78284",
+            maroon: "#EA999C",
+            peach: "#EF9F76",
+            yellow: "#E5C890",
+            green: "#A6D189",
+            teal: "#81C8BE",
+            sky: "#99D1DB",
+            sapphire: "#85C1DC",
+            blue: "#8CAAEE",
+            lavender: "#BABBF1",
+            text: "#C6CEEF",
+            subtext1: "#B5BDDC",
+            subtext0: "#A5ACC9",
+            overlay2: "#949BB7",
+            overlay1: "#838AA4",
+            overlay0: "#737891",
+            surface2: "#62677E",
+            surface1: "#51566C",
+            surface0: "#414559",
+            base: "#303446",
+            mantle: "#292C3C",
+            crust: "#232634",
+        },
     },
-  },
-  "mocha-old": {
-    mode: "dark",
-    colors: {
-      rosewater: "#F5E0DC", flamingo: "#F2CDCD", pink: "#F5C2E7", mauve: "#CBA6F7",
-      red: "#F38BA8", maroon: "#EBA0AC", peach: "#FAB387", yellow: "#F9E2AF",
-      green: "#A6E3A1", teal: "#94E2D5", sky: "#89DCEB", sapphire: "#74C7EC",
-      blue: "#87B0F9", lavender: "#B4BEFE",
-      text: "#D9E0EE", subtext1: "#D3CDD6", subtext0: "#BEB3C1",
-      overlay2: "#A79CB0", overlay1: "#988BA2", overlay0: "#6D6B7D",
-      surface2: "#575269", surface1: "#2D2848", surface0: "#302D41",
-      base: "#1E1E2E", mantle: "#1A1826", crust: "#161320",
+    "mocha-old": {
+        mode: "dark",
+        colors: {
+            rosewater: "#F5E0DC",
+            flamingo: "#F2CDCD",
+            pink: "#F5C2E7",
+            mauve: "#CBA6F7",
+            red: "#F38BA8",
+            maroon: "#EBA0AC",
+            peach: "#FAB387",
+            yellow: "#F9E2AF",
+            green: "#A6E3A1",
+            teal: "#94E2D5",
+            sky: "#89DCEB",
+            sapphire: "#74C7EC",
+            blue: "#87B0F9",
+            lavender: "#B4BEFE",
+            text: "#D9E0EE",
+            subtext1: "#D3CDD6",
+            subtext0: "#BEB3C1",
+            overlay2: "#A79CB0",
+            overlay1: "#988BA2",
+            overlay0: "#6D6B7D",
+            surface2: "#575269",
+            surface1: "#2D2848",
+            surface0: "#302D41",
+            base: "#1E1E2E",
+            mantle: "#1A1826",
+            crust: "#161320",
+        },
     },
-  },
-  latte: {
-    mode: "light",
-    colors: {
-      rosewater: "#DE9584", flamingo: "#DD7878", pink: "#EC83D0", mauve: "#8839EF",
-      red: "#D20F39", maroon: "#E64553", peach: "#FE640B", yellow: "#E49320",
-      green: "#40A02B", teal: "#179299", sky: "#04A5E5", sapphire: "#209FB5",
-      blue: "#2A6EF5", lavender: "#7287FD",
-      text: "#4C4F69", subtext1: "#5C5F77", subtext0: "#6C6F85",
-      overlay2: "#7C7F93", overlay1: "#8C8FA1", overlay0: "#9CA0B0",
-      surface2: "#ACB0BE", surface1: "#BCC0CC", surface0: "#CCD0DA",
-      base: "#EFF1F5", mantle: "#E6E9EF", crust: "#DCE0E8",
+    latte: {
+        mode: "light",
+        colors: {
+            rosewater: "#DE9584",
+            flamingo: "#DD7878",
+            pink: "#EC83D0",
+            mauve: "#8839EF",
+            red: "#D20F39",
+            maroon: "#E64553",
+            peach: "#FE640B",
+            yellow: "#E49320",
+            green: "#40A02B",
+            teal: "#179299",
+            sky: "#04A5E5",
+            sapphire: "#209FB5",
+            blue: "#2A6EF5",
+            lavender: "#7287FD",
+            text: "#4C4F69",
+            subtext1: "#5C5F77",
+            subtext0: "#6C6F85",
+            overlay2: "#7C7F93",
+            overlay1: "#8C8FA1",
+            overlay0: "#9CA0B0",
+            surface2: "#ACB0BE",
+            surface1: "#BCC0CC",
+            surface0: "#CCD0DA",
+            base: "#EFF1F5",
+            mantle: "#E6E9EF",
+            crust: "#DCE0E8",
+        },
     },
-  },
-  "rosepine-light": {
-    mode: "light",
-    colors: {
-      rosewater: "#D6817D", flamingo: "#D6817D", pink: "#907AA9", mauve: "#907AA9",
-      red: "#B4637A", maroon: "#B4637A", peach: "#D6817D", yellow: "#EA9D34",
-      green: "#56949F", teal: "#56949F", sky: "#286983", sapphire: "#286983",
-      blue: "#286983", lavender: "#907AA9",
-      text: "#575279", subtext1: "#615C84", subtext0: "#797593",
-      overlay2: "#807C99", overlay1: "#9893A5", overlay0: "#A19CAD",
-      surface2: "#CAC1B9", surface1: "#D1C9C2", surface0: "#DCD3CB",
-      base: "#EEE6DD", mantle: "#E6DBD1", crust: "#DDD0C6",
+    "rosepine-light": {
+        mode: "light",
+        colors: {
+            rosewater: "#D6817D",
+            flamingo: "#D6817D",
+            pink: "#907AA9",
+            mauve: "#907AA9",
+            red: "#B4637A",
+            maroon: "#B4637A",
+            peach: "#D6817D",
+            yellow: "#EA9D34",
+            green: "#56949F",
+            teal: "#56949F",
+            sky: "#286983",
+            sapphire: "#286983",
+            blue: "#286983",
+            lavender: "#907AA9",
+            text: "#575279",
+            subtext1: "#615C84",
+            subtext0: "#797593",
+            overlay2: "#807C99",
+            overlay1: "#9893A5",
+            overlay0: "#A19CAD",
+            surface2: "#CAC1B9",
+            surface1: "#D1C9C2",
+            surface0: "#DCD3CB",
+            base: "#EEE6DD",
+            mantle: "#E6DBD1",
+            crust: "#DDD0C6",
+        },
     },
-  },
 };
 
 // ============================================================
@@ -284,29 +389,29 @@ export const FLAVORS: Record<string, { mode: "dark" | "light"; colors: FlavorCol
 // ------------------------------------------------------------
 /** 14 个 accent 色名（从 FlavorColors 提取 accent 子集用）。 */
 const ACCENT_KEYS = [
-  "rosewater",
-  "flamingo",
-  "pink",
-  "mauve",
-  "red",
-  "maroon",
-  "peach",
-  "yellow",
-  "green",
-  "teal",
-  "sky",
-  "sapphire",
-  "blue",
-  "lavender",
+    "rosewater",
+    "flamingo",
+    "pink",
+    "mauve",
+    "red",
+    "maroon",
+    "peach",
+    "yellow",
+    "green",
+    "teal",
+    "sky",
+    "sapphire",
+    "blue",
+    "lavender",
 ] as const;
 
 type AccentKey = (typeof ACCENT_KEYS)[number];
 
 /** 从 flavor 颜色表提取 accent 子集。 */
 function pickAccent(colors: FlavorColors): Record<AccentKey, string> {
-  const out = {} as Record<AccentKey, string>;
-  for (const k of ACCENT_KEYS) out[k] = colors[k];
-  return out;
+    const out = {} as Record<AccentKey, string>;
+    for (const k of ACCENT_KEYS) out[k] = colors[k];
+    return out;
 }
 
 /** 深色系（Mocha）accent 色值表。 */
@@ -317,9 +422,9 @@ export const LATTE_ACCENTS: Record<string, string> = pickAccent(FLAVORS.latte.co
 
 /** hex → "r g b" 三元组（Obsidian 部分 -rgb 变量需要）。 */
 function hexToRgb(hex: string): string {
-  const h = hex.replace("#", "");
-  const n = parseInt(h, 16);
-  return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+    const h = hex.replace("#", "");
+    const n = parseInt(h, 16);
+    return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
 }
 
 /**
@@ -332,10 +437,32 @@ function hexToRgb(hex: string): string {
  */
 /** 完整 `--style-tweaker-*` 变量名顺序。 */
 const PALETTE_ORDER = [
-  "rosewater", "flamingo", "pink", "mauve", "red", "maroon", "peach", "yellow",
-  "green", "teal", "sky", "sapphire", "blue", "lavender", "text", "subtext1",
-  "subtext0", "overlay2", "overlay1", "overlay0", "surface2", "surface1",
-  "surface0", "base", "mantle", "crust",
+    "rosewater",
+    "flamingo",
+    "pink",
+    "mauve",
+    "red",
+    "maroon",
+    "peach",
+    "yellow",
+    "green",
+    "teal",
+    "sky",
+    "sapphire",
+    "blue",
+    "lavender",
+    "text",
+    "subtext1",
+    "subtext0",
+    "overlay2",
+    "overlay1",
+    "overlay0",
+    "surface2",
+    "surface1",
+    "surface0",
+    "base",
+    "mantle",
+    "crust",
 ] as const;
 
 /**
@@ -343,7 +470,7 @@ const PALETTE_ORDER = [
  * 布局 CSS（border/cards）及任何需要这些配色的规则可直接引用 var(--style-tweaker-*)。
  */
 function buildFlavorVars(f: { colors: FlavorColors }): string {
-  return PALETTE_ORDER.map((k) => `  --style-tweaker-${k}: ${hexToRgb(f.colors[k])};`).join("\n");
+    return PALETTE_ORDER.map((k) => `  --style-tweaker-${k}: ${hexToRgb(f.colors[k])};`).join("\n");
 }
 
 /**
@@ -352,54 +479,54 @@ function buildFlavorVars(f: { colors: FlavorColors }): string {
  * 从而 border/cards 布局不依赖纯色背景也能正常工作。
  */
 export function buildFlavorVarsCss(flavor: string | undefined, gating: string): string {
-  const f = FLAVORS[(flavor ?? "").trim()];
-  if (!f) return "";
-  return `${gating} {\n${buildFlavorVars(f)}\n}`;
+    const f = FLAVORS[(flavor ?? "").trim()];
+    if (!f) return "";
+    return `${gating} {\n${buildFlavorVars(f)}\n}`;
 }
 
 export function buildFlavorCss(flavor: string | undefined, gating: string): string {
-  const f = FLAVORS[(flavor ?? "").trim()];
-  if (!f) return "";
-  const c = f.colors;
+    const f = FLAVORS[(flavor ?? "").trim()];
+    if (!f) return "";
+    const c = f.colors;
 
-  const flavorVars = buildFlavorVars(f);
+    const flavorVars = buildFlavorVars(f);
 
-  // 中性色做基础变量映射（背景/文字/边框/交互/选中）
-  const vars = [
-    ["--color-base-00", c.crust],
-    ["--color-base-10", c.mantle],
-    ["--color-base-20", c.base],
-    ["--color-base-25", c.surface0],
-    ["--color-base-30", c.surface1],
-    ["--color-base-35", c.surface2],
-    ["--color-base-40", c.overlay0],
-    ["--color-base-50", c.overlay1],
-    ["--color-base-60", c.overlay2],
-    ["--color-base-70", c.subtext0],
-    ["--color-base-100", c.text],
-    ["--text-normal", c.text],
-    ["--text-muted", c.overlay2],
-    ["--text-faint", c.subtext0],
-    ["--text-on-accent", c.base],
-    ["--background-primary", c.base],
-    ["--background-primary-alt", c.mantle],
-    ["--background-secondary", c.mantle],
-    ["--background-secondary-alt", c.crust],
-    ["--interactive-normal", c.surface0],
-    ["--interactive-hover", c.surface1],
-    ["--background-modifier-border", f.mode === "dark" ? c.surface0 : c.surface1],
-    ["--background-modifier-border-hover", f.mode === "dark" ? c.surface1 : c.surface2],
-    ["--background-modifier-border-focus", f.mode === "dark" ? c.surface2 : c.overlay0],
-    ["--blockquote-background-color", `rgba(${hexToRgb(c.crust)}, 0.5)`],
-    ["--text-error", c.red],
-    ["--text-success", c.green],
-  ]
-    .map(([k, v]) => `  ${k}: ${v};`)
-    .join("\n");
+    // 中性色做基础变量映射（背景/文字/边框/交互/选中）
+    const vars = [
+        ["--color-base-00", c.crust],
+        ["--color-base-10", c.mantle],
+        ["--color-base-20", c.base],
+        ["--color-base-25", c.surface0],
+        ["--color-base-30", c.surface1],
+        ["--color-base-35", c.surface2],
+        ["--color-base-40", c.overlay0],
+        ["--color-base-50", c.overlay1],
+        ["--color-base-60", c.overlay2],
+        ["--color-base-70", c.subtext0],
+        ["--color-base-100", c.text],
+        ["--text-normal", c.text],
+        ["--text-muted", c.overlay2],
+        ["--text-faint", c.subtext0],
+        ["--text-on-accent", c.base],
+        ["--background-primary", c.base],
+        ["--background-primary-alt", c.mantle],
+        ["--background-secondary", c.mantle],
+        ["--background-secondary-alt", c.crust],
+        ["--interactive-normal", c.surface0],
+        ["--interactive-hover", c.surface1],
+        ["--background-modifier-border", f.mode === "dark" ? c.surface0 : c.surface1],
+        ["--background-modifier-border-hover", f.mode === "dark" ? c.surface1 : c.surface2],
+        ["--background-modifier-border-focus", f.mode === "dark" ? c.surface2 : c.overlay0],
+        ["--blockquote-background-color", `rgba(${hexToRgb(c.crust)}, 0.5)`],
+        ["--text-error", c.red],
+        ["--text-success", c.green],
+    ]
+        .map(([k, v]) => `  ${k}: ${v};`)
+        .join("\n");
 
-  // 注意：accent（--color-accent 等）统一由 ThemeColorService 管理，此处不注入，
-  // 以免 flavor 的默认 accent 覆盖用户设置的主题色（见 theme-color-service.ts）。
-  return `${gating} {\n${flavorVars}\n${vars}\n}`;
+    // 注意：accent（--color-accent 等）统一由 ThemeColorService 管理，此处不注入，
+    // 以免 flavor 的默认 accent 覆盖用户设置的主题色（见 theme-color-service.ts）。
+    return `${gating} {\n${flavorVars}\n${vars}\n}`;
 }
 
 /**
@@ -407,6 +534,6 @@ export function buildFlavorCss(flavor: string | undefined, gating: string): stri
  * default 且纯色模式时作为默认 accent 使用。
  */
 export function getFlavorAccentHex(flavor: string | undefined): string | null {
-  const f = FLAVORS[(flavor ?? "").trim()];
-  return f ? f.colors.lavender : null;
+    const f = FLAVORS[(flavor ?? "").trim()];
+    return f ? f.colors.lavender : null;
 }

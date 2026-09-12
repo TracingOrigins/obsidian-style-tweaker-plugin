@@ -19,20 +19,20 @@ const CARDS_LAYOUT_CLASS = "style-tweaker-layout-cards";
  * 由基类统一管理事件驱动。
  */
 export class LayoutService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
-    const mode = s.layoutMode ?? "default";
-    const cardsOn = mode === "cards";
-    doc.body.classList.toggle(BORDER_LAYOUT_CLASS, mode === "border");
-    doc.body.classList.toggle(CARDS_LAYOUT_CLASS, cardsOn);
-  }
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
+        const mode = s.layoutMode ?? "default";
+        const cardsOn = mode === "cards";
+        doc.body.classList.toggle(BORDER_LAYOUT_CLASS, mode === "border");
+        doc.body.classList.toggle(CARDS_LAYOUT_CLASS, cardsOn);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.classList.remove(BORDER_LAYOUT_CLASS, CARDS_LAYOUT_CLASS);
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.classList.remove(BORDER_LAYOUT_CLASS, CARDS_LAYOUT_CLASS);
+    }
 }

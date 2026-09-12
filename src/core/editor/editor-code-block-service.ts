@@ -29,33 +29,30 @@ const RADIUS_MIN = 4;
 const RADIUS_MAX = 16;
 
 export class EditorCodeBlockService extends BaseService {
-  constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
-    super(plugin, getSettings);
-  }
+    constructor(plugin: Plugin, getSettings: () => StyleTweakerSettings) {
+        super(plugin, getSettings);
+    }
 
-  protected applyToDocument(doc: Document): void {
-    if (!doc?.body) return;
-    const s = this.getSettings();
+    protected applyToDocument(doc: Document): void {
+        if (!doc?.body) return;
+        const s = this.getSettings();
 
-    const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.codeBlockRadius ?? 8));
-    doc.body.setCssProps({
-      [CODE_BLOCK_RADIUS_VAR]: `${radius}px`,
-    });
+        const radius = Math.min(RADIUS_MAX, Math.max(RADIUS_MIN, s.codeBlockRadius ?? 8));
+        doc.body.setCssProps({
+            [CODE_BLOCK_RADIUS_VAR]: `${radius}px`,
+        });
 
-    doc.body.classList.toggle(
-      CODE_BLOCK_LINE_NUMBERS_CLASS,
-      s.codeBlockLineNumbers
-    );
-    doc.body.classList.toggle(CODE_BLOCK_SHOW_LANG_CLASS, s.codeBlockShowLang);
-    doc.body.classList.toggle(CODE_BLOCK_CUSTOM_RADIUS_CLASS, s.codeBlockCustomRadius);
-  }
+        doc.body.classList.toggle(CODE_BLOCK_LINE_NUMBERS_CLASS, s.codeBlockLineNumbers);
+        doc.body.classList.toggle(CODE_BLOCK_SHOW_LANG_CLASS, s.codeBlockShowLang);
+        doc.body.classList.toggle(CODE_BLOCK_CUSTOM_RADIUS_CLASS, s.codeBlockCustomRadius);
+    }
 
-  protected clearDocument(doc: Document): void {
-    doc.body?.style.removeProperty(CODE_BLOCK_RADIUS_VAR);
-    doc.body?.classList.remove(
-      CODE_BLOCK_LINE_NUMBERS_CLASS,
-      CODE_BLOCK_SHOW_LANG_CLASS,
-      CODE_BLOCK_CUSTOM_RADIUS_CLASS
-    );
-  }
+    protected clearDocument(doc: Document): void {
+        doc.body?.style.removeProperty(CODE_BLOCK_RADIUS_VAR);
+        doc.body?.classList.remove(
+            CODE_BLOCK_LINE_NUMBERS_CLASS,
+            CODE_BLOCK_SHOW_LANG_CLASS,
+            CODE_BLOCK_CUSTOM_RADIUS_CLASS,
+        );
+    }
 }

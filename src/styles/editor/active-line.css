@@ -20,61 +20,39 @@
  * ============================================================ */
 
 body {
-  --style-tweaker-active-line-color: var(--color-accent);
-  --style-tweaker-active-line-focused: 12%;
-  --style-tweaker-active-line-unfocused: 6%;
+    --style-tweaker-active-line-color: var(--color-accent);
+    --style-tweaker-active-line-focused: 12%;
+    --style-tweaker-active-line-unfocused: 6%;
 }
 
 /* 左侧边框高亮的定位上下文（::before 相对所在行定位） */
-body.style-tweaker-active-line.style-tweaker-active-line-border
-  .markdown-source-view
-  .cm-active.cm-line {
-  position: relative;
+body.style-tweaker-active-line.style-tweaker-active-line-border .markdown-source-view .cm-active.cm-line {
+    position: relative;
 }
 
 /* —— 左侧边框高亮（activeLineBorder） —— */
-body.style-tweaker-active-line.style-tweaker-active-line-border
-  .markdown-source-view
-  .cm-active.cm-line::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -1.5rem;
-  width: 1px;
-  background-color: color-mix(in srgb, var(--style-tweaker-active-line-color) 70%, var(--background-secondary));
+body.style-tweaker-active-line.style-tweaker-active-line-border .markdown-source-view .cm-active.cm-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1.5rem;
+    width: 1px;
+    background-color: color-mix(in srgb, var(--style-tweaker-active-line-color) 70%, var(--background-secondary));
 }
 
 /* —— 背景高亮（activeLineBg） —— */
-body.style-tweaker-active-line.style-tweaker-active-line-bg
-  .markdown-source-view
-  .cm-active.cm-line {
-  background-color: color-mix(
-    in srgb,
-    var(--style-tweaker-active-line-color)
-      var(--style-tweaker-active-line-unfocused),
-    transparent
-  );
+body.style-tweaker-active-line.style-tweaker-active-line-bg .markdown-source-view .cm-active.cm-line {
+    background-color: color-mix(in srgb, var(--style-tweaker-active-line-color) var(--style-tweaker-active-line-unfocused), transparent);
 }
 
-body.style-tweaker-active-line.style-tweaker-active-line-bg
-  .markdown-source-view
-  .cm-focused
-  .cm-active.cm-line {
-  background-color: color-mix(
-    in srgb,
-    var(--style-tweaker-active-line-color)
-      var(--style-tweaker-active-line-focused),
-    transparent
-  );
+body.style-tweaker-active-line.style-tweaker-active-line-bg .markdown-source-view .cm-focused .cm-active.cm-line {
+    background-color: color-mix(in srgb, var(--style-tweaker-active-line-color) var(--style-tweaker-active-line-focused), transparent);
 }
 
 /* —— 行号高亮（activeLineGutter） ——
    CM6 行号位于 .cm-gutters > .cm-lineNumbers 中，与 .cm-line 是并排容器，
    行元素上的高亮背景覆盖不到它，故单独给活动行的行号元素上色。 */
-body.style-tweaker-active-line.style-tweaker-active-line-gutter
-  .markdown-source-view
-  .cm-lineNumbers
-  .cm-active.cm-gutterElement {
-  color: var(--style-tweaker-active-line-color);
+body.style-tweaker-active-line.style-tweaker-active-line-gutter .markdown-source-view .cm-lineNumbers .cm-active.cm-gutterElement {
+    color: var(--style-tweaker-active-line-color);
 }

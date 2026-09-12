@@ -18,66 +18,59 @@ const TAB_BEFORE_ACTIVE_CLASS = "style-tweaker-tab-before-active";
 
 /** 元素是否属于标签头区域（决定是否值得刷新标签分类） */
 function inTabArea(el: Element | null): boolean {
-  if (!el) return false;
-  return (
-    el.classList?.contains("workspace-tab-header") ||
-    el.closest(".workspace-tab-header-container") !== null ||
-    el.closest(".workspace-tab-header") !== null
-  );
+    if (!el) return false;
+    return (
+        el.classList?.contains("workspace-tab-header") ||
+        el.closest(".workspace-tab-header-container") !== null ||
+        el.closest(".workspace-tab-header") !== null
+    );
 }
 
 export class TabBeforeActiveStateService extends DomStateServiceBase {
-  protected isActive(doc: Document): boolean {
-    if (!doc?.body) return false;
-    const body = doc.body;
-    return (
-      body.classList.contains(IMAGE_ACTIVE_CLASS) &&
-      !body.classList.contains("is-mobile")
-    );
-  }
-
-  protected refreshAll(doc: Document): void {
-    if (!doc?.body) return;
-    this.refreshTabHeaders(doc);
-  }
-
-  protected onMutations(doc: Document, records: MutationRecord[]): void {
-    let sawTab = false;
-    for (const record of records) {
-      const target = record.target.instanceOf(Element) ? record.target : null;
-      if (inTabArea(target)) {
-        sawTab = true;
-        break;
-      }
-      if (record.type === "childList") {
-        for (const node of Array.from(record.addedNodes)) {
-          if (node.instanceOf(Element) && inTabArea(node)) {
-            sawTab = true;
-            break;
-          }
-        }
-        if (sawTab) break;
-      }
+    protected isActive(doc: Document): boolean {
+        if (!doc?.body) return false;
+        const body = doc.body;
+        return body.classList.contains(IMAGE_ACTIVE_CLASS) && !body.classList.contains("is-mobile");
     }
-    if (sawTab) this.refreshTabHeaders(doc);
-  }
 
-  protected clearStates(doc: Document): void {
-    if (!doc?.body) return;
-    doc
-      .querySelectorAll<HTMLElement>(".workspace-tab-header")
-      .forEach((header) => header.classList.remove(TAB_BEFORE_ACTIVE_CLASS));
-  }
+    protected refreshAll(doc: Document): void {
+        if (!doc?.body) return;
+        this.refreshTabHeaders(doc);
+    }
 
-  private refreshTabHeaders(doc: Document): void {
-    doc
-      .querySelectorAll<HTMLElement>(".workspace-tab-header")
-      .forEach((header) => {
-        const next = header.nextElementSibling;
-        const isBeforeActive = !!(
-          next && next.classList.contains("is-active")
+    protected onMutations(doc: Document, records: MutationRecord[]): void {
+        let sawTab = false;
+        for (const record of records) {
+            const target = record.target.instanceOf(Element) ? record.target : null;
+            if (inTabArea(target)) {
+                sawTab = true;
+                break;
+            }
+            if (record.type === "childList") {
+                for (const node of Array.from(record.addedNodes)) {
+                    if (node.instanceOf(Element) && inTabArea(node)) {
+                        sawTab = true;
+                        break;
+                    }
+                }
+                if (sawTab) break;
+            }
+        }
+        if (sawTab) this.refreshTabHeaders(doc);
+    }
+
+    protected clearStates(doc: Document): void {
+        if (!doc?.body) return;
+        doc.querySelectorAll<HTMLElement>(".workspace-tab-header").forEach((header) =>
+            header.classList.remove(TAB_BEFORE_ACTIVE_CLASS),
         );
-        header.classList.toggle(TAB_BEFORE_ACTIVE_CLASS, isBeforeActive);
-      });
-  }
+    }
+
+    private refreshTabHeaders(doc: Document): void {
+        doc.querySelectorAll<HTMLElement>(".workspace-tab-header").forEach((header) => {
+            const next = header.nextElementSibling;
+            const isBeforeActive = !!(next && next.classList.contains("is-active"));
+            header.classList.toggle(TAB_BEFORE_ACTIVE_CLASS, isBeforeActive);
+        });
+    }
 }

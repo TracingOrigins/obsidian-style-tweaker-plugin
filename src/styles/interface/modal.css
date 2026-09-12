@@ -16,12 +16,12 @@
 
 body.style-tweaker-modal-blur-mobile.is-mobile .modal-container,
 body.style-tweaker-modal-blur-mobile.is-mobile .modal-container .modal-bg {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 body.style-tweaker-modal-blur-desktop:not(.is-mobile) .modal-container,
 body.style-tweaker-modal-blur-desktop:not(.is-mobile) .modal-container .modal-bg {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }

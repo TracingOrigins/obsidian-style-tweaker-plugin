@@ -20,8 +20,8 @@ const targetVersion = process.env.npm_package_version || packageJson.version;
 const { minAppVersion } = manifest;
 
 if (!targetVersion) {
-	console.error("❌ 无法确定版本号");
-	process.exit(1);
+    console.error("❌ 无法确定版本号");
+    process.exit(1);
 }
 
 // 更新 manifest.json
@@ -31,11 +31,11 @@ console.log(`✅ 已更新 manifest.json 版本: ${targetVersion}`);
 
 // 更新 versions.json（如果版本不存在）
 if (!versions[targetVersion]) {
-	versions[targetVersion] = minAppVersion;
-	writeFileSync(versionsPath, JSON.stringify(versions, null, "\t") + "\n");
-	console.log(`✅ 已添加版本映射: ${targetVersion} -> ${minAppVersion}`);
+    versions[targetVersion] = minAppVersion;
+    writeFileSync(versionsPath, JSON.stringify(versions, null, "\t") + "\n");
+    console.log(`✅ 已添加版本映射: ${targetVersion} -> ${minAppVersion}`);
 } else {
-	console.log(`ℹ️  版本 ${targetVersion} 已存在于 versions.json`);
+    console.log(`ℹ️  版本 ${targetVersion} 已存在于 versions.json`);
 }
 
 console.log(`✅ 版本同步完成: ${targetVersion} (minAppVersion: ${minAppVersion})`);
