@@ -18,7 +18,6 @@ export default class StyleTweakerPlugin extends Plugin {
       ...DEFAULT_SETTINGS,
       ...((await this.loadData()) as Partial<StyleTweakerSettings>),
     };
-
     this.registry = new StyleServiceRegistry(this, () => this.settings);
     this.registry.enableAll();
 

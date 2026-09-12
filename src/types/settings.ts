@@ -89,8 +89,8 @@ export interface StyleTweakerSettings {
   vaultNameFontSizeInFileList: number; // 文件列表库名称字号(px，依赖 showVaultNameInFileList)
   vaultNameFontInFileList: string; // 文件列表库名称字体（interface/text/monospace/custom）
   vaultNameCustomFontInFileList: string; // 自定义库名称字体名（仅上项为 custom 时生效；默认预填示例字体，清空=回退界面字体）
-  vaultNameColorInFileList: string; // 文件列表库名称颜色（default=跟随主题强调色/预设色/custom=自定义色）
-  vaultNameCustomColorInFileList: string; // 自定义库名称颜色 hex（仅上项为 custom 时生效；默认预填示例色，清空=回退主题强调色）
+  vaultNameColorInFileList: string; // 文件列表库名称颜色（default/空=跟随主题强调色；预设色名；#rrggbb=自定义色）
+  vaultNameOpacityInFileList: number; // 文件列表库名称不透明度（%，0-100，依赖 showVaultNameInFileList）
   restoreLegacySidebar: boolean; // 恢复传统侧栏布局
   // 移动端侧栏布局优化：三个开关对应 body.is-mobile.<class> 的类切换，仅移动端生效。
   mobileDrawerHeaderTop: boolean; // 移动端：将库信息与状态栏上移置顶
@@ -208,7 +208,7 @@ export interface StyleTweakerSettings {
     | "bubble"
     | "frame"; // 块引用样式
   blockquoteCustom: boolean; // 是否允许自定义块引用颜色
-  blockquoteTextColor: string; // 文字颜色（空=主题强调色）
+  blockquoteTextColor: string; // 文字颜色（空=主题强调色，仅在开启自定义颜色时生效）
   blockquoteBorderColor: string; // 边框颜色（空=主题强调色）
   // 链接样式
   linkInternalColor: string; // 内部链接颜色（空=主题强调色）
@@ -466,8 +466,8 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
   // 示例值：选中「自定义」字体时预填到输入框（可整段替换或清空以回退界面字体）
   vaultNameCustomFontInFileList: "Lucida Handwriting, Segoe UI Emoji",
   vaultNameColorInFileList: "default",
-  // 示例值：选中「自定义」颜色时预填（可替换或清空以回退主题强调色）
-  vaultNameCustomColorInFileList: "#1296db",
+  // 不透明度默认 90%
+  vaultNameOpacityInFileList: 90,
   restoreLegacySidebar: false,
   mobileDrawerHeaderTop: false,
   mobileDrawerTabsTop: false,

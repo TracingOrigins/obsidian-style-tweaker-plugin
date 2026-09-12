@@ -77,27 +77,29 @@ export function buildSidebarItem(plugin: SettingTabPlugin): SettingDefinitionIte
             } as unknown as SettingControl,
           },
           {
+            // 色板下拉 + 「自定义」：由 setting-tab 的 expandColorItems 统一追加「自定义」项，
+            // 并在其后插入**共用本字段**的颜色选择器（值 #rrggbb），无需在此手工声明子项。
+            // 恢复默认时回到「自定义 + 跟随主题强调色」，服务层按 #rrggbb / 色名 / default 解析。
             name: t("interface.sidebar.desktop.vaultNameColor"),
             desc: t("interface.sidebar.desktop.vaultNameColor.desc"),
             visible: () => plugin.settings.showVaultNameInFileList,
-            // allowCustom：在预设色板下拉末尾追加「自定义」项，选中后展开下方颜色选择器
             control: {
               type: "color",
               key: "vaultNameColorInFileList",
-              allowCustom: true,
             } as unknown as SettingControl,
           },
           {
-            // 颜色选择「自定义」后展开：原生颜色选择器（值为 #rrggbb）
-            name: t("interface.sidebar.desktop.vaultNameColorCustom"),
-            desc: t("interface.sidebar.desktop.vaultNameColorCustom.desc"),
-            visible: () =>
-              plugin.settings.showVaultNameInFileList &&
-              plugin.settings.vaultNameColorInFileList === "custom",
+            name: t("interface.sidebar.desktop.vaultNameOpacity"),
+            desc: t("interface.sidebar.desktop.vaultNameOpacity.desc"),
+            visible: () => plugin.settings.showVaultNameInFileList,
             control: {
-              type: "color-picker",
-              key: "vaultNameCustomColorInFileList",
-            } as unknown as SettingControl,
+              type: "slider",
+              key: "vaultNameOpacityInFileList",
+              min: 0,
+              max: 100,
+              step: 1,
+              unit: "%",
+            },
           },
           {
             name: t("interface.sidebar.desktop.restoreLegacy"),

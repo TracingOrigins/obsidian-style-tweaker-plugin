@@ -2,6 +2,7 @@ import { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
 import { accentToHex, normalizeHexColor } from "../../utils/color-palette";
+import { setPercentVar } from "../../utils/doc-css-vars";
 
 // ============================================================
 // 桌面端侧栏：传统布局（legacy）+ 库名显示
@@ -241,11 +242,13 @@ const CUSTOM_VAULT_NAME_CLASS = "style-tweaker-custom-vault-name";
 const SHOW_VAULT_NAME_CLASS = "style-tweaker-show-vault-name";
 const CENTER_VAULT_NAME_CLASS = "style-tweaker-center-vault-name";
 const VAULT_NAME_VAR = "--style-tweaker-vault-name";
-// 文件列表顶部库名行的样式变量（字号 / 字体 / 深浅色各一套颜色）
+// 文件列表顶部库名行的样式变量（字号 / 字体 / 深浅色各一套颜色 / 不透明度）
 const VAULT_NAME_FONT_SIZE_VAR = "--style-tweaker-vault-name-font-size";
 const VAULT_NAME_FONT_VAR = "--style-tweaker-vault-name-font-family";
 const VAULT_NAME_COLOR_DARK_VAR = "--style-tweaker-vault-name-color-dark";
 const VAULT_NAME_COLOR_LIGHT_VAR = "--style-tweaker-vault-name-color-light";
+// 不透明度：与主题无关，深浅共用一份（值为 <n>%）
+const VAULT_NAME_OPACITY_VAR = "--style-tweaker-vault-name-opacity";
 
 /**
  * 界面字体变量栈：Obsidian 的界面字体变量是 --font-interface（不存在 --interface-font）。
@@ -329,12 +332,13 @@ export class SidebarVaultNameService extends BaseService {
         s.vaultNameCustomFontInFileList,
       ),
     );
-    // 颜色按深浅色各写一套（CSS 按 body.theme-dark/.theme-light 取用）；
-    // default / 空值不设，CSS 回退 --color-accent；custom 用颜色选择器的固定 hex（深浅共用同一值）。
-    const customColor = normalizeHexColor(s.vaultNameCustomColorInFileList);
-    const useCustomColor = s.vaultNameColorInFileList === "custom" && !!customColor;
-    const colorDark = useCustomColor ? customColor : accentToHex(s.vaultNameColorInFileList, true);
-    const colorLight = useCustomColor ? customColor : accentToHex(s.vaultNameColorInFileList, false);
+    // 颜色按深浅色各写一套（CSS 按 body.theme-dark/.theme-light 取用）。
+    // 字段值三态：#rrggbb=自定义色（深浅共用） / 预设色名（深浅各取 hex） / default 或空。
+    // 后两者解析不出色值，移除变量，由 CSS 回退 --color-accent（跟随主题强调色）。
+    const colorValue = (s.vaultNameColorInFileList ?? "").trim();
+    const customColor = normalizeHexColor(colorValue);
+    const colorDark = customColor ?? accentToHex(colorValue, true);
+    const colorLight = customColor ?? accentToHex(colorValue, false);
     if (colorDark && colorLight) {
       doc.body.style.setProperty(VAULT_NAME_COLOR_DARK_VAR, colorDark);
       doc.body.style.setProperty(VAULT_NAME_COLOR_LIGHT_VAR, colorLight);
@@ -342,12 +346,15 @@ export class SidebarVaultNameService extends BaseService {
       doc.body.style.removeProperty(VAULT_NAME_COLOR_DARK_VAR);
       doc.body.style.removeProperty(VAULT_NAME_COLOR_LIGHT_VAR);
     }
+    // 不透明度：写入百分比变量；设置缺失/非法时移除变量，由 CSS 回退 100%
+    setPercentVar(doc, s.vaultNameOpacityInFileList, VAULT_NAME_OPACITY_VAR);
   }
 
   protected clearDocument(doc: Document): void {
     doc.body?.style.removeProperty(VAULT_NAME_VAR);
     doc.body?.style.removeProperty(VAULT_NAME_FONT_SIZE_VAR);
     doc.body?.style.removeProperty(VAULT_NAME_FONT_VAR);
+    doc.body?.style.removeProperty(VAULT_NAME_OPACITY_VAR);
     doc.body?.style.removeProperty(VAULT_NAME_COLOR_DARK_VAR);
     doc.body?.style.removeProperty(VAULT_NAME_COLOR_LIGHT_VAR);
     doc.body?.classList.remove(

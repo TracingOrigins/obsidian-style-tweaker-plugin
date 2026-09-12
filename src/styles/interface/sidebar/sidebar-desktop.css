@@ -51,6 +51,8 @@ body:not(.is-mobile).style-tweaker-show-vault-name
   );
   font-weight: var(--font-semibold);
   color: var(--style-tweaker-vault-name-color-light, var(--color-accent));
+  /* 不透明度取自 JS 注入的百分比变量（如 60%），未注入时回退默认值 90% */
+  opacity: var(--style-tweaker-vault-name-opacity, 90%);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
