@@ -61,17 +61,19 @@
 
 2. Скопируйте `.env.example` в `.env` и укажите `VAULT_PATH` — путь к вашему хранилищу Obsidian:
 
-   ```
-   VAULT_PATH=C:/Users/YourName/Documents/MyVault
-   ```
+    ```
+    VAULT_PATH=C:/Users/YourName/Documents/MyVault
+    ```
 
 3. Установите зависимости и начните разработку:
 
     ```bash
-    npm install        # установка зависимостей
-    npm run dev        # режим отслеживания (авто-деплой в хранилище)
-    npm run build      # production сборка (авто-деплой в хранилище)
-    npm run lint       # запуск eslint
+    npm install          # установка зависимостей
+    npm run dev          # режим отслеживания (авто-деплой в хранилище)
+    npm run build        # production сборка (авто-деплой в хранилище)
+    npm run lint         # запуск eslint
+    npm run format       # форматирование кода через prettier
+    npm run format:check # проверка форматирования
     ```
 
 ## Поддержка и обратная связь
@@ -89,10 +91,10 @@
 
 Дизайн и реализация этого плагина вдохновлены следующими замечательными проектами с открытым исходным кодом. Особая благодарность их авторам:
 
-| Проект | Автор | GitHub | Поддержка |
-|--------|-------|--------|-----------|
-| Тема **Blue Topaz** | WhyI ([whyt-byte](https://github.com/whyt-byte)) | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css) | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi) |
-| Тема **AnuPpuccin** | Anubis ([AnubisNekhet](https://github.com/AnubisNekhet)) | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin) | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
-| Плагин **Home Tab Plus** | Moyf ([Moyf](https://github.com/Moyf)) | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus) | [Ko-fi](https://ko-fi.com/moy) |
-| Плагин **Style Context** | Moyf ([Moyf](https://github.com/Moyf)) | [Moyf/style-context](https://github.com/Moyf/style-context) | [Ko-fi](https://ko-fi.com/moy) |
-| Плагин **File Explorer Note Count** | Ozan Tellioglu ([ozntel](https://github.com/ozntel)) | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante) |
+| Проект                              | Автор                                                    | GitHub                                                                                | Поддержка                                                    |
+| ----------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Тема **Blue Topaz**                 | WhyI ([whyt-byte](https://github.com/whyt-byte))         | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css)   | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi)         |
+| Тема **AnuPpuccin**                 | Anubis ([AnubisNekhet](https://github.com/AnubisNekhet)) | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin)                 | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
+| Плагин **Home Tab Plus**            | Moyf ([Moyf](https://github.com/Moyf))                   | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| Плагин **Style Context**            | Moyf ([Moyf](https://github.com/Moyf))                   | [Moyf/style-context](https://github.com/Moyf/style-context)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| Плагин **File Explorer Note Count** | Ozan Tellioglu ([ozntel](https://github.com/ozntel))     | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante)                            |

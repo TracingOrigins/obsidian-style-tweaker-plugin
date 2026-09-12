@@ -61,17 +61,19 @@
 
 2. 将 `.env.example` 复制为 `.env`，并设置 `VAULT_PATH` 为你的 Obsidian Vault 路径：
 
-   ```
-   VAULT_PATH=C:/Users/YourName/Documents/MyVault
-   ```
+    ```
+    VAULT_PATH=C:/Users/YourName/Documents/MyVault
+    ```
 
 3. 安装依赖并开始开发：
 
     ```bash
-    npm install        # 安装依赖
-    npm run dev        # 监听模式（自动部署到 Vault）
-    npm run build      # 生产构建（自动部署到 Vault）
-    npm run lint       # 运行 eslint
+    npm install          # 安装依赖
+    npm run dev          # 监听模式（自动部署到 Vault）
+    npm run build        # 生产构建（自动部署到 Vault）
+    npm run lint         # 运行 eslint
+    npm run format       # 用 prettier 格式化
+    npm run format:check # 校验格式是否符合 prettier
     ```
 
 ## 支持与帮助
@@ -89,10 +91,10 @@
 
 本插件的设计与实现参考了以下优秀的开源项目，在此向它们的作者致以诚挚感谢：
 
-| 项目 | 作者 | GitHub | 打赏 |
-|------|------|--------|------|
-| **Blue Topaz** 主题 | WhyI（[whyt-byte](https://github.com/whyt-byte)） | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css) | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi) |
-| **AnuPpuccin** 主题 | Anubis（[AnubisNekhet](https://github.com/AnubisNekhet)） | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin) | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
-| **Home Tab Plus** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus) | [Ko-fi](https://ko-fi.com/moy) |
-| **Style Context** 插件 | Moyf（[Moyf](https://github.com/Moyf)） | [Moyf/style-context](https://github.com/Moyf/style-context) | [Ko-fi](https://ko-fi.com/moy) |
-| **File Explorer Note Count** 插件 | Ozan Tellioglu（[ozntel](https://github.com/ozntel)） | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante) |
+| 项目                              | 作者                                                      | GitHub                                                                                | 打赏                                                         |
+| --------------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Blue Topaz** 主题               | WhyI（[whyt-byte](https://github.com/whyt-byte)）         | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css)   | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi)         |
+| **AnuPpuccin** 主题               | Anubis（[AnubisNekhet](https://github.com/AnubisNekhet)） | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin)                 | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
+| **Home Tab Plus** 插件            | Moyf（[Moyf](https://github.com/Moyf)）                   | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| **Style Context** 插件            | Moyf（[Moyf](https://github.com/Moyf)）                   | [Moyf/style-context](https://github.com/Moyf/style-context)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| **File Explorer Note Count** 插件 | Ozan Tellioglu（[ozntel](https://github.com/ozntel)）     | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante)                            |

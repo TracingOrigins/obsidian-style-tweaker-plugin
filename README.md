@@ -61,17 +61,19 @@ The settings tab is grouped into the following pages, and all changes take effec
 
 2. Copy `.env.example` to `.env` and set `VAULT_PATH` to your Obsidian vault path:
 
-   ```
-   VAULT_PATH=C:/Users/YourName/Documents/MyVault
-   ```
+    ```
+    VAULT_PATH=C:/Users/YourName/Documents/MyVault
+    ```
 
 3. Install dependencies and start developing:
 
     ```bash
-    npm install        # install dependencies
-    npm run dev        # watch mode (auto-deploys to vault)
-    npm run build      # production build (auto-deploys to vault)
-    npm run lint       # run eslint
+    npm install          # install dependencies
+    npm run dev          # watch mode (auto-deploys to vault)
+    npm run build        # production build (auto-deploys to vault)
+    npm run lint         # run eslint
+    npm run format       # format code with prettier
+    npm run format:check # verify formatting
     ```
 
 ## Support & Feedback
@@ -89,10 +91,10 @@ If this plugin helps you, please consider:
 
 This plugin's design and implementation draw inspiration from the following great open-source projects. Special thanks to their authors:
 
-| Project | Author | GitHub | Support |
-|---------|--------|--------|---------|
-| **Blue Topaz** theme | WhyI ([whyt-byte](https://github.com/whyt-byte)) | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css) | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi) |
-| **AnuPpuccin** theme | Anubis ([AnubisNekhet](https://github.com/AnubisNekhet)) | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin) | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
-| **Home Tab Plus** plugin | Moyf ([Moyf](https://github.com/Moyf)) | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus) | [Ko-fi](https://ko-fi.com/moy) |
-| **Style Context** plugin | Moyf ([Moyf](https://github.com/Moyf)) | [Moyf/style-context](https://github.com/Moyf/style-context) | [Ko-fi](https://ko-fi.com/moy) |
-| **File Explorer Note Count** plugin | Ozan Tellioglu ([ozntel](https://github.com/ozntel)) | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante) |
+| Project                             | Author                                                   | GitHub                                                                                | Support                                                      |
+| ----------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Blue Topaz** theme                | WhyI ([whyt-byte](https://github.com/whyt-byte))         | [PKM-er/Blue-Topaz_Obsidian-css](https://github.com/PKM-er/Blue-Topaz_Obsidian-css)   | [Buy Me a Coffee](https://www.buymeacoffee.com/whyi)         |
+| **AnuPpuccin** theme                | Anubis ([AnubisNekhet](https://github.com/AnubisNekhet)) | [AnubisNekhet/anuppuccin](https://github.com/AnubisNekhet/anuppuccin)                 | [Buy Me a Coffee](https://www.buymeacoffee.com/anubisnekhet) |
+| **Home Tab Plus** plugin            | Moyf ([Moyf](https://github.com/Moyf))                   | [Moyf/home-tab-plus](https://github.com/Moyf/home-tab-plus)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| **Style Context** plugin            | Moyf ([Moyf](https://github.com/Moyf))                   | [Moyf/style-context](https://github.com/Moyf/style-context)                           | [Ko-fi](https://ko-fi.com/moy)                               |
+| **File Explorer Note Count** plugin | Ozan Tellioglu ([ozntel](https://github.com/ozntel))     | [ozntel/file-explorer-note-count](https://github.com/ozntel/file-explorer-note-count) | [Ko-fi](https://ko-fi.com/ozante)                            |
