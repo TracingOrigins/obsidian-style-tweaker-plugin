@@ -1,0 +1,4 @@
+# 统一行尾为 LF，与 .editorconfig(end_of_line = lf) 及 Prettier(endOfLine: "lf") 保持一致。
+# 本机系统级 core.autocrlf=true 会把检出文件转成 CRLF，导致 `npm run format:check` 误报；
+# 此规则显式覆盖该行为，保证索引与工作区都是 LF。
+* text=auto eol=lf
