@@ -19,7 +19,7 @@ import { accentToHex, normalizeHexColor } from "./color-palette";
 
 /**
  * 把「颜色设置值」解析后写入指定文档 body 上的 CSS 变量。
- * @param value     设置项值（色名 / default / 空）
+ * @param value     设置项值（色名 / #rrggbb 自定义色 / default / 空）
  * @param variable  CSS 变量名（--xxx）
  * @param fallback  未指定 / 未知色名时的回退值（可为 var(--color-accent)）
  */
@@ -33,10 +33,14 @@ export function setAccentVar(
   const name = (value ?? "").trim();
   let resolved: string | null = null;
   if (name && name !== "default") {
-    const isDark = doc.body.classList.contains("theme-dark");
-    resolved = accentToHex(name, isDark);
-    // 深浅两表都无匹配（理论不发生）时回退
-    if (!resolved) resolved = accentToHex(name, !isDark);
+    // 自定义色（颜色选择器写入的 #rrggbb）是固定色，深浅主题通用，直接用。
+    resolved = normalizeHexColor(name);
+    if (!resolved) {
+      const isDark = doc.body.classList.contains("theme-dark");
+      resolved = accentToHex(name, isDark);
+      // 深浅两表都无匹配（理论不发生）时回退
+      if (!resolved) resolved = accentToHex(name, !isDark);
+    }
   }
   doc.body.setCssProps({ [variable]: resolved ?? fallback });
 }

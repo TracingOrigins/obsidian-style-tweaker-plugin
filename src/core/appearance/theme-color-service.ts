@@ -1,7 +1,7 @@
 import type { Plugin } from "obsidian";
 import { StyleTweakerSettings } from "../../types/settings";
 import { BaseService } from "../base-service";
-import { MOCHA_ACCENTS, LATTE_ACCENTS } from "../../utils/color-palette";
+import { MOCHA_ACCENTS, LATTE_ACCENTS, normalizeHexColor } from "../../utils/color-palette";
 
 // ============================================================
 // 主题色服务：把设置中选中的 accent 覆盖到 Obsidian 全局强调色变量。
@@ -53,9 +53,12 @@ export class ThemeColorService extends BaseService {
     // accent 应保持「用户选择 or Obsidian 原生」，否则会冒出既非所选也非原生的第三种颜色。
     // 按当前文档深浅主题决定写哪一套；css-change 会在主题切换后刷新。
     const isDark = isDarkDoc(doc);
-    const hex = isDark
-      ? (MOCHA_ACCENTS[s.themeDark] ?? null)
-      : (LATTE_ACCENTS[s.themeLight] ?? null);
+    // 自定义色（颜色选择器写入的 #rrggbb）优先：固定色直接使用，不查色板。
+    const selected = isDark ? s.themeDark : s.themeLight;
+    const hex =
+      normalizeHexColor(selected) ??
+      (isDark ? MOCHA_ACCENTS[selected] : LATTE_ACCENTS[selected]) ??
+      null;
 
     if (!hex) {
       // 当前主题下用户选的是 default / 无匹配：移除覆盖，恢复 Obsidian 原生强调色

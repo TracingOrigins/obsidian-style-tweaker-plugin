@@ -9,8 +9,8 @@ import { LINK_STYLES_CSS } from "./editor-link-styles-css";
 // 编辑器链接样式服务
 // ------------------------------------------------------------
 // 功能：
-//   1. 内部链接颜色（linkInternalColor）：渲染/实时预览内部链接颜色；默认=Obsidian 原生链接色。
-//   2. 外部链接颜色（linkExternalColor）：外部链接颜色；默认=Obsidian 原生外部链接色。
+//   1. 内部链接颜色（linkInternalColor）：渲染/实时预览内部链接颜色；默认=主题强调色。
+//   2. 外部链接颜色（linkExternalColor）：外部链接颜色；默认=主题强调色。
 //   3. 内部链接下划线（linkUnderlineInternal）：true=去除内部链接下划线。
 //   4. 未创建链接下划线（linkUnderlineUnresolved）：true=去除未创建链接下划线。
 //   5. 外部链接下划线（linkUnderlineExternal）：true=去除外部链接下划线。
@@ -56,16 +56,15 @@ export class EditorLinkService extends BaseService {
     if (!doc?.body) return;
     const s = this.getSettings();
 
-    // default/空值回退 Obsidian 原生链接色（--link-color / --link-external-color），
-    // 而非主题强调色，使未选择颜色时链接保持原生外观。
-    setAccentVar(doc, s.linkInternalColor, LINK_INTERNAL_VAR, "var(--link-color)");
-    setAccentVar(doc, s.linkExternalColor, LINK_EXTERNAL_VAR, "var(--link-external-color)");
+    // default/空值回退主题强调色（--color-accent），与其它颜色设置项语义一致：
+    // 未选色时链接用主题强调色，而非主题的原生链接色（--link-color / --link-external-color）。
+    setAccentVar(doc, s.linkInternalColor, LINK_INTERNAL_VAR, "var(--color-accent)");
+    setAccentVar(doc, s.linkExternalColor, LINK_EXTERNAL_VAR, "var(--color-accent)");
 
     if (!doc.body) return;
-    // 颜色自定义门控：仅当内部或外部链接颜色被自定义（非 default）时挂载，
-    // 使注入的链接颜色规则只在用户选色时生效，default 时链接完全用 Obsidian 原生。
-    const colorCustom = this.isColorCustom(s.linkInternalColor) || this.isColorCustom(s.linkExternalColor);
-    doc.body.classList.toggle(LINK_COLOR_CUSTOM_CLASS, colorCustom);
+    // 颜色门控类恒定挂载（原为「仅在选色时挂载」）：default 也要回退主题强调色，
+    // 故注入的链接颜色规则须始终生效；该类现作为链接颜色规则的作用域锚点。
+    doc.body.classList.add(LINK_COLOR_CUSTOM_CLASS);
     // 开关类：true 才挂（true=去除/增强；false/默认=原生行为）。
     doc.body.classList.toggle(LINK_UNDERLINE_INTERNAL_CLASS, s.linkUnderlineInternal);
     doc.body.classList.toggle(LINK_UNDERLINE_UNRESOLVED_CLASS, s.linkUnderlineUnresolved);
@@ -74,12 +73,6 @@ export class EditorLinkService extends BaseService {
     doc.body.classList.toggle(LINK_COLORFUL_CLASS, s.linkColorfulAnimation);
     // 注入样式模板（幂等；CSS 条件均以 body 门控类为准，设置变化无需重注入）
     this.linkStyle.apply(doc);
-  }
-
-  /** 颜色是否被自定义（非 default / 非空），用于决定是否挂载颜色门控类。 */
-  private isColorCustom(value: string | undefined): boolean {
-    const v = (value ?? "").trim().toLowerCase();
-    return v !== "" && v !== "default";
   }
 
   protected clearDocument(doc: Document): void {

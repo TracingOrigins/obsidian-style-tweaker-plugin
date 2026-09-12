@@ -15,8 +15,11 @@ import { ImagePicker } from "../ui/image-picker";
 import { IconSuggest } from "../ui/icon-suggest";
 import { IconPicker } from "../ui/icon-picker";
 import { getSortedBackgroundImages } from "../utils/background-images";
-import { getAccentColorOptions, normalizeHexColor } from "../utils/color-palette";
+import { getAccentColorOptions, isAccentPaletteOptions, normalizeHexColor } from "../utils/color-palette";
 import { getFontFamilies, loadSystemFonts } from "../utils/system-fonts";
+
+/** 颜色解析探针的哨兵色：目标声明无效时不会覆盖它，用于区分「解析失败」与「继承到的正文色」 */
+const PROBE_SENTINEL_COLOR = "#010203";
 
 export class StyleTweakerSettingTab extends PluginSettingTab {
   plugin: SettingTabPlugin;
@@ -56,8 +59,10 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
       buildPluginsSection(this.plugin),
       buildResetSection(this.plugin, () => this.update()),
     ];
-    // 为每个带 control 的设置项包装命令式 render：前置「恢复默认值」按钮，
+    // 先给所有色板下拉集中补齐「自定义」下拉项与颜色选择器（避免逐项重复声明），
+    // 再为每个带 control 的设置项包装命令式 render：前置「恢复默认值」按钮，
     // 再渲染原生控件。声明式 control API 无每行额外按钮能力，故采用本方案。
+    this.expandColorItems(defs);
     this.wrapWithReset(defs);
     return defs;
   }
@@ -84,7 +89,9 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
     // 键名含平台前缀（desktopNewTab* / mobileNewTab*），故用 (desktop|mobile) 前缀匹配。
     if (
       /WallpaperMode/.test(key) ||
-      /^vaultName(?:Font|Color)InFileList$/.test(key) ||
+      // 库名字体：选中「自定义」后需渲染字体搜索控件，故全量重建；
+      // 颜色项（vaultNameColorInFileList）已走自动展开机制，与其它色板项一致用轻量刷新。
+      /^vaultNameFontInFileList$/.test(key) ||
       /^(?:desktop|mobile)NewTab(?:LogoType|ParticleEnabled|ParticleCustomColor|TitleType)$/.test(key)
     ) {
       this.update();
@@ -93,6 +100,59 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
       this.refreshDomState();
     }
     return p;
+  }
+
+  /**
+   * 为所有「accent 色板下拉」集中补齐「自定义」能力（可复用，避免每个颜色项重复声明）：
+   *   1. 统一转为 type:"color" 并开启 allowCustom —— 下拉末尾出现「自定义」项；
+   *   2. 紧随其后插入一个原生颜色选择器项，与主项**共用同一设置字段**，值为 #rrggbb；
+   *      下拉显示「自定义」，服务层无需改动（setAccentVar / resolveAccentValue 已支持 hex 直传）。
+   *
+   * 已手工声明「color + 配对 color-picker」的项（表格配色、属性分隔线、库名）保持原样，
+   * 判据是紧随其后的项已是 color-picker。
+   */
+  private expandColorItems(items: SettingDefinitionItem[]): void {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i] as unknown as {
+        control?: Record<string, unknown>;
+        visible?: () => boolean;
+        items?: SettingDefinitionItem[];
+      };
+      const ctrl = item.control;
+      if (ctrl) {
+        const palette =
+          ctrl.type === "color" ||
+          (ctrl.type === "dropdown" && isAccentPaletteOptions(ctrl.options));
+        const next = items[i + 1] as unknown as {
+          control?: { type?: string };
+        } | undefined;
+        if (palette && next?.control?.type !== "color-picker") {
+          ctrl.type = "color";
+          delete ctrl.options;
+          ctrl.allowCustom = true;
+          const key = String(ctrl.key);
+          const baseVisible = item.visible;
+          items.splice(i + 1, 0, {
+            name: t("common.color.customName"),
+            desc: t("common.color.customDesc"),
+            visible: () => {
+              // 主项自身的前置条件（如所属开关）满足时才显示
+              if (baseVisible && !baseVisible()) return false;
+              const v = this.asString(
+                (this.plugin.settings as unknown as Record<string, unknown>)[key],
+              ).trim();
+              // 刚选中「自定义」未选色时值为 "custom"，选色后为 #rrggbb，两者都显示
+              return v === "custom" || !!normalizeHexColor(v);
+            },
+            // restoreTo：点「恢复默认值」时回到「自定义 + 跟随主题强调色」，而不是把主字段
+            // 清成 default 导致本项被隐藏（见 renderControlItem 的恢复按钮逻辑）。
+            control: { type: "color-picker", key, restoreTo: "custom" },
+          } as unknown as SettingDefinitionItem);
+          i++; // 跳过刚插入的颜色选择器项
+        }
+      }
+      if (item.items) this.expandColorItems(item.items);
+    }
   }
 
   /**
@@ -145,7 +205,11 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
         .setIcon("rotate-ccw")
         .setTooltip(t("common.restoreDefault"))
         .onClick(async () => {
-          const def = (DEFAULT_SETTINGS as unknown as Record<string, unknown>)[key];
+          // color-picker 子项若声明了 restoreTo（插件自动展开的自定义色项），恢复时写回该值：
+          // 主色字段保持「自定义」态、颜色回退主题强调色，该项不会因 visible 条件失败而消失。
+          const def =
+            ctrl.restoreTo ??
+            (DEFAULT_SETTINGS as unknown as Record<string, unknown>)[key];
           await this.setControlValue(key, def); // 内部已 saveSettings + refreshDomState 联动刷新
           // 颜色项恢复默认（空值=跟随主题）时，用主题强调色兜底显示，避免颜色块变黑
           const display =
@@ -223,7 +287,7 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
       }
       case "color": {
         // 颜色选项统一用 accent 色板下拉：default=跟随主题/默认，其余为预设色名。
-        // 存量旧数据若是不在色板中的 hex，回退到 default 显示。
+        // 值为 #rrggbb 表示用户选了「自定义」，下拉回落到 custom 项显示（见 expandColorItems）。
         // allowCustom=true 时在末尾追加「自定义」项，选中后由调用方另行展开颜色选择器项。
         setting.addDropdown((d) => {
           comp = d as unknown as { setValue: (v: unknown) => void };
@@ -231,9 +295,13 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
           if (ctrl.allowCustom) options.custom = t("common.custom");
           for (const [val, label] of Object.entries(options)) d.addOption(val, label);
           const cur = this.asString(settings[key]).trim();
-          d.setValue(options[cur] ? cur : "default").onChange((v) =>
-            this.setControlValue(key, v),
-          );
+          // 自定义色以 #rrggbb 存在同一字段里：下拉不认识该值，回落到「自定义」项显示。
+          const shown = options[cur]
+            ? cur
+            : normalizeHexColor(cur)
+              ? "custom"
+              : "default";
+          d.setValue(shown).onChange((v) => this.setControlValue(key, v));
         });
         break;
       }
@@ -697,10 +765,20 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
     }
   }
 
+  /** rgb()/rgba() 字符串 → #rrggbb；无法解析返回 null */
+  private rgbToHex(value: string): string | null {
+    const m = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(value);
+    if (!m) return null;
+    const toHex = (n: string) => Number(n).toString(16).padStart(2, "0");
+    return `#${toHex(m[1])}${toHex(m[2])}${toHex(m[3])}`;
+  }
+
   /**
    * 任意 CSS 颜色值 → #rrggbb。
    * 先按 hex 直接解析；失败则用挂载的隐藏探针经 getComputedStyle 规范化
    * （可处理 rgb()/hsl()/var() 等形式），仍失败返回 null。
+   * 探针先铺一层哨兵色：目标声明无效时不会覆盖哨兵，借此区分「解析失败」与
+   * 「解析成功」——否则会读到继承来的正文色（深色主题 #dadada）并被误判为有效。
    */
   private toHexColor(value: string): string | null {
     const direct = normalizeHexColor(value);
@@ -711,29 +789,45 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
       const doc = this.app.workspace.containerEl.ownerDocument;
       const probe = doc.body.createDiv();
       // 用 setCssProps 而非直接改 style，规避 obsidianmd/no-static-styles-assignment
-      probe.setCssProps({ display: "none", color: raw });
+      probe.setCssProps({ display: "none", color: PROBE_SENTINEL_COLOR });
+      probe.setCssProps({ color: raw });
       const computed = getComputedStyle(probe).color;
       probe.remove();
-      const m = /^rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/.exec(computed);
-      if (!m) return null;
-      const toHex = (n: string) => Number(n).toString(16).padStart(2, "0");
-      return `#${toHex(m[1])}${toHex(m[2])}${toHex(m[3])}`;
+      const hex = this.rgbToHex(computed);
+      return !hex || hex === PROBE_SENTINEL_COLOR ? null : hex;
     } catch {
       return null;
     }
   }
 
-  /** 读取主题强调色（--text-accent）的实际色值，用于颜色选择器空值时的默认显示 */
-  private getThemeAccent(): string {
+  /** 兜底：用 Obsidian 的 --accent-h/s/l 分量拼 hsl()（:root 下恒有数值） */
+  private getAccentHslFallback(): string {
     try {
       const doc = this.app.workspace.containerEl.ownerDocument;
-      const accent = getComputedStyle(doc.body)
-        .getPropertyValue("--text-accent")
-        .trim();
-      if (accent) return accent;
+      const cs = getComputedStyle(doc.body);
+      const h = cs.getPropertyValue("--accent-h").trim();
+      const s = cs.getPropertyValue("--accent-s").trim();
+      const l = cs.getPropertyValue("--accent-l").trim();
+      if (h && s && l) return `hsl(${h} ${s} ${l})`;
     } catch {
       // ignore
     }
-    return "#000000";
+    return "";
+  }
+
+  /**
+   * 读取主题强调色，用于颜色选择器空值／恢复默认时的显示兜底。
+   *
+   * 关键：必须把「变量引用本身」交给浏览器解析（color: var(--color-accent)），
+   * 而不是先用 getPropertyValue 读变量、再把读到的字符串交给探针。后者拿到的是
+   * 未展开的 var() 字符串（如 --text-accent: var(--color-accent-1)），探针声明因此
+   * 失效并回退为继承的正文色，显示成 #dadada 这类与主题无关的色值。
+   */
+  private getThemeAccent(): string {
+    const accent =
+      this.toHexColor("var(--color-accent)") ??
+      this.toHexColor("var(--text-accent)") ??
+      this.toHexColor(this.getAccentHslFallback());
+    return accent ?? "#000000";
   }
 }

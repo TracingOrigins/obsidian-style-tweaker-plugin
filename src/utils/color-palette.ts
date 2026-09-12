@@ -41,6 +41,17 @@ export function getAccentColorOptions(): Record<string, string> {
   };
 }
 
+/**
+ * 判断某个下拉的 options 是否为「accent 色板」（default + 14 个预设色）。
+ * 用于设置层自动为所有色板下拉追加「自定义」项：以 default + lavender 作为特征键，
+ * 避免误判仅含 default/custom 的普通下拉（如标签样式、文件夹配色方案）。
+ */
+export function isAccentPaletteOptions(options: unknown): boolean {
+  if (!options || typeof options !== "object") return false;
+  const keys = Object.keys(options);
+  return keys.includes("default") && keys.includes("lavender");
+}
+
 // accent 色值表（MOCHA_ACCENTS / LATTE_ACCENTS）见文件底部：统一从 FLAVORS（AnuPpuccin）推导，
 // 避免此处与 FLAVORS 各维护一套、同一 flavor 的 accent 色值不一致（单一数据源）。
 
@@ -76,6 +87,7 @@ export function normalizeHexColor(value: string | undefined): string | null {
 /**
  * 把颜色字段值解析为单个 hex 字符串。
  * - 有效色名 → 对应 hex
+ * - #rrggbb 自定义色（颜色选择器写入）→ 原样返回
  * - default / 空 / 未知 → 返回 fallback（调用方传入的默认值或 CSS 变量）
  *
  * 注：本函数不区分深浅色，返回单一值；用于「固定色 / 不随主题切换」的场景
@@ -87,6 +99,9 @@ export function resolveAccentValue(
 ): string {
   const name = (value ?? "").trim();
   if (!name || name === "default") return fallback;
+  // 自定义色（#rrggbb）直接使用，无需查色板。
+  const hex = normalizeHexColor(name);
+  if (hex) return hex;
   // 固定色用深色系（Mocha）色值作为统一表示；如需深浅区分请用 setAccentVar。
   return MOCHA_ACCENTS[name] ?? LATTE_ACCENTS[name] ?? fallback;
 }

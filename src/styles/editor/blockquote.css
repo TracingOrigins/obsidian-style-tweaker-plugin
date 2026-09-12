@@ -15,8 +15,15 @@
 
 /* 默认变量统一定义在 body（而非 :root）：Obsidian 主题变量如 --color-accent /
    --text-muted 定义在 body 上，:root(html) 无法引用子元素 body 上的变量，
-   会导致这些变量失效。JS 侧（EditorBlockquoteService）同样只往 body 写入。 */
+   会导致这些变量失效。JS 侧（EditorBlockquoteService）同样只往 body 写入。
+
+   文字色两层语义（改回退值时务必分清）：
+   1. blockquoteCustom 关闭 → --blockquote-color 未定义，文字规则一律回退
+      var(--text-normal)，即「不开启自定义就完全不改文字颜色」；
+   2. blockquoteCustom 开启 → --blockquote-color 取自 --style-tweaker-blockquote-color，
+      该变量在文字色选「默认」时由 JS 写入 var(--color-accent)，即默认用主题强调色。 */
 body {
+  /* 默认值 = 强调色；该变量只在上面的 custom 域内被消费 */
   --style-tweaker-blockquote-color: var(--color-accent);
   --style-tweaker-blockquote-border-color: var(--color-accent);
   /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */
@@ -32,7 +39,7 @@ body.style-tweaker-blockquote-custom {
   --blockquote-border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
 }
 
-/* 开启自定义颜色时，块引用应用自定义颜色；未开启则保持 Obsidian 原生颜色 */
+/* 开启自定义颜色时，块引用应用自定义颜色（文字色未选即强调色）；未开启则保持 Obsidian 原生颜色 */
 body.style-tweaker-blockquote-custom :is(.markdown-preview-view, .markdown-rendered) blockquote {
   color: var(--blockquote-color, var(--color-accent));
   border-left-color: var(--blockquote-border-color, var(--color-accent));
@@ -55,7 +62,9 @@ body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-
   border-radius: var(--radius-s);
   margin-inline-start: 2.5%;
   margin-inline-end: 2.5%;
-  color: var(--blockquote-color, var(--color-accent));
+  /* 文字色：未开启自定义颜色时 --blockquote-color 未定义 → 回退正常文字色；
+     开启后由 --blockquote-color 接管（选默认即强调色） */
+  color: var(--blockquote-color, var(--text-normal));
 }
 
 body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote p {
@@ -135,6 +144,16 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
   border-radius: 20px;
   padding: 10px 15px;
   background: transparent;
+}
+
+/* 气泡文字色的自定义覆盖：上面这条规则写了 color: var(--text-normal)，与文件开头的
+   --custom 规则特异性相同（都是 0,2,2）却在更后面，会把自定义文字色盖回去。
+   这里叠加 custom 门控类把特异性抬到 0,3,2，只在自定义颜色开启时生效；
+   未开启时该规则不匹配，气泡文字仍是 text-normal。 */
+body.style-tweaker-blockquote-custom.style-tweaker-blockquote-bubble
+  :is(.markdown-preview-view, .markdown-rendered)
+  blockquote {
+  color: var(--blockquote-color, var(--color-accent));
 }
 
 /* 尾巴右臂：只描 border-top 的 1/4 圆弧 —— 左上圆角写 35px 会被钳制成 28px，

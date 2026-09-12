@@ -27,8 +27,8 @@ export const LINK_STYLES_CSS = `
    下划线色统一取 40% 淡化（原为浅色 35% / 深色 40% 两套）。
    ============================================================ */
 body.style-tweaker-link-color-custom {
-  --st-link-internal: var(--style-tweaker-link-internal, var(--link-color));
-  --st-link-external: var(--style-tweaker-link-external, var(--link-external-color));
+  --st-link-internal: var(--style-tweaker-link-internal, var(--color-accent));
+  --st-link-external: var(--style-tweaker-link-external, var(--color-accent));
   --st-link-internal-line: color-mix(in srgb, var(--st-link-internal) 40%, transparent);
   --st-link-external-line: color-mix(in srgb, var(--st-link-external) 40%, transparent);
 }
