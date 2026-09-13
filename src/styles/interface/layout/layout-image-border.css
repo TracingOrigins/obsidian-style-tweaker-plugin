@@ -1,6 +1,6 @@
 body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
-    .is-hidden-frameless.is-fullscreen,
-    :not(.is-hidden-frameless),
+    &.is-hidden-frameless.is-fullscreen,
+    &:not(.is-hidden-frameless),
     &.is-hidden-frameless:not(.is-fullscreen) {
         /* 边框/背景的强调色混合变量（提取重复的 color-mix 值） */
         --st-layout-border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
