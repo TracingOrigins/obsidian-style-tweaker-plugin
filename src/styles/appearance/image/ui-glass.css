@@ -216,7 +216,7 @@ body.style-tweaker-bg-image-active.is-mobile {
     /* 所有弹窗统一描边（与图标选择器同款：accent 混合透明，深浅色均自适应）。
        设置页 / 社区插件窗口下方另有特异性更高的 accent 边框规则，保持原样不受影响。 */
     .modal {
-        border: 1px solid color-mix(in srgb, var(--color-accent) 70%, transparent);
+        border: 1px solid color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
     }
 
     /* ============ 移动端框架容器玻璃：设置页 / 社区插件窗口 ============ */

@@ -94,7 +94,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 设置窗口右侧设置分组中设置项的上边框 */
     .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
-        border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, transpatent);
+        border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
     }
 
     /* 社区插件市场窗口 搜索结果框上边线 */
@@ -125,7 +125,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
     .search-input-container input:hover,
     .search-input-container input:focus,
     .search-input-container input:focus-visible {
-        border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+        border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
         box-shadow: none;
         background-color: transparent;
     }
