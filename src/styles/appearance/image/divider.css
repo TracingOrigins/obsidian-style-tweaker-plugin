@@ -53,13 +53,24 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
     /* 左右侧分割线的调整手柄颜色 */
     .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
     .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
-        border-color: var(--st-layout-border-color);
+        /* border-color: var(--st-layout-border-color); */
+        border-color: transparent;
+    }
+
+    /* 左侧栏中的标签页的右边框 */
+    .workspace-split.mod-left-split .workspace-tab-container {
+        border-right: var(--st-layout-border);
+    }
+
+    /* 右侧栏中的标签页的左边框 */
+    .workspace-split.mod-right-split .workspace-tab-container {
+        border-left: var(--st-layout-border);
     }
 
     /* 仓库信息栏 */
     .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
         background-color: transparent;
-        border-top: var(--tab-outline-width) solid var(--st-layout-border-color);
+        border-top: var(--st-layout-border);
     }
 
     /* ============ prompt 弹窗 ============ */
@@ -83,7 +94,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
 
     /* 设置窗口右侧设置分组中设置项的上边框 */
     .modal.mod-settings .setting-group .setting-item:not(.setting-item-heading)::before {
-        border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
+        border-top: 1px solid color-mix(in srgb, var(--color-accent) 40%, transpatent);
     }
 
     /* 社区插件市场窗口 搜索结果框上边线 */
@@ -114,7 +125,7 @@ body.style-tweaker-bg-image-active:not(.is-mobile) {
     .search-input-container input:hover,
     .search-input-container input:focus,
     .search-input-container input:focus-visible {
-        border-color: color-mix(in srgb, var(--color-accent) 40%, var(--background-secondary));
+        border-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
         box-shadow: none;
         background-color: transparent;
     }

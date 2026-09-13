@@ -1,357 +1,426 @@
 body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
-    /* 边框/背景的强调色混合变量（提取重复的 color-mix 值） */
-    --st-layout-border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
-    --st-layout-border-soft: color-mix(in srgb, var(--color-accent) 20%, var(--background-secondary));
-    /* 1px 实线边框值（2px 顶部分隔线不在此列，见具体规则） */
-    --st-layout-border: 1px solid var(--st-layout-border-color);
-    /* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
-    --st-layout-bottom-padding: 20px;
+    .is-hidden-frameless.is-fullscreen,
+    :not(.is-hidden-frameless),
+    &.is-hidden-frameless:not(.is-fullscreen) {
+        /* 边框/背景的强调色混合变量（提取重复的 color-mix 值） */
+        --st-layout-border-color: color-mix(in srgb, var(--color-accent) 70%, var(--background-secondary));
+        --st-layout-border-soft: color-mix(in srgb, var(--color-accent) 20%, var(--background-secondary));
+        /* 1px 实线边框值（2px 顶部分隔线不在此列，见具体规则） */
+        --st-layout-border: 1px solid var(--st-layout-border-color);
+        /* 工作区底部内边距；固定状态栏时在本块内覆盖为 0 */
+        --st-layout-bottom-padding: 20px;
 
-    /* 固定状态栏：工作区底部不留内边距 */
-    &.style-tweaker-statusbar-fixed {
-        --st-layout-bottom-padding: 0;
-    }
-
-    /* ------------------------工作区------------------------ */
-
-    /* 工作区 内边距*/
-    .workspace {
-        padding: 0 20px var(--st-layout-bottom-padding) 0;
-    }
-
-    &.is-popout-window .workspace {
-        padding: 0 20px var(--st-layout-bottom-padding) 20px;
-    }
-
-    /* ------------------------中央内容区域------------------------ */
-
-    /* 中央内容区域 标签栏的下边框 */
-    .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-header-container,
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-        border-bottom: none;
-    }
-
-    /* 中央内容区域 标签页的圆角 */
-    .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-container {
-        border-color: var(--st-layout-border-color);
-        border-top: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 标签栏的边距和边框 */
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-        border-bottom: none;
-        margin: 1px 0 -1px 0;
-        z-index: 2;
-    }
-
-    /* 中央内容区域 标签栏的内边距和外边距 */
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked).mod-top-left-space .workspace-tab-header-container {
-        padding-left: 24px;
-    }
-
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-        padding-left: 0;
-    }
-
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked):not(.mod-top-left-space) .workspace-tab-header-container::before {
-        content: "";
-        flex: 0 0 18px;
-        width: 18px;
-        height: 100%;
-        background: transparent;
-        border-bottom: var(--st-layout-border); /* 只显示下边框，颜色可调 */
-        box-sizing: border-box;
-    }
-
-    /* 中央内容区域 标签栏的标签区域的内边距和外边距 */
-    .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
-        padding: 0 5px 0 5px;
-        margin-bottom: 0;
-    }
-
-    /* 中央内容区域 非活动标签的边框高亮 */
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
-        box-shadow: unset;
-        border-radius: 6px 6px 0 0;
-        border-bottom: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 活动标签的边框高亮 */
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
-        box-shadow: unset;
-        border: var(--st-layout-border);
-        border-bottom: none;
-        border-radius: 6px 6px 0 0;
-    }
-
-    /* 中央内容区域 标签栏的新建标签页按钮 */
-    .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
-        margin: 0;
-        padding-left: 6px;
-        padding-right: 12px;
-        border-bottom: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 标签栏的空白部分的下边框 */
-    .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-spacer {
-        border-bottom: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 标签栏的更多标签页按钮 */
-    .workspace.is-right-sidedock-open .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
-        padding-right: 12px;
-        margin-right: -8px;
-        border-bottom: var(--st-layout-border);
-    }
-
-    .workspace:not(.is-right-sidedock-open) .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
-        padding-right: 18px;
-        margin-right: -14px;
-        border-bottom: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 垂直分割线、水平分割线的调整手柄 */
-    .workspace-split.mod-vertical > * > .workspace-leaf-resize-handle,
-    .workspace-split.mod-horizontal > * > .workspace-leaf-resize-handle {
-        border-color: var(--st-layout-border-soft);
-    }
-
-    /* 中央内容区域 下边框 */
-    .workspace .mod-root .workspace-tab-container {
-        border-bottom: var(--st-layout-border);
-    }
-
-    /* 中央内容区域 圆角规则 - ▼ 开始 ▼ */
-    /* 左上角和右上角的圆角 */
-    .workspace:not(.is-left-sidedock-open) > .workspace-split.mod-vertical.mod-root {
-        .workspace-tabs.mod-top-left-space {
-            .workspace-tab-container {
-                border-top-left-radius: 24px;
-                border-left: var(--st-layout-border);
-            }
+        /* 固定状态栏：工作区底部不留内边距 */
+        &.style-tweaker-statusbar-fixed {
+            --st-layout-bottom-padding: 0;
         }
 
-        .workspace-tabs.mod-middle-left-space {
-            .workspace-tab-container {
-                border-left: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-left: var(--st-layout-border);
-            }
+        /* ------------------------工作区------------------------ */
+
+        /* 工作区 内边距*/
+        .workspace {
+            padding: 0 20px var(--st-layout-bottom-padding) 0;
         }
 
-        .workspace-tabs.mod-bottom-left-space {
-            .workspace-tab-container {
-                border-bottom-left-radius: 24px;
-                border-left: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-left: var(--st-layout-border);
-            }
+        &.is-popout-window .workspace {
+            padding: 0 20px var(--st-layout-bottom-padding) 20px;
         }
 
-        .workspace-tabs.mod-bottom-left-space.mod-top-left-space {
-            .workspace-tab-header-container {
-                border-left: none;
-            }
-        }
-    }
+        /* ------------------------中央内容区域------------------------ */
 
-    .workspace:not(.is-right-sidedock-open) > .workspace-split.mod-vertical.mod-root {
-        .workspace-tabs.mod-top-right-space {
-            .workspace-tab-container {
-                border-top-right-radius: 24px;
-                border-right: var(--st-layout-border);
-            }
+        /* 中央内容区域 标签栏的下边框 */
+        .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-header-container,
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
+            border-bottom: none;
         }
 
-        .workspace-tabs.mod-middle-right-space {
-            .workspace-tab-container {
-                border-right: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-right: var(--st-layout-border);
-            }
+        /* 中央内容区域 堆叠标签页的边框 */
+        .workspace .mod-root .workspace-tabs.mod-stacked .workspace-tab-container {
+            border-color: var(--st-layout-border-color);
+            border-top: var(--st-layout-border);
         }
 
-        .workspace-tabs.mod-bottom-right-space {
-            .workspace-tab-container {
-                border-bottom-right-radius: 24px;
-                border-right: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-right: var(--st-layout-border);
-            }
+        /* 中央内容区域 标签栏的边距和边框 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
+            border-bottom: none;
+            margin: 1px 0 -1px 0;
+            z-index: 2;
         }
 
-        .workspace-tabs.mod-bottom-right-space.mod-top-right-space {
-            .workspace-tab-header-container {
-                border-right: none;
-            }
-        }
-    }
-
-    /* 中央内容区域 内容栏左上角和右上角的圆角装饰 */
-    .workspace:not(.is-left-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-left-space .workspace-tab-container .workspace-leaf-content::before {
-        content: "";
-        position: absolute;
-        top: -1px;
-        left: -1px;
-        width: 24px;
-        height: 24px;
-        border-top: 2px solid var(--st-layout-border-color);
-        border-left: var(--st-layout-border);
-        border-radius: 24px 0 0 0;
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .workspace:not(.is-right-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-container .workspace-leaf-content::after {
-        content: "";
-        position: absolute;
-        top: -1px;
-        right: -1px;
-        width: 24px;
-        height: 24px;
-        border-top: 2px solid var(--st-layout-border-color);
-        border-right: 1px var(--st-layout-border-color);
-        border-radius: 0 24px 0 0;
-        pointer-events: none;
-        z-index: 1;
-    }
-    /* 中央内容区域 内容栏的圆角规则 - ▲ 结束 ▲ */
-
-    /* ------------------------功能区------------------------ */
-
-    /* 暂无 */
-
-    /* ------------------------侧边栏------------------------ */
-
-    /* 侧边栏 左右侧分割线、右侧分割线的调整手柄 */
-    .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
-    .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
-        border-color: var(--st-layout-border-color);
-    }
-
-    /* 侧边栏 左侧栏和右侧栏的标题栏的下边框 */
-    .workspace-split.mod-left-split .workspace-tab-header-container,
-    .workspace-split.mod-right-split .workspace-tab-header-container {
-        border-bottom: none;
-    }
-
-    /* 侧边栏 左侧栏边框 */
-    .workspace-split.mod-left-split {
-        .workspace-tabs.mod-top {
-            .workspace-tab-container {
-                border-top-left-radius: 24px;
-                border-top: var(--st-layout-border);
-                border-left: var(--st-layout-border);
-            }
+        /* 中央内容区域 标签栏的内边距和外边距 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked).mod-top-left-space .workspace-tab-header-container {
+            padding-left: 24px;
         }
 
-        .workspace-tabs:not(.mod-top):not(:last-child) {
-            .workspace-tab-container {
-                border-left: var(--st-layout-border);
-            }
-
-            .workspace-tab-header-container {
-                border-left: var(--st-layout-border);
-            }
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
+            padding-left: 0;
         }
 
-        .workspace-tabs:last-child {
-            .workspace-tab-container {
-                border-left: var(--st-layout-border);
-                border-bottom: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-left: var(--st-layout-border);
-            }
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked):not(.mod-top-left-space) .workspace-tab-header-container::before {
+            content: "";
+            flex: 0 0 18px;
+            width: 18px;
+            height: 100%;
+            background: transparent;
+            border-bottom: var(--st-layout-border); /* 只显示下边框，颜色可调 */
+            box-sizing: border-box;
         }
 
-        .workspace-tabs.mod-top:last-child {
-            .workspace-tab-header-container {
-                border-left: none;
-            }
+        /* 中央内容区域 标签栏的标签区域的内边距和外边距 */
+        .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container-inner {
+            padding: 0 5px 0 5px;
+            margin-bottom: 0;
         }
 
-        &.style-tweaker-vault-profile-moved .workspace-tabs:last-child {
-            .workspace-tab-container {
-                border-bottom-left-radius: 24px;
-            }
+        /* 中央内容区域 非活动标签的边框高亮 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header {
+            box-shadow: unset;
+            border-radius: 6px 6px 0 0;
+            border-bottom: var(--st-layout-border);
         }
 
-        /* 侧边栏 左侧仓库信息栏边框 */
-        .workspace-sidedock-vault-profile {
-            border-bottom-left-radius: 24px;
+        /* 中央内容区域 活动标签的边框高亮 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header.is-active {
+            box-shadow: unset;
             border: var(--st-layout-border);
-            border-top: none;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+        }
+
+        /* 中央内容区域 标签栏的新建标签页按钮 */
+        .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-new-tab {
+            margin: 0;
+            padding-left: 6px;
+            padding-right: 12px;
+            border-bottom: var(--st-layout-border);
+        }
+
+        /* 中央内容区域 标签栏的空白部分的下边框 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-spacer {
+            border-bottom: var(--st-layout-border);
+        }
+
+        /* 中央内容区域 垂直分割线、水平分割线的调整手柄 */
+        .workspace-split.mod-vertical > * > .workspace-leaf-resize-handle,
+        .workspace-split.mod-horizontal > * > .workspace-leaf-resize-handle {
+            border-color: var(--st-layout-border-soft);
+        }
+
+        /* 中央内容区域 下边框 */
+        .workspace .mod-root .workspace-tab-container {
+            border-bottom: var(--st-layout-border);
+        }
+
+        /* 中央内容区域 圆角规则 - ▼ 开始 ▼ */
+        /* 左上角和右上角的圆角 */
+        .workspace:not(.is-left-sidedock-open) > .workspace-split.mod-vertical.mod-root {
+            .workspace-tabs.mod-top-left-space {
+                .workspace-tab-container {
+                    border-top-left-radius: 24px;
+                    border-left: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-middle-left-space {
+                .workspace-tab-container {
+                    border-left: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-bottom-left-space {
+                .workspace-tab-container {
+                    border-bottom-left-radius: 24px;
+                    border-left: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-bottom-left-space.mod-top-left-space {
+                .workspace-tab-header-container {
+                    border-left: none;
+                }
+            }
+        }
+
+        .workspace:not(.is-right-sidedock-open) > .workspace-split.mod-vertical.mod-root {
+            .workspace-tabs.mod-top-right-space {
+                .workspace-tab-container {
+                    border-top-right-radius: 24px;
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-middle-right-space {
+                .workspace-tab-container {
+                    border-right: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-bottom-right-space {
+                .workspace-tab-container {
+                    border-bottom-right-radius: 24px;
+                    border-right: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-bottom-right-space.mod-top-right-space {
+                .workspace-tab-header-container {
+                    border-right: none;
+                }
+            }
+        }
+
+        /* 中央内容区域 内容栏左上角和右上角的圆角装饰 */
+        .workspace:not(.is-left-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-left-space .workspace-tab-container .workspace-leaf-content::before {
+            content: "";
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 24px;
+            height: 24px;
+            border-top: 2px solid var(--st-layout-border-color);
+            border-left: var(--st-layout-border);
+            border-radius: 24px 0 0 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .workspace:not(.is-right-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-container .workspace-leaf-content::after {
+            content: "";
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            width: 24px;
+            height: 24px;
+            border-top: 2px solid var(--st-layout-border-color);
+            border-right: 1px var(--st-layout-border-color);
+            border-radius: 0 24px 0 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        /* 中央内容区域 内容栏的圆角规则 - ▲ 结束 ▲ */
+
+        /* ------------------------功能区------------------------ */
+
+        /* 暂无 */
+
+        /* ------------------------侧边栏------------------------ */
+
+        /* 侧边栏 左右侧分割线、右侧分割线的调整手柄 */
+        .workspace-split.mod-left-split > .workspace-leaf-resize-handle,
+        .workspace-split.mod-right-split > .workspace-leaf-resize-handle {
+            /* border-color: var(--st-layout-border-color); */
+            border-color: transparent;
+        }
+
+        /* 侧边栏 左侧栏和右侧栏的标题栏的下边框 */
+        .workspace-split.mod-left-split .workspace-tab-header-container,
+        .workspace-split.mod-right-split .workspace-tab-header-container {
+            border-bottom: none;
+        }
+
+        /* 侧边栏 左侧栏边框 */
+        .workspace-split.mod-left-split {
+            .workspace-tabs.mod-top {
+                .workspace-tab-container {
+                    border-top-left-radius: 24px;
+                    border-top: var(--st-layout-border);
+                    border-left: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs:not(.mod-top):not(:last-child) {
+                .workspace-tab-container {
+                    border-left: var(--st-layout-border);
+                }
+
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs:last-child {
+                .workspace-tab-container {
+                    border-left: var(--st-layout-border);
+                    border-bottom: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-top:last-child {
+                .workspace-tab-header-container {
+                    border-left: none;
+                    border-right: none;
+                }
+            }
+
+            &.style-tweaker-vault-profile-moved .workspace-tabs:last-child {
+                .workspace-tab-container {
+                    border-bottom-left-radius: 24px;
+                }
+            }
+
+            /* 侧边栏 左侧仓库信息栏边框 */
+            .workspace-sidedock-vault-profile {
+                border-bottom-left-radius: 24px;
+                border: var(--st-layout-border);
+                border-top: none;
+            }
+        }
+
+        /* 侧边栏 右侧栏边框 */
+        .workspace-split.mod-right-split {
+            .workspace-tabs.mod-top {
+                .workspace-tab-container {
+                    border-top-right-radius: 24px;
+                    border-top: var(--st-layout-border);
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs:not(.mod-top):not(:last-child) {
+                .workspace-tab-container {
+                    border-right: var(--st-layout-border);
+                }
+
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs:last-child {
+                .workspace-tab-container {
+                    border-bottom-right-radius: 24px;
+                    border-right: var(--st-layout-border);
+                    border-bottom: var(--st-layout-border);
+                }
+                .workspace-tab-header-container {
+                    border-left: var(--st-layout-border);
+                    border-right: var(--st-layout-border);
+                }
+            }
+
+            .workspace-tabs.mod-top:last-child {
+                .workspace-tab-header-container {
+                    border-left: none;
+                    border-right: none;
+                }
+            }
         }
     }
 
-    /* 侧边栏 右侧栏边框 */
-    .workspace-split.mod-right-split {
-        .workspace-tabs.mod-top {
-            .workspace-tab-container {
-                border-top-right-radius: 24px;
-                border-top: var(--st-layout-border);
-                border-right: var(--st-layout-border);
-            }
+    &.is-hidden-frameless.is-fullscreen,
+    &:not(.is-hidden-frameless) {
+        /* 中央内容区域 标签栏的更多标签页按钮 */
+        .workspace.is-right-sidedock-open .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
+            padding-right: 12px;
+            margin-right: -8px;
+            border-bottom: var(--st-layout-border);
         }
 
-        .workspace-tabs:not(.mod-top):not(:last-child) {
-            .workspace-tab-container {
-                border-right: var(--st-layout-border);
-            }
-
-            .workspace-tab-header-container {
-                border-right: var(--st-layout-border);
-            }
-        }
-
-        .workspace-tabs:last-child {
-            .workspace-tab-container {
-                border-bottom-right-radius: 24px;
-                border-right: var(--st-layout-border);
-                border-bottom: var(--st-layout-border);
-            }
-            .workspace-tab-header-container {
-                border-right: var(--st-layout-border);
-            }
-        }
-
-        .workspace-tabs.mod-top:last-child {
-            .workspace-tab-header-container {
-                border-right: none;
-            }
+        .workspace:not(.is-right-sidedock-open) .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked) .workspace-tab-header-tab-list {
+            padding-right: 18px;
+            margin-right: -14px;
+            border-bottom: var(--st-layout-border);
         }
     }
-}
 
-body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) .workspace .workspace-split.mod-root.workspace-window {
-    /* 新工作窗口 标签栏的更多标签页按钮*/
-    .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .workspace-tab-header-tab-list {
-        padding-right: 18px;
-        margin-right: -14px;
-        border-bottom: var(--st-layout-border);
+    /* Obsidian窗口边框样式选择隐藏（默认），并且未开启全屏时的样式 */
+    &.is-hidden-frameless:not(.is-fullscreen) {
+        /* 中央内容区域 标签栏的内边距和外边距 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .workspace-tab-header-container {
+            padding-right: 0;
+        }
+
+        /* 中央内容区域 右上角堆叠标签页的边距 */
+        .workspace-tabs.mod-stacked.mod-top-right-space .workspace-tab-header-container {
+            padding-right: 114px;
+        }
+
+        /* 中央内容区域 标签栏的更多标签页按钮 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .workspace-tab-header-tab-list {
+            margin-right: 0;
+            padding-right: 12px;
+            border-bottom: var(--st-layout-border);
+        }
+
+        .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
+            margin-right: 0;
+            padding-right: 4px;
+            border-bottom: var(--st-layout-border);
+        }
+
+        /* 中央内容区域 标签栏的右侧边栏切换按钮 */
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .sidebar-toggle-button.mod-right {
+            padding-right: 8px;
+            border-bottom: var(--st-layout-border);
+            margin-top: 1px;
+            padding-bottom: 8px;
+            margin-left: -8px;
+        }
+
+        .workspace .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .sidebar-toggle-button.mod-right {
+            border-bottom: var(--st-layout-border);
+            margin-right: -112px;
+            padding-right: 92px;
+            margin-top: 1px;
+            padding-bottom: 8px;
+        }
     }
 
-    .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
-        position: relative;
-        margin-bottom: 1px;
-        padding-right: 5px;
-        margin-right: 0px;
+    &.is-hidden-frameless.is-fullscreen .workspace .workspace-split.mod-root.workspace-window,
+    &:not(.is-hidden-frameless) .workspace .workspace-split.mod-root.workspace-window {
+        /* 新工作窗口 标签栏的更多标签页按钮*/
+        .workspace-tabs:not(.mod-stacked):not(.mod-top-right-space) .workspace-tab-header-tab-list {
+            padding-right: 18px;
+            margin-right: -14px;
+            border-bottom: var(--st-layout-border);
+        }
+
+        .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
+            position: relative;
+            margin-bottom: 1px;
+            padding-right: 5px;
+            margin-right: 0px;
+        }
+
+        .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: calc(-1 * var(--tab-outline-width));
+            width: 50%;
+            height: 1px;
+            background: var(--st-layout-border-color);
+            pointer-events: none;
+            z-index: 1;
+        }
     }
 
-    .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: calc(-1 * var(--tab-outline-width));
-        width: 50%;
-        height: 1px;
-        background: var(--st-layout-border-color);
-        pointer-events: none;
-        z-index: 1;
+    &.is-hidden-frameless:not(.is-fullscreen) .workspace .workspace-split.mod-root.workspace-window {
+        /* 新工作窗口 标签栏的更多标签页按钮*/
+        .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
+            border-bottom: var(--st-layout-border);
+            margin-right: -112px;
+            padding-right: 96px;
+            margin-top: 1px;
+            padding-bottom: 8px;
+        }
     }
 }

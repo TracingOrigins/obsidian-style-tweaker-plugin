@@ -295,3 +295,10 @@ body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-
         }
     }
 }
+
+/* Obsidian窗口边框样式选择隐藏（默认），并且未开启全屏时的样式 */
+body.style-tweaker-layout-border:not(.style-tweaker-bg-solid-active):not(.style-tweaker-bg-image-active).is-hidden-frameless:not(.is-fullscreen):not(.is-mobile) {
+    .workspace:not(.is-left-sidedock-open) .mod-root .workspace-tabs.mod-top-right-space .workspace-tab-header-container {
+        padding-right: 114px;
+    }
+}
