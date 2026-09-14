@@ -141,8 +141,6 @@
     "editor.codeBlock.customRadius": "自定义圆角",
     "editor.codeBlock.customRadius.desc": "为代码块应用自定义圆角。",
     "editor.codeBlock.desc": "代码块的背景、边框与字体样式。",
-    "editor.codeBlock.lineNumbers": "显示行号",
-    "editor.codeBlock.lineNumbers.desc": "在编辑模式下为代码块每行显示行号。",
     "editor.codeBlock.name": "代码块",
     "editor.codeBlock.radius": "圆角大小",
     "editor.codeBlock.radius.desc": "代码块的圆角大小（4–16px）。",

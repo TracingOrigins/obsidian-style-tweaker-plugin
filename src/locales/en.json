@@ -141,8 +141,6 @@
     "editor.codeBlock.customRadius": "Custom radius",
     "editor.codeBlock.customRadius.desc": "Apply a custom rounded corner to code blocks.",
     "editor.codeBlock.desc": "Background, border and font style of code blocks.",
-    "editor.codeBlock.lineNumbers": "Show line numbers",
-    "editor.codeBlock.lineNumbers.desc": "Show line numbers for each line of code blocks while editing.",
     "editor.codeBlock.name": "Code block",
     "editor.codeBlock.radius": "Radius",
     "editor.codeBlock.radius.desc": "Radius of code blocks (4–16px).",

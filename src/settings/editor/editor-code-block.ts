@@ -11,14 +11,6 @@ export function buildCodeBlockItem(plugin: SettingTabPlugin): SettingDefinitionI
         desc: t("editor.codeBlock.desc"),
         items: [
             {
-                name: t("editor.codeBlock.lineNumbers"),
-                desc: t("editor.codeBlock.lineNumbers.desc"),
-                control: {
-                    type: "toggle",
-                    key: "codeBlockLineNumbers",
-                },
-            },
-            {
                 name: t("editor.codeBlock.showLang"),
                 desc: t("editor.codeBlock.showLang.desc"),
                 control: {

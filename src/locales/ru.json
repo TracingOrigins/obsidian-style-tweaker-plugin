@@ -141,8 +141,6 @@
     "editor.codeBlock.customRadius": "Собственный радиус",
     "editor.codeBlock.customRadius.desc": "Применить собственное скругление к блокам кода.",
     "editor.codeBlock.desc": "Фон, граница и шрифт блоков кода.",
-    "editor.codeBlock.lineNumbers": "Показывать номера строк",
-    "editor.codeBlock.lineNumbers.desc": "Показывать номера строк для каждой строки блоков кода при редактировании.",
     "editor.codeBlock.name": "Блок кода",
     "editor.codeBlock.radius": "Радиус",
     "editor.codeBlock.radius.desc": "Радиус блоков кода (4–16px).",

@@ -185,7 +185,6 @@ export interface StyleTweakerSettings {
     inlineCodeCustom: boolean; // 是否启用自定义内联代码颜色
     inlineCodeColor: string; // 内联代码颜色（空=主题色 --text-accent）
     // 代码块样式
-    codeBlockLineNumbers: boolean; // 是否在编辑模式代码块显示行号
     codeBlockShowLang: boolean; // 是否在代码块右上角显示语言标签
     codeBlockCustomRadius: boolean; // true=启用自定义代码块圆角
     codeBlockRadius: number; // 代码块圆角大小（px，4-16）
@@ -529,7 +528,6 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
     inlineCodeCustom: false,
     inlineCodeColor: "default",
     // 代码块默认值：均关闭
-    codeBlockLineNumbers: false,
     codeBlockShowLang: false,
     codeBlockCustomRadius: false,
     codeBlockRadius: 8,
