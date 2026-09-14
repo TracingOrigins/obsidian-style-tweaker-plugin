@@ -243,20 +243,42 @@ body.style-tweaker-table-full-width .markdown-source-view.mod-cm6 table {
     width: 100%;
 }
 
-body.style-tweaker-table-line-numbers table {
+/* 实时预览：表格是 CM6 的 block widget，滚动容器 .table-wrapper 默认按内容收缩，
+   不给它显式宽度时，内层 table 的 width:100% 没有可参照的满宽父级，全宽失效。 */
+body.style-tweaker-table-full-width .markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper {
+    width: 100%;
+}
+
+/* 行号：以 tr::before 生成行首伪单元格（该行第一列），行号独立成列，
+   而不是挤在首个单元格的内容前面。伪元素不计入 :nth-child，
+   故偶数列/偶数行配色与 :first-child 定宽规则都不受影响。
+   宽度有两条约束：
+   1) 只能用固定长度（em），不能用百分比——自动布局下百分比要相对表格宽度求解，
+      会逼浏览器放弃 shrink-to-fit 改用可用宽度，表格被撑成全宽；
+   2) 只能用固定长度，不能用 auto——否则「整宽」时剩余空间会按各列 max-content
+      比例分配，行号列跟着变宽、内容列位置随开关左右跳动。
+      指定具体宽度的列不参与剩余空间分配，宽度恒为序号槽宽度。 */
+body.style-tweaker-table-line-numbers :is(.markdown-preview-view, .markdown-rendered) table,
+body.style-tweaker-table-line-numbers .markdown-source-view table {
     counter-reset: rowNumber;
 }
 
-body.style-tweaker-table-line-numbers tr td:first-child::before {
+body.style-tweaker-table-line-numbers :is(.markdown-preview-view, .markdown-rendered) tbody tr::before,
+body.style-tweaker-table-line-numbers .markdown-source-view tbody tr::before {
     counter-increment: rowNumber;
     content: counter(rowNumber);
-    height: 100%;
-    margin-inline-end: 20px;
+    display: table-cell;
+    width: 2.5em;
+    padding-inline-end: 12px;
+    text-align: right;
+    white-space: nowrap;
     color: var(--text-faint);
 }
 
-body.style-tweaker-table-line-numbers tr th:first-child::before {
+/* 表头占位，保证表头与正文列对齐（不参与计数，宽度与正文行号列一致） */
+body.style-tweaker-table-line-numbers :is(.markdown-preview-view, .markdown-rendered) thead tr::before,
+body.style-tweaker-table-line-numbers .markdown-source-view thead tr::before {
     content: "";
-    height: 100%;
-    margin-inline-end: 28px;
+    display: table-cell;
+    width: 2.5em;
 }
