@@ -422,5 +422,9 @@ body.style-tweaker-layout-border.style-tweaker-bg-image-active:not(.is-mobile) {
             margin-top: 1px;
             padding-bottom: 8px;
         }
+        /* 侧边栏 右侧栏收缩后标签页的边框透明（这是为了解决当前主窗口样式下的边框布局中右侧栏收缩后中央内容区域的右边栏会出现一小段重复的边框的问题）*/
+        .workspace:not(.is-right-sidedock-open) .workspace-split.mod-right-split .workspace-tab-container {
+            border-color: transparent;
+        }
     }
 }
