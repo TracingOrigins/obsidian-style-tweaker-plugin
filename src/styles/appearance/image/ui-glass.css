@@ -160,10 +160,7 @@ body.style-tweaker-bg-image-active.is-mobile {
        周围更亮更饱和（saturate(1.15) 还会放大差异），故需同款遮罩保持视觉一致。
        挂在根块上供后代继承，.mobile-tab-switcher / .view-actions 等直接引用。
        两个变量都给了 fallback：未注入时遮罩退化为透明，不会让整条 background-image 失效。 */
-    --style-tweaker-glass-mask: linear-gradient(
-        color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent),
-        color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent)
-    );
+    --style-tweaker-glass-mask: linear-gradient(color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent), color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent));
 
     /* 移动端 navbar / tabbar：透明，透出 body::before 的整屏壁纸（壁纸由
        buildBackgroundLayerCss 以 body::before 图片层 + body::after 遮罩层双伪元素承载，
@@ -208,7 +205,9 @@ body.style-tweaker-bg-image-active.is-mobile {
             background-color: transparent;
             background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
             background-size: auto, cover;
-            background-position: 0 0, center;
+            background-position:
+                0 0,
+                center;
             background-repeat: repeat, no-repeat;
             background-attachment: scroll, fixed;
             backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
@@ -227,7 +226,9 @@ body.style-tweaker-bg-image-active.is-mobile {
         background-color: transparent;
         background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
         background-size: auto, cover;
-        background-position: 0 0, center;
+        background-position:
+            0 0,
+            center;
         background-repeat: repeat, no-repeat;
         background-attachment: scroll, fixed;
         backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);

@@ -35,7 +35,9 @@ body.style-tweaker-bg-image-active.is-mobile {
         background-color: transparent;
         background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
         background-size: auto, cover;
-        background-position: 0 0, center;
+        background-position:
+            0 0,
+            center;
         background-repeat: repeat, no-repeat;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
