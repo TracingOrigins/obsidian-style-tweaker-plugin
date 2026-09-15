@@ -123,11 +123,6 @@ body.style-tweaker-bg-image-active:not(.style-tweaker-layout-border):not(.style-
             margin-right: -38px;
             border-bottom: var(--st-layout-border);
         }
-
-        /* 中央内容区域 标签栏的右侧边栏切换按钮 */
-        .workspace:not(.is-right-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked) .sidebar-toggle-button.mod-right {
-            z-index: 2;
-        }
     }
 
     &.is-hidden-frameless:not(.is-fullscreen) {

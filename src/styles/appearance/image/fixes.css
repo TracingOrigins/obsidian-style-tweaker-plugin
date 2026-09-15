@@ -1,0 +1,19 @@
+/* 图片模式：桌面端杂项修复（仅图片模式 + 桌面端）
+ *
+ * 命名：fixes.css 收「仅在图片背景下才出现的层叠 / 遮挡 / 兼容问题」的兜底规则。
+ * 与同目录文件的职责分工：
+ *   - divider.css       ：原生分隔线、边线改色
+ *   - wallpaper.css     ：壁纸层与遮罩层
+ *   - ui-glass.css      ：通用 UI 玻璃与透明化
+ *   - sidebar-glass.css ：抽屉玻璃
+ *   - modal-glass.css   ：弹框 / 设置窗口玻璃
+ * 门控：body.style-tweaker-bg-image-active:not(.is-mobile)，与背景强相关，
+ * 默认/纯色背景不挂载。
+ */
+
+/* 提升右侧栏开合按钮的层级（解决有时该按钮被其他元素遮挡导致无法选中的问题）。
+   数值需大于被压过的元素（如 .workspace-tab-header-container 的 z-index: 2），
+   调整时两边一起看。 */
+body.style-tweaker-bg-image-active:not(.is-mobile) .sidebar-toggle-button.mod-right .clickable-icon {
+    z-index: 10;
+}
