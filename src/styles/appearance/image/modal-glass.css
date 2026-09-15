@@ -122,6 +122,22 @@ body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal-bg {
     background-color: color-mix(in srgb, var(--background-modifier-cover) 60%, transparent);
 }
 
+/* ============ 手机端：弹窗容器直接铺壁纸 ============ */
+/* .modal-container 是 body 直接子级、无 transform 包裹，与抽屉不同：
+   background-attachment: fixed 能正常生效，壁纸可与根层 body::before 逐像素对齐，
+   所以这里不是「错位兜底」，而是与根层完全一致的一层壁纸。
+   铺好后：容器内是壁纸 → .modal-bg 半透明压暗 → 弹框 .modal 的 backdrop-filter
+   模糊到的是壁纸（真玻璃），而不是模糊主窗口的笔记内容。
+   --style-tweaker-glass-mask 由 ui-glass.css 的 body...is-mobile 块定义，可继承。 */
+body.style-tweaker-bg-image-active.is-phone > .modal-container {
+    background-color: transparent;
+    background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
+    background-size: auto, cover;
+    background-position: 0 0, center;
+    background-repeat: repeat, no-repeat;
+    background-attachment: scroll, fixed;
+}
+
 /* 其他弹框（非设置，位于 modal-container 内）：同款玻璃表面。 */
 body.style-tweaker-bg-image-active .modal-container .modal:not(.mod-settings) {
     background-color: transparent;

@@ -10,24 +10,39 @@
  * 门控类：body.style-tweaker-bg-image-active.is-mobile，仅图片模式 + 移动端生效。
  *
  * 玻璃策略：
- *   - 抽屉根容器 .workspace-drawer 透明 + backdrop-filter 玻璃，透出壁纸。
- *   - 内部容器（.workspace-drawer-inner / 活动标签容器 / 导航按钮区）再透明，
- *     让玻璃模糊能透到内容背后。
- *   - 局部选择项用半透明色块（color-mix）叠在玻璃上，保证可读性。
+ *   - 抽屉根容器 .workspace-drawer **直接用壁纸图片铺满**（遮罩 + 图，不用玻璃模糊）：
+ *     抽屉是滑入面板（带 transform），backdrop-filter 模糊不到根层壁纸，必须自己挂图；
+ *     且 fixed 背景在其内可能整层不渲染，故用默认 scroll 相对抽屉 cover。
+ *   - 内部容器（.workspace-drawer-inner / 活动标签容器 / 导航按钮区）保持透明，
+ *     透出抽屉根容器承载的壁纸。
+ *   - 局部选择项（.workspace-drawer-tab-options-list）**不挂壁纸**，只用 backdrop-filter
+ *     模糊抽屉的壁纸（模糊源即抽屉壁纸，位置天然对齐）。它在抽屉内，自挂壁纸必然
+ *     与侧栏错位——详见该文件内规则处的注释。
  */
 
-/* 抽屉根容器：透明 + 玻璃模糊（与 ui-glass.css 移动端框架玻璃同参数）。 */
+/* 抽屉根容器：直接用壁纸图片铺满（不用玻璃模糊）。 */
 body.style-tweaker-bg-image-active.is-mobile {
     .workspace-drawer {
+        /* 抽屉是滑入面板（带 transform），会形成独立 backdrop root，
+           透明 + backdrop-filter 模糊不到根层 body::before 的壁纸，故自身挂壁纸：
+           第一层是遮罩（与根层「图 + 遮罩」同亮度，否则比周围更亮更饱和），第二层是壁纸。
+           background-size 必须是「auto, cover」——两个值分别对应上面两层背景，
+           只写 cover 会让遮罩层也被拉伸成 cover。
+           ⚠️ 不要写 background-attachment: fixed：抽屉带 transform，fixed 背景在有
+           transform 的祖先内可能整层不渲染（表现就是只剩 backdrop-filter 的玻璃、看不到壁纸），
+           故用默认 scroll，壁纸相对抽屉 cover（抽屉接近全屏，错位不明显）。
+           同时不再加 backdrop-filter——壁纸已完全覆盖，玻璃既看不见又徒增移动端开销。 */
         background-color: transparent;
-        backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-        -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
+        background-size: auto, cover;
+        background-position: 0 0, center;
+        background-repeat: repeat, no-repeat;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
 
     /* 抽屉底部 tab 选择条：每个 tab 标题用半透明色块叠底，区分选中/未选中。 */
     .workspace-drawer-tab-select .workspace-tab-header-inner {
-        background-color: color-mix(in srgb, var(--interactive-normal) 50%, transparent);
+        background-color: color-mix(in srgb, var(--interactive-normal) 10%, transparent);
     }
 
     /* 抽屉内部容器透明，透出根容器的玻璃模糊。 */
@@ -37,9 +52,17 @@ body.style-tweaker-bg-image-active.is-mobile {
         background-color: transparent;
     }
 
-    /* 抽屉内 tab 选项列表：半透明色块 + 玻璃，浮在抽屉内容之上。 */
+    /* 抽屉内 tab 选项列表：浮在抽屉内容之上，用玻璃模糊抽屉的壁纸。
+       ⚠️ 不要自挂壁纸：本元素在抽屉内，抽屉带 transform 会使 background-attachment: fixed
+       退化（甚至整层不渲染），壁纸被 cover 到「本元素自身」的尺寸，而抽屉的壁纸是 cover
+       到「整个抽屉」，两者尺寸不同 —— 必然与侧栏错位。
+       正确做法：自身不挂壁纸，只保留 backdrop-filter。模糊源就是抽屉那张壁纸本身，
+       位置天然对齐（transform 只创建层叠上下文，不创建 backdrop root，采样能穿透到
+       抽屉背景），既有壁纸观感又不会错位，还自然形成层次。
+       底色只做轻微压暗拉开层次，不能太重，否则盖住模糊后的壁纸。 */
     .workspace-drawer-tab-options-list {
-        background-color: color-mix(in srgb, var(--interactive-normal) 75%, transparent);
+        background-color: color-mix(in srgb, var(--style-tweaker-mask-color, #000) 18%, transparent);
+        background-image: none;
         backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
@@ -49,5 +72,22 @@ body.style-tweaker-bg-image-active.is-mobile {
     &.is-floating-nav .workspace-drawer .workspace-leaf-content:after,
     &.is-floating-nav .workspace-drawer .nav-buttons-container:after {
         display: none;
+    }
+
+    /* 抽屉打开时，主内容区（.mod-root）加一层毛玻璃，突出抽屉。
+       ⚠️ 不能直接给 .mod-root 设 backdrop-filter：那只会模糊它「背后」的根层壁纸，
+       而笔记文字是它的子元素（前景）、不会被模糊，视觉上几乎没变化。
+       正确做法是用覆盖在内容之上的伪元素——伪元素的 backdrop-filter 采样它下方
+       已绘制的内容（文字 + 壁纸），才会真正呈现「内容变模糊」。
+       pointer-events: none 保证不挡点击（抽屉打开时点内容区仍由 Obsidian 关闭抽屉）。 */
+    .workspace.is-left-sidedock-open,
+    .workspace.is-right-sidedock-open {
+        > .workspace-split.mod-root {
+            backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+            -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+            /* 轻微压暗/提亮（随主题取 mask-color，深色偏暗、浅色偏亮），
+                单纯模糊不足以拉开与抽屉的层次；不想要这层就删掉本行。 */
+            background-color: color-mix(in srgb, var(--style-tweaker-mask-color, #000) 12%, transparent);
+        }
     }
 }

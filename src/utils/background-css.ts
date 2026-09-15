@@ -126,8 +126,8 @@ export function buildBackgroundLayerCss(): string {
         .style-tweaker-bg-image-active .titlebar,
         .style-tweaker-bg-image-active .titlebar-inner,
         body.style-tweaker-bg-image-active > .modal {
-            background-color: transparent !important;
-            background-image: none !important;
+            background-color: transparent;
+            background-image: none;
         }
         /* 移动端抽屉打开时：navbar/tabbar 降到 z-index:-1，使其低于所有 0 层内容（含抽屉）。
          关键点：Obsidian 移动端 .mobile-navbar 原生 z-index 本就高于 .workspace-drawer，
