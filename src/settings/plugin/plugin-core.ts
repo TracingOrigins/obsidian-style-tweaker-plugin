@@ -144,10 +144,10 @@ export function buildCorePluginsGroup(plugin: SettingTabPlugin): SettingDefiniti
                                             },
                                             {
                                                 name: t(
-                                                    "plugins.fileExplorer.coloredFolders.customColor",
+                                                    "plugins.fileExplorer.coloredFolders.baseColor",
                                                 ),
                                                 desc: t(
-                                                    "plugins.fileExplorer.coloredFolders.customColor.darkDesc",
+                                                    "plugins.fileExplorer.coloredFolders.baseColor.darkDesc",
                                                 ),
                                                 visible: () =>
                                                     plugin.settings.feColorfulFoldersEnabled &&
@@ -252,10 +252,10 @@ export function buildCorePluginsGroup(plugin: SettingTabPlugin): SettingDefiniti
                                             },
                                             {
                                                 name: t(
-                                                    "plugins.fileExplorer.coloredFolders.customColor",
+                                                    "plugins.fileExplorer.coloredFolders.baseColor",
                                                 ),
                                                 desc: t(
-                                                    "plugins.fileExplorer.coloredFolders.customColor.lightDesc",
+                                                    "plugins.fileExplorer.coloredFolders.baseColor.lightDesc",
                                                 ),
                                                 visible: () =>
                                                     plugin.settings.feColorfulFoldersEnabled &&

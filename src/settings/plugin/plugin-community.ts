@@ -81,9 +81,9 @@ export function buildCommunityPluginsGroup(plugin: SettingTabPlugin): SettingDef
                                         },
                                     },
                                     {
-                                        name: t("plugins.recentFiles.coloredFiles.customColor"),
+                                        name: t("plugins.recentFiles.coloredFiles.baseColor"),
                                         desc: t(
-                                            "plugins.recentFiles.coloredFiles.customColor.darkDesc",
+                                            "plugins.recentFiles.coloredFiles.baseColor.darkDesc",
                                         ),
                                         visible: () =>
                                             plugin.settings.rfColorfulEnabled &&
@@ -121,9 +121,9 @@ export function buildCommunityPluginsGroup(plugin: SettingTabPlugin): SettingDef
                                         },
                                     },
                                     {
-                                        name: t("plugins.recentFiles.coloredFiles.customColor"),
+                                        name: t("plugins.recentFiles.coloredFiles.baseColor"),
                                         desc: t(
-                                            "plugins.recentFiles.coloredFiles.customColor.lightDesc",
+                                            "plugins.recentFiles.coloredFiles.baseColor.lightDesc",
                                         ),
                                         visible: () =>
                                             plugin.settings.rfColorfulEnabled &&

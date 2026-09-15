@@ -124,6 +124,7 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
     private expandColorItems(items: SettingDefinitionItem[]): void {
         for (let i = 0; i < items.length; i++) {
             const item = items[i] as unknown as {
+                name?: string;
                 control?: Record<string, unknown>;
                 visible?: () => boolean;
                 items?: SettingDefinitionItem[];
@@ -145,7 +146,13 @@ export class StyleTweakerSettingTab extends PluginSettingTab {
                     const key = String(ctrl.key);
                     const baseVisible = item.visible;
                     items.splice(i + 1, 0, {
-                        name: t("common.color.customName"),
+                        // 名称必须唯一：Obsidian 声明式设置框架以 name 生成设置项 key，
+                        // 同一层出现重名会报 duplicate setting key 并影响重渲染
+                        // （例如粒子页同时存在「徽标粒子颜色」「标题粒子颜色」两个色板项）。
+                        // 故把所属主项的名称带上，同时让用户一眼看出这是哪项的自定义色。
+                        name: t("common.color.customNameFor", {
+                            name: item.name ?? t("common.color.customName"),
+                        }),
                         desc: t("common.color.customDesc"),
                         visible: () => {
                             // 主项自身的前置条件（如所属开关）满足时才显示

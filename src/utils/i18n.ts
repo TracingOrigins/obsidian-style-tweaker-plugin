@@ -23,8 +23,13 @@ function getCurrentLang(): string {
     return "en";
 }
 
-// 翻译：命中当前语言则用当前语言，否则回退 en，最后兜底返回 key（便于排查缺失文案）
-export function t(key: string): string {
+// 翻译：命中当前语言则用当前语言，否则回退 en，最后兜底返回 key（便于排查缺失文案）。
+// vars 用于替换文案中的 {name} 形式占位符（如「自定义颜色（{name}）」）。
+export function t(key: string, vars?: Record<string, string | number>): string {
     const lang = getCurrentLang();
-    return locales[lang]?.[key] || locales["en"]?.[key] || key;
+    const raw = locales[lang]?.[key] || locales["en"]?.[key] || key;
+    if (!vars) return raw;
+    return raw.replace(/\{(\w+)\}/g, (match, name: string) =>
+        name in vars ? String(vars[name]) : match,
+    );
 }
