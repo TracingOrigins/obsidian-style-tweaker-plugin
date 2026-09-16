@@ -162,43 +162,27 @@ body.style-tweaker-bg-image-active.is-mobile {
        两个变量都给了 fallback：未注入时遮罩退化为透明，不会让整条 background-image 失效。 */
     --style-tweaker-glass-mask: linear-gradient(color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent), color-mix(in srgb, var(--style-tweaker-mask-color, transparent) calc(var(--style-tweaker-bg-opacity, 0%) * 100%), transparent));
 
-    /* 移动端 navbar / tabbar：透明，透出 body::before 的整屏壁纸（壁纸由
-       buildBackgroundLayerCss 以 body::before 图片层 + body::after 遮罩层双伪元素承载，
-       z-index:-1，桌面/移动端共用）。不干预 z-index，抽屉打开时由 background-css.ts 把 navbar 降到
-       -1 层，重叠区自然显示抽屉。 */
-    &:not(.is-floating-nav) {
-        .mobile-navbar,
-        .mobile-navbar.mod-raised,
-        .mobile-tabbar {
-            background: transparent;
-            box-shadow: none;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-
-        /* 移动端带 mod-raised 的元素透明，透出壁纸/玻璃。 */
-        .mod-raised {
-            background: transparent;
-        }
+    /* 移动端带 mod-raised 的元素透明，透出壁纸/玻璃。 */
+    .mod-raised {
+        background-color: transparent;
+        background-image: none;
+        backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
 
-    &.is-floating-nav {
-        /* navbar 属于根层叠上下文，透明后 backdrop-filter 能直接模糊根层 body::before 的壁纸 */
-        .mod-raised {
+    &:not(.is-floating-nav):not(.auto-full-screen) {
+        .mobile-navbar.mod-raised {
             background-color: transparent;
             background-image: none;
-            backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-            -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            box-shadow: none;
         }
-
-        /* .view-actions / .view-action 位于 .view-header 内部，祖先链上存在独立层叠上下文
-           （移动端视图容器的 transform / filter 等），backdrop-filter 模糊不到根层壁纸，
-           与 .mobile-tab-switcher 是同一个问题，故同样给它自身挂一层壁纸作为模糊源。
-           背景为两层：上层是与 body::after 同参数的遮罩，下层是壁纸——根层背景本就是
-           「图 + 遮罩」，只挂图会让玻璃区比周围更亮更饱和（saturate(1.15) 还会放大差异），
-           出现明显色块。attachment 取 scroll, fixed：遮罩随元素、壁纸相对视口固定，
-           与根层壁纸逐像素对齐（见 wallpaper.css 堆叠标签的同一做法）。 */
+    }
+    
+    
+    &.is-floating-nav:not(.auto-full-screen):not(.style-tweaker-sliding-sidebar) {
         .mobile-navbar.mod-raised,
         .view-actions.mod-raised,
         .view-action.mod-raised {
@@ -342,6 +326,8 @@ body.style-tweaker-bg-image-active.is-mobile {
     .mobile-toolbar,
     .mobile-toolbar-spacer {
         background-color: transparent;
+        backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        box-shadow: none;
     }
 
     /* 移动端右键菜单（.menu）边框：与上方命令面板（.prompt）的 accent 边框风格统一，
