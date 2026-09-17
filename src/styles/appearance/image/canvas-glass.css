@@ -8,13 +8,12 @@ body.style-tweaker-bg-image-active {
     .canvas-node-container {
         background-color: transparent;
     }
-    
+
     /* 透明化控制组 */
-    .canvas-control-group
-    ,.canvas-control-group .canvas-control-item {
+    .canvas-control-group,
+    .canvas-control-group .canvas-control-item {
         background-color: transparent;
     }
-
 
     /* 透明化卡片菜单 */
     .canvas-card-menu {
@@ -29,7 +28,6 @@ body.style-tweaker-bg-image-active {
     .canvas-menu {
         background-color: transparent;
     }
-
 }
 
 /* ===== 内嵌卡片（canvas 卡片 / markdown embed 的 iframe 内文档）=====

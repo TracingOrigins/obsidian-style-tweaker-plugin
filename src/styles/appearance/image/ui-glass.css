@@ -180,8 +180,7 @@ body.style-tweaker-bg-image-active.is-mobile {
             box-shadow: none;
         }
     }
-    
-    
+
     &.is-floating-nav:not(.auto-full-screen):not(.style-tweaker-sliding-sidebar) {
         .mobile-navbar.mod-raised,
         .view-actions.mod-raised,

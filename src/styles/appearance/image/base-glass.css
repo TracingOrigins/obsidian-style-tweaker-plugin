@@ -5,8 +5,8 @@ body.style-tweaker-bg-image-active {
         background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
         background-size: auto, cover;
         background-position:
-        0 0,
-        center;
+            0 0,
+            center;
         background-repeat: repeat, no-repeat;
         background-attachment: scroll, fixed;
         backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
