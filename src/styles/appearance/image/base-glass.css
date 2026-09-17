@@ -1,0 +1,22 @@
+body.style-tweaker-bg-image-active {
+    /* 透明化数据库表头 */
+    .bases-thead {
+        background-color: transparent;
+        background-image: var(--style-tweaker-glass-mask), var(--style-tweaker-bg-image);
+        background-size: auto, cover;
+        background-position:
+        0 0,
+        center;
+        background-repeat: repeat, no-repeat;
+        background-attachment: scroll, fixed;
+        backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    }
+
+    /* 透明化数据库表体 */
+    .bases-tbody,
+    .bases-table-container {
+        background: transparent;
+    }
+}
