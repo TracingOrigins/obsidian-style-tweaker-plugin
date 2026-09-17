@@ -1,0 +1,61 @@
+body.style-tweaker-bg-image-active {
+    /* 透明化画布 */
+    .canvas-wrapper {
+        background-color: transparent;
+    }
+
+    /* 透明化节点容器 */
+    .canvas-node-container {
+        background-color: transparent;
+    }
+    
+    /* 透明化控制组 */
+    .canvas-control-group
+    ,.canvas-control-group .canvas-control-item {
+        background-color: transparent;
+    }
+
+
+    /* 透明化卡片菜单 */
+    .canvas-card-menu {
+        background-color: transparent;
+    }
+
+    .canvas-card-menu .canvas-card-menu-button svg {
+        fill: transparent;
+    }
+
+    /* 透明化菜单 */
+    .canvas-menu {
+        background-color: transparent;
+    }
+
+}
+
+/* ===== 内嵌卡片（canvas 卡片 / markdown embed 的 iframe 内文档）=====
+   iframe 是独立 Document，插件 styles.css 在其中同样加载，因此规则能匹配到内部元素；
+   但要区分「主窗口」与「内嵌文档」需要 :has()，而官方 lint 禁用 :has()，
+   故改由 EmbedDocumentStateService 给内嵌文档的 body 挂 style-tweaker-inside-iframe，
+   此处用普通类选择器门控：主窗口 body 没有该类，不会影响 canvas 之外的界面。
+   注意：不嵌套在 body.style-tweaker-bg-image-active 下——内嵌文档不一定带该门控类，
+   是否启用由服务按 backgroundType === "image" 判断，这里只认状态类。 */
+body.style-tweaker-inside-iframe {
+    background-color: transparent;
+
+    .app-container,
+    .horizontal-main-container,
+    .workspace,
+    .workspace-split,
+    .workspace-leaf,
+    .workspace-leaf-content,
+    .workspace-tab-container,
+    .view-content,
+    .markdown-source-view,
+    .markdown-source-view.mod-inside-iframe > .cm-editor,
+    .markdown-source-view.mod-inside-iframe > .cm-editor > .cm-scroller,
+    .cm-content,
+    .cm-contentContainer,
+    .cm-line {
+        background-color: transparent;
+    }
+}

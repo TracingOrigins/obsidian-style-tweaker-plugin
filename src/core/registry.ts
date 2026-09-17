@@ -17,6 +17,7 @@ import {
 import { EditorLineTypeStateService } from "./shared/editor-line-type-state-service";
 import { EditorBlockquoteLineStateService } from "./shared/editor-blockquote-line-state-service";
 import { MobileDrawerNavStateService } from "./shared/mobile-drawer-nav-state-service";
+import { EmbedDocumentStateService } from "./shared/embed-document-state-service";
 import { MobileSlidingSidebarStateService } from "./shared/mobile-sliding-sidebar-state-service";
 import { TabBeforeActiveStateService } from "./shared/tab-before-active-state-service";
 import { LayoutService } from "./interface/layout-service";
@@ -108,6 +109,9 @@ export class StyleServiceRegistry {
             // 引用块"末行"状态（气泡/边框风格的封闭下边缘）：替代 :has(+ .HyperMD-quote)
             new EditorBlockquoteLineStateService(this.plugin, this.getSettings),
             new MobileDrawerNavStateService(this.plugin, this.getSettings),
+            // 内嵌文档（canvas 卡片 / embed 的 iframe）状态：给内嵌文档 body 挂
+            // style-tweaker-inside-iframe，供 canvas-glass.css 门控，避免在 CSS 里使用 :has()
+            new EmbedDocumentStateService(this.plugin, this.getSettings),
             // 移动端「滑动侧边栏」状态：该设置无原生类，读 app.vault.getConfig
             // 后挂 style-tweaker-sliding-sidebar，供 ui-glass.css 用 :not() 切换壁纸/透明策略
             new MobileSlidingSidebarStateService(this.plugin, this.getSettings),
