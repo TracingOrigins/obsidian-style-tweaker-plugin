@@ -65,11 +65,15 @@ export interface StyleTweakerSettings {
     desktopBackgroundImageOpacityLight: number; // 0-100，桌面浅色背景图不透明度（不影响正文）
     desktopGlassBlurDark: number; // 桌面深色玻璃模糊半径(px)
     desktopGlassBlurLight: number; // 桌面浅色玻璃模糊半径(px)
+    desktopGlassTintDark: number; // 0-100，桌面深色玻璃浮层底色强度（0=不加底色）
+    desktopGlassTintLight: number; // 0-100，桌面浅色玻璃浮层底色强度（0=不加底色）
     // 移动端（Dark / Light 各一组）
     mobileBackgroundImageOpacityDark: number; // 0-100，移动深色背景图不透明度（不影响正文）
     mobileBackgroundImageOpacityLight: number; // 0-100，移动浅色背景图不透明度（不影响正文）
     mobileGlassBlurDark: number; // 移动深色玻璃模糊半径(px)
     mobileGlassBlurLight: number; // 移动浅色玻璃模糊半径(px)
+    mobileGlassTintDark: number; // 0-100，移动深色玻璃浮层底色强度（0=不加底色）
+    mobileGlassTintLight: number; // 0-100，移动浅色玻璃浮层底色强度（0=不加底色）
     // 弹框背景模糊：开启后打开弹框时模糊遮罩背后的界面内容（与背景模式无关）
     desktopModalBlur: boolean; // 桌面端
     mobileModalBlur: boolean; // 移动端
@@ -420,15 +424,21 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
     themeDark: "default",
     themeLight: "default",
     // 背景图片参数按「设备(桌面/移动) × 深浅色」各自独立配置（互不共用）：
-    // 桌面端深/浅、移动端深/浅共 4 组不透明度（均 30%）与 4 组玻璃模糊（均 30px）
+    // 桌面端深/浅、移动端深/浅共 4 组不透明度（均 30%）、4 组玻璃模糊（均 30px）
+    // 与 4 组玻璃底色（均 0——默认不在玻璃之上叠加底色，保持升级前后观感一致；
+    // 需要隔离浮层下方内容时由用户自行调高）
     desktopBackgroundImageOpacityDark: 30,
     desktopBackgroundImageOpacityLight: 30,
     desktopGlassBlurDark: 30,
     desktopGlassBlurLight: 30,
+    desktopGlassTintDark: 0,
+    desktopGlassTintLight: 0,
     mobileBackgroundImageOpacityDark: 30,
     mobileBackgroundImageOpacityLight: 30,
     mobileGlassBlurDark: 30,
     mobileGlassBlurLight: 30,
+    mobileGlassTintDark: 0,
+    mobileGlassTintLight: 0,
     // 弹框背景模糊：移动端默认开启（延续打开弹框即模糊的既有观感），桌面端默认关闭
     desktopModalBlur: false,
     mobileModalBlur: true,

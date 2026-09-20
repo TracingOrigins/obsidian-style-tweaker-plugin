@@ -110,7 +110,8 @@ body.style-tweaker-bg-image-active > .modal-bg {
 
 /* ============ 内嵌设置页（位于 .modal-container 内）：玻璃表面保证可读 ============ */
 body.style-tweaker-bg-image-active > .modal-container.mod-dim > .modal.mod-settings.mod-sidebar-layout {
-    background-color: transparent;
+    /* 与系统浮层同款：玻璃模糊之上再垫一层随主题切换的半透明底色，保证可读 */
+    background-color: var(--style-tweaker-glass-tint, transparent);
     background-image: none;
     backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
     -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
@@ -142,7 +143,8 @@ body.style-tweaker-bg-image-active.is-phone > .modal-container {
 
 /* 其他弹框（非设置，位于 modal-container 内）：同款玻璃表面。 */
 body.style-tweaker-bg-image-active .modal-container .modal:not(.mod-settings) {
-    background-color: transparent;
+    /* 与系统浮层同款：玻璃模糊之上再垫一层随主题切换的半透明底色，保证可读 */
+    background-color: var(--style-tweaker-glass-tint, transparent);
     background-image: none;
     backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
     -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);

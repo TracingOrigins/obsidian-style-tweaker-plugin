@@ -69,3 +69,15 @@ body.style-tweaker-statusbar-fixed .status-bar {
     border: none;
     box-shadow: none;
 }
+
+/* 固定状态栏不再做玻璃浮层：它与工作区底部连成一片，背后就是壁纸上已经透明化的内容区，
+   再叠一层模糊 + 半透明底色会在底部出现一道明显色带。与其他已透明化的容器保持一致，
+   只保留透明、直接透出壁纸（含玻璃底色与 backdrop-filter 一并去掉）。
+   特异性高于 ui-glass.css 的浮层组，且本文件在拼接顺序上晚于它，双重保证覆盖。 */
+body.style-tweaker-bg-image-active.style-tweaker-statusbar-fixed .status-bar {
+    background-color: transparent;
+    background-image: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+}

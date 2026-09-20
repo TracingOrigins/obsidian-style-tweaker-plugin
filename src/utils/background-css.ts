@@ -32,13 +32,17 @@ export function buildTokensCss(opts: {
     imageUrl: string;
     opacity: number;
     glassBlur: number;
+    glassTint: number;
     solidDark: string;
     solidLight: string;
 }): string {
-    const { imageUrl, opacity, glassBlur, solidDark, solidLight } = opts;
+    const { imageUrl, opacity, glassBlur, glassTint, solidDark, solidLight } = opts;
     const url = imageUrl ? `url("${imageUrl}")` : "none";
     const maskAlpha = Math.max(0, Math.min(1, 1 - opacity)).toFixed(3);
     const blur = `${Math.max(0, Math.round(glassBlur ?? 0))}px`;
+    // 玻璃浮层底色强度：只注入百分比，颜色由 CSS 侧取 --style-tweaker-mask-color
+    // （深色黑 / 浅色白）决定，两者解耦，设置只控制强弱。
+    const tint = `${Math.min(100, Math.max(0, Math.round(glassTint ?? 0)))}%`;
     return css`
         /* Style Tweaker 全局 token（--style-tweaker-*） */
         /* 与主题无关的 token：按当前文档实际解析结果注入（body 单值，不随主题分两段） */
@@ -46,6 +50,7 @@ export function buildTokensCss(opts: {
             --style-tweaker-bg-image: ${url};
             --style-tweaker-bg-opacity: ${maskAlpha};
             --style-tweaker-glass-blur: ${blur};
+            --style-tweaker-glass-tint-strength: ${tint};
         }
         /* 深色主题 token：遮罩色=黑、纯色=solidDark、表面色=半透明主题色 */
         body.theme-dark {

@@ -76,6 +76,19 @@ body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
 /* 注：第三方插件弹窗（.modal）的玻璃效果已在 modal-glass.css 按「独立窗口/内嵌」分形态处理，
    独立窗口形态纯透明透壁纸、不加玻璃；此处仅处理系统浮层（命令面板/建议/菜单/状态栏等）。 */
 .style-tweaker-bg-image-active {
+    /* 玻璃浮层的半透明底色：垫在 backdrop-filter 模糊之上，避免浮层下方的内容
+       （笔记正文 / 高亮 / 图片）透过模糊层干扰浮层内文字的可读性。
+       颜色取 --style-tweaker-mask-color（深色=#000 / 浅色=#fff），随主题自动切换：
+       深色压暗、浅色提亮。
+       强度取 --style-tweaker-glass-tint-strength——由 JS 按「设备 × 深浅色」注入百分比，
+       对应设置项「玻璃底色」。颜色与强度解耦：设置只调强弱，不管颜色。 */
+    --style-tweaker-glass-tint: color-mix(
+        in srgb,
+        var(--style-tweaker-mask-color, var(--background-primary))
+            var(--style-tweaker-glass-tint-strength, 0%),
+        transparent
+    );
+
     .modal-container .prompt,
   /* .community-item, */
   .suggestion-container,
@@ -85,7 +98,7 @@ body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
   .status-bar,
   .popover,
   .tooltip {
-        background-color: transparent;
+        background-color: var(--style-tweaker-glass-tint, transparent);
         backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
@@ -98,7 +111,7 @@ body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
        .search-result-container 是独立搜索视图（非 suggestion 弹层），默认不透明，
        加玻璃后透出壁纸且保持可读。与系统浮层同款玻璃（模糊减半 + 饱和度 1.15）。 */
     .search-result-container .search-result-file-matches {
-        background-color: transparent;
+        background-color: var(--style-tweaker-glass-tint, transparent);
         backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         -webkit-backdrop-filter: blur(calc(var(--style-tweaker-glass-blur) * 0.5)) saturate(1.15);
         border-radius: var(--radius-m);

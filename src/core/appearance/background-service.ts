@@ -348,6 +348,8 @@ export class BackgroundService extends BaseService {
             imageUrl: "",
             opacity: 0,
             glassBlur: 0,
+            // 纯色模式无玻璃浮层，底色强度固定 0
+            glassTint: 0,
             solidDark: flavorToHex(s.solidDarkFlavor, true) ?? SOLID_DEFAULT_DARK,
             solidLight: flavorToHex(s.solidLightFlavor, false) ?? SOLID_DEFAULT_LIGHT,
         });
@@ -402,6 +404,13 @@ export class BackgroundService extends BaseService {
             : isLight
               ? s.desktopGlassBlurLight
               : s.desktopGlassBlurDark;
+        const glassTint = isMobile
+            ? isLight
+                ? s.mobileGlassTintLight
+                : s.mobileGlassTintDark
+            : isLight
+              ? s.desktopGlassTintLight
+              : s.desktopGlassTintDark;
         const opacity = Math.min(1, Math.max(0, opacityKey / 100));
 
         // 始终注入完整 CSS（token + 壁纸层）；图片为空时壁纸层回退 none、仅保留透明 UI，否则 UI 全黑
@@ -409,6 +418,7 @@ export class BackgroundService extends BaseService {
             imageUrl: image,
             opacity,
             glassBlur,
+            glassTint,
             solidDark: flavorToHex(s.solidDarkFlavor, true) ?? SOLID_DEFAULT_DARK,
             solidLight: flavorToHex(s.solidLightFlavor, false) ?? SOLID_DEFAULT_LIGHT,
         });
