@@ -196,9 +196,9 @@ export interface StyleTweakerSettings {
     hrStyle: "default" | "icon" | "no-icon"; // 分隔线样式：默认/带图标/无图标渐变
     hrCenterIcon: string; // 分隔线中间图标（仅带图标样式生效，默认 ⚡️）
     hrIconRotate: number; // 图标旋转角度（deg，仅带图标样式生效）
-    // 块引用样式
-    blockquoteStyle: "default" | "accent-fill" | "quotation-mark" | "bubble" | "frame"; // 块引用样式
-    blockquoteCustom: boolean; // 是否允许自定义块引用颜色
+    // 引用块样式
+    blockquoteStyle: "default" | "accent-fill" | "quotation-mark" | "bubble" | "frame"; // 引用块样式
+    blockquoteCustom: boolean; // 是否允许自定义引用块颜色
     blockquoteTextColor: string; // 文字颜色（空=主题强调色，仅在开启自定义颜色时生效）
     blockquoteBorderColor: string; // 边框颜色（空=主题强调色）
     // 链接样式
@@ -545,7 +545,7 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
     hrStyle: "default",
     hrCenterIcon: "⚡️",
     hrIconRotate: 0,
-    // 块引用默认值：默认样式、关闭自定义、颜色均为空
+    // 引用块默认值：默认样式、关闭自定义、颜色均为空
     blockquoteStyle: "default",
     blockquoteCustom: false,
     blockquoteTextColor: "default",

@@ -4,7 +4,7 @@ import { t } from "../../utils/i18n";
 import { SettingTabPlugin } from "../../types/settings";
 import { getAccentColorOptions } from "../../utils/color-palette";
 
-// 编辑器子页：引用块（块引用样式与自定义颜色）
+// 编辑器子页：引用块（引用块样式与自定义颜色）
 export function buildBlockquoteItem(plugin: SettingTabPlugin): SettingDefinitionItem {
     return {
         type: "page",

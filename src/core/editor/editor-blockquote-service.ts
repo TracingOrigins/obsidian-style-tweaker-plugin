@@ -4,10 +4,10 @@ import { BaseService } from "../base-service";
 import { setAccentVar, removeDocVar } from "../../utils/doc-css-vars";
 
 // ============================================================
-// 块引用样式服务
+// 引用块样式服务
 // ------------------------------------------------------------
 // 功能：
-//   1. 块引用样式（blockquoteStyle）：default（Obsidian 原生）/ accent-fill（色带填充）/
+//   1. 引用块样式（blockquoteStyle）：default（Obsidian 原生）/ accent-fill（色带填充）/
 //      quotation-mark（引号）/ bubble（气泡）/ frame（边框）。
 //   2. 自定义颜色（blockquoteCustom）：开启后文字颜色与边框颜色选项生效。
 //      文字色选「默认」= 主题强调色；但该变量只在开启自定义时被消费，关闭自定义时
@@ -27,7 +27,7 @@ const BLOCKQUOTE_CUSTOM_CLASS = "style-tweaker-blockquote-custom";
 // 风格值清单（与 blockquote.css 的门控类一一对应；default 不挂类）
 const BLOCKQUOTE_STYLES = ["accent-fill", "quotation-mark", "bubble", "frame"];
 
-// 块引用 CSS 变量
+// 引用块 CSS 变量
 const BLOCKQUOTE_COLOR_VAR = "--style-tweaker-blockquote-color";
 const BLOCKQUOTE_BORDER_VAR = "--style-tweaker-blockquote-border-color";
 

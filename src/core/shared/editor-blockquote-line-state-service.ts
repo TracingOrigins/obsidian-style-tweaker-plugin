@@ -1,5 +1,5 @@
 /**
- * CM6 编辑器块引用"末行"状态服务
+ * CM6 编辑器引用块"末行"状态服务
  *
  * 对应设置：blockquoteStyle（仅 bubble / frame 需要封闭下边缘）。
  * 消费 CSS：editor/blockquote.css（style-tweaker-line-quote-last）。
