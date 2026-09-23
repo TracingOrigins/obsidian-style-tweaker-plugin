@@ -10,8 +10,8 @@ import { buildHeadingsItem } from "./editor-heading";
 import { buildTextDecorationItem } from "./editor-text-decoration";
 import { buildInlineCodeItem } from "./editor-inline-code";
 import { buildCodeBlockItem } from "./editor-code-block";
-import { buildHrItem } from "./editor-hr";
 import { buildBlockquoteItem } from "./editor-blockquote";
+import { buildHrItem } from "./editor-hr";
 import { buildLinksItem } from "./editor-link";
 import { buildEmbedsItem } from "./editor-embed";
 import { buildTablesItem } from "./editor-table";
@@ -38,8 +38,8 @@ export function buildEditorSection(plugin: SettingTabPlugin): SettingDefinitionI
             buildTextDecorationItem(plugin),
             buildInlineCodeItem(plugin),
             buildCodeBlockItem(plugin),
-            buildHrItem(plugin),
             buildBlockquoteItem(plugin),
+            buildHrItem(plugin),
             buildLinksItem(plugin),
             buildEmbedsItem(plugin),
             buildTablesItem(plugin),

@@ -15,7 +15,6 @@ import {
     SidebarVaultNameService,
 } from "./interface/sidebar-desktop-service";
 import { EditorLineTypeStateService } from "./shared/editor-line-type-state-service";
-import { EditorBlockquoteLineStateService } from "./shared/editor-blockquote-line-state-service";
 import { MobileDrawerNavStateService } from "./shared/mobile-drawer-nav-state-service";
 import { EmbedDocumentStateService } from "./shared/embed-document-state-service";
 import { MobileSlidingSidebarStateService } from "./shared/mobile-sliding-sidebar-state-service";
@@ -106,8 +105,6 @@ export class StyleServiceRegistry {
             // DOM 结构状态观察（按需）：把原 CSS 的 :has 结构判断前移为元素状态类。
             // 每个服务仅在对应设置/门控生效时 attach 观察器，未生效即断开并清类。
             new EditorLineTypeStateService(this.plugin, this.getSettings),
-            // 引用块"末行"状态（气泡/边框风格的封闭下边缘）：替代 :has(+ .HyperMD-quote)
-            new EditorBlockquoteLineStateService(this.plugin, this.getSettings),
             new MobileDrawerNavStateService(this.plugin, this.getSettings),
             // 内嵌文档（canvas 卡片 / embed 的 iframe）状态：给内嵌文档 body 挂
             // style-tweaker-inside-iframe，供 canvas-glass.css 门控，避免在 CSS 里使用 :has()

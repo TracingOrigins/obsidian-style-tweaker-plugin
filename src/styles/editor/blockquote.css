@@ -16,35 +16,53 @@
    会导致这些变量失效。JS 侧（EditorBlockquoteService）同样只往 body 写入。
 
    文字色两层语义（改回退值时务必分清）：
-   1. blockquoteCustom 关闭 → --blockquote-color 未定义，文字规则一律回退
-      var(--text-normal)，即「不开启自定义就完全不改文字颜色」；
-   2. blockquoteCustom 开启 → --blockquote-color 取自 --style-tweaker-blockquote-color，
-      该变量在文字色选「默认」时由 JS 写入 var(--color-accent)，即默认用主题强调色。 */
+   1. blockquoteCustomText 关闭 → 无 custom-text 门控类，--blockquote-color 未定义，
+      文字规则一律回退 var(--text-normal)，即「不开启自定义就完全不改文字颜色」；
+   2. blockquoteCustomText 开启 → --blockquote-color 取自 --style-tweaker-blockquote-color，
+      该变量在文字色选「默认」时由 JS 写入 var(--color-accent)，即默认用主题强调色。
+   边框色同理受 blockquoteCustomBorder 门控：关闭时完全不声明 border-left-color，
+   保持主题原生左边线；开启后才用所选色（「默认」即强调色）。 */
 body {
-    /* 默认值 = 强调色；该变量只在上面的 custom 域内被消费 */
+    /* 默认值 = 强调色；该变量只在上面的 custom-text 域内被消费 */
     --style-tweaker-blockquote-color: var(--color-accent);
     --style-tweaker-blockquote-border-color: var(--color-accent);
-    /* accent-fill 背景：硬编码为 text-muted 12% 透明，不暴露给用户 */
-    --style-tweaker-blockquote-background: color-mix(in srgb, var(--text-muted) 12%, transparent);
+    /* color-block 背景：
+         未开启「自定义底色」→ 变量未写入，回退 --text-muted 12% 中性灰；
+         开启后由服务层写入 --style-tweaker-blockquote-bg-color，选「默认」则为强调色。
+       透明度固定 12%——只放开色相、不放开透明度，才能保持「淡底」特性
+       （透出壁纸、深浅自适应、不刺眼）。 */
+    --style-tweaker-blockquote-background: color-mix(
+        in srgb,
+        var(--style-tweaker-blockquote-bg-color, var(--text-muted)) 12%,
+        transparent
+    );
 }
 
-body.style-tweaker-blockquote-custom {
+/* 自定义文字颜色（服务层按 blockquoteCustomText 挂类） */
+body.style-tweaker-blockquote-custom-text {
     --blockquote-color: var(--style-tweaker-blockquote-color, var(--color-accent));
+}
+
+body.style-tweaker-blockquote-custom-text :is(.markdown-preview-view, .markdown-rendered) blockquote {
+    color: var(--blockquote-color, var(--color-accent));
+}
+
+body.style-tweaker-blockquote-custom-text .cm-s-obsidian span.cm-quote {
+    color: var(--blockquote-color, var(--color-accent));
+}
+
+/* 自定义边框颜色（服务层按 blockquoteCustomBorder 挂类）。
+   未开启时本条不匹配，左边线保持主题原生色，不会被强调色覆盖。 */
+body.style-tweaker-blockquote-custom-border {
     --blockquote-border-color: var(--style-tweaker-blockquote-border-color, var(--color-accent));
 }
 
-/* 开启自定义颜色时，引用块应用自定义颜色（文字色未选即强调色）；未开启则保持 Obsidian 原生颜色 */
-body.style-tweaker-blockquote-custom :is(.markdown-preview-view, .markdown-rendered) blockquote {
-    color: var(--blockquote-color, var(--color-accent));
+body.style-tweaker-blockquote-custom-border :is(.markdown-preview-view, .markdown-rendered) blockquote {
     border-left-color: var(--blockquote-border-color, var(--color-accent));
 }
 
-body.style-tweaker-blockquote-custom .cm-s-obsidian span.cm-quote {
-    color: var(--blockquote-color, var(--color-accent));
-}
-
-/* 色带填充 */
-body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote {
+/* 色块 */
+body.style-tweaker-blockquote-color-block :is(.markdown-preview-view, .markdown-rendered) blockquote {
     padding: 0.5em 0.5em 0.5em 0.6em;
     border-right-width: 0;
     border-left: solid;
@@ -61,12 +79,19 @@ body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-
     color: var(--blockquote-color, var(--text-normal));
 }
 
-body.style-tweaker-blockquote-accent-fill :is(.markdown-preview-view, .markdown-rendered) blockquote p {
+body.style-tweaker-blockquote-color-block :is(.markdown-preview-view, .markdown-rendered) blockquote p {
     margin-left: 1px;
     margin-right: 0;
 }
 
-/* 引号样式（引号取自内联的 boxicons 图标字体，不依赖用户环境字体） */
+/* 引号样式（引号取自内联的 boxicons 图标字体，不依赖用户环境字体）
+
+   本样式是唯一同时支持「阅读模式 + 编辑模式」的装饰样式：
+   阅读模式给 blockquote 加左内边距并画引号；编辑模式（实时预览）没有整体盒子，
+   改为只在首行的 > 标记上画引号，并清掉原生竖线，避免与引号重复。
+   气泡 / 边框两种样式因需要「整体盒子」，编辑模式下无法还原，故只在阅读模式生效。 */
+
+/* 编辑模式：清掉原生左边线，避免与引号图标重复 */
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote::before,
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
     border-left: none;
@@ -99,6 +124,9 @@ body.style-tweaker-blockquote-quotation-mark :is(.markdown-preview-view, .markdo
     left: -1.2em;
 }
 
+/* 编辑模式（实时预览）：只在首行的 > 标记上画引号。
+   后续行的 > 用相邻兄弟选择器隐藏，避免每行都出现引号；
+   同时去掉原生 .cm-blockquote-border 竖线，保持与阅读模式一致的"无竖线"观感。 */
 body.style-tweaker-blockquote-quotation-mark .markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote:not(.cm-active) > .cm-formatting.cm-formatting-quote.cm-quote::before {
     content: "\ee81";
     font-size: 1.5em;
@@ -136,9 +164,11 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
 
 /* 气泡文字色的自定义覆盖：上面这条规则写了 color: var(--text-normal)，与文件开头的
    --custom 规则特异性相同（都是 0,2,2）却在更后面，会把自定义文字色盖回去。
-   这里叠加 custom 门控类把特异性抬到 0,3,2，只在自定义颜色开启时生效；
+   这里叠加 custom-text 门控类把特异性抬到 0,3,2，只在自定义文字颜色开启时生效；
    未开启时该规则不匹配，气泡文字仍是 text-normal。 */
-body.style-tweaker-blockquote-custom.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
+body.style-tweaker-blockquote-custom-text.style-tweaker-blockquote-bubble
+    :is(.markdown-preview-view, .markdown-rendered)
+    blockquote {
     color: var(--blockquote-color, var(--color-accent));
 }
 
@@ -220,50 +250,4 @@ body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-render
     margin-right: 16px;
 }
 
-/* ---------- 气泡/边框：实时预览拼块 ----------
-   CM6 实时预览中引用块按行渲染为 div.HyperMD-quote，没有整体盒子；
-   以左右边线贯穿、上下边线与圆角只画首末行的方式拼出盒子效果，
-   并去掉原生 .cm-blockquote-border 竖线避免出现双线。
-   首行用相邻兄弟选择器判定；末行由 EditorBlockquoteLineStateService 挂上的
-   style-tweaker-line-quote-last 标出（:has(+ .HyperMD-quote) 会触发宽泛的
-   失效重算，故前移为状态类）。 */
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6 .cm-blockquote-border::before,
-body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6 .cm-blockquote-border::before {
-    border-left: none;
-}
 
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote,
-body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
-    border-left: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-right: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-}
-
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote {
-    background: transparent;
-}
-
-/* 首行（前面不是引用行）：上边线 + 顶部圆角 */
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
-    border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
-
-/* 末行（后面不是引用行）：下边线 + 底部圆角 */
-body.style-tweaker-blockquote-bubble .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
-    border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
-body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote:not(.HyperMD-quote + .HyperMD-quote) {
-    border-top: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-top-left-radius: var(--radius-m);
-    border-top-right-radius: var(--radius-m);
-}
-
-body.style-tweaker-blockquote-frame .markdown-source-view.mod-cm6.is-live-preview div.HyperMD-quote.style-tweaker-line-quote-last {
-    border-bottom: 3px solid var(--style-tweaker-blockquote-border-color, var(--color-accent));
-    border-bottom-left-radius: var(--radius-m);
-    border-bottom-right-radius: var(--radius-m);
-}

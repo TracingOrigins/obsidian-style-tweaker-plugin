@@ -197,8 +197,11 @@ export interface StyleTweakerSettings {
     hrCenterIcon: string; // 分隔线中间图标（仅带图标样式生效，默认 ⚡️）
     hrIconRotate: number; // 图标旋转角度（deg，仅带图标样式生效）
     // 引用块样式
-    blockquoteStyle: "default" | "accent-fill" | "quotation-mark" | "bubble" | "frame"; // 引用块样式
-    blockquoteCustom: boolean; // 是否允许自定义引用块颜色
+    blockquoteStyle: "default" | "color-block" | "quotation-mark" | "bubble" | "frame"; // 引用块样式
+    blockquoteCustomBlockBackground: boolean; // 是否自定义「色块」样式的底色（关闭时用固定灰色）
+    blockquoteBlockBackgroundColor: string; // 色块底色（仅色块样式 + 开启自定义时生效；default=强调色）
+    blockquoteCustomBorder: boolean; // 是否自定义引用块左边线颜色（关闭时用主题原生左边线）
+    blockquoteCustomText: boolean; // 是否自定义引用块文字颜色（关闭时用正常文字色）
     blockquoteTextColor: string; // 文字颜色（空=主题强调色，仅在开启自定义颜色时生效）
     blockquoteBorderColor: string; // 边框颜色（空=主题强调色）
     // 链接样式
@@ -545,9 +548,12 @@ export const DEFAULT_SETTINGS: StyleTweakerSettings = {
     hrStyle: "default",
     hrCenterIcon: "⚡️",
     hrIconRotate: 0,
-    // 引用块默认值：默认样式、关闭自定义、颜色均为空
+    // 引用块默认值：默认样式、关闭自定义底色与自定义颜色、颜色均为空
     blockquoteStyle: "default",
-    blockquoteCustom: false,
+    blockquoteCustomBlockBackground: false,
+    blockquoteBlockBackgroundColor: "default",
+    blockquoteCustomBorder: false,
+    blockquoteCustomText: false,
     blockquoteTextColor: "default",
     blockquoteBorderColor: "default",
     // 链接默认值：颜色为空（主题色）、开关类默认 false（原生行为）
