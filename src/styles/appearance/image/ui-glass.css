@@ -82,12 +82,7 @@ body.style-tweaker-bg-image-active > .titlebar .titlebar-inner {
        深色压暗、浅色提亮。
        强度取 --style-tweaker-glass-tint-strength——由 JS 按「设备 × 深浅色」注入百分比，
        对应设置项「玻璃底色」。颜色与强度解耦：设置只调强弱，不管颜色。 */
-    --style-tweaker-glass-tint: color-mix(
-        in srgb,
-        var(--style-tweaker-mask-color, var(--background-primary))
-            var(--style-tweaker-glass-tint-strength, 0%),
-        transparent
-    );
+    --style-tweaker-glass-tint: color-mix(in srgb, var(--style-tweaker-mask-color, var(--background-primary)) var(--style-tweaker-glass-tint-strength, 0%), transparent);
 
     .modal-container .prompt,
   /* .community-item, */

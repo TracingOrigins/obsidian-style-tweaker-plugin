@@ -31,11 +31,7 @@ body {
          开启后由服务层写入 --style-tweaker-blockquote-bg-color，选「默认」则为强调色。
        透明度固定 12%——只放开色相、不放开透明度，才能保持「淡底」特性
        （透出壁纸、深浅自适应、不刺眼）。 */
-    --style-tweaker-blockquote-background: color-mix(
-        in srgb,
-        var(--style-tweaker-blockquote-bg-color, var(--text-muted)) 12%,
-        transparent
-    );
+    --style-tweaker-blockquote-background: color-mix(in srgb, var(--style-tweaker-blockquote-bg-color, var(--text-muted)) 12%, transparent);
 }
 
 /* 自定义文字颜色（服务层按 blockquoteCustomText 挂类） */
@@ -166,9 +162,7 @@ body.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rende
    --custom 规则特异性相同（都是 0,2,2）却在更后面，会把自定义文字色盖回去。
    这里叠加 custom-text 门控类把特异性抬到 0,3,2，只在自定义文字颜色开启时生效；
    未开启时该规则不匹配，气泡文字仍是 text-normal。 */
-body.style-tweaker-blockquote-custom-text.style-tweaker-blockquote-bubble
-    :is(.markdown-preview-view, .markdown-rendered)
-    blockquote {
+body.style-tweaker-blockquote-custom-text.style-tweaker-blockquote-bubble :is(.markdown-preview-view, .markdown-rendered) blockquote {
     color: var(--blockquote-color, var(--color-accent));
 }
 
@@ -249,5 +243,3 @@ body.style-tweaker-blockquote-frame :is(.markdown-preview-view, .markdown-render
     margin-bottom: 8px;
     margin-right: 16px;
 }
-
-

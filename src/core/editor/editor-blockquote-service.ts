@@ -65,7 +65,12 @@ export class EditorBlockquoteService extends BaseService {
         // 边框色：仅在开启「自定义边框颜色」时写入。关闭时移除内联值并撤掉门控类，
         // 左边线回到主题原生色——否则用户先前选过的颜色会在关闭后继续生效。
         if (s.blockquoteCustomBorder) {
-            setAccentVar(doc, s.blockquoteBorderColor, BLOCKQUOTE_BORDER_VAR, "var(--color-accent)");
+            setAccentVar(
+                doc,
+                s.blockquoteBorderColor,
+                BLOCKQUOTE_BORDER_VAR,
+                "var(--color-accent)",
+            );
         } else {
             removeDocVar(doc, BLOCKQUOTE_BORDER_VAR);
         }
@@ -75,7 +80,12 @@ export class EditorBlockquoteService extends BaseService {
         //   开启且选「默认」→ 回退主题强调色（与文字色 / 边框色语义一致）。
         // 透明度固定 12%（写在 CSS 侧），只放开色相，避免挡住壁纸或过于刺眼。
         if (s.blockquoteCustomBlockBackground) {
-            setAccentVar(doc, s.blockquoteBlockBackgroundColor, BLOCKQUOTE_BG_VAR, "var(--color-accent)");
+            setAccentVar(
+                doc,
+                s.blockquoteBlockBackgroundColor,
+                BLOCKQUOTE_BG_VAR,
+                "var(--color-accent)",
+            );
         } else {
             removeDocVar(doc, BLOCKQUOTE_BG_VAR);
         }
