@@ -47,7 +47,7 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
 
         /* 中央内容区域 标签栏的边距和边框 */
         .workspace .mod-root .workspace-tabs:not(.mod-stacked) .workspace-tab-header-container {
-            padding-left: 24px;
+            padding-left: 26px;
             border-bottom: none;
             margin-top: 1px;
             margin-bottom: -1px;
@@ -228,8 +228,8 @@ body.style-tweaker-layout-cards.style-tweaker-bg-image-active:not(.is-mobile) {
     &:not(.is-hidden-frameless) {
         /* 右侧边栏关闭时，标签栏的更多标签页按钮的下边框 */
         .workspace:not(.is-right-sidedock-open) .mod-root:not(.workspace-window) .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
-            padding-right: 18px;
-            margin-right: -14px;
+            padding-right: 24px;
+            margin-right: -20px;
             margin-bottom: 0;
             border-bottom: var(--st-layout-border);
         }

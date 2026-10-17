@@ -119,8 +119,8 @@ body.style-tweaker-bg-image-active:not(.style-tweaker-layout-border):not(.style-
         }
 
         .workspace:not(.is-right-sidedock-open) .mod-root .workspace-tabs:not(.mod-stacked).mod-top-right-space .workspace-tab-header-tab-list {
-            padding-right: 42px;
-            margin-right: -38px;
+            padding-right: 48px;
+            margin-right: -44px;
             border-bottom: var(--st-layout-border);
         }
     }

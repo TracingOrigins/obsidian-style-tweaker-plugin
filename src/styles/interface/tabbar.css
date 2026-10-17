@@ -14,3 +14,8 @@ body:not(.is-mobile).style-tweaker-active-icon-highlight.is-focused .mod-active 
 body:not(.is-mobile).style-tweaker-active-icon-highlight .workspace-tab-header.is-active .workspace-tab-header-inner-title {
     color: var(--color-accent);
 }
+
+/* 顶部标签栏背景变为透明 */
+body:not(.is-mobile) .mod-top .workspace-tab-header-container {
+    background-color: transparent;
+}
