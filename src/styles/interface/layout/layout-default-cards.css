@@ -28,6 +28,12 @@ body.style-tweaker-layout-cards:not(.style-tweaker-bg-solid-active):not(.style-t
     /* 固定状态栏：工作区底部不留内边距 */
     &.style-tweaker-statusbar-fixed {
         --st-layout-bottom-padding: 0;
+
+        /* 独立窗口例外：popout 的状态栏同样贴合底部并占据高度，故工作区保留 20px，
+           避免内容被状态栏压住（主窗口仍为 0）。 */
+        &.is-popout-window .workspace {
+            padding-bottom: 20px;
+        }
     }
 
     .sidebar-toggle-button,

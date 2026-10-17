@@ -49,6 +49,12 @@ body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-
     padding-bottom: 0;
 }
 
+/* 独立窗口例外：popout 的状态栏同样贴合底部并占据高度，故工作区保留 20px，
+   避免内容被状态栏压住（主窗口仍为 0）。 */
+body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards).is-popout-window .workspace {
+    padding-bottom: 20px;
+}
+
 body.style-tweaker-statusbar-fixed:not(.style-tweaker-layout-border):not(.style-tweaker-layout-cards).style-tweaker-bg-image-active .status-bar {
     border-top: 1px solid var(--st-layout-border-color);
 }
